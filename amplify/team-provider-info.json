@@ -1,0 +1,46 @@
+{
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-appsls-master-220452-authRole",
+      "UnauthRoleArn": "arn:aws:iam::095961408344:role/amplify-appsls-master-220452-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::095961408344:role/amplify-appsls-master-220452-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-appsls-master-220452-deployment",
+      "UnauthRoleName": "amplify-appsls-master-220452-unauthRole",
+      "StackName": "amplify-appsls-master-220452",
+      "StackId": "arn:aws:cloudformation:us-east-1:095961408344:stack/amplify-appsls-master-220452/efc09150-9f44-11ec-905e-0a67918e893f",
+      "AmplifyAppId": "d2poz8gqbb7qup"
+    },
+    "categories": {
+      "auth": {
+        "AuthCognito": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminAddUserToGroup": {
+          "deploymentBucketName": "amplify-appsls-master-220452-deployment",
+          "s3Key": "amplify-builds/AdminAddUserToGroup-326642376d5747696a6c-build.zip"
+        },
+        "AdminCreateUser": {
+          "deploymentBucketName": "amplify-appsls-master-220452-deployment",
+          "s3Key": "amplify-builds/AdminCreateUser-644a4c6434346c526b37-build.zip"
+        },
+        "AdminDeleteUser": {
+          "deploymentBucketName": "amplify-appsls-master-220452-deployment",
+          "s3Key": "amplify-builds/AdminDeleteUser-6b65546a356f30645267-build.zip"
+        },
+        "AdminQueries0ab6d7b2": {
+          "deploymentBucketName": "amplify-appsls-master-220452-deployment",
+          "s3Key": "amplify-builds/AdminQueries0ab6d7b2-45316357663379596c6a-build.zip"
+        },
+        "AdminUpdateUserAttributes": {
+          "deploymentBucketName": "amplify-appsls-master-220452-deployment",
+          "s3Key": "amplify-builds/AdminUpdateUserAttributes-4d504a6249565146456e-build.zip"
+        }
+      },
+      "storage": {
+        "S3Storage": {}
+      }
+    }
+  }
+}
