@@ -1,0 +1,26 @@
+{
+  "title": "Applick Clientes",
+  "titleTemplate": "Applick",
+  "description": "Applick Clientes",
+  "openGraph": {
+    "title": "Applick",
+    "description": "Applick Clientes",
+    "type": "website",
+    "locale": "en_IE",
+    "url": "https://applick.d9c4b8rxu656s.amplifyapp.com/",
+    "site_name": "Applick",
+    "images": [
+      {
+        "url": "/banner.png",
+        "width": 800,
+        "height": 600,
+        "alt": "Applick"
+      }
+    ]
+  },
+  "twitter": {
+    "handle": "@applick",
+    "site": "@applick",
+    "cardType": "summary_large_image"
+  }
+}
