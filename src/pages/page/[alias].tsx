@@ -161,7 +161,7 @@ export default function PageComponent({
   } = useUI()
 
   useEffect(() => {
-    showSearch()
+    hideSearch()
     showNavBarBottom()
     setPage(pageSSR)
   }, [pageSSR])

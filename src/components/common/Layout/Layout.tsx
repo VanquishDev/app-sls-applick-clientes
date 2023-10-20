@@ -90,7 +90,8 @@ const Layout: FC<Props> = ({ children, pageProps }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
 
   const router = useRouter()
-  const { pathname, locale = 'pt-BR' } = router
+  const { pathname, query, locale = 'pt-BR' } = router
+  const { alias } = query
   const rootPathname = pathname.split('/')[1]
   const isMyAccount = rootPathname === 'my-account'
   const isAdmin = rootPathname === 'admin'
@@ -195,11 +196,12 @@ const Layout: FC<Props> = ({ children, pageProps }) => {
         />
       )}
 
-      {!isLoading && displayNavBarBottom && (
+      {(!isLoading && displayNavBarBottom && alias !== 'ia') && (
         <div className="block md:hidden">
           <BottomNavBar user={user} />
         </div>
       )}
+
     </div>
   )
 }

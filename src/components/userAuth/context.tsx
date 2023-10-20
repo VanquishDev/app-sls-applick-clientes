@@ -28,6 +28,8 @@ import { useInvite } from 'hooks/useInvite'
 import crypto from 'lib/crypto'
 import removeSpecialCharacters from 'lib/removeSpecialCharacters'
 
+const noSignUpConfirmation = process.env.NO_SIGNUP_CONFIRMATION === 'true'
+
 export interface User {
   id: string | null
   name: string | null
@@ -469,7 +471,7 @@ export const UserAuthProvider: FC<Props> = (props) => {
             authMode: GRAPHQL_AUTH_MODE.API_KEY,
           })
 
-          if (!process.env.NO_SIGNUP_CONFIRMATION) {
+          if (!noSignUpConfirmation) {
             console.log('CONFIRM_CODE')
             dispatch({
               type: 'CONFIRM_CODE',
@@ -519,7 +521,7 @@ export const UserAuthProvider: FC<Props> = (props) => {
           }
           */
 
-          if (process.env.NO_SIGNUP_CONFIRMATION) {
+          if (noSignUpConfirmation) {
             await adminConfirmSignUp({ id: resSignUp.userSub })
             const cognitoUser = await Auth.signIn(
               process.env.DEFAULT_LOGIN === 'PHONE' ? phone : email,

@@ -24,6 +24,8 @@ import {
 
 import { UserStatus, GenderOptions } from 'models'
 
+const passwordLength = parseInt(`${process.env.PASSWORD_LENGTH}`)
+
 export const useUser = () => {
   const listUsers = async (variables: ListUsersQueryVariables) => {
     const {
@@ -158,16 +160,16 @@ export const useUser = () => {
 
       accountByEmailID =
         getUserByEmail &&
-        getUserByEmail.items &&
-        getUserByEmail.items.length > 0
+          getUserByEmail.items &&
+          getUserByEmail.items.length > 0
           ? getUserByEmail.items[0].id
           : ''
 
       result.hasEmail = accountByEmailID ? true : false
       accountByEmailName =
         getUserByEmail &&
-        getUserByEmail.items &&
-        getUserByEmail.items.length > 0
+          getUserByEmail.items &&
+          getUserByEmail.items.length > 0
           ? getUserByEmail.items[0].name
           : ''
     }
@@ -183,16 +185,16 @@ export const useUser = () => {
 
       accountByPhoneID =
         getUserByPhone &&
-        getUserByPhone.items &&
-        getUserByPhone.items.length > 0
+          getUserByPhone.items &&
+          getUserByPhone.items.length > 0
           ? getUserByPhone.items[0].id
           : null
 
       result.hasPhone = accountByPhoneID ? true : false
       accountByPhoneName =
         getUserByPhone &&
-        getUserByPhone.items &&
-        getUserByPhone.items.length > 0
+          getUserByPhone.items &&
+          getUserByPhone.items.length > 0
           ? getUserByPhone.items[0].name
           : null
     }
@@ -202,14 +204,14 @@ export const useUser = () => {
     result.id = accountByEmailID
       ? accountByEmailID
       : accountByPhoneID
-      ? accountByPhoneID
-      : null
+        ? accountByPhoneID
+        : null
 
     result.name = accountByEmailID
       ? accountByEmailName
       : accountByPhoneID
-      ? accountByPhoneName
-      : null
+        ? accountByPhoneName
+        : null
     return result
   }
 
@@ -233,7 +235,7 @@ export const useUser = () => {
         email: email ? email.trim().toLowerCase() : null,
         phone: phone ? phone : null,
         messageAction: null,
-        passwordLength: process.env.PASSWORD_LENGTH,
+        passwordLength: passwordLength,
       },
       authMode: GRAPHQL_AUTH_MODE.API_KEY,
     })) as GraphQLResult<any>
@@ -340,7 +342,7 @@ export const useUser = () => {
         email: email ? email.toLowerCase() : null,
         phone: phone ? phone : null,
         messageAction: 'RESEND',
-        passwordLength: process.env.PASSWORD_LENGTH,
+        passwordLength: passwordLength,
         resendTempPass: 1,
       },
       authMode: GRAPHQL_AUTH_MODE.API_KEY,

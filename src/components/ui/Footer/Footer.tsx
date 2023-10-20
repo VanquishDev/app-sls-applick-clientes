@@ -66,26 +66,26 @@ const Footer: FC<Props> = ({
                   }}
                   className="w-full mt-4 flex flex-col gap-2 lg:gap-1 px-0 md:px-2"
                 >
-                  <div className="text-center lg:text-left text-xl font-semibold">
+                  <div className="text-center lg:text-left text-xl font-bold text-tertiary-2">
                     Links
                   </div>
                   <Link href="/page/sobre_nos">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Sobre nós
                     </span>
                   </Link>
                   <Link href="/page/clientes">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Dashboard
                     </span>
                   </Link>
                   <Link href="/page/ia">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Inteligencia Artificial
                     </span>
                   </Link>
                   <Link href="/page/contato">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Contato
                     </span>
                   </Link>
@@ -98,12 +98,17 @@ const Footer: FC<Props> = ({
                   }}
                   className="w-full mt-4 flex flex-col gap-2 lg:gap-1 px-0 md:px-2"
                 >
-                  <div className="text-center lg:text-left text-xl font-semibold">
+                  <div className="text-center lg:text-left text-xl font-bold text-tertiary-2">
                     Apps
                   </div>
-                  <a href='https://app.applickvacinas.com.br' className="text-center lg:text-left text-accent-5 font-medium italic">
+                  <a href='https://app.applickvacinas.com.br' className="text-center lg:text-left  hover:text-sky-500 font-medium italic">
                     Applick Vacinas
                   </a>
+                  <Link href="/page/clientes">
+                    <span className="text-center lg:text-left hover:text-sky-500 font-medium italic cursor-pointer">
+                      Applick Clientes
+                    </span>
+                  </Link>
                 </div>
                 <div
                   style={{
@@ -113,16 +118,16 @@ const Footer: FC<Props> = ({
                   }}
                   className="w-full mt-4 flex flex-col gap-2 lg:gap-1 px-0 md:px-2"
                 >
-                  <div className="text-center lg:text-left text-xl font-semibold">
+                  <div className="text-center lg:text-left text-xl font-bold text-tertiary-2">
                     Legal
                   </div>
                   <Link href="/page/termos_uso">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Termos de uso
                     </span>
                   </Link>
                   <Link href="/page/psi">
-                    <span className="text-center lg:text-left text-accent-5 font-medium italic">
+                    <span className="text-center lg:text-left text-accent-5 hover:text-sky-500 font-medium italic cursor-pointer">
                       Política de Segurança da Informação - Procat
                     </span>
                   </Link>

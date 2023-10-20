@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "br.com.applickvacinas.app.twa",
+                     "sha256_cert_fingerprints": ["D3:44:FF:B2:70:91:AA:FE:8D:54:AE:30:E6:49:30:0F:B1:0F:8C:C0:9B:08:3F:CF:F5:90:3B:EA:C2:32:F7:3F"] }
+      }
+]

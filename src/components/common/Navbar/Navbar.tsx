@@ -49,11 +49,11 @@ const Navbar: FC<NavbarProps> = ({ links, displaySearch, user }) => {
           content={theme === 'dark' ? '#282a36' : '#fafafa'}
         />
       </NextHead>
-      <Container clean={process.env.FULL_WIDTH ? true : false}>
+      <Container clean={process.env.FULL_WIDTH === 'true' ? true : false}>
         <div
           ref={ref}
           className={cn(s.nav, {
-            'px-4': process.env.FULL_WIDTH ? true : false,
+            'px-4': process.env.FULL_WIDTH === 'true' ? true : false,
           })}
         >
           <div className="flex items-center flex-1">

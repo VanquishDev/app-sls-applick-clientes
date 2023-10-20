@@ -7,7 +7,10 @@ import { Mail, Key, Check2, Person } from 'components/icons'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
-interface Props {}
+const allowLogin = `${process.env.ALLOW_LOGIN}`.split(',')
+const passwordLength = parseInt(`${process.env.PASSWORD_LENGTH}`)
+
+interface Props { }
 
 const ForgotPassword: FC<Props> = () => {
   const [loginInput, setLoginInput] = useState('')
@@ -64,10 +67,9 @@ const ForgotPassword: FC<Props> = () => {
         case 'Username/client id combination not found.':
           setLoading(false)
           setMessage(
-            `${
-              process.env.DEFAULT_LOGIN === 'PHONE'
-                ? 'Número de telefone'
-                : 'Email'
+            `${process.env.DEFAULT_LOGIN === 'PHONE'
+              ? 'Número de telefone'
+              : 'Email'
             } não localizado!`
           )
           break
@@ -75,10 +77,9 @@ const ForgotPassword: FC<Props> = () => {
         case 'Username cannot be empty':
           setLoading(false)
           setMessage(
-            `Informe seu ${
-              process.env.DEFAULT_LOGIN === 'PHONE'
-                ? 'número de telefone'
-                : 'email'
+            `Informe seu ${process.env.DEFAULT_LOGIN === 'PHONE'
+              ? 'número de telefone'
+              : 'email'
             }.`
           )
           break
@@ -199,17 +200,17 @@ const ForgotPassword: FC<Props> = () => {
           </div>
 
           <div className="my-6 text-center text-accent-7 text-lg font-semibold">
-            {process.env.ALLOW_LOGIN &&
-              process.env.ALLOW_LOGIN.length === 1 &&
-              process.env.ALLOW_LOGIN[0] === 'PHONE' && (
+            {allowLogin &&
+              allowLogin.length === 1 &&
+              allowLogin[0] === 'PHONE' && (
                 <span>Informe seu celular com DDD para recuperar a senha.</span>
               )}
-            {process.env.ALLOW_LOGIN &&
-              process.env.ALLOW_LOGIN.length === 1 &&
-              process.env.ALLOW_LOGIN[0] === 'EMAIL' && (
+            {allowLogin &&
+              allowLogin.length === 1 &&
+              allowLogin[0] === 'EMAIL' && (
                 <span>Informe seu email para recuperar a senha.</span>
               )}
-            {process.env.ALLOW_LOGIN && process.env.ALLOW_LOGIN.length > 1 && (
+            {allowLogin && allowLogin.length > 1 && (
               <span>
                 Informe seu email ou seu celular com DDD para continuar e
                 recuperar a senha.
@@ -218,9 +219,9 @@ const ForgotPassword: FC<Props> = () => {
           </div>
 
           <div className="flex flex-col space-y-4">
-            {process.env.ALLOW_LOGIN &&
-              process.env.ALLOW_LOGIN.length === 1 &&
-              process.env.ALLOW_LOGIN[0] === 'PHONE' && (
+            {allowLogin &&
+              allowLogin.length === 1 &&
+              allowLogin[0] === 'PHONE' && (
                 <div className="flex -mx-3">
                   <div className="w-full px-3">
                     <label className="text-accent-7 text-sm font-semibold px-1">
@@ -244,9 +245,9 @@ const ForgotPassword: FC<Props> = () => {
                 </div>
               )}
 
-            {process.env.ALLOW_LOGIN &&
-              process.env.ALLOW_LOGIN.length === 1 &&
-              process.env.ALLOW_LOGIN[0] === 'EMAIL' && (
+            {allowLogin &&
+              allowLogin.length === 1 &&
+              allowLogin[0] === 'EMAIL' && (
                 <Input
                   label="Email"
                   icon={<Mail />}
@@ -257,7 +258,7 @@ const ForgotPassword: FC<Props> = () => {
                 />
               )}
 
-            {process.env.ALLOW_LOGIN && process.env.ALLOW_LOGIN.length > 1 && (
+            {allowLogin && allowLogin.length > 1 && (
               <Input
                 label="Email ou Celular com DDD"
                 icon={<Person />}
@@ -339,12 +340,11 @@ const ForgotPassword: FC<Props> = () => {
               onChange={setNewpassword}
               type="password"
               placeholder=""
-              onInvalid={`${
-                newpassword &&
-                newpassword.length < (process.env.PASSWORD_LENGTH as any)
-                  ? 'Senha inválida.'
-                  : ''
-              }`}
+              onInvalid={`${newpassword &&
+                newpassword.length < (passwordLength as any)
+                ? 'Senha inválida.'
+                : ''
+                }`}
             />
 
             {message && (
@@ -360,7 +360,7 @@ const ForgotPassword: FC<Props> = () => {
                 disabled={
                   !code ||
                   !newpassword ||
-                  newpassword.length < (process.env.PASSWORD_LENGTH as any)
+                  newpassword.length < (passwordLength as any)
                 }
               >
                 VALIDAR E ALTERAR SENHA

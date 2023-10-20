@@ -133,7 +133,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
 
             {config.phoneOrders && (
               <li key="phone">
-                <Link
+                <a
                   className={cn(s.link, {
                     ['border-t border-accent-2']: isSm,
                   })}
@@ -144,13 +144,13 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
                 >
                   <Phone width={20} height={20} />
                   <span className="ml-3">Atendimento</span>
-                </Link>
+                </a>
               </li>
             )}
 
             {user && (
               <li key="w1">
-                <Link
+                <a
                   href={`https://wa.me/+5511930948120?lang=pt_br&text=Olá,%20me%20chamo%20${user.name}%20e%20sou%20usuário(a)%20do%20Applick.`}
                   target="_blank"
                   title="WhatsApp"
@@ -161,13 +161,13 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
                 >
                   <img width={24} height={24} src="/whatsapp.png" />
                   <span className="ml-3">Chat (WhatsApp)</span>
-                </Link>
+                </a>
               </li>
             )}
 
             {!user && (
               <li key="w2">
-                <Link
+                <a
                   href={`https://wa.me/+5511930948120?lang=pt_br&text=Olá,`}
                   target="_blank"
                   title="WhatsApp"
@@ -178,7 +178,7 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
                 >
                   <img width={24} height={24} src="/whatsapp.png" />
                   <span className="ml-3">Chat (WhatsApp)</span>
-                </Link>
+                </a>
               </li>
             )}
 
@@ -201,28 +201,6 @@ const DropdownMenu: FC<DropdownMenuProps> = ({ open = false }) => {
                 </Link>
               </div>
             </li>
-
-            {user.isAdmin && (
-              <li key="admin">
-                <div>
-                  <Link href="/admin">
-                    <span
-                      className={cn(s.link, {
-                        ['border-t border-accent-2']: isSm,
-                        [s.active]: isAdmin,
-                      })}
-                      onClick={() => {
-                        setDisplay(false)
-                        closeSidebarIfPresent()
-                      }}
-                    >
-                      <Power width={20} height={20} />
-                      <span className="ml-3">Admin</span>
-                    </span>
-                  </Link>
-                </div>
-              </li>
-            )}
 
             {/**
  <li key="theme">

@@ -3,16 +3,18 @@
 const nodemailer = require('nodemailer')
 import { validate } from 'email-validator'
 
-const host = process.env.SMTP.HOST
-const port = process.env.SMTP.PORT
-const user = process.env.SMTP.USER
-const pass = process.env.SMTP.PASSWORD
+const smtp = JSON.parse(process.env.SMTP)
+
+const host = smtp.HOST
+const port = smtp.PORT
+const user = smtp.USER
+const pass = smtp.PASSWORD
 
 export default async function (req, res) {
   const { title, emailTo, data, name, email, phone } = req.body
 
   console.log(data)
-  
+
   let html = ''
   html = html + `Name: ${name}<br />`
   html = html + `Email: ${email}<br />`
@@ -22,12 +24,12 @@ export default async function (req, res) {
     if (f.value) {
       if (f.type === 'image' && f.link) {
         html = html + `${f.name}: ${f.link}<br />`
-      } else 
-      if (f.type === 'currency' && f.valueFmt) {
-        html = html + `${f.name}: ${f.valueFmt}<br />`
-      } else {
-        html = html + `${f.name}: ${f.value}<br />`
-      }
+      } else
+        if (f.type === 'currency' && f.valueFmt) {
+          html = html + `${f.name}: ${f.valueFmt}<br />`
+        } else {
+          html = html + `${f.name}: ${f.value}<br />`
+        }
     }
   })
 

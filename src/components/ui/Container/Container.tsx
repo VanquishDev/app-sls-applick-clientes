@@ -12,7 +12,7 @@ const Container: FC<ContainerProps> = ({
   children,
   className,
   el = 'div',
-  clean = process.env.FULL_WIDTH ? true : false,
+  clean = process.env.FULL_WIDTH === 'true' ? true : false,
 }) => {
   const rootClassName = cn(className, {
     'mx-auto max-w-8xl px-6': !clean,

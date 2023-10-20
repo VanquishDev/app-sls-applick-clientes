@@ -56,59 +56,55 @@ const BottomNavBar: FC<Props> = (props: Props) => {
     }
   }, [config])
 
-  return user ? (
-    <section
-      className={cn(
-        'z-50 block fixed inset-x-0 bottom-0 border-t-2 backdrop-blur-md rounded-t-box',
-        {
-          'pb-4': isPWA && device.model === 'iPhone',
-          'bg-white/80 border-slate-200': theme === 'light',
-          'bg-black/50 border-slate-500 text-accent-4': theme === 'dark',
-        }
-      )}
-    >
-      <div className="flex justify-evenly">
-        <Link
-          href={`${query.t
-            ? `${process.env.HOME}?t=` +
-            encodeURIComponent(query.t.toString())
-            : `${process.env.HOME}`
-            }`}
-        >
-          <span className={cn(s.link, { [s.active]: isHome })}>
-            <Thumbnail />
-            <span className="block mt-1 subpixel-antialiased">Dashboard</span>
-          </span>
-        </Link>
+  return (<section
+    className={cn(
+      'z-50 block fixed inset-x-0 bottom-0 border-t-2 backdrop-blur-md rounded-t-box',
+      {
+        'pb-4': isPWA && device.model === 'iPhone',
+        'bg-white/80 border-slate-200': theme === 'light',
+        'bg-black/50 border-slate-500 text-accent-4': theme === 'dark',
+      }
+    )}
+  >
+    <div className="flex justify-evenly">
+      <Link
+        href={`${query.t
+          ? `${process.env.HOME}?t=` +
+          encodeURIComponent(query.t.toString())
+          : `${process.env.HOME}`
+          }`}
+      >
+        <span className={cn(s.link, { [s.active]: isHome })}>
+          <Thumbnail />
+          <span className="block mt-1 subpixel-antialiased">Dashboard</span>
+        </span>
+      </Link>
 
-        <Link href="/page/ia">
+      <Link href="/page/ia">
+        <span
+          className={cn(s.link, {
+            [s.active]: isChat,
+          })}
+        >
+          <Chat />
+          <span className="block mt-1 subpixel-antialiased">IA</span>
+        </span>
+      </Link>
+
+      {user && (
+        <Link href="/my-account/">
           <span
             className={cn(s.link, {
-              [s.active]: isChat,
+              [s.active]: isMyAccount,
             })}
           >
-            <Chat />
-            <span className="block mt-1 subpixel-antialiased">IA</span>
+            <Person width={26} height={26} />
+            <span className="block mt-1 subpixel-antialiased">M. Conta</span>
           </span>
         </Link>
-
-        {user && (
-          <Link href="/my-account/">
-            <span
-              className={cn(s.link, {
-                [s.active]: isMyAccount,
-              })}
-            >
-              <Person width={26} height={26} />
-              <span className="block mt-1 subpixel-antialiased">M. Conta</span>
-            </span>
-          </Link>
-        )}
-      </div>
-    </section>
-  ) : (
-    <></>
-  )
+      )}
+    </div>
+  </section>)
 }
 
 export default BottomNavBar

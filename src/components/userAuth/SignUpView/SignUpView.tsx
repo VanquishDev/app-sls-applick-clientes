@@ -10,6 +10,8 @@ import { cpf } from 'cpf-cnpj-validator'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import Link from 'next/link'
 
+const passwordLength = parseInt(`${process.env.PASSWORD_LENGTH}`)
+
 interface Props { }
 
 const SignUpView: FC<Props> = () => {
@@ -119,7 +121,7 @@ const SignUpView: FC<Props> = () => {
         !cpf.isValid(doc) ||
         !birth ||
         !validPassword ||
-        password.length < (process.env.PASSWORD_LENGTH as any)
+        password.length < (passwordLength as any)
       )
     }
   }, [name, email, phone, password, doc, birth, agree, dirty])
@@ -228,14 +230,14 @@ const SignUpView: FC<Props> = () => {
           <div className="col-span-6 md:col-span-3 lg:col-span-2">
             <InputPassword
               label="Crie uma senha"
-              notes={`Mínimo ${process.env.PASSWORD_LENGTH ? process.env.PASSWORD_LENGTH : 8
+              notes={`Mínimo ${passwordLength ? passwordLength : 8
                 } caracteres com letras e números.`}
               icon={<Key />}
               value={password}
               onChange={setPassword}
               placeholder=""
               onInvalid={`${password &&
-                (password.length < (process.env.PASSWORD_LENGTH as any) ||
+                (password.length < (passwordLength as any) ||
                   /^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password) === false)
                 ? 'Senha inválida.'
                 : ''

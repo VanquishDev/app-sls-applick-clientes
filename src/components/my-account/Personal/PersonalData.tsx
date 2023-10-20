@@ -205,7 +205,7 @@ export default function PersonalData(props: any) {
             <div>Necessário para realizar compras no app.</div>
           </div>
 
-          {process.env.APP_COMMERCE && (
+          {process.env.APP_COMMERCE === 'true' && (
             <div className="col-span-6 md:col-span-3">
               <div className="flex -mx-3">
                 <div className="w-full px-3">
@@ -237,7 +237,7 @@ export default function PersonalData(props: any) {
             </div>
           )}
 
-          {process.env.APP_COMMERCE && (
+          {process.env.APP_COMMERCE === 'true' && (
             <div className="col-span-6 md:col-span-3">
               <Input
                 label="Documento"
@@ -246,14 +246,13 @@ export default function PersonalData(props: any) {
                 type="number"
                 placeholder=""
                 defaultValue=""
-                notes={`${
-                  docType &&
+                notes={`${docType &&
                   docType === DocTypes.CPF &&
                   doc &&
                   !cpf.isValid(doc)
-                    ? 'CPF Inválido'
-                    : ''
-                }`}
+                  ? 'CPF Inválido'
+                  : ''
+                  }`}
               />
             </div>
           )}

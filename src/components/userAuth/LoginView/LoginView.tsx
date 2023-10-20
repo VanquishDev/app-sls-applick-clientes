@@ -6,7 +6,9 @@ import { Mail, Key, RightArrow, Person } from 'components/icons'
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 
-interface Props {}
+const allowLogin = `${process.env.ALLOW_LOGIN}`.split(',')
+
+interface Props { }
 
 const LoginView: FC<Props> = () => {
   const [loginInput, setLoginInput] = useState('')
@@ -148,9 +150,9 @@ const LoginView: FC<Props> = () => {
         </div>
 
         <div className="pt-6 flex flex-col space-y-4">
-          {process.env.ALLOW_LOGIN &&
-            process.env.ALLOW_LOGIN.length === 1 &&
-            process.env.ALLOW_LOGIN[0] === 'PHONE' && (
+          {allowLogin &&
+            allowLogin.length === 1 &&
+            allowLogin[0] === 'PHONE' && (
               <div className="flex -mx-3">
                 <div className="w-full px-3">
                   <label className="text-accent-7 text-sm font-semibold px-1">
@@ -175,9 +177,9 @@ const LoginView: FC<Props> = () => {
               </div>
             )}
 
-          {process.env.ALLOW_LOGIN &&
-            process.env.ALLOW_LOGIN.length === 1 &&
-            process.env.ALLOW_LOGIN[0] === 'EMAIL' && (
+          {allowLogin &&
+            allowLogin.length === 1 &&
+            allowLogin[0] === 'EMAIL' && (
               <Input
                 autoComplete="none"
                 label="Email"
@@ -189,7 +191,7 @@ const LoginView: FC<Props> = () => {
               />
             )}
 
-          {process.env.ALLOW_LOGIN && process.env.ALLOW_LOGIN.length > 1 && (
+          {allowLogin && allowLogin.length > 1 && (
             <Input
               autoComplete="none"
               label="Usuário (Email ou Celular com DDD)"
