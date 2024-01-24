@@ -170,7 +170,7 @@ const LoginView: FC<Props> = () => {
                       international={false}
                       countrySelectProps={{ unicodeFlags: true }}
                       defaultCountry="BR"
-                      placeholder=""
+
                     />
                   </div>
                 </div>
@@ -187,7 +187,7 @@ const LoginView: FC<Props> = () => {
                 value={loginInput}
                 onChange={setLoginInput}
                 type="text"
-                placeholder=""
+
               />
             )}
 
@@ -199,7 +199,7 @@ const LoginView: FC<Props> = () => {
               value={loginInput}
               onChange={setLoginInput}
               type="text"
-              placeholder=""
+
             />
           )}
 
@@ -209,7 +209,7 @@ const LoginView: FC<Props> = () => {
             icon={<Key />}
             value={password}
             onChange={setPassword}
-            placeholder=""
+
           />
 
           <div className="mt-7 flex">

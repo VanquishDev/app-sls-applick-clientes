@@ -160,7 +160,7 @@ const SignUpView: FC<Props> = () => {
               value={name}
               onChange={setName}
               type="text"
-              placeholder=""
+
               onInvalid={`${name && (name.length < 5 || name.indexOf(' ') === -1)
                 ? 'Nome inválido.'
                 : ''
@@ -173,7 +173,7 @@ const SignUpView: FC<Props> = () => {
               value={doc}
               onChange={setDoc}
               type="number"
-              placeholder=""
+
               defaultValue=""
               onInvalid={`${doc && !cpf.isValid(doc) ? 'CPF inválido.' : ''}`}
             />
@@ -185,7 +185,7 @@ const SignUpView: FC<Props> = () => {
               value={email}
               onChange={setEmail}
               type="email"
-              placeholder=""
+
               onInvalid={`${email && !validate(email) ? 'Email inválido.' : ''
                 }`}
             />
@@ -207,7 +207,7 @@ const SignUpView: FC<Props> = () => {
                     international={false}
                     countrySelectProps={{ unicodeFlags: true }}
                     defaultCountry="BR"
-                    placeholder=""
+
                   />
                 </div>
                 {phone && (!isValidPhoneNumber(phone) || phone.length < 13) && (
@@ -224,7 +224,7 @@ const SignUpView: FC<Props> = () => {
               value={birth}
               onChange={setBirth}
               type="date"
-              placeholder=""
+
             />
           </div>
           <div className="col-span-6 md:col-span-3 lg:col-span-2">
@@ -235,7 +235,7 @@ const SignUpView: FC<Props> = () => {
               icon={<Key />}
               value={password}
               onChange={setPassword}
-              placeholder=""
+
               onInvalid={`${password &&
                 (password.length < (passwordLength as any) ||
                   /^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password) === false)

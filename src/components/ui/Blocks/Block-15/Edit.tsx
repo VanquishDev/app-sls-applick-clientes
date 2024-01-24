@@ -166,7 +166,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('action')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="ONLYMAIL">
@@ -251,7 +251,7 @@ export default function Edit(props: Props) {
                         <div className="w-10 z-10"></div>
                         <select
                           {...register(`data.${index}.size` as const)}
-                          placeholder=""
+
                           className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                         >
                           <option value="1">1/12</option>
@@ -284,7 +284,7 @@ export default function Edit(props: Props) {
                         <div className="w-10 z-10"></div>
                         <select
                           {...register(`data.${index}.type` as const)}
-                          placeholder=""
+
                           className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                         >
                           <option value="text">Texto</option>
@@ -324,23 +324,21 @@ export default function Edit(props: Props) {
                     formValues[index].type === 'textarea') && (
                     <div className="w-full md:w-5/12">
                       <Input
-                        label={`${
-                          formValues[index].type === 'select'
+                        label={`${formValues[index].type === 'select'
                             ? 'Items separados por virgula'
                             : formValues[index].type === 'textarea'
-                            ? 'Quantidade de linhas'
-                            : 'Opções'
-                        }`}
+                              ? 'Quantidade de linhas'
+                              : 'Opções'
+                          }`}
                         type="text"
                         register={register(`data.${index}.options` as const)}
                         defaultValue={''}
-                        placeholder={`${
-                          formValues[index].type === 'select'
+                        placeholder={`${formValues[index].type === 'select'
                             ? 'exemplo: sim,não'
                             : formValues[index].type === 'textarea'
-                            ? 'exemplo: 3'
-                            : ''
-                        }`}
+                              ? 'exemplo: 3'
+                              : ''
+                          }`}
                       />
                     </div>
                   )}

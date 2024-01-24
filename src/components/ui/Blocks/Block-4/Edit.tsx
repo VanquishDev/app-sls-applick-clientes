@@ -130,7 +130,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('imageMode')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="paralax">Paralax</option>
@@ -157,20 +157,20 @@ export default function Edit(props: Props) {
                     <div className="w-10 z-10"></div>
                     <select
                       {...register('quality')}
-                      placeholder=""
+
                       className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                     >
-                    <option value="50">50%</option>
-                    <option value="55">55%</option>
-                    <option value="60">60%</option>
-                    <option value="65">65%</option>
-                    <option value="70">70%</option>
-                    <option value="75">75% - Recomendado!</option>
-                    <option value="80">80%</option>
-                    <option value="85">85%</option>
-                    <option value="90">90%</option>
-                    <option value="95">95%</option>
-                    <option value="100">100%</option>
+                      <option value="50">50%</option>
+                      <option value="55">55%</option>
+                      <option value="60">60%</option>
+                      <option value="65">65%</option>
+                      <option value="70">70%</option>
+                      <option value="75">75% - Recomendado!</option>
+                      <option value="80">80%</option>
+                      <option value="85">85%</option>
+                      <option value="90">90%</option>
+                      <option value="95">95%</option>
+                      <option value="100">100%</option>
                     </select>
                   </div>
                 </div>
@@ -191,14 +191,14 @@ export default function Edit(props: Props) {
                     <div className="w-10 z-10"></div>
                     <select
                       {...register('objectMode')}
-                      placeholder=""
+
                       className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                     >
-                    <option value="contain">Conter</option>
-                    <option value="cover">Cobrir</option>
-                    <option value="fill">Preencher</option>
-                    <option value="scale-down">Scale-down</option>
-                    <option value="none">Nenhum</option>
+                      <option value="contain">Conter</option>
+                      <option value="cover">Cobrir</option>
+                      <option value="fill">Preencher</option>
+                      <option value="scale-down">Scale-down</option>
+                      <option value="none">Nenhum</option>
                     </select>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export default function Edit(props: Props) {
                     <div className="w-10 z-10"></div>
                     <select
                       {...register('imageMask')}
-                      placeholder=""
+
                       className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                     >
                       <option value="none">Nenhuma</option>
@@ -285,7 +285,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('aspectRatio')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="1280:720">16:9 - Horizontal</option>
@@ -303,14 +303,14 @@ export default function Edit(props: Props) {
           </div>)}
           {watchAspectRatio === 'custom' && (<div className="w-full md:w-1/4">
             <div className="w-full">
-                <Input
-                  label="Largura:Altura"
-                  type="text"
-                  register={register('aspectRatioCustom')}
-                  defaultValue={''}
-                  notes="Exemplo: 1280:720"
-                />
-              </div>
+              <Input
+                label="Largura:Altura"
+                type="text"
+                register={register('aspectRatioCustom')}
+                defaultValue={''}
+                notes="Exemplo: 1280:720"
+              />
+            </div>
           </div>)}
           {watchImageMode === 'paralax' && (
             <div className="w-full md:w-1/4">
@@ -326,7 +326,7 @@ export default function Edit(props: Props) {
           )}
         </div>
         {watchImageMode === 'paralax' && <div className="flex flex-col sm:flex-row w-full sm:space-x-2 space-y-3 sm:space-y-0 mb-2 sm:mb-4">
-        <div className={`w-full md:w-3/4`}>
+          <div className={`w-full md:w-3/4`}>
             <div className="flex flex-row-reverse w-full">
               <div className="mt-6 pl-2">
                 <div
@@ -350,16 +350,16 @@ export default function Edit(props: Props) {
             </div>
           </div>
           <div className="w-full md:w-1/4">
-              <Input
-                label="Altura em pixels"
-                type="number"
-                aria-invalid={errors.imageHeightSm ? 'true' : 'false'}
-                register={register('imageHeightSm')}
-                defaultValue={''}
-                notes="O padrão é 200."
-              />
-            </div>
-          </div>}
+            <Input
+              label="Altura em pixels"
+              type="number"
+              aria-invalid={errors.imageHeightSm ? 'true' : 'false'}
+              register={register('imageHeightSm')}
+              defaultValue={''}
+              notes="O padrão é 200."
+            />
+          </div>
+        </div>}
         {(watchImageMode !== 'paralax' && watchImageMode !== 'intrinsic' && watchImageMask === 'none') && (<div className="flex flex-col sm:flex-row w-full sm:space-x-2 space-y-3 sm:space-y-0 mb-2 sm:mb-4">
           <div className="w-full md:w-1/4">
             <div className="flex -mx-3">
@@ -374,7 +374,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('viewShadow')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="-none">Nenhuma</option>
@@ -402,7 +402,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('viewBorder')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="0">Nenhuma</option>
@@ -429,7 +429,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('viewBgColor')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="none">Nenhuma</option>
@@ -462,7 +462,7 @@ export default function Edit(props: Props) {
                   <div className="w-10 z-10"></div>
                   <select
                     {...register('viewRounded')}
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="-none">Nenhum</option>

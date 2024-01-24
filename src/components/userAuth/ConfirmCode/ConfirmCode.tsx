@@ -5,7 +5,7 @@ import { useUserAuth } from 'components/userAuth/context'
 import { Check2 } from 'components/icons'
 import { validate } from 'email-validator'
 
-interface Props {}
+interface Props { }
 
 const ConfirmCode: FC<Props> = () => {
   const [code, setCode] = useState('')
@@ -101,7 +101,7 @@ const ConfirmCode: FC<Props> = () => {
             value={code}
             onChange={setCode}
             type="number"
-            placeholder=""
+
           />
 
           {message && (

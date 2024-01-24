@@ -72,7 +72,7 @@ export default function AddressForm(props: any) {
                   }}
                   type="tel"
                   maxLength={9}
-                  placeholder=""
+
                 />
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function AddressForm(props: any) {
               value={street}
               onChange={setStreet}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function AddressForm(props: any) {
               value={number}
               onChange={setNumber}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -129,7 +129,7 @@ export default function AddressForm(props: any) {
               value={neighborhood}
               onChange={setNeighborhood}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -140,7 +140,7 @@ export default function AddressForm(props: any) {
               value={city}
               onChange={setCity}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -151,7 +151,7 @@ export default function AddressForm(props: any) {
               value={state}
               onChange={setState}
               type="text"
-              placeholder=""
+
               maxLength={2}
             />
           </div>
@@ -163,7 +163,7 @@ export default function AddressForm(props: any) {
               value={country}
               onChange={setCountry}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -184,7 +184,7 @@ export default function AddressForm(props: any) {
                     id="reference"
                     rows={2}
                     autoComplete="off"
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   />
                 </div>

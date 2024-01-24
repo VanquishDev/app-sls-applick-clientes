@@ -1,6 +1,4 @@
-import awsExports from '../aws-exports'
-import { Amplify, withSSRContext } from 'aws-amplify'
-Amplify.configure({ ...awsExports, ssr: true })
+import { withSSRContext } from 'aws-amplify'
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api'
 import * as queries from 'graphql/queries'
 import { PagePriority, PageChangeFreq } from 'models'
@@ -26,11 +24,11 @@ export async function getServerSideProps({ res }: { res: any }) {
   const HandleTags = (tags: string) => {
     return tags.toString()
       ? '?' +
-          tags
-            .toString()
-            .replace(/,/g, '_')
-            .replace(/ /g, '_')
-            .replace(/&/g, '_')
+      tags
+        .toString()
+        .replace(/,/g, '_')
+        .replace(/ /g, '_')
+        .replace(/&/g, '_')
       : ''
   }
 
@@ -46,34 +44,32 @@ export async function getServerSideProps({ res }: { res: any }) {
       .map((page: any) => {
         return `
           <url>
-            <loc>${url}${url?.substr(-1) === '/' ? '' : '/'}page/${
-          page.alias
-        }${HandleTags(page.tags)}</loc>
+            <loc>${url}${url?.substr(-1) === '/' ? '' : '/'}page/${page.alias
+          }${HandleTags(page.tags)}</loc>
             <lastmod>${page.updatedAt}</lastmod>
             <changefreq>${page.changeFreq}</changefreq>
-            <priority>${
-              page.priority === PagePriority.P0
-                ? '0.0'
-                : page.priority === PagePriority.P1
-                ? '0.1'
-                : page.priority === PagePriority.P2
+            <priority>${page.priority === PagePriority.P0
+            ? '0.0'
+            : page.priority === PagePriority.P1
+              ? '0.1'
+              : page.priority === PagePriority.P2
                 ? '0.2'
                 : page.priority === PagePriority.P3
-                ? '0.3'
-                : page.priority === PagePriority.P4
-                ? '0.4'
-                : page.priority === PagePriority.P5
-                ? '0.5'
-                : page.priority === PagePriority.P6
-                ? '0.6'
-                : page.priority === PagePriority.P7
-                ? '0.7'
-                : page.priority === PagePriority.P8
-                ? '0.8'
-                : page.priority === PagePriority.P9
-                ? '0.9'
-                : '1.0'
-            }</priority>
+                  ? '0.3'
+                  : page.priority === PagePriority.P4
+                    ? '0.4'
+                    : page.priority === PagePriority.P5
+                      ? '0.5'
+                      : page.priority === PagePriority.P6
+                        ? '0.6'
+                        : page.priority === PagePriority.P7
+                          ? '0.7'
+                          : page.priority === PagePriority.P8
+                            ? '0.8'
+                            : page.priority === PagePriority.P9
+                              ? '0.9'
+                              : '1.0'
+          }</priority>
           </url>
         `
       })

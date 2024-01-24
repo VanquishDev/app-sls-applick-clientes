@@ -494,7 +494,7 @@ function AuthFields(props: AuthFieldsProps) {
                   onChange={(e: any) => setUserPhone(e)}
                   international={false}
                   defaultCountry="BR"
-                  placeholder=""
+
                 />
               </div>
             </div>
@@ -610,7 +610,7 @@ function FieldTel(props: PropsFields) {
             onChange={(e: any) => handleChanged(e, idxLine, idxField)}
             international={false}
             defaultCountry="BR"
-            placeholder=""
+
           />
         </div>
       </div>
@@ -822,7 +822,7 @@ function FieldSelect(props: PropsFields) {
             onChange={(event: any) =>
               handleChanged(event.target.value, idxLine, idxField)
             }
-            placeholder=""
+
             className="text-accent-9 bg-accent-1 w-full pl-3 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
           >
             <option>Selecione...</option>

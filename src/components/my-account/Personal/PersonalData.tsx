@@ -117,7 +117,7 @@ export default function PersonalData(props: any) {
               value={name}
               onChange={setName}
               type="text"
-              placeholder=""
+
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function PersonalData(props: any) {
               value={email}
               onChange={setEmail}
               type="email"
-              placeholder=""
+
             />
           </div>
 
@@ -151,7 +151,7 @@ export default function PersonalData(props: any) {
                     onChange={setPhone}
                     international={false}
                     defaultCountry="BR"
-                    placeholder=""
+
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export default function PersonalData(props: any) {
               value={birth}
               onChange={setBirth}
               type="date"
-              placeholder=""
+
             />
           </div>
 
@@ -186,7 +186,7 @@ export default function PersonalData(props: any) {
                     }}
                     id="gender"
                     name="gender"
-                    placeholder=""
+
                     className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                   >
                     <option value="UNKNOWN">Não informado</option>
@@ -224,7 +224,7 @@ export default function PersonalData(props: any) {
                       }}
                       id="docType"
                       name="docType"
-                      placeholder=""
+
                       className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                     >
                       <option value={DocTypes.CNPJ}>CNPJ</option>
@@ -244,7 +244,7 @@ export default function PersonalData(props: any) {
                 value={doc}
                 onChange={setDoc}
                 type="number"
-                placeholder=""
+
                 defaultValue=""
                 notes={`${docType &&
                   docType === DocTypes.CPF &&

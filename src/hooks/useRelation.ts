@@ -79,12 +79,11 @@ export const useRelation = () => {
       data: {
         listRelationsByTypeStatusUpdatedAt: { items, nextToken },
       },
-    } = (await API.graphql(
-      graphqlOperation(
-        customQueries.listRelationsByTypeStatusUpdatedAtCustom,
-        variables
-      )
-    )) as GraphQLResult<any>
+    } = (await API.graphql({
+      query: customQueries.listRelationsByTypeStatusUpdatedAtCustom,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+    })) as GraphQLResult<any>
     return { items, nextToken }
   }
 

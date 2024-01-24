@@ -7,7 +7,7 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { validate } from 'email-validator'
 
-interface Props {}
+interface Props { }
 
 const ChangePassword: FC<Props> = () => {
   const [loading, setLoading] = useState(false)
@@ -83,7 +83,7 @@ const ChangePassword: FC<Props> = () => {
               value={email}
               onChange={setEmail}
               type="email"
-              placeholder=""
+
             />
           )}
 
@@ -104,7 +104,7 @@ const ChangePassword: FC<Props> = () => {
                     international={false}
                     countrySelectProps={{ unicodeFlags: true }}
                     defaultCountry="BR"
-                    placeholder=""
+
                   />
                 </div>
               </div>
@@ -117,7 +117,7 @@ const ChangePassword: FC<Props> = () => {
             value={newPassword}
             onChange={setNewPassword}
             type="password"
-            placeholder=""
+
           />
 
           {message && (

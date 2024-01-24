@@ -1,3 +1,10 @@
+import * as APITypes from "../API";
+type GeneratedQuery<InputType, OutputType> = string & {
+  __generatedQueryInput: InputType;
+  __generatedQueryOutput: OutputType;
+};
+
+
 export const getUserCustom = /* GraphQL */ `
   query GetUserCustom($id: ID!) {
     getUser(id: $id) {
@@ -3642,3 +3649,453 @@ export const listVaccinationsByAuthorizationListMemberCustom = /* GraphQL */ `
     }
   }
 `
+export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
+  $id: ID
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listOSs(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      clientID
+      clientUnitID
+      driverID
+      professionals
+      collaborators
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      createdAt
+      updatedAt
+      client {
+          name
+          code
+          eligibles {
+            items {
+              id
+            }
+          }
+        }
+        clientUnit {
+          code
+          name
+          street
+          number
+          complement
+          zipcode
+          neighborhood
+          city
+          state
+          country
+          notes
+          search
+          contactName
+          contactEmail
+          contactPhone
+        }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListOSsQueryVariables, APITypes.ListOSsQuery>;
+export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
+  $number: Int!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOSsByNumber(
+    number: $number
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      clientUnitID
+      driverID
+      professionals
+      collaborators
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      createdAt
+      updatedAt
+      client {
+          name
+          code
+          eligibles {
+            items {
+              id
+            }
+          }
+        }
+        clientUnit {
+          code
+          name
+          street
+          number
+          complement
+          zipcode
+          neighborhood
+          city
+          state
+          country
+          notes
+          search
+          contactName
+          contactEmail
+          contactPhone
+        }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOSsByNumberQueryVariables,
+  APITypes.ListOSsByNumberQuery
+>;
+export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusNumberCustom(
+  $status: OSStatus!
+  $number: ModelIntKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOSsByStatusNumber(
+    status: $status
+    number: $number
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      clientUnitID
+      driverID
+      professionals
+      collaborators
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      createdAt
+      updatedAt
+      client {
+          name
+          code
+          eligibles {
+            items {
+              id
+            }
+          }
+        }
+        clientUnit {
+          code
+          name
+          street
+          number
+          complement
+          zipcode
+          neighborhood
+          city
+          state
+          country
+          notes
+          search
+          contactName
+          contactEmail
+          contactPhone
+        }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOSsByStatusNumberQueryVariables,
+  APITypes.ListOSsByStatusNumberQuery
+>;
+export const listClientUserByClientCustom = /* GraphQL */ `query ListClientUserByClientCustom(
+  $clientID: ID!
+  $userID: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listClientUserByClient(
+    clientID: $clientID
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userID
+      clientID
+      user {
+        name
+        avatar
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListClientUserByClientQueryVariables,
+  APITypes.ListClientUserByClientQuery
+>;
+export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCustom(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listClientUserByUser(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userID
+      clientID
+      createdAt
+      updatedAt
+      __typename
+      client {
+        id
+      name
+      notes
+      status
+      search
+      totalUnits
+      unitsServed
+      unitsExpected
+      firstOSDate
+      lastOSDate
+      scheduleRouted
+      scheduleConfirmed
+      schedulePending
+      totalEligibles
+      totalVaccinations
+      }
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListClientUserByUserQueryVariables,
+  APITypes.ListClientUserByUserQuery
+>;
+export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClientCustom(
+  $clientID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByClient(
+    clientID: $clientID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      name
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      code
+      createdAt
+      updatedAt
+      oss {
+        items {
+          number
+          start
+          dateStarted
+          status
+          qtyApplication
+          stayQtd
+          clientCampaign {
+            name
+          }
+        }
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUnitsByClientQueryVariables,
+  APITypes.ListUnitsByClientQuery
+>;
+export const listEligiblesVaccinationByClientDate = /* GraphQL */ `query ListEligiblesVaccinationByClientDateCustom(
+  $clientID: ID!
+  $applicationDate: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelEligibleVaccinationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesVaccinationByClientDate(
+    clientID: $clientID
+    applicationDate: $applicationDate
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      osID
+      clientEligibleID
+      clientID
+      profissionalID
+      coren
+      applicationDate
+      reason
+      vaccination
+      status
+      localCity
+      localState
+      createdAt
+      updatedAt
+      clientEligible {
+        id
+        key
+        name
+        cpf
+        rg
+        birth
+        notes
+        relationship
+        isDependent
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesVaccinationByClientDateQueryVariables,
+  APITypes.ListEligiblesVaccinationByClientDateQuery
+>;

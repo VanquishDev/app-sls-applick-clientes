@@ -91,29 +91,29 @@ export default function Config(props: Props) {
             />
           </div>
           <div className="w-full md:w-1/2">
-          <label
-                htmlFor=""
-                className="text-accent-7 text-sm font-semibold px-1"
+            <label
+              htmlFor=""
+              className="text-accent-7 text-sm font-semibold px-1"
+            >
+              Exibir bloco
+            </label>
+            <div className="flex">
+              <div className="w-10 z-10"></div>
+              <select
+                {...register('view')}
+
+                className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
               >
-                Exibir bloco
-              </label>
-              <div className="flex">
-                <div className="w-10 z-10"></div>
-                <select
-                  {...register('view')}
-                  placeholder=""
-                  className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
-                >
-                  <option value="show">Sim</option>
-                  <option value="hide">Não</option>
-                  <option value="sm">Tela Pequena (Celular)</option>
-                  <option value="lg">Tela Grande (Desktop e Tablet)</option>
-                </select>
-              </div>
+                <option value="show">Sim</option>
+                <option value="hide">Não</option>
+                <option value="sm">Tela Pequena (Celular)</option>
+                <option value="lg">Tela Grande (Desktop e Tablet)</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row w-full sm:space-x-2 space-y-3 sm:space-y-0 mb-2 sm:mb-4">
-        <div className="w-full">
+          <div className="w-full">
             <Input
               label="Identificação (id) do elemento"
               type="text"
@@ -136,7 +136,7 @@ export default function Config(props: Props) {
                 <div className="w-10 z-10"></div>
                 <select
                   {...register('padX')}
-                  placeholder=""
+
                   className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                 >
                   <option value="none">Nenhum</option>
@@ -160,7 +160,7 @@ export default function Config(props: Props) {
                 <div className="w-10 z-10"></div>
                 <select
                   {...register('padY')}
-                  placeholder=""
+
                   className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                 >
                   <option value="none">Nenhum</option>
@@ -186,7 +186,7 @@ export default function Config(props: Props) {
                 <div className="w-10 z-10"></div>
                 <select
                   {...register('bgMode')}
-                  placeholder=""
+
                   className="text-accent-9 bg-accent-1 w-full pl-3 -ml-10 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
                 >
                   <option value="auto">Automatica</option>
@@ -199,9 +199,8 @@ export default function Config(props: Props) {
           {watchBgMode === 'custom' && (
             <div className="w-full md:w-1/2 pt-9">
               <InputColor
-                initialValue={`${
-                  block.config ? JSON.parse(block.config)['bgColor'] : '#fafafa'
-                }`}
+                initialValue={`${block.config ? JSON.parse(block.config)['bgColor'] : '#fafafa'
+                  }`}
                 onChange={setColor}
                 placement="right"
               />

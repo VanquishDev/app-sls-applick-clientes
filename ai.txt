@@ -1,0 +1,79 @@
+
+
+Nome da empresa: Cliente Teste
+
+A empresa cliente teste possui: 
+37 unidades cadastradas.
+14 unidades atendidas.
+38% de atendimentos realizados.
+
+As unidades do cliente são: Unidade Sul, Unidade Norte, Unidade Centro e mais 34 unidades.
+
+Unidade: Unidade Sul, Contato: Ricardo Alves, Email: ricardo@gmail.com, Celular: (11) 98989-3713, Endereço: Avenida Paulista, 1650, Bela Vista, São Paulo, SP.
+
+Unidade: Unidade Norte, Contato: Maria Dias, Email: maria.dias@gmail.com, Celular: (11) 98463-5234, Endereço: Avenida Brasil, 422, Jardim América, São Paulo, SP.
+
+Unidade: Unidade Centro, Contato: Henrique Sinos, Email: henrique@gmail.com, Celular: (11) 93762-5473, Endereço: Rua Vitorino Carmilo, 3432, Barra Funda, São Paulo, SP.
+
+A data da primeira unidade agendada foi em: 24/03/2024.
+A data da última unidade agendada foi em: 12/05/2024.
+
+Total de 23 agendamentos roterizados.
+Total de 13 agendamentos confirmados.
+Total de 10 agendamentos a confirmar.
+
+Quantidade de funcionários / colaboradores: 1400
+Foram realizadas a aplicação de 700 doses da vacina. 
+50% de adesão dos colaboradores.
+Quantidade de dependentes: 210.
+ 
+A Data do atendimento da Unidade Sul foi em: 25/10/2023 com início do atendimento às 08:00hrs
+A Data Final do atendimento da Unidade Sul foi em 25/10/2023 com termino às 17:00hrs
+Na Unidade Sul foram aplicadas 250 Doses da vacina.
+As doses previstas para a unidade Sul são de 470 doses da vacina.
+
+Nome da enfermeira da Unidade Sul: Clara dos Santos Sanches
+Equipe Administrativa da Unidade Sul: Marcio Menezes
+Nome do motorista da Unidade Sul: Matheus Andes Neves
+
+A Data do atendimento da Unidade Centro foi em: 01/11/2023 com início do atendimento às 08:00hrs
+A Data Final do atendimento da Unidade Centro foi em 02/10/2023 com termino às 17:00hrs
+Na Unidade Centro foram aplicadas 271 Doses da vacina.
+As doses previstas para a unidade Centro são de 350 doses da vacina.
+
+Nome da enfermeira da Unidade Centro: Ricardo Dias
+Equipe Administrativa da Unidade Centro: Roberto Trabachine
+Nome do motorista da Unidade Centro: Fabio Elias
+
+A Data do atendimento da Unidade Norte foi em: 01/11/2023 com início do atendimento às 08:00hrs
+A Data Final do atendimento da Unidade Norte foi em 02/10/2023 com termino às 17:00hrs
+Na Unidade Norte foram aplicadas 271 Doses da vacina.
+As doses previstas para a unidade Norte são de 350 doses da vacina.
+
+Nome da enfermeira da Unidade Norte: MauriciomLopes
+Equipe Administrativa da Unidade Norte: Luis Pereira
+Nome do motorista da Unidade Norte: João Souza
+
+Os colaboradores / elegíveis do Cliente Teste são:
+Reinaldo Santana, Identificador: 3432423, CPF: 60559440812, RG: 362534523, Nascimento: 25/10/1977, Foi vacinado em 25/10/2023.
+Bruna Obici, Identificador: 63562, CPF: 27746501460, RG: 45623418940, Nascimento: 17/04/1977, Ainda não recebeu a dose da vacina.
+Joyce Cristina, Identificador: 98461, CPF: 31182125365, RG: 43897524, Nascimento: 16/06/1987, Foi vacinada em 21/10/2023.
+Livia Figueredo, Identificador: 826351, CPF: 52970848813, RG: 8763475833, Nascimento: 14/05/2017, Foi vacinada em 25/10/2023.
+Nicolli Yozi, Identificador: 937524, CPF: 48943611838, RG: 479862945, Nascimento: 15/10/2001, Ainda não recebeu a dose da vacina.
+Emily Ortega, Identificador: 61531, CPF: 36708910802, RG: 349583454, Nascimento: 18/12/1999, Foi vacinada em 21/10/2023.
+Valentina Veloso, Identificador: 83624, CPF: 57346368860, RG: 874236424, Nascimento: 03/06/1993, Ainda não recebeu a dose da vacina.
+Franciely Ribeiro, Identificador: 97621, CPF: 47856086840, RG: 5874389534, Nascimento: 05/10/2001, Foi vacinada em 25/10/2023.
+Elaine Santos Camargo, Identificador: 878424, CPF: 42870848813, RG: 89034580347, Nascimento: 10/10/2000, Ainda não recebeu a dose da vacina.
+
+Atendimento pelo WhatsApp da Procat é (11) 93094-8120.
+
+quais são as unidades?
+A Joyce Cristina recebeu a vacina?
+
+A Data do atendimento da Unidade?
+A Data do Final da Unidade?
+Quantas doses foram aplicadas na unidade?
+Quantas doses previstas para a unidade?
+A NOME já recebeu a vacina?
+
+

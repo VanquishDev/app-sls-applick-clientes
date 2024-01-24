@@ -9,8 +9,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm install "v16.20.0"
-        - nvm use "v16.20.0"
+        - nvm install "v18.15.0"
+        - nvm use "v18.15.0"
         - yarn install
         - export NODE_OPTIONS="--max-old-space-size=12288"
     build:
