@@ -24,8 +24,10 @@ export type AmplifyDependentResourcesAttributes = {
     },
     "userPoolGroups": {
       "AdminGroupRole": "string",
+      "ClienteGroupRole": "string",
       "ClinicaGroupRole": "string",
       "ColaboradorGroupRole": "string",
+      "LogisticaGroupRole": "string",
       "ProfissionalGroupRole": "string"
     }
   },
@@ -51,7 +53,7 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
-    "AdminQueries0ab6d7b2": {
+    "AdminQueries6808354f": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

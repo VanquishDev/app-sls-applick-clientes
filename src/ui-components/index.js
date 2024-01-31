@@ -4,16 +4,18 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
+export { default as AdherenceCreateForm } from "./AdherenceCreateForm";
+export { default as AdherenceUpdateForm } from "./AdherenceUpdateForm";
 export { default as AuthorizationListClosureCreateForm } from "./AuthorizationListClosureCreateForm";
 export { default as AuthorizationListClosureUpdateForm } from "./AuthorizationListClosureUpdateForm";
 export { default as AuthorizationListCreateForm } from "./AuthorizationListCreateForm";
 export { default as AuthorizationListUpdateForm } from "./AuthorizationListUpdateForm";
 export { default as BlockCreateForm } from "./BlockCreateForm";
 export { default as BlockUpdateForm } from "./BlockUpdateForm";
-export { default as CampaignCreateForm } from "./CampaignCreateForm";
-export { default as CampaignUpdateForm } from "./CampaignUpdateForm";
 export { default as CategoryCreateForm } from "./CategoryCreateForm";
 export { default as CategoryUpdateForm } from "./CategoryUpdateForm";
+export { default as ClientCampaignEligibleCreateForm } from "./ClientCampaignEligibleCreateForm";
+export { default as ClientCampaignEligibleUpdateForm } from "./ClientCampaignEligibleUpdateForm";
 export { default as ClientCreateForm } from "./ClientCreateForm";
 export { default as ClientUpdateForm } from "./ClientUpdateForm";
 export { default as CompanyCreateForm } from "./CompanyCreateForm";
@@ -30,6 +32,8 @@ export { default as FolderCreateForm } from "./FolderCreateForm";
 export { default as FolderUpdateForm } from "./FolderUpdateForm";
 export { default as InviteCreateForm } from "./InviteCreateForm";
 export { default as InviteUpdateForm } from "./InviteUpdateForm";
+export { default as LaboratoryCreateForm } from "./LaboratoryCreateForm";
+export { default as LaboratoryUpdateForm } from "./LaboratoryUpdateForm";
 export { default as LogCreateForm } from "./LogCreateForm";
 export { default as LogUpdateForm } from "./LogUpdateForm";
 export { default as MenuCreateForm } from "./MenuCreateForm";

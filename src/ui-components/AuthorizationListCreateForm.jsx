@@ -43,7 +43,7 @@ export default function AuthorizationListCreateForm(props) {
     notesFinished: "",
     professionalFinished: "",
     withList: false,
-    campaignCode: "",
+    adherenceCode: "",
     OS: "",
     status: "",
   };
@@ -79,8 +79,8 @@ export default function AuthorizationListCreateForm(props) {
     initialValues.professionalFinished
   );
   const [withList, setWithList] = React.useState(initialValues.withList);
-  const [campaignCode, setCampaignCode] = React.useState(
-    initialValues.campaignCode
+  const [adherenceCode, setAdherenceCode] = React.useState(
+    initialValues.adherenceCode
   );
   const [OS, setOS] = React.useState(initialValues.OS);
   const [status, setStatus] = React.useState(initialValues.status);
@@ -100,7 +100,7 @@ export default function AuthorizationListCreateForm(props) {
     setNotesFinished(initialValues.notesFinished);
     setProfessionalFinished(initialValues.professionalFinished);
     setWithList(initialValues.withList);
-    setCampaignCode(initialValues.campaignCode);
+    setAdherenceCode(initialValues.adherenceCode);
     setOS(initialValues.OS);
     setStatus(initialValues.status);
     setErrors({});
@@ -120,7 +120,7 @@ export default function AuthorizationListCreateForm(props) {
     notesFinished: [],
     professionalFinished: [],
     withList: [],
-    campaignCode: [],
+    adherenceCode: [],
     OS: [],
     status: [],
   };
@@ -164,7 +164,7 @@ export default function AuthorizationListCreateForm(props) {
           notesFinished,
           professionalFinished,
           withList,
-          campaignCode,
+          adherenceCode,
           OS,
           status,
         };
@@ -243,7 +243,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -283,7 +283,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -324,7 +324,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -365,7 +365,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -405,7 +405,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -445,7 +445,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -489,7 +489,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -533,7 +533,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -573,7 +573,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -615,7 +615,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -657,7 +657,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -699,7 +699,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished: value,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -739,7 +739,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished: value,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -781,7 +781,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList: value,
-              campaignCode,
+              adherenceCode,
               OS,
               status,
             };
@@ -799,10 +799,10 @@ export default function AuthorizationListCreateForm(props) {
         {...getOverrideProps(overrides, "withList")}
       ></SwitchField>
       <TextField
-        label="Campaign code"
+        label="Adherence code"
         isRequired={false}
         isReadOnly={false}
-        value={campaignCode}
+        value={adherenceCode}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
@@ -821,22 +821,22 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode: value,
+              adherenceCode: value,
               OS,
               status,
             };
             const result = onChange(modelFields);
-            value = result?.campaignCode ?? value;
+            value = result?.adherenceCode ?? value;
           }
-          if (errors.campaignCode?.hasError) {
-            runValidationTasks("campaignCode", value);
+          if (errors.adherenceCode?.hasError) {
+            runValidationTasks("adherenceCode", value);
           }
-          setCampaignCode(value);
+          setAdherenceCode(value);
         }}
-        onBlur={() => runValidationTasks("campaignCode", campaignCode)}
-        errorMessage={errors.campaignCode?.errorMessage}
-        hasError={errors.campaignCode?.hasError}
-        {...getOverrideProps(overrides, "campaignCode")}
+        onBlur={() => runValidationTasks("adherenceCode", adherenceCode)}
+        errorMessage={errors.adherenceCode?.errorMessage}
+        hasError={errors.adherenceCode?.hasError}
+        {...getOverrideProps(overrides, "adherenceCode")}
       ></TextField>
       <TextField
         label="Os"
@@ -861,7 +861,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS: value,
               status,
             };
@@ -901,7 +901,7 @@ export default function AuthorizationListCreateForm(props) {
               notesFinished,
               professionalFinished,
               withList,
-              campaignCode,
+              adherenceCode,
               OS,
               status: value,
             };

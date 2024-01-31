@@ -16,7 +16,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "AdminQueries0ab6d7b2"
+          "resourceName": "AdminQueries6808354f"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -144,7 +144,7 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "AdminQueries0ab6d7b2": {
+    "AdminQueries6808354f": {
       "build": true,
       "dependsOn": [
         {
@@ -239,6 +239,22 @@
         }
       ]
     },
+    "AMPLIFY_function_AdminQueries6808354f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries6808354f"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueries6808354f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries6808354f"
+        }
+      ]
+    },
     "AMPLIFY_function_AdminUpdateUserAttributes_deploymentBucketName": {
       "usedBy": [
         {
@@ -291,6 +307,13 @@
         {
           "attributes": [
             "ColaboradorGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "ClienteGroupRole"
           ],
           "category": "auth",
           "resourceName": "userPoolGroups"

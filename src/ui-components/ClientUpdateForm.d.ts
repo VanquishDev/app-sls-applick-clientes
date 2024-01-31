@@ -25,8 +25,14 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ClientUpdateFormInputValues = {
     name?: string;
     notes?: string;
+    group?: string;
+    indication?: string;
+    origin?: string;
     status?: string;
     search?: string;
+    logo?: string;
+    logoSrc?: string;
+    logoCropper?: string;
     totalUnits?: number;
     unitsServed?: number;
     unitsExpected?: number;
@@ -42,8 +48,14 @@ export declare type ClientUpdateFormInputValues = {
 export declare type ClientUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     notes?: ValidationFunction<string>;
+    group?: ValidationFunction<string>;
+    indication?: ValidationFunction<string>;
+    origin?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
     search?: ValidationFunction<string>;
+    logo?: ValidationFunction<string>;
+    logoSrc?: ValidationFunction<string>;
+    logoCropper?: ValidationFunction<string>;
     totalUnits?: ValidationFunction<number>;
     unitsServed?: ValidationFunction<number>;
     unitsExpected?: ValidationFunction<number>;
@@ -61,8 +73,14 @@ export declare type ClientUpdateFormOverridesProps = {
     ClientUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     notes?: PrimitiveOverrideProps<TextFieldProps>;
+    group?: PrimitiveOverrideProps<TextFieldProps>;
+    indication?: PrimitiveOverrideProps<TextFieldProps>;
+    origin?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<SelectFieldProps>;
     search?: PrimitiveOverrideProps<TextFieldProps>;
+    logo?: PrimitiveOverrideProps<TextFieldProps>;
+    logoSrc?: PrimitiveOverrideProps<TextFieldProps>;
+    logoCropper?: PrimitiveOverrideProps<TextFieldProps>;
     totalUnits?: PrimitiveOverrideProps<TextFieldProps>;
     unitsServed?: PrimitiveOverrideProps<TextFieldProps>;
     unitsExpected?: PrimitiveOverrideProps<TextFieldProps>;

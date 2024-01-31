@@ -234,10 +234,10 @@ export default function Statistics(props: any) {
         <progress className="w-full progress progress-warning" value={client.percentServed ? client.percentServed : 0} max="100"></progress>
 
         <div className='mt-2 flex justify-between'>
-          <div>{(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(0) : 0}% doses aplicadas</div>
+          <div>{(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(2) : 0}% doses aplicadas</div>
           <div>{client.totalVaccinations}</div>
         </div>
-        <progress className="w-full progress progress-success" value={(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(0) : 0} max="100"></progress>
+        <progress className="w-full progress progress-success" value={(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(2) : 0} max="100"></progress>
       </div>
     </div>
 

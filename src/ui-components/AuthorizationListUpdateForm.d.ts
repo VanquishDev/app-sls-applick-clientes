@@ -37,7 +37,7 @@ export declare type AuthorizationListUpdateFormInputValues = {
     notesFinished?: string;
     professionalFinished?: string;
     withList?: boolean;
-    campaignCode?: string;
+    adherenceCode?: string;
     OS?: string;
     status?: string;
 };
@@ -56,7 +56,7 @@ export declare type AuthorizationListUpdateFormValidationValues = {
     notesFinished?: ValidationFunction<string>;
     professionalFinished?: ValidationFunction<string>;
     withList?: ValidationFunction<boolean>;
-    campaignCode?: ValidationFunction<string>;
+    adherenceCode?: ValidationFunction<string>;
     OS?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
 };
@@ -77,7 +77,7 @@ export declare type AuthorizationListUpdateFormOverridesProps = {
     notesFinished?: PrimitiveOverrideProps<TextFieldProps>;
     professionalFinished?: PrimitiveOverrideProps<TextFieldProps>;
     withList?: PrimitiveOverrideProps<SwitchFieldProps>;
-    campaignCode?: PrimitiveOverrideProps<TextFieldProps>;
+    adherenceCode?: PrimitiveOverrideProps<TextFieldProps>;
     OS?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<SelectFieldProps>;
 } & EscapeHatchProps;

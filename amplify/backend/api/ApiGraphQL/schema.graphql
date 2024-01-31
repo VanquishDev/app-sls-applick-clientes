@@ -105,7 +105,6 @@ type Profile
   companyAdmin: Boolean
 }
 
-
 type TempAux
   @model(
     mutations: {create: "createTempAux", update: null, delete: "deleteTempAux"},
@@ -121,7 +120,6 @@ type TempAux
   doc: String
   birth: AWSDate
 }
-
 
 type GroupUser
   @model(
@@ -142,7 +140,6 @@ type GroupUser
   profile: Profile @hasOne(fields: ["profileID"])
   createdAt: AWSDateTime
 }
-
 
 type Address
   @model(
@@ -206,7 +203,8 @@ enum LogSource {
   APP
 }
 
-type Log @model(mutations: {create: "createLog", update: null, delete: null}, queries: {get: null, list: null}, subscriptions: null)
+type Log
+@model(mutations: {create: "createLog", update: null, delete: null}, queries: {get: null, list: null}, subscriptions: null)
 @auth(rules: [
   {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID", operations: [create, read]},
   {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [read, create]},
@@ -565,7 +563,8 @@ enum PageOptionSideColumn {
   BACK_CONTENT
 }
 
-type Page @model(mutations: {create: "createPage", update: "updatePage", delete: "deletePage"}, queries: {get: "getPage", list: "listPages"}, subscriptions: null)
+type Page
+@model(mutations: {create: "createPage", update: "updatePage", delete: "deletePage"}, queries: {get: "getPage", list: "listPages"}, subscriptions: null)
 @auth(rules: [
   {allow: groups, provider: userPools, groups: ["Admin"]},
   {allow: private, provider: userPools, operations: [read]},
@@ -647,6 +646,22 @@ type Category
   isSub: Boolean
 }
 
+type Laboratory
+  @model(
+    mutations: {create: "createLaboratory", update: "updateLaboratory", delete: "deleteLaboratory"},
+    queries: {get: null, list: "listLaboratories"},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"]},
+    {allow: private, provider: userPools, operations: [read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  name: String!
+  description: String
+}
+
 type Product
   @model(
     mutations: {create: "createProduct", update: "updateProduct", delete: "deleteProduct"},
@@ -665,6 +680,7 @@ type Product
   categoryProps: Category @hasOne(fields: ["category"])
   subCategory: ID!
   subCategoryProps: Category @hasOne(fields: ["subCategory"])
+  laboratory: ID
   code: String
   name: String!
   type: String
@@ -767,7 +783,7 @@ type Cart
   changeQtyBlend: Int
   changePriceAdjustment: String
   blendID: ID
-  campaignToken: String
+  adherenceToken: String
 }
 
 type CartOption
@@ -829,9 +845,9 @@ type Order
   addressState: String
   addressCountry: String
   notes: String
-  campaignID: ID @index(name: "ordersByCampaignCreatedAt", sortKeyFields: ["createdAt"], queryField: "listOrdersByCampaignCreatedAt")
-  campaignName: String
-  campaignOrientation: String
+  adherenceID: ID @index(name: "ordersByAdherenceCreatedAt", sortKeyFields: ["createdAt"], queryField: "listOrdersByAdherenceCreatedAt")
+  adherenceName: String
+  adherenceOrientation: String
   companyID: ID
   company: Company @hasOne(fields: ["companyID"])
   companyName: String
@@ -939,6 +955,24 @@ type DeliveryMethodOrder
   price: Float
 }
 
+type Notify
+  @model(
+    mutations: {create: "createNotify", update: "updateNotify", delete: "deleteNotify"},
+    queries: {get: null, list: null},
+    subscriptions: null)
+  @auth(rules: [
+    {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID"},
+    {allow: public, provider: apiKey, operations: [create, delete]}
+  ]) {
+  id: ID! @primaryKey
+  userID: ID! @index(name: "notifyByUserCreatedAt", queryField: "listNotifyByUserCreatedAt", sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime
+  content: String
+  link: String
+  viewed: Boolean
+}
+
+
 type Subscription {
   onDeleteRelationLink(userID: ID): RelationLink @aws_subscribe(mutations: ["deleteRelationLink"])
   onCreateRelationLink(userID: ID): RelationLink @aws_subscribe(mutations: ["createRelationLink"])
@@ -946,6 +980,9 @@ type Subscription {
   onCreateMessage(relationID: ID): Message @aws_subscribe(mutations: ["createMessage"])
   onCreateOrderAdm: Order @aws_subscribe(mutations: ["createOrder"])
   onCreateLog: Log @aws_subscribe(mutations: ["createLog"])
+  onCreateNotify(userID: ID): Notify @aws_subscribe(mutations: ["createNotify"])
+  onUpdateClient(clientID: ID): Client @aws_subscribe(mutations: ["updateClient"])
+  onUpdateClientCampaign(clientID: ID): ClientCampaign @aws_subscribe(mutations: ["updateClientCampaign"])
 }
 
 type Mutation @aws_api_key @aws_cognito_user_pools {
@@ -955,11 +992,10 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   adminUpdateUserAttributes(username: String, attributes: String): String @function(name: "AdminUpdateUserAttributes-${env}")
 }
 
-
-type Campaign
+type Adherence
   @model(
-    mutations: {create: "createCampaign", update: "updateCampaign", delete: "deleteCampaign"},
-    queries: {get: "getCampaign", list: "listCampaigns"},
+    mutations: {create: "createAdherence", update: "updateAdherence", delete: "deleteAdherence"},
+    queries: {get: "getAdherence", list: "listAdherences"},
     subscriptions: null
   )
   @auth(rules: [
@@ -970,7 +1006,7 @@ type Campaign
   id: ID! @primaryKey
   name: String!
   description: String
-  code: String! @index(name: "campaignByCode", queryField: "listCampaignByCode")
+  code: String! @index(name: "adherenceByCode", queryField: "listAdherenceByCode")
   start: AWSDate
   expiration: AWSDate
   discountPercentage: Int
@@ -983,14 +1019,14 @@ type Campaign
   orderMessage: String
   zipCodeCoverage: [String]
   search: String
-  products: [CampaignProduct] @hasMany(indexName: "productsByCampaign", fields: ["id"])
-  campaignUsed: [CampaignUsed] @hasMany(indexName: "usedByCampaign", fields: ["id"])
-  companies: [CampaignCompany] @hasMany(indexName: "companiesByCampaign", fields: ["id"])
+  products: [AdherenceProduct] @hasMany(indexName: "productsByAdherence", fields: ["id"])
+  adherenceUsed: [AdherenceUsed] @hasMany(indexName: "usedByAdherence", fields: ["id"])
+  companies: [AdherenceCompany] @hasMany(indexName: "companiesByAdherence", fields: ["id"])
 }
 
-type CampaignUsed
+type AdherenceUsed
   @model(
-    mutations: {create: "createCampaignUsed", update: null, delete: null},
+    mutations: {create: "createAdherenceUsed", update: null, delete: null},
     queries: {get: null, list: null},
     subscriptions: null
   )
@@ -1001,16 +1037,18 @@ type CampaignUsed
     {allow: public, provider: apiKey, operations: [read, create]}
   ]) {
   id: ID! @primaryKey
-  campaignID: ID! @index(name: "usedByCampaign", queryField: "listUsedByCampaign") @index(name: "usedByCampaignUser", queryField: "listUsedByCampaignUser", sortKeyFields: ["userID"])
-  campaign: Campaign @belongsTo(fields: ["campaignID"])
+  adherenceID: ID!
+    @index(name: "usedByAdherence", queryField: "listUsedByAdherence")
+    @index(name: "usedByAdherenceUser", queryField: "listUsedByAdherenceUser", sortKeyFields: ["userID"])
+  adherence: Adherence @belongsTo(fields: ["adherenceID"])
   userID: ID!
   user: User @hasOne(fields: ["userID"])
   qty: Int
 }
 
-type CampaignProduct
+type AdherenceProduct
   @model(
-    mutations: {create: "createCampaignProduct", update: "updateCampaignProduct", delete: "deleteCampaignProduct"},
+    mutations: {create: "createAdherenceProduct", update: "updateAdherenceProduct", delete: "deleteAdherenceProduct"},
     queries: {get: null, list: null},
     subscriptions: null
   )
@@ -1020,17 +1058,16 @@ type CampaignProduct
     {allow: public, provider: apiKey, operations: [read, update, create, delete]}
   ]) {
   id: ID! @primaryKey
-  campaignID: ID! @index(name: "productsByCampaign", queryField: "listProductsByCampaign")
+  adherenceID: ID! @index(name: "productsByAdherence", queryField: "listProductsByAdherence")
   productID: ID!
   price: Float
   limit: Int
   product: Product @hasOne(fields: ["productID"])
 }
 
-
-type CampaignCompany
+type AdherenceCompany
   @model(
-    mutations: {create: "createCampaignCompany", update: "updateCampaignCompany", delete: "deleteCampaignCompany"},
+    mutations: {create: "createAdherenceCompany", update: "updateAdherenceCompany", delete: "deleteAdherenceCompany"},
     queries: {get: null, list: null},
     subscriptions: null
   )
@@ -1040,11 +1077,10 @@ type CampaignCompany
     {allow: public, provider: apiKey, operations: [read, update, create, delete]}
   ]) {
   id: ID! @primaryKey
-  campaignID: ID! @index(name: "companiesByCampaign", queryField: "listCompaniesByCampaign")
+  adherenceID: ID! @index(name: "companiesByAdherence", queryField: "listCompaniesByAdherence")
   companyID: ID!
   company: Company @hasOne(fields: ["companyID"])
 }
-
 
 type VaccinationCard
   @model(
@@ -1077,7 +1113,7 @@ type VaccinationCardItem
   @auth(rules: [
     {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID", operations: [create, update, delete, read]},
     {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [read, update, create, delete]},
-    {allow: public, provider: apiKey, operations: [create]}
+    {allow: public, provider: apiKey, operations: [read, create]}
     ]) {
   id: ID! @primaryKey
   vaccinationCardID: ID! @index(name: "vaccinationCardsItemsByVaccinationCard", queryField: "listVaccinationCardsItemsByVaccinationCard")
@@ -1086,8 +1122,8 @@ type VaccinationCardItem
   order: Order @hasOne(fields: ["orderID"])
   orderItemID: ID!
   orderItem: OrderItem @hasOne(fields: ["orderItemID"])
-  campaignID: ID @index(name: "vaccinationCardsItemsByCampaign", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByCampaign")
-  campaign: Campaign @hasOne(fields: ["campaignID"])
+  adherenceID: ID @index(name: "vaccinationCardsItemsByAdherence", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByAdherence")
+  adherence: Adherence @hasOne(fields: ["adherenceID"])
   companyID: ID @index(name: "vaccinationCardsItemsByCompany", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByCompany")
   company: Company @hasOne(fields: ["companyID"])
   lote: String
@@ -1173,7 +1209,7 @@ type AuthorizationList
   notesFinished: String
   professionalFinished: ID
   withList: Boolean
-  campaignCode: String @index(name: "authorizationListByCampaignCode", queryField: "listAuthorizationListsByCampaignCode")
+  adherenceCode: String @index(name: "authorizationListByAdherenceCode", queryField: "listAuthorizationListsByAdherenceCode")
   OS: String
   status: AuthorizationListStatus @index(name: "authorizationListsByStatus", queryField: "listAuthorizationListsByStatus")
   members: [AuthorizationListMember] @hasMany(indexName: "membersByAuthorizationList", fields: ["id"])
@@ -1265,4 +1301,381 @@ type Counter
     ]) {
   id: String! @primaryKey
   qty: Int!
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+type Client
+  @model(
+    mutations: {create: "createClient", update: "updateClient", delete: "deleteClient"},
+    queries: {get: "getClient", list: "listClients"},
+    subscriptions: null
+    )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  name: String!
+  notes: String
+  group: String
+  indication: String
+  origin: String
+  status: ClientStatus! @index(name: "clientsByStatusName", queryField: "listClientsByStatusName", sortKeyFields: ["name"])
+  search: String
+  logo: String
+  logoSrc: String
+  logoCropper: String
+  totalUnits: Int
+  unitsServed: Int
+  unitsExpected: Int
+  firstOSDate: AWSDate
+  lastOSDate: AWSDate
+  scheduleRouted: Int
+  scheduleConfirmed: Int
+  schedulePending: Int
+  totalEligibles: Int
+  totalVaccinations: Int
+  code: String
+  units: [ClientUnit] @hasMany(indexName: "unitsByClient", fields: ["id"])
+  eligibles: [ClientEligible] @hasMany(indexName: "eligiblesByClient", fields: ["id"])
+  campaigns: [ClientCampaign] @hasMany(indexName: "clientCampaignsByClient", fields: ["id"])
+  oss: [OS] @hasMany(indexName: "ossByClient", fields: ["id"])
+}
+
+type ClientUser
+  @model(
+    mutations: {create: "createClientUser", update: null, delete: "deleteClientUser"},
+    queries: {get: null, list: null},
+    subscriptions: null)
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID"},
+    {allow: public, provider: apiKey, operations: [create, delete, update, read]}
+  ]) {
+  id: ID! @primaryKey
+  userID: ID!
+    @index(
+      name: "clientUserByUser",
+      queryField: "listClientUserByUser"
+    )
+  user: User @hasOne(fields: ["userID"])
+  clientID: ID!
+    @index(
+      name: "clientUserByClient",
+      queryField: "listClientUserByClient",
+      sortKeyFields: ["userID"]
+    )
+  client: Client @hasOne(fields: ["clientID"])
+}
+
+type ClientUnit
+  @model(
+    mutations: {create: "createClientUnit", update: "updateClientUnit", delete: "deleteClientUnit"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  clientID: ID! @index(name: "unitsByClient", queryField: "listUnitsByClient")
+  cnpj: String
+  name: String!
+  fullName: String
+  street: String
+  number: String
+  complement: String
+  zipcode: String
+  neighborhood: String
+  city: String
+  state: String
+  country: String
+  billingStreet: String
+  billingNumber: String
+  billingComplement: String
+  billingZipcode: String
+  billingNeighborhood: String
+  billingCity: String
+  billingState: String
+  billingCountry: String
+  notes: String
+  search: String
+  contactName: String
+  contactEmail: AWSEmail
+  contactPhone: AWSPhone
+  totalEligibles: Int
+  totalCollaborators: Int
+  code: String
+  oss: [OS] @hasMany(indexName: "ossByClientUnit", fields: ["id"])
+}
+
+enum ClientCampaignStatus {
+  PROPOSAL
+  RELEASED
+  ROTERIZED
+  SCHEDULED
+  STANDBY
+  STARTED
+  FINISHED
+}
+
+type ClientCampaign
+  @model(
+    mutations: {create: "createClientCampaign", update: "updateClientCampaign", delete: "deleteClientCampaign"},
+    queries: {get: "getClientCampaign", list: "listClientCampaigns"},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [create, delete, update, read]}
+  ]) {
+  id: ID! @primaryKey
+  clientID: ID!
+    @index(
+      name: "clientCampaignsByClient",
+      queryField: "listClientCampaignsByClient",
+    )
+    @index(
+      name: "clientCampaignsByClientStatus",
+      queryField: "listClientCampaignsByClientStatus",
+      sortKeyFields: ["status"]
+    )
+  client: Client @hasOne(fields: ["clientID"])
+  name: String!
+  description: String
+  clientNotes: String
+  internalNotes: String
+  totalUnits: Int
+  unitsServed: Int
+  unitsExpected: Int
+  firstOSDate: AWSDate
+  lastOSDate: AWSDate
+  scheduleRouted: Int
+  scheduleConfirmed: Int
+  schedulePending: Int
+  totalEligibles: Int
+  totalVaccinations: Int
+  search: String
+  responsible: String
+  number: Int
+  contactName: String
+  contactEmail: AWSEmail
+  contactPhone: AWSPhone
+  createdAt: AWSDateTime
+  idx: Int! @index(name: "clientCampaignsByIdxCreatedAt", queryField: "listClientCampaignsByIdxCreatedAt", sortKeyFields: ["createdAt"])
+  campaignCode: String @index(name: "clientCampaignsByCampaignCode", queryField: "listClientCampaignsByCampaignCode")
+  status: ClientCampaignStatus @index(name: "clientCampaignsByStatusCreatedAt", queryField: "listClientCampaignsByStatusCreatedAt", sortKeyFields: ["createdAt"])
+  products: [ClientCampaignProduct] @hasMany(indexName: "productsByClientCampaign", fields: ["id"])
+  companies: [ClientCampaignCompany] @hasMany(indexName: "companiesByClientCampaign", fields: ["id"])
+  units: [ClientCampaignUnit] @hasMany(indexName: "unitsByClientCampaign", fields: ["id"])
+}
+
+type ClientCampaignProduct
+  @model(
+    mutations: {create: "createClientCampaignProduct", update: "updateClientCampaignProduct", delete: "deleteClientCampaignProduct"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"]},
+    {allow: private, provider: userPools, operations: [read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+  ]) {
+  id: ID! @primaryKey
+  clientCampaignID: ID! @index(name: "productsByClientCampaign", queryField: "listProductsByClientCampaign")
+  productID: ID!
+  price: Float
+  limit: Int
+  product: Product @hasOne(fields: ["productID"])
+}
+
+type ClientCampaignCompany
+  @model(
+    mutations: {create: "createClientCampaignCompany", update: "updateClientCampaignCompany", delete: "deleteClientCampaignCompany"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"]},
+    {allow: private, provider: userPools, operations: [read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+  ]) {
+  id: ID! @primaryKey
+  clientCampaignID: ID! @index(name: "companiesByClientCampaign", queryField: "listCompaniesByClientCampaign")
+  companyID: ID!
+  company: Company @hasOne(fields: ["companyID"])
+}
+
+type ClientCampaignUnit
+  @model(
+    mutations: {create: "createClientCampaignUnit", update: "updateClientCampaignUnit", delete: "deleteClientCampaignUnit"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"]},
+    {allow: private, provider: userPools, operations: [read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+  ]) {
+  id: ID! @primaryKey
+  clientCampaignID: ID! @index(name: "unitsByClientCampaign", queryField: "listUnitsByClientCampaign")
+  unitID: ID!
+  unit: ClientUnit @hasOne(fields: ["unitID"])
+}
+
+type ClientCampaignEligible
+  @model(
+    mutations: {create: "createClientCampaignEligible", update: "updateClientCampaignEligible", delete: "deleteClientCampaignEligible"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  clientCampaignID: ID!
+    @index(name: "eligiblesByClientCampaign", queryField: "listEligiblesByClientCampaign")
+    @index(name: "eligiblesByClientCampaignKey", queryField: "listEligiblesByClientCampaignKey", sortKeyFields: ["key"])
+    @index(name: "eligiblesByClientCampaignCPF", queryField: "listEligiblesByClientCampaignCPF", sortKeyFields: ["cpf"])
+    @index(name: "eligiblesByClientCampaignRG", queryField: "listEligiblesByClientCampaignRG", sortKeyFields: ["rg"])
+  key: String!
+  name: String
+  cpf: String
+  rg: String
+  birth: String
+  notes: String
+  search: String
+  relationship: String
+  isDependent: Boolean
+}
+
+
+enum OSStatus {
+  STANDBY
+  STARTED
+  FINISHED
+  CONFIRMED
+  CANCELED
+  ROUTED
+}
+
+type OS
+  @model(
+    mutations: {create: "createOS", update: "updateOS", delete: "deleteOS"},
+    queries: {get: null, list: "listOSs"},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+    ]) {
+  id: ID! @primaryKey
+  clientID: ID!
+    @index(name: "ossByClient", queryField: "listOSsByClient")
+    @index(name: "ossByClientStart", queryField: "listOSsByClientStart", sortKeyFields: ["start"])
+    @index(name: "ossByClientStatus", queryField: "listOSsByClientStatus", sortKeyFields: ["status"])
+  clientUnitID: ID! @index(name: "ossByClientUnit", queryField: "listOSsByClientUnit")
+  clientCampaignID: ID! @index(name: "ossByClientCampaign", queryField: "listOSsByClientCampaign")
+  driverID: ID
+  professionals: [ID!]!
+  collaborators: [ID!]
+  number: Int! @index(name: "ossByNumber", queryField: "listOSsByNumber")
+  start: AWSDateTime
+  expiration: AWSDateTime
+  orientation: String
+  notes: String
+  status: OSStatus! @index(name: "ossByStatusNumber", queryField: "listOSsByStatusNumber", sortKeyFields: ["number"])
+  allowOffList: Boolean
+  withList: Boolean
+  vaccination: String
+  qtyApplication: Int
+  dateStarted: AWSDateTime
+  dateFinished: AWSDateTime
+  professionalStarted: ID
+  professionalFinished: ID
+  notesStarted: String
+  notesFinished: String
+  clientNameStarted: String
+  clientNameFinished: String
+  unitNameFinished: String
+  contactNameFinished: String
+  contactDocFinished: String
+  contactCRMFinished: String
+  contactEmailFinished: String
+  stayVaccines: Boolean
+  stayQtd: Int
+  lat: Float
+  lng: Float
+  eligiblesVaccination: [EligibleVaccination] @hasMany(indexName: "eligiblesVaccinationByClientEligible", fields: ["id"])
+  client: Client @hasOne(fields: ["clientID"])
+  clientUnit: ClientUnit @hasOne(fields: ["clientUnitID"])
+  clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
+}
+
+enum EligibleVaccinationStatus {
+  CANCELED
+  APPLIED
+}
+
+type EligibleVaccination
+  @model(
+    mutations: {create: "createEligibleVaccination", update: "updateEligibleVaccination", delete: "deleteEligibleVaccination"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  osID: ID! @index(name: "eligiblesVaccinationByOS", queryField: "listEligiblesVaccinationByOS")
+  clientEligibleID: ID! @index(name: "eligiblesVaccinationByClientEligible", queryField: "listEligiblesVaccinationByClientEligible", sortKeyFields: ["applicationDate"])
+  clientEligible: ClientEligible @hasOne(fields: ["clientEligibleID"])
+  clientID: ID! @index(name: "eligiblesVaccinationByClientDate", queryField: "listEligiblesVaccinationByClientDate", sortKeyFields: ["applicationDate"])
+  profissionalID: ID
+  profissional: User @hasOne(fields: ["profissionalID"])
+  profissionalDoc: String
+  coren: String
+  applicationDate: AWSDateTime
+  reason: String
+  search: String
+  vaccination: String
+  status: EligibleVaccinationStatus
+  localCity: String
+  localState: String
+  os: OS @hasOne(fields: ["osID"])
+}
+
+type ClientEligible
+  @model(
+    mutations: {create: "createClientEligible", update: "updateClientEligible", delete: "deleteClientEligible"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read]}
+  ]) {
+  id: ID! @primaryKey
+  clientID: ID!
+    @index(name: "eligiblesByClient", queryField: "listEligiblesByClient")
+    @index(name: "eligiblesByClientKey", queryField: "listEligiblesByClientKey", sortKeyFields: ["key"])
+    @index(name: "eligiblesByClientCPF", queryField: "listEligiblesByClientCPF", sortKeyFields: ["cpf"])
+    @index(name: "eligiblesByClientRG", queryField: "listEligiblesByClientRG", sortKeyFields: ["rg"])
+  key: String!
+  name: String
+  cpf: String
+  rg: String
+  birth: String
+  notes: String
+  search: String
+  relationship: String
+  isDependent: Boolean
 }

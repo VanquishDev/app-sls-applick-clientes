@@ -14,5 +14,13 @@
   {
     "groupName": "Colaborador",
     "precedence": 4
+  },
+  {
+    "groupName": "Cliente",
+    "precedence": 5
+  },
+  {
+    "groupName": "Logistica",
+    "precedence": 6
   }
 ]

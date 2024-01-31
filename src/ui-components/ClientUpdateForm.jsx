@@ -32,8 +32,14 @@ export default function ClientUpdateForm(props) {
   const initialValues = {
     name: "",
     notes: "",
+    group: "",
+    indication: "",
+    origin: "",
     status: "",
     search: "",
+    logo: "",
+    logoSrc: "",
+    logoCropper: "",
     totalUnits: "",
     unitsServed: "",
     unitsExpected: "",
@@ -48,8 +54,16 @@ export default function ClientUpdateForm(props) {
   };
   const [name, setName] = React.useState(initialValues.name);
   const [notes, setNotes] = React.useState(initialValues.notes);
+  const [group, setGroup] = React.useState(initialValues.group);
+  const [indication, setIndication] = React.useState(initialValues.indication);
+  const [origin, setOrigin] = React.useState(initialValues.origin);
   const [status, setStatus] = React.useState(initialValues.status);
   const [search, setSearch] = React.useState(initialValues.search);
+  const [logo, setLogo] = React.useState(initialValues.logo);
+  const [logoSrc, setLogoSrc] = React.useState(initialValues.logoSrc);
+  const [logoCropper, setLogoCropper] = React.useState(
+    initialValues.logoCropper
+  );
   const [totalUnits, setTotalUnits] = React.useState(initialValues.totalUnits);
   const [unitsServed, setUnitsServed] = React.useState(
     initialValues.unitsServed
@@ -84,8 +98,14 @@ export default function ClientUpdateForm(props) {
       : initialValues;
     setName(cleanValues.name);
     setNotes(cleanValues.notes);
+    setGroup(cleanValues.group);
+    setIndication(cleanValues.indication);
+    setOrigin(cleanValues.origin);
     setStatus(cleanValues.status);
     setSearch(cleanValues.search);
+    setLogo(cleanValues.logo);
+    setLogoSrc(cleanValues.logoSrc);
+    setLogoCropper(cleanValues.logoCropper);
     setTotalUnits(cleanValues.totalUnits);
     setUnitsServed(cleanValues.unitsServed);
     setUnitsExpected(cleanValues.unitsExpected);
@@ -118,8 +138,14 @@ export default function ClientUpdateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     notes: [],
+    group: [],
+    indication: [],
+    origin: [],
     status: [{ type: "Required" }],
     search: [],
+    logo: [],
+    logoSrc: [],
+    logoCropper: [],
     totalUnits: [],
     unitsServed: [],
     unitsExpected: [],
@@ -160,8 +186,14 @@ export default function ClientUpdateForm(props) {
         let modelFields = {
           name,
           notes: notes ?? null,
+          group: group ?? null,
+          indication: indication ?? null,
+          origin: origin ?? null,
           status,
           search: search ?? null,
+          logo: logo ?? null,
+          logoSrc: logoSrc ?? null,
+          logoCropper: logoCropper ?? null,
           totalUnits: totalUnits ?? null,
           unitsServed: unitsServed ?? null,
           unitsExpected: unitsExpected ?? null,
@@ -235,8 +267,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name: value,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -273,8 +311,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes: value,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -300,6 +344,138 @@ export default function ClientUpdateForm(props) {
         hasError={errors.notes?.hasError}
         {...getOverrideProps(overrides, "notes")}
       ></TextField>
+      <TextField
+        label="Group"
+        isRequired={false}
+        isReadOnly={false}
+        value={group}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group: value,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.group ?? value;
+          }
+          if (errors.group?.hasError) {
+            runValidationTasks("group", value);
+          }
+          setGroup(value);
+        }}
+        onBlur={() => runValidationTasks("group", group)}
+        errorMessage={errors.group?.errorMessage}
+        hasError={errors.group?.hasError}
+        {...getOverrideProps(overrides, "group")}
+      ></TextField>
+      <TextField
+        label="Indication"
+        isRequired={false}
+        isReadOnly={false}
+        value={indication}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication: value,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.indication ?? value;
+          }
+          if (errors.indication?.hasError) {
+            runValidationTasks("indication", value);
+          }
+          setIndication(value);
+        }}
+        onBlur={() => runValidationTasks("indication", indication)}
+        errorMessage={errors.indication?.errorMessage}
+        hasError={errors.indication?.hasError}
+        {...getOverrideProps(overrides, "indication")}
+      ></TextField>
+      <TextField
+        label="Origin"
+        isRequired={false}
+        isReadOnly={false}
+        value={origin}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin: value,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.origin ?? value;
+          }
+          if (errors.origin?.hasError) {
+            runValidationTasks("origin", value);
+          }
+          setOrigin(value);
+        }}
+        onBlur={() => runValidationTasks("origin", origin)}
+        errorMessage={errors.origin?.errorMessage}
+        hasError={errors.origin?.hasError}
+        {...getOverrideProps(overrides, "origin")}
+      ></TextField>
       <SelectField
         label="Status"
         placeholder="Please select an option"
@@ -311,8 +487,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status: value,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -344,9 +526,14 @@ export default function ClientUpdateForm(props) {
           {...getOverrideProps(overrides, "statusoption0")}
         ></option>
         <option
+          children="Inactive"
+          value="INACTIVE"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+        <option
           children="Suspended"
           value="SUSPENDED"
-          {...getOverrideProps(overrides, "statusoption1")}
+          {...getOverrideProps(overrides, "statusoption2")}
         ></option>
       </SelectField>
       <TextField
@@ -360,8 +547,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search: value,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -388,6 +581,138 @@ export default function ClientUpdateForm(props) {
         {...getOverrideProps(overrides, "search")}
       ></TextField>
       <TextField
+        label="Logo"
+        isRequired={false}
+        isReadOnly={false}
+        value={logo}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo: value,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.logo ?? value;
+          }
+          if (errors.logo?.hasError) {
+            runValidationTasks("logo", value);
+          }
+          setLogo(value);
+        }}
+        onBlur={() => runValidationTasks("logo", logo)}
+        errorMessage={errors.logo?.errorMessage}
+        hasError={errors.logo?.hasError}
+        {...getOverrideProps(overrides, "logo")}
+      ></TextField>
+      <TextField
+        label="Logo src"
+        isRequired={false}
+        isReadOnly={false}
+        value={logoSrc}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc: value,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.logoSrc ?? value;
+          }
+          if (errors.logoSrc?.hasError) {
+            runValidationTasks("logoSrc", value);
+          }
+          setLogoSrc(value);
+        }}
+        onBlur={() => runValidationTasks("logoSrc", logoSrc)}
+        errorMessage={errors.logoSrc?.errorMessage}
+        hasError={errors.logoSrc?.hasError}
+        {...getOverrideProps(overrides, "logoSrc")}
+      ></TextField>
+      <TextField
+        label="Logo cropper"
+        isRequired={false}
+        isReadOnly={false}
+        value={logoCropper}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper: value,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.logoCropper ?? value;
+          }
+          if (errors.logoCropper?.hasError) {
+            runValidationTasks("logoCropper", value);
+          }
+          setLogoCropper(value);
+        }}
+        onBlur={() => runValidationTasks("logoCropper", logoCropper)}
+        errorMessage={errors.logoCropper?.errorMessage}
+        hasError={errors.logoCropper?.hasError}
+        {...getOverrideProps(overrides, "logoCropper")}
+      ></TextField>
+      <TextField
         label="Total units"
         isRequired={false}
         isReadOnly={false}
@@ -402,8 +727,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits: value,
               unitsServed,
               unitsExpected,
@@ -444,8 +775,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed: value,
               unitsExpected,
@@ -486,8 +823,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected: value,
@@ -525,8 +868,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -564,8 +913,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -606,8 +961,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -648,8 +1009,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -692,8 +1059,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -734,8 +1107,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -776,8 +1155,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
@@ -816,8 +1201,14 @@ export default function ClientUpdateForm(props) {
             const modelFields = {
               name,
               notes,
+              group,
+              indication,
+              origin,
               status,
               search,
+              logo,
+              logoSrc,
+              logoCropper,
               totalUnits,
               unitsServed,
               unitsExpected,
