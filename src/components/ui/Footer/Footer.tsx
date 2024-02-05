@@ -109,6 +109,9 @@ const Footer: FC<Props> = ({
                       Applick Clientes
                     </span>
                   </Link>
+                  <a href='https://profissionais.applickvacinas.com.br' className="text-center lg:text-left  hover:text-sky-500 font-medium italic">
+                    Applick Profissionais
+                  </a>
                 </div>
                 <div
                   style={{
