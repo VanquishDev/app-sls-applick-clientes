@@ -13,20 +13,20 @@ import { useUser } from 'hooks/useUser'
 import { listOSsByClientStatus } from 'graphql/queries'
 
 export default function DetailsScheduleConfirmed(props: any) {
-  const { clientCampaignID, userID } = props;
+  const { clientID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listOSsByClientStart } = useOS()
+  const { listOSsByClientStatus } = useOS()
 
   return <List
-    keys={`${clientCampaignID ? clientCampaignID : ''}`}
+    keys={`${clientID ? clientID : ''}`}
     userID={userID}
     emptyMessage='Nenhum agendamento por aqui.'
     endMessage='Estes são todos os agendamentos.'
     listItems={listOSsByClientStatus}
     variables={{
-      clientCampaignID,
+      clientID,
       status: { eq: OSStatus.CONFIRMED },
       limit: 100,
       // sortDirection: ModelSortDirection.DESC,

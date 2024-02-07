@@ -16,6 +16,7 @@ import {
   ListOSsByClientUnitQueryVariables,
   ListOSsByNumberQueryVariables,
   ListOSsByStatusNumberQueryVariables,
+  ListOSsByClientCampaignQueryVariables
 } from 'API'
 
 export const useOS = () => {
@@ -164,6 +165,21 @@ export const useOS = () => {
     return { items, nextToken }
   }
 
+  const listOSsByClientCampaign = async (
+    variables: ListOSsByClientCampaignQueryVariables
+  ) => {
+    const {
+      data: {
+        listOSsByClientCampaign: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: customQueries.listOSsByClientCampaign,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+    })) as GraphQLResult<any>
+    return { items, nextToken }
+  }
+
   return {
     createOS,
     updateOS,
@@ -175,5 +191,6 @@ export const useOS = () => {
     listOSsByClientUnit,
     listOSsByNumber,
     listOSsByStatusNumber,
+    listOSsByClientCampaign
   }
 }

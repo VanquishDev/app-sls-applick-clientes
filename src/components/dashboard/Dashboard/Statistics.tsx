@@ -293,12 +293,12 @@ export default function Statistics(props: any) {
           maxWidth: isSm ? screenWidth : screenWidth * 0.9,
         }}
       >
-        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientID={campaign.clientID} userID={userID} />)}
+        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'schedules' && (<DetailsSchedules clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientID={campaign.clientID} userID={userID} />)}
+        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientID={campaign.clientID} userID={userID} />)}
+        {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles isDependent={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles isThird={true} clientCampaignID={campaign.id} userID={userID} />)}

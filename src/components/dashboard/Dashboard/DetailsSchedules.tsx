@@ -12,22 +12,21 @@ import { useOS } from 'hooks/useOS'
 import { useUser } from 'hooks/useUser'
 
 export default function DetailsSchedules(props: any) {
-  const { clientID, userID } = props;
+  const { clientCampaignID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listOSsByClientStart } = useOS()
+  const { listOSsByClientCampaign } = useOS()
 
   return <List
-    keys={`${clientID ? clientID : ''}`}
+    keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
     emptyMessage='Nenhum agendamento por aqui.'
     endMessage='Estes são todos os agendamentos.'
-    listItems={listOSsByClientStart}
+    listItems={listOSsByClientCampaign}
     variables={{
-      clientID,
+      clientCampaignID,
       limit: 100,
-      sortDirection: ModelSortDirection.DESC,
       nextToken: null
     }}
     layout='flexCol'

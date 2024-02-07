@@ -4434,3 +4434,130 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
   APITypes.ListVaccinationsByClientCampaignQueryVariables,
   APITypes.ListVaccinationsByClientCampaignQuery
 >;
+export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClientCustom(
+  $clientID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByClient(
+    clientID: $clientID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      cnpj
+      name
+      fullName
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalCollaborators
+      code
+      createdAt
+      updatedAt
+      oss {
+        items {
+          number
+          start
+          status
+          clientCampaign {
+            name
+          }
+        }
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUnitsByClientQueryVariables,
+  APITypes.ListUnitsByClientQuery
+>;
+export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampaignCustom(
+  $clientCampaignID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOSsByClientCampaign(
+    clientCampaignID: $clientCampaignID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      clientUnitID
+      clientCampaignID
+      driverID
+      professionals
+      collaborators
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOSsByClientCampaignQueryVariables,
+  APITypes.ListOSsByClientCampaignQuery
+>;
