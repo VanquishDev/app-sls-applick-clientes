@@ -186,14 +186,14 @@ export default function Statistics(props: any) {
               <div className="stat-desc">Total cadastrados</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
-              setModalSel('totalEligibles')
+              setModalSel('totalEligiblesDependent')
               openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalEligiblesDependent ? campaign.totalEligiblesDependent : 0}</div>
               <div className="stat-desc">Total dependentes</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
-              setModalSel('totalEligibles')
+              setModalSel('totalEligiblesThird')
               openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalEligiblesThird ? campaign.totalEligiblesThird : 0}</div>
@@ -278,6 +278,8 @@ export default function Statistics(props: any) {
           {modalSel === 'scheduleConfirmed' && (<><Calendar /> <span className="ml-2">Agendamentos confirmados</span></>)}
           {modalSel === 'scheduleFinished' && (<><Calendar /> <span className="ml-2">Agendamentos concluídos</span></>)}
           {modalSel === 'totalEligibles' && (<><Team /> <span className="ml-2">Colaboradores</span></>)}
+          {modalSel === 'totalEligiblesDependent' && (<><Team /> <span className="ml-2">Dependentes</span></>)}
+          {modalSel === 'totalEligiblesThird' && (<><Team /> <span className="ml-2">Terceiros</span></>)}
           {modalSel === 'totalVaccinations' && (<><Plus2 /> <span className="ml-2">Aplicações</span></>)}
         </div>
       }
@@ -291,14 +293,16 @@ export default function Statistics(props: any) {
           maxWidth: isSm ? screenWidth : screenWidth * 0.9,
         }}
       >
-        {modalSel === 'totalUnits' && (<DetailsTotalUnits campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'unitsServed' && (<DetailsUnitsServed campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'schedules' && (<DetailsSchedules campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles campaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'schedules' && (<DetailsSchedules clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles isDependent={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles isThird={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations clientCampaignID={campaign.id} userID={userID} />)}
       </div>
     </Modal>
 

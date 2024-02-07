@@ -4377,3 +4377,60 @@ export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCus
   APITypes.ListClientUserByUserQueryVariables,
   APITypes.ListClientUserByUserQuery
 >;
+export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccinationsByClientCampaignCustom(
+  $clientCampaignID: ID!
+  $applicationDate: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleVaccinationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listVaccinationsByClientCampaign(
+    clientCampaignID: $clientCampaignID
+    applicationDate: $applicationDate
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      osID
+      clientCampaignID
+      clientCampaignEligibleID
+      profissionalID
+      profissionalDoc
+      coren
+      applicationDate
+      reason
+      search
+      vaccination
+      status
+      localCity
+      localState
+      createdAt
+      updatedAt
+      clientEligible {
+        name
+        key
+        cpf
+        rg
+        birth
+        notes
+        search
+        relationship
+        isDependent
+        cpfRelationship
+        isThird
+        thirdName
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListVaccinationsByClientCampaignQueryVariables,
+  APITypes.ListVaccinationsByClientCampaignQuery
+>;

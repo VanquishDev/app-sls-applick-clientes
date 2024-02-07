@@ -1,25 +1,25 @@
-import { List } from 'components/ui'
+import { List, Loading } from 'components/ui'
 import { ModelSortDirection } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 
-import { useClientEligible } from 'hooks/useClientEligible'
+import { useClientCampaignEligible } from 'hooks/useClientCampaignEligible'
 
 export default function DetailsTotalEligibles(props: any) {
-  const { clientID, userID } = props;
+  const { clientCampaignID, userID, isDependent, isThird } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listEligiblesByClient } = useClientEligible()
+  const { listEligiblesByClientCampaign } = useClientCampaignEligible()
 
-  return <List
-    keys={`${clientID ? clientID : ''}`}
+  return clientCampaignID ? <List
+    keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
     emptyMessage='Nenhum colaborador por aqui.'
     endMessage='Estes são todos os colaboradores.'
-    listItems={listEligiblesByClient}
+    listItems={listEligiblesByClientCampaign}
     variables={{
-      clientID,
+      clientCampaignID,
       limit: 100,
       // sortDirection: ModelSortDirection.DESC,
       nextToken: null
@@ -27,13 +27,14 @@ export default function DetailsTotalEligibles(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
-  />;
+    paramsItems={{ isDependent, isThird }}
+  /> : <Loading />;
 }
 
 function Card(props: any) {
-  const { item, index, handleSelect, itemSelected, isLast } = props
+  const { item, index, handleSelect, itemSelected, isLast, paramsItems } = props
 
-  return !item ? null : (
+  return (!item || (paramsItems.isDependent && !item.isDependent) || (paramsItems.isThird && !item.isThird)) ? null : (
     <div
       key={index}
       className={`px-4 lg:pl-8 w-full ${itemSelected === index ? 'py-3 scale-100' : 'py-1 scale-95'
@@ -64,11 +65,11 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
               <div>{item.key}</div>
             </div>}
-            {item.cpf && <div>
+            {(item.cpf && item.cpf !== 'NaN') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF</div>
               <div>{item.cpf}</div>
             </div>}
-            {item.rg && <div>
+            {(item.rg && item.rg !== 'NaN') && <div>
               <div className="text-sm font-semibold text-tertiary-2">RG</div>
               <div>{item.rg}</div>
             </div>}
@@ -79,6 +80,18 @@ function Card(props: any) {
             {item.isDependent && <div>
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
+            </div>}
+            {(item.isDependent && item.cpfRelationship) && <div>
+              <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
+              <div>{item.cpfRelationship}</div>
+            </div>}
+            {item.isThird && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
+              <div>Sim</div>
+            </div>}
+            {(item.isThird && item.thirdName) && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
+              <div>{item.thirdName}</div>
             </div>}
           </div>
           {false && <pre>{JSON.stringify(item, null, 4)}</pre>}

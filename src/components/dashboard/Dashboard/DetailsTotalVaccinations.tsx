@@ -12,20 +12,20 @@ import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEli
 import { useUser } from 'hooks/useUser'
 
 export default function DetailsTotalVaccinations(props: any) {
-  const { clientID, userID } = props;
+  const { clientCampaignID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
   const { listVaccinationsByClientCampaign } = useClientCampaignEligibleVaccination()
 
   return <List
-    keys={`${clientID ? clientID : ''}`}
+    keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
     emptyMessage='Nenhum colaborador imunizado por aqui.'
     endMessage='Estes são todos os colaboradores imunizados.'
     listItems={listVaccinationsByClientCampaign}
     variables={{
-      clientID,
+      clientCampaignID,
       limit: 100,
       sortDirection: ModelSortDirection.DESC,
       nextToken: null
@@ -70,11 +70,11 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
               <div>{item.clientEligible.key}</div>
             </div>}
-            {item.clientEligible.cpf && <div>
+            {(item.clientEligible.cpf && item.clientEligible.cpf !== 'NaN') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF</div>
               <div>{item.clientEligible.cpf}</div>
             </div>}
-            {item.clientEligible.rg && <div>
+            {(item.clientEligible.rg && item.clientEligible.rg !== 'NaN') && <div>
               <div className="text-sm font-semibold text-tertiary-2">RG</div>
               <div>{item.clientEligible.rg}</div>
             </div>}
@@ -85,6 +85,18 @@ function Card(props: any) {
             {item.clientEligible.isDependent && <div>
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
+            </div>}
+            {(item.clientEligible.isDependent && item.clientEligible.cpfRelationship) && <div>
+              <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
+              <div>{item.clientEligible.cpfRelationship}</div>
+            </div>}
+            {item.clientEligible.isThird && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
+              <div>Sim</div>
+            </div>}
+            {(item.clientEligible.isThird && item.clientEligible.thirdName) && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
+              <div>{item.clientEligible.thirdName}</div>
             </div>}
           </div>
           <VaccinationCard vaccination={item.vaccination} />
