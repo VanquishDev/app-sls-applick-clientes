@@ -28,7 +28,7 @@ import {
   UpdateAuthorizationListClosureInput,
   DeleteAuthorizationListClosureInput,
   ListClosuresByAuthorizationListQueryVariables,
-  ListAuthorizationListsByCampaignCodeQueryVariables,
+  ListAuthorizationListsByAdherenceCodeQueryVariables,
 } from 'API'
 
 export const useAuthorizationList = () => {
@@ -342,15 +342,15 @@ export const useAuthorizationList = () => {
     return { items, nextToken }
   }
 
-  const listAuthorizationListsByCampaignCode = async (
-    variables: ListAuthorizationListsByCampaignCodeQueryVariables
+  const listAuthorizationListsByAdherenceCode = async (
+    variables: ListAuthorizationListsByAdherenceCodeQueryVariables
   ) => {
     const {
       data: {
-        listAuthorizationListsByCampaignCode: { items, nextToken },
+        listAuthorizationListsByAdherenceCode: { items, nextToken },
       },
     } = (await API.graphql({
-      query: queries.listAuthorizationListsByCampaignCode,
+      query: queries.listAuthorizationListsByAdherenceCode,
       variables,
       authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
@@ -380,6 +380,6 @@ export const useAuthorizationList = () => {
     updateAuthorizationListClosure,
     deleteAuthorizationListClosure,
     listClosuresByAuthorizationList,
-    listAuthorizationListsByCampaignCode,
+    listAuthorizationListsByAdherenceCode
   }
 }

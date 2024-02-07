@@ -12,7 +12,7 @@ import {
   DeleteGroupUserInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useGroupUser = () => {
   const listUsersByGroup = async (
@@ -65,7 +65,12 @@ export const useGroupUser = () => {
 
   const deleteGroupUser = async (input: DeleteGroupUserInput) => {
     try {
-      await API.graphql(graphqlOperation(mutations.deleteGroupUser, { input }))
+      await API.graphql(
+        {
+          query: mutations.deleteGroupUser,
+          variables: { input },
+          authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+        })
     } catch (r: any) {
       const message =
         r && r.errors[0] && r.errors[0].message ? r.errors[0].message : null

@@ -11,7 +11,7 @@ Moment.locale('pt-br')
 import { useOS } from 'hooks/useOS'
 import { useUser } from 'hooks/useUser'
 
-export default function DetailsSchedulePending(props: any) {
+export default function DetailsScheduleFinished(props: any) {
   const { clientID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()

@@ -10,7 +10,6 @@ import {
   UpdateEligibleVaccinationInput,
   DeleteEligibleVaccinationInput,
   ListEligiblesVaccinationByClientEligibleQueryVariables,
-  ListEligiblesVaccinationByClientDateQueryVariables
 } from 'API'
 
 export const useEligibleVaccination = () => {
@@ -22,7 +21,7 @@ export const useEligibleVaccination = () => {
     } = (await API.graphql({
       query: mutations.createEligibleVaccination,
       variables: { input },
-      authMode: GRAPHQL_AUTH_MODE.API_KEY,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
     return createEligibleVaccination
   }
@@ -35,7 +34,7 @@ export const useEligibleVaccination = () => {
     } = (await API.graphql({
       query: mutations.updateEligibleVaccination,
       variables: { input },
-      authMode: GRAPHQL_AUTH_MODE.API_KEY,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
     return updateEligibleVaccination
   }
@@ -69,26 +68,10 @@ export const useEligibleVaccination = () => {
     return { items, nextToken }
   }
 
-  const listEligiblesVaccinationByClientDate = async (
-    variables: ListEligiblesVaccinationByClientDateQueryVariables
-  ) => {
-    const {
-      data: {
-        listEligiblesVaccinationByClientDate: { items, nextToken },
-      },
-    } = (await API.graphql({
-      query: customQueries.listEligiblesVaccinationByClientDate,
-      variables,
-      authMode: GRAPHQL_AUTH_MODE.API_KEY,
-    })) as GraphQLResult<any>
-    return { items, nextToken }
-  }
-
   return {
     createEligibleVaccination,
     updateEligibleVaccination,
     deleteEligibleVaccination,
     listEligiblesVaccinationByClientEligible,
-    listEligiblesVaccinationByClientDate
   }
 }

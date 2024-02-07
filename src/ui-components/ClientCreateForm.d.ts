@@ -43,6 +43,9 @@ export declare type ClientCreateFormInputValues = {
     totalEligibles?: number;
     totalVaccinations?: number;
     code?: string;
+    contactName?: string;
+    contactEmail?: string;
+    contactPhone?: string;
 };
 export declare type ClientCreateFormValidationValues = {
     name?: ValidationFunction<string>;
@@ -66,6 +69,9 @@ export declare type ClientCreateFormValidationValues = {
     totalEligibles?: ValidationFunction<number>;
     totalVaccinations?: ValidationFunction<number>;
     code?: ValidationFunction<string>;
+    contactName?: ValidationFunction<string>;
+    contactEmail?: ValidationFunction<string>;
+    contactPhone?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ClientCreateFormOverridesProps = {
@@ -91,6 +97,9 @@ export declare type ClientCreateFormOverridesProps = {
     totalEligibles?: PrimitiveOverrideProps<TextFieldProps>;
     totalVaccinations?: PrimitiveOverrideProps<TextFieldProps>;
     code?: PrimitiveOverrideProps<TextFieldProps>;
+    contactName?: PrimitiveOverrideProps<TextFieldProps>;
+    contactEmail?: PrimitiveOverrideProps<TextFieldProps>;
+    contactPhone?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ClientCreateFormProps = React.PropsWithChildren<{
     overrides?: ClientCreateFormOverridesProps | undefined | null;

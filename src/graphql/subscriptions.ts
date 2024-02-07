@@ -283,9 +283,11 @@ export const onCreateOrderAdm = /* GraphQL */ `subscription OnCreateOrderAdm {
     addressState
     addressCountry
     notes
-    campaignID
-    campaignName
-    campaignOrientation
+    adherenceID
+    adherenceName
+    adherenceOrientation
+    clientCampaignID
+    clientCampaignName
     companyID
     company {
       id
@@ -400,8 +402,14 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient($client
     id
     name
     notes
+    group
+    indication
+    origin
     status
     search
+    logo
+    logoSrc
+    logoCropper
     totalUnits
     unitsServed
     unitsExpected
@@ -413,6 +421,9 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient($client
     totalEligibles
     totalVaccinations
     code
+    contactName
+    contactEmail
+    contactPhone
     units {
       nextToken
       __typename
@@ -446,8 +457,14 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
       id
       name
       notes
+      group
+      indication
+      origin
       status
       search
+      logo
+      logoSrc
+      logoCropper
       totalUnits
       unitsServed
       unitsExpected
@@ -459,13 +476,17 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
       totalEligibles
       totalVaccinations
       code
+      contactName
+      contactEmail
+      contactPhone
       createdAt
       updatedAt
       __typename
     }
     name
     description
-    search
+    clientNotes
+    internalNotes
     totalUnits
     unitsServed
     unitsExpected
@@ -473,12 +494,33 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
     lastOSDate
     scheduleRouted
     scheduleConfirmed
-    schedulePending
+    scheduleFinished
     totalEligibles
+    totalEligiblesDependent
+    totalEligiblesThird
     totalVaccinations
+    search
+    responsible
+    number
+    contactName
+    contactEmail
+    contactPhone
+    createdAt
+    idx
     campaignCode
     status
-    createdAt
+    products {
+      nextToken
+      __typename
+    }
+    companies {
+      nextToken
+      __typename
+    }
+    units {
+      nextToken
+      __typename
+    }
     updatedAt
     __typename
   }
@@ -501,6 +543,7 @@ export const onCreateCart = /* GraphQL */ `subscription OnCreateCart(
       status
       category
       subCategory
+      laboratory
       code
       name
       type
@@ -557,7 +600,7 @@ export const onCreateCart = /* GraphQL */ `subscription OnCreateCart(
     changeQtyBlend
     changePriceAdjustment
     blendID
-    campaignToken
+    adherenceToken
     createdAt
     updatedAt
     __typename
@@ -581,6 +624,7 @@ export const onUpdateCart = /* GraphQL */ `subscription OnUpdateCart(
       status
       category
       subCategory
+      laboratory
       code
       name
       type
@@ -637,7 +681,7 @@ export const onUpdateCart = /* GraphQL */ `subscription OnUpdateCart(
     changeQtyBlend
     changePriceAdjustment
     blendID
-    campaignToken
+    adherenceToken
     createdAt
     updatedAt
     __typename
@@ -661,6 +705,7 @@ export const onDeleteCart = /* GraphQL */ `subscription OnDeleteCart(
       status
       category
       subCategory
+      laboratory
       code
       name
       type
@@ -717,7 +762,7 @@ export const onDeleteCart = /* GraphQL */ `subscription OnDeleteCart(
     changeQtyBlend
     changePriceAdjustment
     blendID
-    campaignToken
+    adherenceToken
     createdAt
     updatedAt
     __typename
@@ -816,9 +861,11 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
     addressState
     addressCountry
     notes
-    campaignID
-    campaignName
-    campaignOrientation
+    adherenceID
+    adherenceName
+    adherenceOrientation
+    clientCampaignID
+    clientCampaignName
     companyID
     company {
       id
@@ -957,9 +1004,11 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
     addressState
     addressCountry
     notes
-    campaignID
-    campaignName
-    campaignOrientation
+    adherenceID
+    adherenceName
+    adherenceOrientation
+    clientCampaignID
+    clientCampaignName
     companyID
     company {
       id
@@ -1098,9 +1147,11 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
     addressState
     addressCountry
     notes
-    campaignID
-    campaignName
-    campaignOrientation
+    adherenceID
+    adherenceName
+    adherenceOrientation
+    clientCampaignID
+    clientCampaignName
     companyID
     company {
       id

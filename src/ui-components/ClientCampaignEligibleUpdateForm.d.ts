@@ -33,6 +33,9 @@ export declare type ClientCampaignEligibleUpdateFormInputValues = {
     search?: string;
     relationship?: string;
     isDependent?: boolean;
+    cpfRelationship?: string;
+    isThird?: boolean;
+    thirdName?: string;
 };
 export declare type ClientCampaignEligibleUpdateFormValidationValues = {
     clientCampaignID?: ValidationFunction<string>;
@@ -45,6 +48,9 @@ export declare type ClientCampaignEligibleUpdateFormValidationValues = {
     search?: ValidationFunction<string>;
     relationship?: ValidationFunction<string>;
     isDependent?: ValidationFunction<boolean>;
+    cpfRelationship?: ValidationFunction<string>;
+    isThird?: ValidationFunction<boolean>;
+    thirdName?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ClientCampaignEligibleUpdateFormOverridesProps = {
@@ -59,6 +65,9 @@ export declare type ClientCampaignEligibleUpdateFormOverridesProps = {
     search?: PrimitiveOverrideProps<TextFieldProps>;
     relationship?: PrimitiveOverrideProps<TextFieldProps>;
     isDependent?: PrimitiveOverrideProps<SwitchFieldProps>;
+    cpfRelationship?: PrimitiveOverrideProps<TextFieldProps>;
+    isThird?: PrimitiveOverrideProps<SwitchFieldProps>;
+    thirdName?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ClientCampaignEligibleUpdateFormProps = React.PropsWithChildren<{
     overrides?: ClientCampaignEligibleUpdateFormOverridesProps | undefined | null;

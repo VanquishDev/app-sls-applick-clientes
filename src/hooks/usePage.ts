@@ -13,7 +13,7 @@ import {
   CreatePageInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const usePage = () => {
   const getPage = async (variables: GetPageQueryVariables) => {
@@ -120,10 +120,12 @@ export const usePage = () => {
 
   const updatePage = async (input: any) => {
     try {
-      const r = await API.graphql(graphqlOperation(mutations.updatePage, { input }))
-      console.log(r)
+      const r = await API.graphql({
+        query: mutations.updatePage,
+        variables: { input },
+        authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+      })
     } catch (r: any) {
-      console.log(r)
       const message =
         r && r.errors[0] && r.errors[0].message ? r.errors[0].message : null
       if (message) {

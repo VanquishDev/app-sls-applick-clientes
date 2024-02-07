@@ -223,22 +223,6 @@
         }
       ]
     },
-    "AMPLIFY_function_AdminQueries0ab6d7b2_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries0ab6d7b2"
-        }
-      ]
-    },
-    "AMPLIFY_function_AdminQueries0ab6d7b2_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries0ab6d7b2"
-        }
-      ]
-    },
     "AMPLIFY_function_AdminQueries6808354f_deploymentBucketName": {
       "usedBy": [
         {

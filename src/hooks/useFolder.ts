@@ -12,7 +12,7 @@ import {
   DeleteFolderInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useFolder = () => {
   const listFoldersByName = async (

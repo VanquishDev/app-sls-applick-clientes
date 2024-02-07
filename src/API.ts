@@ -361,7 +361,7 @@ export type Cart = {
   changeQtyBlend?: number | null,
   changePriceAdjustment?: string | null,
   blendID?: string | null,
-  campaignToken?: string | null,
+  adherenceToken?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -375,6 +375,7 @@ export type Product = {
   categoryProps?: Category | null,
   subCategory: string,
   subCategoryProps?: Category | null,
+  laboratory?: string | null,
   code?: string | null,
   name: string,
   type?: string | null,
@@ -583,9 +584,11 @@ export type Order = {
   addressState?: string | null,
   addressCountry?: string | null,
   notes?: string | null,
-  campaignID?: string | null,
-  campaignName?: string | null,
-  campaignOrientation?: string | null,
+  adherenceID?: string | null,
+  adherenceName?: string | null,
+  adherenceOrientation?: string | null,
+  clientCampaignID?: string | null,
+  clientCampaignName?: string | null,
   companyID?: string | null,
   company?: Company | null,
   companyName?: string | null,
@@ -671,8 +674,10 @@ export type VaccinationCardItem = {
   order?: Order | null,
   orderItemID: string,
   orderItem?: OrderItem | null,
-  campaignID?: string | null,
-  campaign?: Campaign | null,
+  adherenceID?: string | null,
+  adherence?: Adherence | null,
+  clientCampaignID?: string | null,
+  clientCampaign?: ClientCampaign | null,
   companyID?: string | null,
   company?: Company | null,
   lote?: string | null,
@@ -705,12 +710,13 @@ export type VaccinationCard = {
   updatedAt: string,
 };
 
-export type Campaign = {
-  __typename: "Campaign",
+export type Adherence = {
+  __typename: "Adherence",
   id: string,
   name: string,
   description?: string | null,
   code: string,
+  campaignCode?: string | null,
   start?: string | null,
   expiration?: string | null,
   discountPercentage?: number | null,
@@ -723,23 +729,23 @@ export type Campaign = {
   orderMessage?: string | null,
   zipCodeCoverage?: Array< string | null > | null,
   search?: string | null,
-  products?: ModelCampaignProductConnection | null,
-  campaignUsed?: ModelCampaignUsedConnection | null,
-  companies?: ModelCampaignCompanyConnection | null,
+  products?: ModelAdherenceProductConnection | null,
+  adherenceUsed?: ModelAdherenceUsedConnection | null,
+  companies?: ModelAdherenceCompanyConnection | null,
   createdAt: string,
   updatedAt: string,
 };
 
-export type ModelCampaignProductConnection = {
-  __typename: "ModelCampaignProductConnection",
-  items:  Array<CampaignProduct | null >,
+export type ModelAdherenceProductConnection = {
+  __typename: "ModelAdherenceProductConnection",
+  items:  Array<AdherenceProduct | null >,
   nextToken?: string | null,
 };
 
-export type CampaignProduct = {
-  __typename: "CampaignProduct",
+export type AdherenceProduct = {
+  __typename: "AdherenceProduct",
   id: string,
-  campaignID: string,
+  adherenceID: string,
   productID: string,
   price?: number | null,
   limit?: number | null,
@@ -748,17 +754,17 @@ export type CampaignProduct = {
   updatedAt: string,
 };
 
-export type ModelCampaignUsedConnection = {
-  __typename: "ModelCampaignUsedConnection",
-  items:  Array<CampaignUsed | null >,
+export type ModelAdherenceUsedConnection = {
+  __typename: "ModelAdherenceUsedConnection",
+  items:  Array<AdherenceUsed | null >,
   nextToken?: string | null,
 };
 
-export type CampaignUsed = {
-  __typename: "CampaignUsed",
+export type AdherenceUsed = {
+  __typename: "AdherenceUsed",
   id: string,
-  campaignID: string,
-  campaign?: Campaign | null,
+  adherenceID: string,
+  adherence?: Adherence | null,
   userID: string,
   user?: User | null,
   qty?: number | null,
@@ -766,18 +772,324 @@ export type CampaignUsed = {
   updatedAt: string,
 };
 
-export type ModelCampaignCompanyConnection = {
-  __typename: "ModelCampaignCompanyConnection",
-  items:  Array<CampaignCompany | null >,
+export type ModelAdherenceCompanyConnection = {
+  __typename: "ModelAdherenceCompanyConnection",
+  items:  Array<AdherenceCompany | null >,
   nextToken?: string | null,
 };
 
-export type CampaignCompany = {
-  __typename: "CampaignCompany",
+export type AdherenceCompany = {
+  __typename: "AdherenceCompany",
   id: string,
-  campaignID: string,
+  adherenceID: string,
   companyID: string,
   company?: Company | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ClientCampaign = {
+  __typename: "ClientCampaign",
+  id: string,
+  clientID: string,
+  client?: Client | null,
+  name: string,
+  description?: string | null,
+  clientNotes?: string | null,
+  internalNotes?: string | null,
+  totalUnits?: number | null,
+  unitsServed?: number | null,
+  unitsExpected?: number | null,
+  firstOSDate?: string | null,
+  lastOSDate?: string | null,
+  scheduleRouted?: number | null,
+  scheduleConfirmed?: number | null,
+  scheduleFinished?: number | null,
+  totalEligibles?: number | null,
+  totalEligiblesDependent?: number | null,
+  totalEligiblesThird?: number | null,
+  totalVaccinations?: number | null,
+  search?: string | null,
+  responsible?: string | null,
+  number?: number | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  createdAt?: string | null,
+  idx: number,
+  campaignCode: string,
+  status?: ClientCampaignStatus | null,
+  products?: ModelClientCampaignProductConnection | null,
+  companies?: ModelClientCampaignCompanyConnection | null,
+  units?: ModelClientCampaignUnitConnection | null,
+  updatedAt: string,
+};
+
+export type Client = {
+  __typename: "Client",
+  id: string,
+  name: string,
+  notes?: string | null,
+  group?: string | null,
+  indication?: string | null,
+  origin?: string | null,
+  status: ClientStatus,
+  search?: string | null,
+  logo?: string | null,
+  logoSrc?: string | null,
+  logoCropper?: string | null,
+  totalUnits?: number | null,
+  unitsServed?: number | null,
+  unitsExpected?: number | null,
+  firstOSDate?: string | null,
+  lastOSDate?: string | null,
+  scheduleRouted?: number | null,
+  scheduleConfirmed?: number | null,
+  schedulePending?: number | null,
+  totalEligibles?: number | null,
+  totalVaccinations?: number | null,
+  code?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  units?: ModelClientUnitConnection | null,
+  eligibles?: ModelClientEligibleConnection | null,
+  campaigns?: ModelClientCampaignConnection | null,
+  oss?: ModelOSConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum ClientStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  SUSPENDED = "SUSPENDED",
+}
+
+
+export type ModelClientUnitConnection = {
+  __typename: "ModelClientUnitConnection",
+  items:  Array<ClientUnit | null >,
+  nextToken?: string | null,
+};
+
+export type ClientUnit = {
+  __typename: "ClientUnit",
+  id: string,
+  clientID: string,
+  cnpj?: string | null,
+  name: string,
+  fullName?: string | null,
+  street?: string | null,
+  number?: string | null,
+  complement?: string | null,
+  zipcode?: string | null,
+  neighborhood?: string | null,
+  city?: string | null,
+  state?: string | null,
+  country?: string | null,
+  billingStreet?: string | null,
+  billingNumber?: string | null,
+  billingComplement?: string | null,
+  billingZipcode?: string | null,
+  billingNeighborhood?: string | null,
+  billingCity?: string | null,
+  billingState?: string | null,
+  billingCountry?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  totalEligibles?: number | null,
+  totalCollaborators?: number | null,
+  code?: string | null,
+  oss?: ModelOSConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelOSConnection = {
+  __typename: "ModelOSConnection",
+  items:  Array<OS | null >,
+  nextToken?: string | null,
+};
+
+export type OS = {
+  __typename: "OS",
+  id: string,
+  clientID: string,
+  clientUnitID: string,
+  clientCampaignID: string,
+  driverID?: string | null,
+  professionals: Array< string >,
+  collaborators?: Array< string > | null,
+  number: number,
+  start?: string | null,
+  expiration?: string | null,
+  orientation?: string | null,
+  notes?: string | null,
+  status: OSStatus,
+  allowOffList?: boolean | null,
+  withList?: boolean | null,
+  vaccination?: string | null,
+  qtyApplication?: number | null,
+  dateStarted?: string | null,
+  dateFinished?: string | null,
+  professionalStarted?: string | null,
+  professionalFinished?: string | null,
+  notesStarted?: string | null,
+  notesFinished?: string | null,
+  clientNameStarted?: string | null,
+  clientNameFinished?: string | null,
+  unitNameFinished?: string | null,
+  contactNameFinished?: string | null,
+  contactDocFinished?: string | null,
+  contactCRMFinished?: string | null,
+  contactEmailFinished?: string | null,
+  stayVaccines?: boolean | null,
+  stayQtd?: number | null,
+  lat?: number | null,
+  lng?: number | null,
+  eligiblesVaccination?: ModelEligibleVaccinationConnection | null,
+  client?: Client | null,
+  clientUnit?: ClientUnit | null,
+  clientCampaign?: ClientCampaign | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum OSStatus {
+  STANDBY = "STANDBY",
+  STARTED = "STARTED",
+  FINISHED = "FINISHED",
+  CONFIRMED = "CONFIRMED",
+  CANCELED = "CANCELED",
+  ROUTED = "ROUTED",
+}
+
+
+export type ModelEligibleVaccinationConnection = {
+  __typename: "ModelEligibleVaccinationConnection",
+  items:  Array<EligibleVaccination | null >,
+  nextToken?: string | null,
+};
+
+export type EligibleVaccination = {
+  __typename: "EligibleVaccination",
+  id: string,
+  osID: string,
+  clientEligibleID: string,
+  clientEligible?: ClientEligible | null,
+  clientID: string,
+  profissionalID?: string | null,
+  profissional?: User | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+  os?: OS | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ClientEligible = {
+  __typename: "ClientEligible",
+  id: string,
+  clientID: string,
+  key: string,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum EligibleVaccinationStatus {
+  CANCELED = "CANCELED",
+  APPLIED = "APPLIED",
+}
+
+
+export type ModelClientEligibleConnection = {
+  __typename: "ModelClientEligibleConnection",
+  items:  Array<ClientEligible | null >,
+  nextToken?: string | null,
+};
+
+export type ModelClientCampaignConnection = {
+  __typename: "ModelClientCampaignConnection",
+  items:  Array<ClientCampaign | null >,
+  nextToken?: string | null,
+};
+
+export enum ClientCampaignStatus {
+  PROPOSAL = "PROPOSAL",
+  RELEASED = "RELEASED",
+  ROTERIZED = "ROTERIZED",
+  SCHEDULED = "SCHEDULED",
+  STANDBY = "STANDBY",
+  STARTED = "STARTED",
+  FINISHED = "FINISHED",
+}
+
+
+export type ModelClientCampaignProductConnection = {
+  __typename: "ModelClientCampaignProductConnection",
+  items:  Array<ClientCampaignProduct | null >,
+  nextToken?: string | null,
+};
+
+export type ClientCampaignProduct = {
+  __typename: "ClientCampaignProduct",
+  id: string,
+  clientCampaignID: string,
+  productID: string,
+  price?: number | null,
+  limit?: number | null,
+  product?: Product | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelClientCampaignCompanyConnection = {
+  __typename: "ModelClientCampaignCompanyConnection",
+  items:  Array<ClientCampaignCompany | null >,
+  nextToken?: string | null,
+};
+
+export type ClientCampaignCompany = {
+  __typename: "ClientCampaignCompany",
+  id: string,
+  clientCampaignID: string,
+  companyID: string,
+  company?: Company | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelClientCampaignUnitConnection = {
+  __typename: "ModelClientCampaignUnitConnection",
+  items:  Array<ClientCampaignUnit | null >,
+  nextToken?: string | null,
+};
+
+export type ClientCampaignUnit = {
+  __typename: "ClientCampaignUnit",
+  id: string,
+  clientCampaignID: string,
+  unitID: string,
+  unit?: ClientUnit | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -1177,6 +1489,7 @@ export type ModelProductFilterInput = {
   status?: ModelPageStatusInput | null,
   category?: ModelIDInput | null,
   subCategory?: ModelIDInput | null,
+  laboratory?: ModelIDInput | null,
   code?: ModelStringInput | null,
   name?: ModelStringInput | null,
   type?: ModelStringInput | null,
@@ -1256,7 +1569,7 @@ export type ModelCartFilterInput = {
   changeQtyBlend?: ModelIntInput | null,
   changePriceAdjustment?: ModelStringInput | null,
   blendID?: ModelIDInput | null,
-  campaignToken?: ModelStringInput | null,
+  adherenceToken?: ModelStringInput | null,
   and?: Array< ModelCartFilterInput | null > | null,
   or?: Array< ModelCartFilterInput | null > | null,
   not?: ModelCartFilterInput | null,
@@ -1347,9 +1660,11 @@ export type ModelOrderFilterInput = {
   addressState?: ModelStringInput | null,
   addressCountry?: ModelStringInput | null,
   notes?: ModelStringInput | null,
-  campaignID?: ModelIDInput | null,
-  campaignName?: ModelStringInput | null,
-  campaignOrientation?: ModelStringInput | null,
+  adherenceID?: ModelIDInput | null,
+  adherenceName?: ModelStringInput | null,
+  adherenceOrientation?: ModelStringInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  clientCampaignName?: ModelStringInput | null,
   companyID?: ModelIDInput | null,
   companyName?: ModelStringInput | null,
   companyPhone?: ModelStringInput | null,
@@ -1374,11 +1689,12 @@ export type ModelPaymentMethodsInput = {
   ne?: PaymentMethods | null,
 };
 
-export type ModelCampaignFilterInput = {
+export type ModelAdherenceFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   code?: ModelStringInput | null,
+  campaignCode?: ModelStringInput | null,
   start?: ModelStringInput | null,
   expiration?: ModelStringInput | null,
   discountPercentage?: ModelIntInput | null,
@@ -1391,14 +1707,14 @@ export type ModelCampaignFilterInput = {
   orderMessage?: ModelStringInput | null,
   zipCodeCoverage?: ModelStringInput | null,
   search?: ModelStringInput | null,
-  and?: Array< ModelCampaignFilterInput | null > | null,
-  or?: Array< ModelCampaignFilterInput | null > | null,
-  not?: ModelCampaignFilterInput | null,
+  and?: Array< ModelAdherenceFilterInput | null > | null,
+  or?: Array< ModelAdherenceFilterInput | null > | null,
+  not?: ModelAdherenceFilterInput | null,
 };
 
-export type ModelCampaignConnection = {
-  __typename: "ModelCampaignConnection",
-  items:  Array<Campaign | null >,
+export type ModelAdherenceConnection = {
+  __typename: "ModelAdherenceConnection",
+  items:  Array<Adherence | null >,
   nextToken?: string | null,
 };
 
@@ -1449,14 +1765,14 @@ export type DeliveryOrder = {
   updatedAt: string,
 };
 
-export type ModelCampaignUsedFilterInput = {
+export type ModelAdherenceUsedFilterInput = {
   id?: ModelIDInput | null,
-  campaignID?: ModelIDInput | null,
+  adherenceID?: ModelIDInput | null,
   userID?: ModelIDInput | null,
   qty?: ModelIntInput | null,
-  and?: Array< ModelCampaignUsedFilterInput | null > | null,
-  or?: Array< ModelCampaignUsedFilterInput | null > | null,
-  not?: ModelCampaignUsedFilterInput | null,
+  and?: Array< ModelAdherenceUsedFilterInput | null > | null,
+  or?: Array< ModelAdherenceUsedFilterInput | null > | null,
+  not?: ModelAdherenceUsedFilterInput | null,
 };
 
 export type ModelCouponUsedFilterInput = {
@@ -1531,7 +1847,8 @@ export type ModelVaccinationCardItemFilterInput = {
   vaccinationCardID?: ModelIDInput | null,
   orderID?: ModelIDInput | null,
   orderItemID?: ModelIDInput | null,
-  campaignID?: ModelIDInput | null,
+  adherenceID?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
   companyID?: ModelIDInput | null,
   lote?: ModelStringInput | null,
   profissionalID?: ModelIDInput | null,
@@ -1608,13 +1925,13 @@ export type ModelProfileConnection = {
   nextToken?: string | null,
 };
 
-export type ModelCampaignCompanyFilterInput = {
+export type ModelAdherenceCompanyFilterInput = {
   id?: ModelIDInput | null,
-  campaignID?: ModelIDInput | null,
+  adherenceID?: ModelIDInput | null,
   companyID?: ModelIDInput | null,
-  and?: Array< ModelCampaignCompanyFilterInput | null > | null,
-  or?: Array< ModelCampaignCompanyFilterInput | null > | null,
-  not?: ModelCampaignCompanyFilterInput | null,
+  and?: Array< ModelAdherenceCompanyFilterInput | null > | null,
+  or?: Array< ModelAdherenceCompanyFilterInput | null > | null,
+  not?: ModelAdherenceCompanyFilterInput | null,
 };
 
 export type ModelAuthorizationListMemberVaccinationFilterInput = {
@@ -1677,7 +1994,7 @@ export type AuthorizationList = {
   notesFinished?: string | null,
   professionalFinished?: string | null,
   withList?: boolean | null,
-  campaignCode?: string | null,
+  adherenceCode?: string | null,
   OS?: string | null,
   status?: AuthorizationListStatus | null,
   members?: ModelAuthorizationListMemberConnection | null,
@@ -1869,221 +2186,6 @@ export type ModelOSStatusInput = {
   ne?: OSStatus | null,
 };
 
-export enum OSStatus {
-  STANDBY = "STANDBY",
-  STARTED = "STARTED",
-  FINISHED = "FINISHED",
-  CONFIRMED = "CONFIRMED",
-  CANCELED = "CANCELED",
-  ROUTED = "ROUTED",
-}
-
-
-export type ModelOSConnection = {
-  __typename: "ModelOSConnection",
-  items:  Array<OS | null >,
-  nextToken?: string | null,
-};
-
-export type OS = {
-  __typename: "OS",
-  id: string,
-  clientID: string,
-  clientUnitID: string,
-  clientCampaignID: string,
-  driverID?: string | null,
-  professionals: Array< string >,
-  collaborators?: Array< string > | null,
-  number: number,
-  start?: string | null,
-  expiration?: string | null,
-  orientation?: string | null,
-  notes?: string | null,
-  status: OSStatus,
-  allowOffList?: boolean | null,
-  withList?: boolean | null,
-  vaccination?: string | null,
-  qtyApplication?: number | null,
-  dateStarted?: string | null,
-  dateFinished?: string | null,
-  professionalStarted?: string | null,
-  professionalFinished?: string | null,
-  notesStarted?: string | null,
-  notesFinished?: string | null,
-  clientNameStarted?: string | null,
-  clientNameFinished?: string | null,
-  unitNameFinished?: string | null,
-  contactNameFinished?: string | null,
-  contactDocFinished?: string | null,
-  contactCRMFinished?: string | null,
-  contactEmailFinished?: string | null,
-  stayVaccines?: boolean | null,
-  stayQtd?: number | null,
-  lat?: number | null,
-  lng?: number | null,
-  eligiblesVaccination?: ModelEligibleVaccinationConnection | null,
-  client?: Client | null,
-  clientUnit?: ClientUnit | null,
-  clientCampaign?: ClientCampaign | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelEligibleVaccinationConnection = {
-  __typename: "ModelEligibleVaccinationConnection",
-  items:  Array<EligibleVaccination | null >,
-  nextToken?: string | null,
-};
-
-export type EligibleVaccination = {
-  __typename: "EligibleVaccination",
-  id: string,
-  osID: string,
-  clientEligibleID: string,
-  clientEligible?: ClientEligible | null,
-  clientID: string,
-  profissionalID?: string | null,
-  profissional?: User | null,
-  coren?: string | null,
-  applicationDate?: string | null,
-  reason?: string | null,
-  vaccination?: string | null,
-  status?: EligibleVaccinationStatus | null,
-  localCity?: string | null,
-  localState?: string | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ClientEligible = {
-  __typename: "ClientEligible",
-  id: string,
-  clientID: string,
-  key: string,
-  name?: string | null,
-  cpf?: string | null,
-  rg?: string | null,
-  birth?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  relationship?: string | null,
-  isDependent?: boolean | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum EligibleVaccinationStatus {
-  CANCELED = "CANCELED",
-  APPLIED = "APPLIED",
-}
-
-
-export type Client = {
-  __typename: "Client",
-  id: string,
-  name: string,
-  notes?: string | null,
-  status: ClientStatus,
-  search?: string | null,
-  totalUnits?: number | null,
-  unitsServed?: number | null,
-  unitsExpected?: number | null,
-  firstOSDate?: string | null,
-  lastOSDate?: string | null,
-  scheduleRouted?: number | null,
-  scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
-  totalEligibles?: number | null,
-  totalVaccinations?: number | null,
-  code?: string | null,
-  units?: ModelClientUnitConnection | null,
-  eligibles?: ModelClientEligibleConnection | null,
-  campaigns?: ModelClientCampaignConnection | null,
-  oss?: ModelOSConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum ClientStatus {
-  ACTIVE = "ACTIVE",
-  SUSPENDED = "SUSPENDED",
-}
-
-
-export type ModelClientUnitConnection = {
-  __typename: "ModelClientUnitConnection",
-  items:  Array<ClientUnit | null >,
-  nextToken?: string | null,
-};
-
-export type ClientUnit = {
-  __typename: "ClientUnit",
-  id: string,
-  clientID: string,
-  name?: string | null,
-  street?: string | null,
-  number?: string | null,
-  complement?: string | null,
-  zipcode?: string | null,
-  neighborhood?: string | null,
-  city?: string | null,
-  state?: string | null,
-  country?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  contactName?: string | null,
-  contactEmail?: string | null,
-  contactPhone?: string | null,
-  totalEligibles?: number | null,
-  code?: string | null,
-  oss?: ModelOSConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type ModelClientEligibleConnection = {
-  __typename: "ModelClientEligibleConnection",
-  items:  Array<ClientEligible | null >,
-  nextToken?: string | null,
-};
-
-export type ModelClientCampaignConnection = {
-  __typename: "ModelClientCampaignConnection",
-  items:  Array<ClientCampaign | null >,
-  nextToken?: string | null,
-};
-
-export type ClientCampaign = {
-  __typename: "ClientCampaign",
-  id: string,
-  clientID: string,
-  client?: Client | null,
-  name: string,
-  description?: string | null,
-  search?: string | null,
-  totalUnits?: number | null,
-  unitsServed?: number | null,
-  unitsExpected?: number | null,
-  firstOSDate?: string | null,
-  lastOSDate?: string | null,
-  scheduleRouted?: number | null,
-  scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
-  totalEligibles?: number | null,
-  totalVaccinations?: number | null,
-  campaignCode?: string | null,
-  status?: ClientCampaignStatus | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum ClientCampaignStatus {
-  STANDBY = "STANDBY",
-  STARTED = "STARTED",
-  FINISHED = "FINISHED",
-}
-
-
 export type ModelIntKeyConditionInput = {
   eq?: number | null,
   le?: number | null,
@@ -2119,28 +2221,43 @@ export type ClientUser = {
   updatedAt: string,
 };
 
-export type ModelClientUnitFilterInput = {
+export type ModelClientCampaignFilterInput = {
   id?: ModelIDInput | null,
   clientID?: ModelIDInput | null,
   name?: ModelStringInput | null,
-  street?: ModelStringInput | null,
-  number?: ModelStringInput | null,
-  complement?: ModelStringInput | null,
-  zipcode?: ModelStringInput | null,
-  neighborhood?: ModelStringInput | null,
-  city?: ModelStringInput | null,
-  state?: ModelStringInput | null,
-  country?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  clientNotes?: ModelStringInput | null,
+  internalNotes?: ModelStringInput | null,
+  totalUnits?: ModelIntInput | null,
+  unitsServed?: ModelIntInput | null,
+  unitsExpected?: ModelIntInput | null,
+  firstOSDate?: ModelStringInput | null,
+  lastOSDate?: ModelStringInput | null,
+  scheduleRouted?: ModelIntInput | null,
+  scheduleConfirmed?: ModelIntInput | null,
+  scheduleFinished?: ModelIntInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalEligiblesDependent?: ModelIntInput | null,
+  totalEligiblesThird?: ModelIntInput | null,
+  totalVaccinations?: ModelIntInput | null,
   search?: ModelStringInput | null,
+  responsible?: ModelStringInput | null,
+  number?: ModelIntInput | null,
   contactName?: ModelStringInput | null,
   contactEmail?: ModelStringInput | null,
   contactPhone?: ModelStringInput | null,
-  totalEligibles?: ModelIntInput | null,
-  code?: ModelStringInput | null,
-  and?: Array< ModelClientUnitFilterInput | null > | null,
-  or?: Array< ModelClientUnitFilterInput | null > | null,
-  not?: ModelClientUnitFilterInput | null,
+  createdAt?: ModelStringInput | null,
+  idx?: ModelIntInput | null,
+  campaignCode?: ModelStringInput | null,
+  status?: ModelClientCampaignStatusInput | null,
+  and?: Array< ModelClientCampaignFilterInput | null > | null,
+  or?: Array< ModelClientCampaignFilterInput | null > | null,
+  not?: ModelClientCampaignFilterInput | null,
+};
+
+export type ModelClientCampaignStatusInput = {
+  eq?: ClientCampaignStatus | null,
+  ne?: ClientCampaignStatus | null,
 };
 
 export type UpdateUserInput = {
@@ -2983,12 +3100,46 @@ export type DeleteCategoryInput = {
   id: string,
 };
 
+export type CreateLaboratoryInput = {
+  id?: string | null,
+  name: string,
+  description?: string | null,
+};
+
+export type ModelLaboratoryConditionInput = {
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  and?: Array< ModelLaboratoryConditionInput | null > | null,
+  or?: Array< ModelLaboratoryConditionInput | null > | null,
+  not?: ModelLaboratoryConditionInput | null,
+};
+
+export type Laboratory = {
+  __typename: "Laboratory",
+  id: string,
+  name: string,
+  description?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateLaboratoryInput = {
+  id: string,
+  name?: string | null,
+  description?: string | null,
+};
+
+export type DeleteLaboratoryInput = {
+  id: string,
+};
+
 export type CreateProductInput = {
   id?: string | null,
   alias: string,
   status: PageStatus,
   category: string,
   subCategory: string,
+  laboratory?: string | null,
   code?: string | null,
   name: string,
   type?: string | null,
@@ -3039,6 +3190,7 @@ export type ModelProductConditionInput = {
   status?: ModelPageStatusInput | null,
   category?: ModelIDInput | null,
   subCategory?: ModelIDInput | null,
+  laboratory?: ModelIDInput | null,
   code?: ModelStringInput | null,
   name?: ModelStringInput | null,
   type?: ModelStringInput | null,
@@ -3093,6 +3245,7 @@ export type UpdateProductInput = {
   status?: PageStatus | null,
   category?: string | null,
   subCategory?: string | null,
+  laboratory?: string | null,
   code?: string | null,
   name?: string | null,
   type?: string | null,
@@ -3200,7 +3353,7 @@ export type ModelCartConditionInput = {
   changeQtyBlend?: ModelIntInput | null,
   changePriceAdjustment?: ModelStringInput | null,
   blendID?: ModelIDInput | null,
-  campaignToken?: ModelStringInput | null,
+  adherenceToken?: ModelStringInput | null,
   and?: Array< ModelCartConditionInput | null > | null,
   or?: Array< ModelCartConditionInput | null > | null,
   not?: ModelCartConditionInput | null,
@@ -3244,9 +3397,11 @@ export type ModelOrderConditionInput = {
   addressState?: ModelStringInput | null,
   addressCountry?: ModelStringInput | null,
   notes?: ModelStringInput | null,
-  campaignID?: ModelIDInput | null,
-  campaignName?: ModelStringInput | null,
-  campaignOrientation?: ModelStringInput | null,
+  adherenceID?: ModelIDInput | null,
+  adherenceName?: ModelStringInput | null,
+  adherenceOrientation?: ModelStringInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  clientCampaignName?: ModelStringInput | null,
   companyID?: ModelIDInput | null,
   companyName?: ModelStringInput | null,
   companyPhone?: ModelStringInput | null,
@@ -3329,11 +3484,12 @@ export type Notify = {
   updatedAt: string,
 };
 
-export type CreateCampaignInput = {
+export type CreateAdherenceInput = {
   id?: string | null,
   name: string,
   description?: string | null,
   code: string,
+  campaignCode?: string | null,
   start?: string | null,
   expiration?: string | null,
   discountPercentage?: number | null,
@@ -3348,10 +3504,11 @@ export type CreateCampaignInput = {
   search?: string | null,
 };
 
-export type ModelCampaignConditionInput = {
+export type ModelAdherenceConditionInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   code?: ModelStringInput | null,
+  campaignCode?: ModelStringInput | null,
   start?: ModelStringInput | null,
   expiration?: ModelStringInput | null,
   discountPercentage?: ModelIntInput | null,
@@ -3364,12 +3521,12 @@ export type ModelCampaignConditionInput = {
   orderMessage?: ModelStringInput | null,
   zipCodeCoverage?: ModelStringInput | null,
   search?: ModelStringInput | null,
-  and?: Array< ModelCampaignConditionInput | null > | null,
-  or?: Array< ModelCampaignConditionInput | null > | null,
-  not?: ModelCampaignConditionInput | null,
+  and?: Array< ModelAdherenceConditionInput | null > | null,
+  or?: Array< ModelAdherenceConditionInput | null > | null,
+  not?: ModelAdherenceConditionInput | null,
 };
 
-export type DeleteCampaignInput = {
+export type DeleteAdherenceInput = {
   id: string,
 };
 
@@ -3420,7 +3577,8 @@ export type UpdateVaccinationCardItemInput = {
   vaccinationCardID?: string | null,
   orderID?: string | null,
   orderItemID?: string | null,
-  campaignID?: string | null,
+  adherenceID?: string | null,
+  clientCampaignID?: string | null,
   companyID?: string | null,
   lote?: string | null,
   profissionalID?: string | null,
@@ -3436,7 +3594,8 @@ export type ModelVaccinationCardItemConditionInput = {
   vaccinationCardID?: ModelIDInput | null,
   orderID?: ModelIDInput | null,
   orderItemID?: ModelIDInput | null,
-  campaignID?: ModelIDInput | null,
+  adherenceID?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
   companyID?: ModelIDInput | null,
   lote?: ModelStringInput | null,
   profissionalID?: ModelIDInput | null,
@@ -3544,6 +3703,471 @@ export type DeleteCompanyInput = {
   id: string,
 };
 
+export type CreateClientInput = {
+  id?: string | null,
+  name: string,
+  notes?: string | null,
+  group?: string | null,
+  indication?: string | null,
+  origin?: string | null,
+  status: ClientStatus,
+  search?: string | null,
+  logo?: string | null,
+  logoSrc?: string | null,
+  logoCropper?: string | null,
+  totalUnits?: number | null,
+  unitsServed?: number | null,
+  unitsExpected?: number | null,
+  firstOSDate?: string | null,
+  lastOSDate?: string | null,
+  scheduleRouted?: number | null,
+  scheduleConfirmed?: number | null,
+  schedulePending?: number | null,
+  totalEligibles?: number | null,
+  totalVaccinations?: number | null,
+  code?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+};
+
+export type ModelClientConditionInput = {
+  name?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  group?: ModelStringInput | null,
+  indication?: ModelStringInput | null,
+  origin?: ModelStringInput | null,
+  status?: ModelClientStatusInput | null,
+  search?: ModelStringInput | null,
+  logo?: ModelStringInput | null,
+  logoSrc?: ModelStringInput | null,
+  logoCropper?: ModelStringInput | null,
+  totalUnits?: ModelIntInput | null,
+  unitsServed?: ModelIntInput | null,
+  unitsExpected?: ModelIntInput | null,
+  firstOSDate?: ModelStringInput | null,
+  lastOSDate?: ModelStringInput | null,
+  scheduleRouted?: ModelIntInput | null,
+  scheduleConfirmed?: ModelIntInput | null,
+  schedulePending?: ModelIntInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalVaccinations?: ModelIntInput | null,
+  code?: ModelStringInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  and?: Array< ModelClientConditionInput | null > | null,
+  or?: Array< ModelClientConditionInput | null > | null,
+  not?: ModelClientConditionInput | null,
+};
+
+export type ModelClientStatusInput = {
+  eq?: ClientStatus | null,
+  ne?: ClientStatus | null,
+};
+
+export type UpdateClientInput = {
+  id: string,
+  name?: string | null,
+  notes?: string | null,
+  group?: string | null,
+  indication?: string | null,
+  origin?: string | null,
+  status?: ClientStatus | null,
+  search?: string | null,
+  logo?: string | null,
+  logoSrc?: string | null,
+  logoCropper?: string | null,
+  totalUnits?: number | null,
+  unitsServed?: number | null,
+  unitsExpected?: number | null,
+  firstOSDate?: string | null,
+  lastOSDate?: string | null,
+  scheduleRouted?: number | null,
+  scheduleConfirmed?: number | null,
+  schedulePending?: number | null,
+  totalEligibles?: number | null,
+  totalVaccinations?: number | null,
+  code?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+};
+
+export type DeleteClientInput = {
+  id: string,
+};
+
+export type CreateClientUnitInput = {
+  id?: string | null,
+  clientID: string,
+  cnpj?: string | null,
+  name: string,
+  fullName?: string | null,
+  street?: string | null,
+  number?: string | null,
+  complement?: string | null,
+  zipcode?: string | null,
+  neighborhood?: string | null,
+  city?: string | null,
+  state?: string | null,
+  country?: string | null,
+  billingStreet?: string | null,
+  billingNumber?: string | null,
+  billingComplement?: string | null,
+  billingZipcode?: string | null,
+  billingNeighborhood?: string | null,
+  billingCity?: string | null,
+  billingState?: string | null,
+  billingCountry?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  totalEligibles?: number | null,
+  totalCollaborators?: number | null,
+  code?: string | null,
+};
+
+export type ModelClientUnitConditionInput = {
+  clientID?: ModelIDInput | null,
+  cnpj?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  fullName?: ModelStringInput | null,
+  street?: ModelStringInput | null,
+  number?: ModelStringInput | null,
+  complement?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  neighborhood?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  country?: ModelStringInput | null,
+  billingStreet?: ModelStringInput | null,
+  billingNumber?: ModelStringInput | null,
+  billingComplement?: ModelStringInput | null,
+  billingZipcode?: ModelStringInput | null,
+  billingNeighborhood?: ModelStringInput | null,
+  billingCity?: ModelStringInput | null,
+  billingState?: ModelStringInput | null,
+  billingCountry?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalCollaborators?: ModelIntInput | null,
+  code?: ModelStringInput | null,
+  and?: Array< ModelClientUnitConditionInput | null > | null,
+  or?: Array< ModelClientUnitConditionInput | null > | null,
+  not?: ModelClientUnitConditionInput | null,
+};
+
+export type UpdateClientUnitInput = {
+  id: string,
+  clientID?: string | null,
+  cnpj?: string | null,
+  name?: string | null,
+  fullName?: string | null,
+  street?: string | null,
+  number?: string | null,
+  complement?: string | null,
+  zipcode?: string | null,
+  neighborhood?: string | null,
+  city?: string | null,
+  state?: string | null,
+  country?: string | null,
+  billingStreet?: string | null,
+  billingNumber?: string | null,
+  billingComplement?: string | null,
+  billingZipcode?: string | null,
+  billingNeighborhood?: string | null,
+  billingCity?: string | null,
+  billingState?: string | null,
+  billingCountry?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  totalEligibles?: number | null,
+  totalCollaborators?: number | null,
+  code?: string | null,
+};
+
+export type DeleteClientUnitInput = {
+  id: string,
+};
+
+export type CreateClientCampaignEligibleInput = {
+  id?: string | null,
+  clientCampaignID: string,
+  key: string,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+  cpfRelationship?: string | null,
+  isThird?: boolean | null,
+  thirdName?: string | null,
+};
+
+export type ModelClientCampaignEligibleConditionInput = {
+  clientCampaignID?: ModelIDInput | null,
+  key?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  rg?: ModelStringInput | null,
+  birth?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  relationship?: ModelStringInput | null,
+  isDependent?: ModelBooleanInput | null,
+  cpfRelationship?: ModelStringInput | null,
+  isThird?: ModelBooleanInput | null,
+  thirdName?: ModelStringInput | null,
+  and?: Array< ModelClientCampaignEligibleConditionInput | null > | null,
+  or?: Array< ModelClientCampaignEligibleConditionInput | null > | null,
+  not?: ModelClientCampaignEligibleConditionInput | null,
+};
+
+export type ClientCampaignEligible = {
+  __typename: "ClientCampaignEligible",
+  id: string,
+  clientCampaignID: string,
+  key: string,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+  cpfRelationship?: string | null,
+  isThird?: boolean | null,
+  thirdName?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateClientCampaignEligibleInput = {
+  id: string,
+  clientCampaignID?: string | null,
+  key?: string | null,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+  cpfRelationship?: string | null,
+  isThird?: boolean | null,
+  thirdName?: string | null,
+};
+
+export type DeleteClientCampaignEligibleInput = {
+  id: string,
+};
+
+export type CreateClientCampaignEligibleVaccinationInput = {
+  id?: string | null,
+  osID: string,
+  clientCampaignID: string,
+  clientCampaignEligibleID: string,
+  profissionalID?: string | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+};
+
+export type ModelClientCampaignEligibleVaccinationConditionInput = {
+  osID?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  clientCampaignEligibleID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  profissionalDoc?: ModelStringInput | null,
+  coren?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  vaccination?: ModelStringInput | null,
+  status?: ModelEligibleVaccinationStatusInput | null,
+  localCity?: ModelStringInput | null,
+  localState?: ModelStringInput | null,
+  and?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
+  or?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
+  not?: ModelClientCampaignEligibleVaccinationConditionInput | null,
+};
+
+export type ModelEligibleVaccinationStatusInput = {
+  eq?: EligibleVaccinationStatus | null,
+  ne?: EligibleVaccinationStatus | null,
+};
+
+export type ClientCampaignEligibleVaccination = {
+  __typename: "ClientCampaignEligibleVaccination",
+  id: string,
+  osID: string,
+  os?: OS | null,
+  clientCampaignID: string,
+  clientCampaign?: ClientCampaign | null,
+  clientCampaignEligibleID: string,
+  clientEligible?: ClientCampaignEligible | null,
+  profissionalID?: string | null,
+  profissional?: User | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateClientCampaignEligibleVaccinationInput = {
+  id: string,
+  osID?: string | null,
+  clientCampaignID?: string | null,
+  clientCampaignEligibleID?: string | null,
+  profissionalID?: string | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+};
+
+export type DeleteClientCampaignEligibleVaccinationInput = {
+  id: string,
+};
+
+export type CreateEligibleVaccinationInput = {
+  id?: string | null,
+  osID: string,
+  clientEligibleID: string,
+  clientID: string,
+  profissionalID?: string | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+};
+
+export type ModelEligibleVaccinationConditionInput = {
+  osID?: ModelIDInput | null,
+  clientEligibleID?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  profissionalDoc?: ModelStringInput | null,
+  coren?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  vaccination?: ModelStringInput | null,
+  status?: ModelEligibleVaccinationStatusInput | null,
+  localCity?: ModelStringInput | null,
+  localState?: ModelStringInput | null,
+  and?: Array< ModelEligibleVaccinationConditionInput | null > | null,
+  or?: Array< ModelEligibleVaccinationConditionInput | null > | null,
+  not?: ModelEligibleVaccinationConditionInput | null,
+};
+
+export type UpdateEligibleVaccinationInput = {
+  id: string,
+  osID?: string | null,
+  clientEligibleID?: string | null,
+  clientID?: string | null,
+  profissionalID?: string | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+};
+
+export type DeleteEligibleVaccinationInput = {
+  id: string,
+};
+
+export type CreateClientEligibleInput = {
+  id?: string | null,
+  clientID: string,
+  key: string,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+};
+
+export type ModelClientEligibleConditionInput = {
+  clientID?: ModelIDInput | null,
+  key?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  rg?: ModelStringInput | null,
+  birth?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  relationship?: ModelStringInput | null,
+  isDependent?: ModelBooleanInput | null,
+  and?: Array< ModelClientEligibleConditionInput | null > | null,
+  or?: Array< ModelClientEligibleConditionInput | null > | null,
+  not?: ModelClientEligibleConditionInput | null,
+};
+
+export type UpdateClientEligibleInput = {
+  id: string,
+  clientID?: string | null,
+  key?: string | null,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+};
+
+export type DeleteClientEligibleInput = {
+  id: string,
+};
+
 export type CreateAuthorizationListInput = {
   id?: string | null,
   name: string,
@@ -3560,7 +4184,7 @@ export type CreateAuthorizationListInput = {
   notesFinished?: string | null,
   professionalFinished?: string | null,
   withList?: boolean | null,
-  campaignCode?: string | null,
+  adherenceCode?: string | null,
   OS?: string | null,
   status?: AuthorizationListStatus | null,
 };
@@ -3580,7 +4204,7 @@ export type ModelAuthorizationListConditionInput = {
   notesFinished?: ModelStringInput | null,
   professionalFinished?: ModelIDInput | null,
   withList?: ModelBooleanInput | null,
-  campaignCode?: ModelStringInput | null,
+  adherenceCode?: ModelStringInput | null,
   OS?: ModelStringInput | null,
   status?: ModelAuthorizationListStatusInput | null,
   and?: Array< ModelAuthorizationListConditionInput | null > | null,
@@ -3609,7 +4233,7 @@ export type UpdateAuthorizationListInput = {
   notesFinished?: string | null,
   professionalFinished?: string | null,
   withList?: boolean | null,
-  campaignCode?: string | null,
+  adherenceCode?: string | null,
   OS?: string | null,
   status?: AuthorizationListStatus | null,
 };
@@ -3707,247 +4331,6 @@ export type ModelAuthorizationListMemberConditionInput = {
 };
 
 export type DeleteAuthorizationListMemberInput = {
-  id: string,
-};
-
-export type CreateClientInput = {
-  id?: string | null,
-  name: string,
-  notes?: string | null,
-  status: ClientStatus,
-  search?: string | null,
-  totalUnits?: number | null,
-  unitsServed?: number | null,
-  unitsExpected?: number | null,
-  firstOSDate?: string | null,
-  lastOSDate?: string | null,
-  scheduleRouted?: number | null,
-  scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
-  totalEligibles?: number | null,
-  totalVaccinations?: number | null,
-  code?: string | null,
-};
-
-export type ModelClientConditionInput = {
-  name?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  status?: ModelClientStatusInput | null,
-  search?: ModelStringInput | null,
-  totalUnits?: ModelIntInput | null,
-  unitsServed?: ModelIntInput | null,
-  unitsExpected?: ModelIntInput | null,
-  firstOSDate?: ModelStringInput | null,
-  lastOSDate?: ModelStringInput | null,
-  scheduleRouted?: ModelIntInput | null,
-  scheduleConfirmed?: ModelIntInput | null,
-  schedulePending?: ModelIntInput | null,
-  totalEligibles?: ModelIntInput | null,
-  totalVaccinations?: ModelIntInput | null,
-  code?: ModelStringInput | null,
-  and?: Array< ModelClientConditionInput | null > | null,
-  or?: Array< ModelClientConditionInput | null > | null,
-  not?: ModelClientConditionInput | null,
-};
-
-export type ModelClientStatusInput = {
-  eq?: ClientStatus | null,
-  ne?: ClientStatus | null,
-};
-
-export type UpdateClientInput = {
-  id: string,
-  name?: string | null,
-  notes?: string | null,
-  status?: ClientStatus | null,
-  search?: string | null,
-  totalUnits?: number | null,
-  unitsServed?: number | null,
-  unitsExpected?: number | null,
-  firstOSDate?: string | null,
-  lastOSDate?: string | null,
-  scheduleRouted?: number | null,
-  scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
-  totalEligibles?: number | null,
-  totalVaccinations?: number | null,
-  code?: string | null,
-};
-
-export type DeleteClientInput = {
-  id: string,
-};
-
-export type CreateClientUnitInput = {
-  id?: string | null,
-  clientID: string,
-  name?: string | null,
-  street?: string | null,
-  number?: string | null,
-  complement?: string | null,
-  zipcode?: string | null,
-  neighborhood?: string | null,
-  city?: string | null,
-  state?: string | null,
-  country?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  contactName?: string | null,
-  contactEmail?: string | null,
-  contactPhone?: string | null,
-  totalEligibles?: number | null,
-  code?: string | null,
-};
-
-export type ModelClientUnitConditionInput = {
-  clientID?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  street?: ModelStringInput | null,
-  number?: ModelStringInput | null,
-  complement?: ModelStringInput | null,
-  zipcode?: ModelStringInput | null,
-  neighborhood?: ModelStringInput | null,
-  city?: ModelStringInput | null,
-  state?: ModelStringInput | null,
-  country?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  contactName?: ModelStringInput | null,
-  contactEmail?: ModelStringInput | null,
-  contactPhone?: ModelStringInput | null,
-  totalEligibles?: ModelIntInput | null,
-  code?: ModelStringInput | null,
-  and?: Array< ModelClientUnitConditionInput | null > | null,
-  or?: Array< ModelClientUnitConditionInput | null > | null,
-  not?: ModelClientUnitConditionInput | null,
-};
-
-export type UpdateClientUnitInput = {
-  id: string,
-  clientID?: string | null,
-  name?: string | null,
-  street?: string | null,
-  number?: string | null,
-  complement?: string | null,
-  zipcode?: string | null,
-  neighborhood?: string | null,
-  city?: string | null,
-  state?: string | null,
-  country?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  contactName?: string | null,
-  contactEmail?: string | null,
-  contactPhone?: string | null,
-  totalEligibles?: number | null,
-  code?: string | null,
-};
-
-export type DeleteClientUnitInput = {
-  id: string,
-};
-
-export type CreateClientEligibleInput = {
-  id?: string | null,
-  clientID: string,
-  key: string,
-  name?: string | null,
-  cpf?: string | null,
-  rg?: string | null,
-  birth?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  relationship?: string | null,
-  isDependent?: boolean | null,
-};
-
-export type ModelClientEligibleConditionInput = {
-  clientID?: ModelIDInput | null,
-  key?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  cpf?: ModelStringInput | null,
-  rg?: ModelStringInput | null,
-  birth?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  relationship?: ModelStringInput | null,
-  isDependent?: ModelBooleanInput | null,
-  and?: Array< ModelClientEligibleConditionInput | null > | null,
-  or?: Array< ModelClientEligibleConditionInput | null > | null,
-  not?: ModelClientEligibleConditionInput | null,
-};
-
-export type UpdateClientEligibleInput = {
-  id: string,
-  clientID?: string | null,
-  key?: string | null,
-  name?: string | null,
-  cpf?: string | null,
-  rg?: string | null,
-  birth?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  relationship?: string | null,
-  isDependent?: boolean | null,
-};
-
-export type DeleteClientEligibleInput = {
-  id: string,
-};
-
-export type CreateEligibleVaccinationInput = {
-  id?: string | null,
-  osID: string,
-  clientEligibleID: string,
-  clientID: string,
-  profissionalID?: string | null,
-  coren?: string | null,
-  applicationDate?: string | null,
-  reason?: string | null,
-  vaccination?: string | null,
-  status?: EligibleVaccinationStatus | null,
-  localCity?: string | null,
-  localState?: string | null,
-};
-
-export type ModelEligibleVaccinationConditionInput = {
-  osID?: ModelIDInput | null,
-  clientEligibleID?: ModelIDInput | null,
-  clientID?: ModelIDInput | null,
-  profissionalID?: ModelIDInput | null,
-  coren?: ModelStringInput | null,
-  applicationDate?: ModelStringInput | null,
-  reason?: ModelStringInput | null,
-  vaccination?: ModelStringInput | null,
-  status?: ModelEligibleVaccinationStatusInput | null,
-  localCity?: ModelStringInput | null,
-  localState?: ModelStringInput | null,
-  and?: Array< ModelEligibleVaccinationConditionInput | null > | null,
-  or?: Array< ModelEligibleVaccinationConditionInput | null > | null,
-  not?: ModelEligibleVaccinationConditionInput | null,
-};
-
-export type ModelEligibleVaccinationStatusInput = {
-  eq?: EligibleVaccinationStatus | null,
-  ne?: EligibleVaccinationStatus | null,
-};
-
-export type UpdateEligibleVaccinationInput = {
-  id: string,
-  osID?: string | null,
-  clientEligibleID?: string | null,
-  clientID?: string | null,
-  profissionalID?: string | null,
-  coren?: string | null,
-  applicationDate?: string | null,
-  reason?: string | null,
-  vaccination?: string | null,
-  status?: EligibleVaccinationStatus | null,
-  localCity?: string | null,
-  localState?: string | null,
-};
-
-export type DeleteEligibleVaccinationInput = {
   id: string,
 };
 
@@ -4271,7 +4654,7 @@ export type CreateCartInput = {
   changeQtyBlend?: number | null,
   changePriceAdjustment?: string | null,
   blendID?: string | null,
-  campaignToken?: string | null,
+  adherenceToken?: string | null,
 };
 
 export type UpdateCartInput = {
@@ -4284,7 +4667,7 @@ export type UpdateCartInput = {
   changeQtyBlend?: number | null,
   changePriceAdjustment?: string | null,
   blendID?: string | null,
-  campaignToken?: string | null,
+  adherenceToken?: string | null,
 };
 
 export type CreateCartOptionInput = {
@@ -4322,9 +4705,11 @@ export type CreateOrderInput = {
   addressState?: string | null,
   addressCountry?: string | null,
   notes?: string | null,
-  campaignID?: string | null,
-  campaignName?: string | null,
-  campaignOrientation?: string | null,
+  adherenceID?: string | null,
+  adherenceName?: string | null,
+  adherenceOrientation?: string | null,
+  clientCampaignID?: string | null,
+  clientCampaignName?: string | null,
   companyID?: string | null,
   companyName?: string | null,
   companyPhone?: string | null,
@@ -4359,9 +4744,11 @@ export type UpdateOrderInput = {
   addressState?: string | null,
   addressCountry?: string | null,
   notes?: string | null,
-  campaignID?: string | null,
-  campaignName?: string | null,
-  campaignOrientation?: string | null,
+  adherenceID?: string | null,
+  adherenceName?: string | null,
+  adherenceOrientation?: string | null,
+  clientCampaignID?: string | null,
+  clientCampaignName?: string | null,
   companyID?: string | null,
   companyName?: string | null,
   companyPhone?: string | null,
@@ -4503,11 +4890,12 @@ export type DeleteNotifyInput = {
   id: string,
 };
 
-export type UpdateCampaignInput = {
+export type UpdateAdherenceInput = {
   id: string,
   name?: string | null,
   description?: string | null,
   code?: string | null,
+  campaignCode?: string | null,
   start?: string | null,
   expiration?: string | null,
   discountPercentage?: number | null,
@@ -4522,73 +4910,73 @@ export type UpdateCampaignInput = {
   search?: string | null,
 };
 
-export type CreateCampaignUsedInput = {
+export type CreateAdherenceUsedInput = {
   id?: string | null,
-  campaignID: string,
+  adherenceID: string,
   userID: string,
   qty?: number | null,
 };
 
-export type ModelCampaignUsedConditionInput = {
-  campaignID?: ModelIDInput | null,
+export type ModelAdherenceUsedConditionInput = {
+  adherenceID?: ModelIDInput | null,
   userID?: ModelIDInput | null,
   qty?: ModelIntInput | null,
-  and?: Array< ModelCampaignUsedConditionInput | null > | null,
-  or?: Array< ModelCampaignUsedConditionInput | null > | null,
-  not?: ModelCampaignUsedConditionInput | null,
+  and?: Array< ModelAdherenceUsedConditionInput | null > | null,
+  or?: Array< ModelAdherenceUsedConditionInput | null > | null,
+  not?: ModelAdherenceUsedConditionInput | null,
 };
 
-export type CreateCampaignProductInput = {
+export type CreateAdherenceProductInput = {
   id?: string | null,
-  campaignID: string,
+  adherenceID: string,
   productID: string,
   price?: number | null,
   limit?: number | null,
 };
 
-export type ModelCampaignProductConditionInput = {
-  campaignID?: ModelIDInput | null,
+export type ModelAdherenceProductConditionInput = {
+  adherenceID?: ModelIDInput | null,
   productID?: ModelIDInput | null,
   price?: ModelFloatInput | null,
   limit?: ModelIntInput | null,
-  and?: Array< ModelCampaignProductConditionInput | null > | null,
-  or?: Array< ModelCampaignProductConditionInput | null > | null,
-  not?: ModelCampaignProductConditionInput | null,
+  and?: Array< ModelAdherenceProductConditionInput | null > | null,
+  or?: Array< ModelAdherenceProductConditionInput | null > | null,
+  not?: ModelAdherenceProductConditionInput | null,
 };
 
-export type UpdateCampaignProductInput = {
+export type UpdateAdherenceProductInput = {
   id: string,
-  campaignID?: string | null,
+  adherenceID?: string | null,
   productID?: string | null,
   price?: number | null,
   limit?: number | null,
 };
 
-export type DeleteCampaignProductInput = {
+export type DeleteAdherenceProductInput = {
   id: string,
 };
 
-export type CreateCampaignCompanyInput = {
+export type CreateAdherenceCompanyInput = {
   id?: string | null,
-  campaignID: string,
+  adherenceID: string,
   companyID: string,
 };
 
-export type ModelCampaignCompanyConditionInput = {
-  campaignID?: ModelIDInput | null,
+export type ModelAdherenceCompanyConditionInput = {
+  adherenceID?: ModelIDInput | null,
   companyID?: ModelIDInput | null,
-  and?: Array< ModelCampaignCompanyConditionInput | null > | null,
-  or?: Array< ModelCampaignCompanyConditionInput | null > | null,
-  not?: ModelCampaignCompanyConditionInput | null,
+  and?: Array< ModelAdherenceCompanyConditionInput | null > | null,
+  or?: Array< ModelAdherenceCompanyConditionInput | null > | null,
+  not?: ModelAdherenceCompanyConditionInput | null,
 };
 
-export type UpdateCampaignCompanyInput = {
+export type UpdateAdherenceCompanyInput = {
   id: string,
-  campaignID?: string | null,
+  adherenceID?: string | null,
   companyID?: string | null,
 };
 
-export type DeleteCampaignCompanyInput = {
+export type DeleteAdherenceCompanyInput = {
   id: string,
 };
 
@@ -4597,7 +4985,8 @@ export type CreateVaccinationCardItemInput = {
   vaccinationCardID: string,
   orderID: string,
   orderItemID: string,
-  campaignID?: string | null,
+  adherenceID?: string | null,
+  clientCampaignID?: string | null,
   companyID?: string | null,
   lote?: string | null,
   profissionalID?: string | null,
@@ -4607,65 +4996,6 @@ export type CreateVaccinationCardItemInput = {
   via?: string | null,
   applicationDate?: string | null,
   status?: string | null,
-};
-
-export type UpdateAuthorizationListMemberInput = {
-  id: string,
-  authorizationListID?: string | null,
-  name?: string | null,
-  key?: string | null,
-  cpf?: string | null,
-  birth?: string | null,
-  search?: string | null,
-  others?: string | null,
-};
-
-export type CreateAuthorizationListMemberVaccinationInput = {
-  id?: string | null,
-  authorizationListID: string,
-  authorizationListMemberID: string,
-  profissionalID?: string | null,
-  coren?: string | null,
-  lote?: string | null,
-  dueDate?: string | null,
-  via?: string | null,
-  OS?: string | null,
-  applicationDate?: string | null,
-  applicationTime?: string | null,
-};
-
-export type ModelAuthorizationListMemberVaccinationConditionInput = {
-  authorizationListID?: ModelIDInput | null,
-  authorizationListMemberID?: ModelIDInput | null,
-  profissionalID?: ModelIDInput | null,
-  coren?: ModelStringInput | null,
-  lote?: ModelStringInput | null,
-  dueDate?: ModelStringInput | null,
-  via?: ModelStringInput | null,
-  OS?: ModelStringInput | null,
-  applicationDate?: ModelStringInput | null,
-  applicationTime?: ModelStringInput | null,
-  and?: Array< ModelAuthorizationListMemberVaccinationConditionInput | null > | null,
-  or?: Array< ModelAuthorizationListMemberVaccinationConditionInput | null > | null,
-  not?: ModelAuthorizationListMemberVaccinationConditionInput | null,
-};
-
-export type UpdateAuthorizationListMemberVaccinationInput = {
-  id: string,
-  authorizationListID?: string | null,
-  authorizationListMemberID?: string | null,
-  profissionalID?: string | null,
-  coren?: string | null,
-  lote?: string | null,
-  dueDate?: string | null,
-  via?: string | null,
-  OS?: string | null,
-  applicationDate?: string | null,
-  applicationTime?: string | null,
-};
-
-export type DeleteAuthorizationListMemberVaccinationInput = {
-  id: string,
 };
 
 export type CreateCounterInput = {
@@ -4720,7 +5050,8 @@ export type CreateClientCampaignInput = {
   clientID: string,
   name: string,
   description?: string | null,
-  search?: string | null,
+  clientNotes?: string | null,
+  internalNotes?: string | null,
   totalUnits?: number | null,
   unitsServed?: number | null,
   unitsExpected?: number | null,
@@ -4728,10 +5059,20 @@ export type CreateClientCampaignInput = {
   lastOSDate?: string | null,
   scheduleRouted?: number | null,
   scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
+  scheduleFinished?: number | null,
   totalEligibles?: number | null,
+  totalEligiblesDependent?: number | null,
+  totalEligiblesThird?: number | null,
   totalVaccinations?: number | null,
-  campaignCode?: string | null,
+  search?: string | null,
+  responsible?: string | null,
+  number?: number | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  createdAt?: string | null,
+  idx: number,
+  campaignCode: string,
   status?: ClientCampaignStatus | null,
 };
 
@@ -4739,7 +5080,8 @@ export type ModelClientCampaignConditionInput = {
   clientID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  search?: ModelStringInput | null,
+  clientNotes?: ModelStringInput | null,
+  internalNotes?: ModelStringInput | null,
   totalUnits?: ModelIntInput | null,
   unitsServed?: ModelIntInput | null,
   unitsExpected?: ModelIntInput | null,
@@ -4747,9 +5089,19 @@ export type ModelClientCampaignConditionInput = {
   lastOSDate?: ModelStringInput | null,
   scheduleRouted?: ModelIntInput | null,
   scheduleConfirmed?: ModelIntInput | null,
-  schedulePending?: ModelIntInput | null,
+  scheduleFinished?: ModelIntInput | null,
   totalEligibles?: ModelIntInput | null,
+  totalEligiblesDependent?: ModelIntInput | null,
+  totalEligiblesThird?: ModelIntInput | null,
   totalVaccinations?: ModelIntInput | null,
+  search?: ModelStringInput | null,
+  responsible?: ModelStringInput | null,
+  number?: ModelIntInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  idx?: ModelIntInput | null,
   campaignCode?: ModelStringInput | null,
   status?: ModelClientCampaignStatusInput | null,
   and?: Array< ModelClientCampaignConditionInput | null > | null,
@@ -4757,17 +5109,13 @@ export type ModelClientCampaignConditionInput = {
   not?: ModelClientCampaignConditionInput | null,
 };
 
-export type ModelClientCampaignStatusInput = {
-  eq?: ClientCampaignStatus | null,
-  ne?: ClientCampaignStatus | null,
-};
-
 export type UpdateClientCampaignInput = {
   id: string,
   clientID?: string | null,
   name?: string | null,
   description?: string | null,
-  search?: string | null,
+  clientNotes?: string | null,
+  internalNotes?: string | null,
   totalUnits?: number | null,
   unitsServed?: number | null,
   unitsExpected?: number | null,
@@ -4775,14 +5123,102 @@ export type UpdateClientCampaignInput = {
   lastOSDate?: string | null,
   scheduleRouted?: number | null,
   scheduleConfirmed?: number | null,
-  schedulePending?: number | null,
+  scheduleFinished?: number | null,
   totalEligibles?: number | null,
+  totalEligiblesDependent?: number | null,
+  totalEligiblesThird?: number | null,
   totalVaccinations?: number | null,
+  search?: string | null,
+  responsible?: string | null,
+  number?: number | null,
+  contactName?: string | null,
+  contactEmail?: string | null,
+  contactPhone?: string | null,
+  createdAt?: string | null,
+  idx?: number | null,
   campaignCode?: string | null,
   status?: ClientCampaignStatus | null,
 };
 
 export type DeleteClientCampaignInput = {
+  id: string,
+};
+
+export type CreateClientCampaignProductInput = {
+  id?: string | null,
+  clientCampaignID: string,
+  productID: string,
+  price?: number | null,
+  limit?: number | null,
+};
+
+export type ModelClientCampaignProductConditionInput = {
+  clientCampaignID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
+  price?: ModelFloatInput | null,
+  limit?: ModelIntInput | null,
+  and?: Array< ModelClientCampaignProductConditionInput | null > | null,
+  or?: Array< ModelClientCampaignProductConditionInput | null > | null,
+  not?: ModelClientCampaignProductConditionInput | null,
+};
+
+export type UpdateClientCampaignProductInput = {
+  id: string,
+  clientCampaignID?: string | null,
+  productID?: string | null,
+  price?: number | null,
+  limit?: number | null,
+};
+
+export type DeleteClientCampaignProductInput = {
+  id: string,
+};
+
+export type CreateClientCampaignCompanyInput = {
+  id?: string | null,
+  clientCampaignID: string,
+  companyID: string,
+};
+
+export type ModelClientCampaignCompanyConditionInput = {
+  clientCampaignID?: ModelIDInput | null,
+  companyID?: ModelIDInput | null,
+  and?: Array< ModelClientCampaignCompanyConditionInput | null > | null,
+  or?: Array< ModelClientCampaignCompanyConditionInput | null > | null,
+  not?: ModelClientCampaignCompanyConditionInput | null,
+};
+
+export type UpdateClientCampaignCompanyInput = {
+  id: string,
+  clientCampaignID?: string | null,
+  companyID?: string | null,
+};
+
+export type DeleteClientCampaignCompanyInput = {
+  id: string,
+};
+
+export type CreateClientCampaignUnitInput = {
+  id?: string | null,
+  clientCampaignID: string,
+  unitID: string,
+};
+
+export type ModelClientCampaignUnitConditionInput = {
+  clientCampaignID?: ModelIDInput | null,
+  unitID?: ModelIDInput | null,
+  and?: Array< ModelClientCampaignUnitConditionInput | null > | null,
+  or?: Array< ModelClientCampaignUnitConditionInput | null > | null,
+  not?: ModelClientCampaignUnitConditionInput | null,
+};
+
+export type UpdateClientCampaignUnitInput = {
+  id: string,
+  clientCampaignID?: string | null,
+  unitID?: string | null,
+};
+
+export type DeleteClientCampaignUnitInput = {
   id: string,
 };
 
@@ -4900,6 +5336,65 @@ export type UpdateOSInput = {
 };
 
 export type DeleteOSInput = {
+  id: string,
+};
+
+export type UpdateAuthorizationListMemberInput = {
+  id: string,
+  authorizationListID?: string | null,
+  name?: string | null,
+  key?: string | null,
+  cpf?: string | null,
+  birth?: string | null,
+  search?: string | null,
+  others?: string | null,
+};
+
+export type CreateAuthorizationListMemberVaccinationInput = {
+  id?: string | null,
+  authorizationListID: string,
+  authorizationListMemberID: string,
+  profissionalID?: string | null,
+  coren?: string | null,
+  lote?: string | null,
+  dueDate?: string | null,
+  via?: string | null,
+  OS?: string | null,
+  applicationDate?: string | null,
+  applicationTime?: string | null,
+};
+
+export type ModelAuthorizationListMemberVaccinationConditionInput = {
+  authorizationListID?: ModelIDInput | null,
+  authorizationListMemberID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  coren?: ModelStringInput | null,
+  lote?: ModelStringInput | null,
+  dueDate?: ModelStringInput | null,
+  via?: ModelStringInput | null,
+  OS?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  applicationTime?: ModelStringInput | null,
+  and?: Array< ModelAuthorizationListMemberVaccinationConditionInput | null > | null,
+  or?: Array< ModelAuthorizationListMemberVaccinationConditionInput | null > | null,
+  not?: ModelAuthorizationListMemberVaccinationConditionInput | null,
+};
+
+export type UpdateAuthorizationListMemberVaccinationInput = {
+  id: string,
+  authorizationListID?: string | null,
+  authorizationListMemberID?: string | null,
+  profissionalID?: string | null,
+  coren?: string | null,
+  lote?: string | null,
+  dueDate?: string | null,
+  via?: string | null,
+  OS?: string | null,
+  applicationDate?: string | null,
+  applicationTime?: string | null,
+};
+
+export type DeleteAuthorizationListMemberVaccinationInput = {
   id: string,
 };
 
@@ -5080,6 +5575,21 @@ export type ModelCategoryConnection = {
   nextToken?: string | null,
 };
 
+export type ModelLaboratoryFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  and?: Array< ModelLaboratoryFilterInput | null > | null,
+  or?: Array< ModelLaboratoryFilterInput | null > | null,
+  not?: ModelLaboratoryFilterInput | null,
+};
+
+export type ModelLaboratoryConnection = {
+  __typename: "ModelLaboratoryConnection",
+  items:  Array<Laboratory | null >,
+  nextToken?: string | null,
+};
+
 export type ModelKitItemFilterInput = {
   id?: ModelIDInput | null,
   productID?: ModelIDInput | null,
@@ -5169,15 +5679,15 @@ export type ModelDeliveryMethodOrderConnection = {
   nextToken?: string | null,
 };
 
-export type ModelCampaignProductFilterInput = {
+export type ModelAdherenceProductFilterInput = {
   id?: ModelIDInput | null,
-  campaignID?: ModelIDInput | null,
+  adherenceID?: ModelIDInput | null,
   productID?: ModelIDInput | null,
   price?: ModelFloatInput | null,
   limit?: ModelIntInput | null,
-  and?: Array< ModelCampaignProductFilterInput | null > | null,
-  or?: Array< ModelCampaignProductFilterInput | null > | null,
-  not?: ModelCampaignProductFilterInput | null,
+  and?: Array< ModelAdherenceProductFilterInput | null > | null,
+  or?: Array< ModelAdherenceProductFilterInput | null > | null,
+  not?: ModelAdherenceProductFilterInput | null,
 };
 
 export type ModelCompanyFilterInput = {
@@ -5215,6 +5725,196 @@ export type ModelCompanyConnection = {
   nextToken?: string | null,
 };
 
+export type ModelClientFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  group?: ModelStringInput | null,
+  indication?: ModelStringInput | null,
+  origin?: ModelStringInput | null,
+  status?: ModelClientStatusInput | null,
+  search?: ModelStringInput | null,
+  logo?: ModelStringInput | null,
+  logoSrc?: ModelStringInput | null,
+  logoCropper?: ModelStringInput | null,
+  totalUnits?: ModelIntInput | null,
+  unitsServed?: ModelIntInput | null,
+  unitsExpected?: ModelIntInput | null,
+  firstOSDate?: ModelStringInput | null,
+  lastOSDate?: ModelStringInput | null,
+  scheduleRouted?: ModelIntInput | null,
+  scheduleConfirmed?: ModelIntInput | null,
+  schedulePending?: ModelIntInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalVaccinations?: ModelIntInput | null,
+  code?: ModelStringInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  and?: Array< ModelClientFilterInput | null > | null,
+  or?: Array< ModelClientFilterInput | null > | null,
+  not?: ModelClientFilterInput | null,
+};
+
+export type ModelClientConnection = {
+  __typename: "ModelClientConnection",
+  items:  Array<Client | null >,
+  nextToken?: string | null,
+};
+
+export type ModelClientUnitFilterInput = {
+  id?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  cnpj?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  fullName?: ModelStringInput | null,
+  street?: ModelStringInput | null,
+  number?: ModelStringInput | null,
+  complement?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  neighborhood?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  country?: ModelStringInput | null,
+  billingStreet?: ModelStringInput | null,
+  billingNumber?: ModelStringInput | null,
+  billingComplement?: ModelStringInput | null,
+  billingZipcode?: ModelStringInput | null,
+  billingNeighborhood?: ModelStringInput | null,
+  billingCity?: ModelStringInput | null,
+  billingState?: ModelStringInput | null,
+  billingCountry?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalCollaborators?: ModelIntInput | null,
+  code?: ModelStringInput | null,
+  and?: Array< ModelClientUnitFilterInput | null > | null,
+  or?: Array< ModelClientUnitFilterInput | null > | null,
+  not?: ModelClientUnitFilterInput | null,
+};
+
+export type ModelClientCampaignProductFilterInput = {
+  id?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  productID?: ModelIDInput | null,
+  price?: ModelFloatInput | null,
+  limit?: ModelIntInput | null,
+  and?: Array< ModelClientCampaignProductFilterInput | null > | null,
+  or?: Array< ModelClientCampaignProductFilterInput | null > | null,
+  not?: ModelClientCampaignProductFilterInput | null,
+};
+
+export type ModelClientCampaignCompanyFilterInput = {
+  id?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  companyID?: ModelIDInput | null,
+  and?: Array< ModelClientCampaignCompanyFilterInput | null > | null,
+  or?: Array< ModelClientCampaignCompanyFilterInput | null > | null,
+  not?: ModelClientCampaignCompanyFilterInput | null,
+};
+
+export type ModelClientCampaignUnitFilterInput = {
+  id?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  unitID?: ModelIDInput | null,
+  and?: Array< ModelClientCampaignUnitFilterInput | null > | null,
+  or?: Array< ModelClientCampaignUnitFilterInput | null > | null,
+  not?: ModelClientCampaignUnitFilterInput | null,
+};
+
+export type ModelClientCampaignEligibleFilterInput = {
+  id?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  key?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  rg?: ModelStringInput | null,
+  birth?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  relationship?: ModelStringInput | null,
+  isDependent?: ModelBooleanInput | null,
+  cpfRelationship?: ModelStringInput | null,
+  isThird?: ModelBooleanInput | null,
+  thirdName?: ModelStringInput | null,
+  and?: Array< ModelClientCampaignEligibleFilterInput | null > | null,
+  or?: Array< ModelClientCampaignEligibleFilterInput | null > | null,
+  not?: ModelClientCampaignEligibleFilterInput | null,
+};
+
+export type ModelClientCampaignEligibleConnection = {
+  __typename: "ModelClientCampaignEligibleConnection",
+  items:  Array<ClientCampaignEligible | null >,
+  nextToken?: string | null,
+};
+
+export type ModelClientCampaignEligibleVaccinationFilterInput = {
+  id?: ModelIDInput | null,
+  osID?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  clientCampaignEligibleID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  profissionalDoc?: ModelStringInput | null,
+  coren?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  vaccination?: ModelStringInput | null,
+  status?: ModelEligibleVaccinationStatusInput | null,
+  localCity?: ModelStringInput | null,
+  localState?: ModelStringInput | null,
+  and?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
+  or?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
+  not?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+};
+
+export type ModelClientCampaignEligibleVaccinationConnection = {
+  __typename: "ModelClientCampaignEligibleVaccinationConnection",
+  items:  Array<ClientCampaignEligibleVaccination | null >,
+  nextToken?: string | null,
+};
+
+export type ModelEligibleVaccinationFilterInput = {
+  id?: ModelIDInput | null,
+  osID?: ModelIDInput | null,
+  clientEligibleID?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  profissionalDoc?: ModelStringInput | null,
+  coren?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  vaccination?: ModelStringInput | null,
+  status?: ModelEligibleVaccinationStatusInput | null,
+  localCity?: ModelStringInput | null,
+  localState?: ModelStringInput | null,
+  and?: Array< ModelEligibleVaccinationFilterInput | null > | null,
+  or?: Array< ModelEligibleVaccinationFilterInput | null > | null,
+  not?: ModelEligibleVaccinationFilterInput | null,
+};
+
+export type ModelClientEligibleFilterInput = {
+  id?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  key?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  rg?: ModelStringInput | null,
+  birth?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  relationship?: ModelStringInput | null,
+  isDependent?: ModelBooleanInput | null,
+  and?: Array< ModelClientEligibleFilterInput | null > | null,
+  or?: Array< ModelClientEligibleFilterInput | null > | null,
+  not?: ModelClientEligibleFilterInput | null,
+};
+
 export type ModelAuthorizationListFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -5231,7 +5931,7 @@ export type ModelAuthorizationListFilterInput = {
   notesFinished?: ModelStringInput | null,
   professionalFinished?: ModelIDInput | null,
   withList?: ModelBooleanInput | null,
-  campaignCode?: ModelStringInput | null,
+  adherenceCode?: ModelStringInput | null,
   OS?: ModelStringInput | null,
   status?: ModelAuthorizationListStatusInput | null,
   and?: Array< ModelAuthorizationListFilterInput | null > | null,
@@ -5268,92 +5968,6 @@ export type ModelAuthorizationListClosureConnection = {
   nextToken?: string | null,
 };
 
-export type ModelClientFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  status?: ModelClientStatusInput | null,
-  search?: ModelStringInput | null,
-  totalUnits?: ModelIntInput | null,
-  unitsServed?: ModelIntInput | null,
-  unitsExpected?: ModelIntInput | null,
-  firstOSDate?: ModelStringInput | null,
-  lastOSDate?: ModelStringInput | null,
-  scheduleRouted?: ModelIntInput | null,
-  scheduleConfirmed?: ModelIntInput | null,
-  schedulePending?: ModelIntInput | null,
-  totalEligibles?: ModelIntInput | null,
-  totalVaccinations?: ModelIntInput | null,
-  code?: ModelStringInput | null,
-  and?: Array< ModelClientFilterInput | null > | null,
-  or?: Array< ModelClientFilterInput | null > | null,
-  not?: ModelClientFilterInput | null,
-};
-
-export type ModelClientConnection = {
-  __typename: "ModelClientConnection",
-  items:  Array<Client | null >,
-  nextToken?: string | null,
-};
-
-export type ModelClientEligibleFilterInput = {
-  id?: ModelIDInput | null,
-  clientID?: ModelIDInput | null,
-  key?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  cpf?: ModelStringInput | null,
-  rg?: ModelStringInput | null,
-  birth?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  relationship?: ModelStringInput | null,
-  isDependent?: ModelBooleanInput | null,
-  and?: Array< ModelClientEligibleFilterInput | null > | null,
-  or?: Array< ModelClientEligibleFilterInput | null > | null,
-  not?: ModelClientEligibleFilterInput | null,
-};
-
-export type ModelClientCampaignFilterInput = {
-  id?: ModelIDInput | null,
-  clientID?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  totalUnits?: ModelIntInput | null,
-  unitsServed?: ModelIntInput | null,
-  unitsExpected?: ModelIntInput | null,
-  firstOSDate?: ModelStringInput | null,
-  lastOSDate?: ModelStringInput | null,
-  scheduleRouted?: ModelIntInput | null,
-  scheduleConfirmed?: ModelIntInput | null,
-  schedulePending?: ModelIntInput | null,
-  totalEligibles?: ModelIntInput | null,
-  totalVaccinations?: ModelIntInput | null,
-  campaignCode?: ModelStringInput | null,
-  status?: ModelClientCampaignStatusInput | null,
-  and?: Array< ModelClientCampaignFilterInput | null > | null,
-  or?: Array< ModelClientCampaignFilterInput | null > | null,
-  not?: ModelClientCampaignFilterInput | null,
-};
-
-export type ModelEligibleVaccinationFilterInput = {
-  id?: ModelIDInput | null,
-  osID?: ModelIDInput | null,
-  clientEligibleID?: ModelIDInput | null,
-  clientID?: ModelIDInput | null,
-  profissionalID?: ModelIDInput | null,
-  coren?: ModelStringInput | null,
-  applicationDate?: ModelStringInput | null,
-  reason?: ModelStringInput | null,
-  vaccination?: ModelStringInput | null,
-  status?: ModelEligibleVaccinationStatusInput | null,
-  localCity?: ModelStringInput | null,
-  localState?: ModelStringInput | null,
-  and?: Array< ModelEligibleVaccinationFilterInput | null > | null,
-  or?: Array< ModelEligibleVaccinationFilterInput | null > | null,
-  not?: ModelEligibleVaccinationFilterInput | null,
-};
-
 export type ModelSubscriptionCartFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   productID?: ModelSubscriptionIDInput | null,
@@ -5363,7 +5977,7 @@ export type ModelSubscriptionCartFilterInput = {
   changeQtyBlend?: ModelSubscriptionIntInput | null,
   changePriceAdjustment?: ModelSubscriptionStringInput | null,
   blendID?: ModelSubscriptionIDInput | null,
-  campaignToken?: ModelSubscriptionStringInput | null,
+  adherenceToken?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCartFilterInput | null > | null,
   or?: Array< ModelSubscriptionCartFilterInput | null > | null,
 };
@@ -5432,9 +6046,11 @@ export type ModelSubscriptionOrderFilterInput = {
   addressState?: ModelSubscriptionStringInput | null,
   addressCountry?: ModelSubscriptionStringInput | null,
   notes?: ModelSubscriptionStringInput | null,
-  campaignID?: ModelSubscriptionIDInput | null,
-  campaignName?: ModelSubscriptionStringInput | null,
-  campaignOrientation?: ModelSubscriptionStringInput | null,
+  adherenceID?: ModelSubscriptionIDInput | null,
+  adherenceName?: ModelSubscriptionStringInput | null,
+  adherenceOrientation?: ModelSubscriptionStringInput | null,
+  clientCampaignID?: ModelSubscriptionIDInput | null,
+  clientCampaignName?: ModelSubscriptionStringInput | null,
   companyID?: ModelSubscriptionIDInput | null,
   companyName?: ModelSubscriptionStringInput | null,
   companyPhone?: ModelSubscriptionStringInput | null,
@@ -6259,7 +6875,7 @@ export type ListCartsByUserCustomQuery = {
       changeQtyBlend?: number | null,
       changePriceAdjustment?: string | null,
       blendID?: string | null,
-      campaignToken?: string | null,
+      adherenceToken?: string | null,
       product?:  {
         __typename: "Product",
         thumbnail?: string | null,
@@ -6659,9 +7275,9 @@ export type ListOrdersByUserCreatedAtCustomQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       updatedAt: string,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -6780,9 +7396,9 @@ export type ListOrdersByStatusCreatedAtCustomQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       updatedAt: string,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -6881,19 +7497,19 @@ export type ListOrdersByStatusCreatedAtCustomQuery = {
   } | null,
 };
 
-export type ListCampaignByCodeCustomQueryVariables = {
+export type ListAdherenceByCodeCustomQueryVariables = {
   code: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignFilterInput | null,
+  filter?: ModelAdherenceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCampaignByCodeCustomQuery = {
-  listCampaignByCode?:  {
-    __typename: "ModelCampaignConnection",
+export type ListAdherenceByCodeCustomQuery = {
+  listAdherenceByCode?:  {
+    __typename: "ModelAdherenceConnection",
     items:  Array< {
-      __typename: "Campaign",
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
@@ -6910,9 +7526,9 @@ export type ListCampaignByCodeCustomQuery = {
       createdAt: string,
       updatedAt: string,
       products?:  {
-        __typename: "ModelCampaignProductConnection",
+        __typename: "ModelAdherenceProductConnection",
         items:  Array< {
-          __typename: "CampaignProduct",
+          __typename: "AdherenceProduct",
           price?: number | null,
           limit?: number | null,
           product?:  {
@@ -7555,21 +8171,46 @@ export type ListProductsCustomQuery = {
   } | null,
 };
 
-export type ListUsedByCampaignCustomQueryVariables = {
-  campaignID: string,
+export type ListProductsCustomNAPPQueryVariables = {
+  id?: string | null,
+  filter?: ModelProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignUsedFilterInput | null,
+};
+
+export type ListProductsCustomNAPPQuery = {
+  listProducts?:  {
+    __typename: "ModelProductConnection",
+    items:  Array< {
+      __typename: "Product",
+      id: string,
+      name: string,
+      description?: string | null,
+      manufacturer?: string | null,
+      price: number,
+      qty?: number | null,
+      status: PageStatus,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListUsedByAdherenceCustomQueryVariables = {
+  adherenceID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAdherenceUsedFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListUsedByCampaignCustomQuery = {
-  listUsedByCampaign?:  {
-    __typename: "ModelCampaignUsedConnection",
+export type ListUsedByAdherenceCustomQuery = {
+  listUsedByAdherence?:  {
+    __typename: "ModelAdherenceUsedConnection",
     items:  Array< {
-      __typename: "CampaignUsed",
+      __typename: "AdherenceUsed",
       id: string,
-      campaignID: string,
+      adherenceID: string,
       userID: string,
       createdAt: string,
       updatedAt: string,
@@ -7645,9 +8286,9 @@ export type GetOrderCustomQuery = {
     addressState?: string | null,
     addressCountry?: string | null,
     updatedAt: string,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
     companyID?: string | null,
     companyName?: string | null,
     companyPhone?: string | null,
@@ -7790,13 +8431,13 @@ export type ListVaccinationCardsItemsByVaccinationCardCustomQuery = {
   } | null,
 };
 
-export type GetCampaignCustomQueryVariables = {
+export type GetAdherenceCustomQueryVariables = {
   id: string,
 };
 
-export type GetCampaignCustomQuery = {
-  getCampaign?:  {
-    __typename: "Campaign",
+export type GetAdherenceCustomQuery = {
+  getAdherence?:  {
+    __typename: "Adherence",
     id: string,
     name: string,
     description?: string | null,
@@ -7810,17 +8451,17 @@ export type GetCampaignCustomQuery = {
     orientation?: string | null,
     zipCodeCoverage?: Array< string | null > | null,
     products?:  {
-      __typename: "ModelCampaignProductConnection",
+      __typename: "ModelAdherenceProductConnection",
       nextToken?: string | null,
     } | null,
-    campaignUsed?:  {
-      __typename: "ModelCampaignUsedConnection",
+    adherenceUsed?:  {
+      __typename: "ModelAdherenceUsedConnection",
       nextToken?: string | null,
     } | null,
     companies?:  {
-      __typename: "ModelCampaignCompanyConnection",
+      __typename: "ModelAdherenceCompanyConnection",
       items:  Array< {
-        __typename: "CampaignCompany",
+        __typename: "AdherenceCompany",
         company?:  {
           __typename: "Company",
           id: string,
@@ -7918,8 +8559,8 @@ export type ListProfilesByCompanyCustomQuery = {
   } | null,
 };
 
-export type ListOrdersByCampaignCreatedAtCustomQueryVariables = {
-  campaignID: string,
+export type ListOrdersByAdherenceCreatedAtCustomQueryVariables = {
+  adherenceID: string,
   createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelOrderFilterInput | null,
@@ -7927,8 +8568,8 @@ export type ListOrdersByCampaignCreatedAtCustomQueryVariables = {
   nextToken?: string | null,
 };
 
-export type ListOrdersByCampaignCreatedAtCustomQuery = {
-  listOrdersByCampaignCreatedAt?:  {
+export type ListOrdersByAdherenceCreatedAtCustomQuery = {
+  listOrdersByAdherenceCreatedAt?:  {
     __typename: "ModelOrderConnection",
     items:  Array< {
       __typename: "Order",
@@ -7978,21 +8619,21 @@ export type ListOrdersByCampaignCreatedAtCustomQuery = {
   } | null,
 };
 
-export type ListCompaniesByCampaignCustomQueryVariables = {
-  campaignID: string,
+export type ListCompaniesByAdherenceCustomQueryVariables = {
+  adherenceID: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignCompanyFilterInput | null,
+  filter?: ModelAdherenceCompanyFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCompaniesByCampaignCustomQuery = {
-  listCompaniesByCampaign?:  {
-    __typename: "ModelCampaignCompanyConnection",
+export type ListCompaniesByAdherenceCustomQuery = {
+  listCompaniesByAdherence?:  {
+    __typename: "ModelAdherenceCompanyConnection",
     items:  Array< {
-      __typename: "CampaignCompany",
+      __typename: "AdherenceCompany",
       id: string,
-      campaignID: string,
+      adherenceID: string,
       companyID: string,
       company?:  {
         __typename: "Company",
@@ -8056,8 +8697,8 @@ export type ListVaccinationCardsItemsByOrderCustomQuery = {
         __typename: "OrderItem",
         name: string,
       } | null,
-      campaign?:  {
-        __typename: "Campaign",
+      adherence?:  {
+        __typename: "Adherence",
         name: string,
       } | null,
       company?:  {
@@ -8066,7 +8707,7 @@ export type ListVaccinationCardsItemsByOrderCustomQuery = {
       } | null,
       orderID: string,
       orderItemID: string,
-      campaignID?: string | null,
+      adherenceID?: string | null,
       companyID?: string | null,
       lote?: string | null,
       profissionalID?: string | null,
@@ -8082,8 +8723,8 @@ export type ListVaccinationCardsItemsByOrderCustomQuery = {
   } | null,
 };
 
-export type ListVaccinationCardsItemsByCampaignCustomQueryVariables = {
-  campaignID: string,
+export type ListVaccinationCardsItemsByAdherenceCustomQueryVariables = {
+  adherenceID: string,
   applicationDate?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelVaccinationCardItemFilterInput | null,
@@ -8091,8 +8732,8 @@ export type ListVaccinationCardsItemsByCampaignCustomQueryVariables = {
   nextToken?: string | null,
 };
 
-export type ListVaccinationCardsItemsByCampaignCustomQuery = {
-  listVaccinationCardsItemsByCampaign?:  {
+export type ListVaccinationCardsItemsByAdherenceCustomQuery = {
+  listVaccinationCardsItemsByAdherence?:  {
     __typename: "ModelVaccinationCardItemConnection",
     items:  Array< {
       __typename: "VaccinationCardItem",
@@ -8151,7 +8792,7 @@ export type ListVaccinationCardItemsCustomQuery = {
       vaccinationCardID: string,
       orderID: string,
       orderItemID: string,
-      campaignID?: string | null,
+      adherenceID?: string | null,
       companyID?: string | null,
       lote?: string | null,
       profissionalID?: string | null,
@@ -8176,8 +8817,8 @@ export type ListVaccinationCardItemsCustomQuery = {
         addressCity?: string | null,
         addressState?: string | null,
       } | null,
-      campaign?:  {
-        __typename: "Campaign",
+      adherence?:  {
+        __typename: "Adherence",
         name: string,
       } | null,
       company?:  {
@@ -8207,7 +8848,7 @@ export type ListVaccinationCardsItemsByProfissionalCustomQuery = {
       vaccinationCardID: string,
       orderID: string,
       orderItemID: string,
-      campaignID?: string | null,
+      adherenceID?: string | null,
       companyID?: string | null,
       lote?: string | null,
       profissionalID?: string | null,
@@ -8231,8 +8872,8 @@ export type ListVaccinationCardsItemsByProfissionalCustomQuery = {
         __typename: "OrderItem",
         name: string,
       } | null,
-      campaign?:  {
-        __typename: "Campaign",
+      adherence?:  {
+        __typename: "Adherence",
         name: string,
       } | null,
       company?:  {
@@ -8262,7 +8903,7 @@ export type ListVaccinationCardsItemsByStatusCustomQuery = {
       vaccinationCardID: string,
       orderID: string,
       orderItemID: string,
-      campaignID?: string | null,
+      adherenceID?: string | null,
       companyID?: string | null,
       lote?: string | null,
       profissionalID?: string | null,
@@ -8286,13 +8927,74 @@ export type ListVaccinationCardsItemsByStatusCustomQuery = {
         __typename: "OrderItem",
         name: string,
       } | null,
-      campaign?:  {
-        __typename: "Campaign",
+      adherence?:  {
+        __typename: "Adherence",
         name: string,
       } | null,
       company?:  {
         __typename: "Company",
         name: string,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByStatusCustomNAPPQueryVariables = {
+  status: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByStatusCustomNAPPQuery = {
+  listVaccinationCardsItemsByStatus?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      applicationDate?: string | null,
+      status?: string | null,
+      orderItem?:  {
+        __typename: "OrderItem",
+        price: number,
+        qty: number,
+        product?:  {
+          __typename: "Product",
+          name: string,
+          id: string,
+          manufacturer?: string | null,
+        } | null,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByStatusCustomNAPP2QueryVariables = {
+  status: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByStatusCustomNAPP2Query = {
+  listVaccinationCardsItemsByStatus?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      lote?: string | null,
+      dueDate?: string | null,
+      orderItem?:  {
+        __typename: "OrderItem",
+        id: string,
+        name: string,
+        qty: number,
       } | null,
     } | null >,
     nextToken?: string | null,
@@ -8379,8 +9081,8 @@ export type ListVaccinationCardsByUserCustomQuery = {
             __typename: "OrderItem",
             name: string,
           } | null,
-          campaign?:  {
-            __typename: "Campaign",
+          adherence?:  {
+            __typename: "Adherence",
             name: string,
           } | null,
           company?:  {
@@ -8876,9 +9578,9 @@ export type GetOrderCustom2Query = {
     addressState?: string | null,
     addressCountry?: string | null,
     updatedAt: string,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
     companyID?: string | null,
     companyName?: string | null,
     companyPhone?: string | null,
@@ -9124,19 +9826,19 @@ export type ListMembersByAuthorizationListCPFCustomQuery = {
   } | null,
 };
 
-export type ListCampaignsCustomQueryVariables = {
+export type ListAdherencesCustomQueryVariables = {
   id?: string | null,
-  filter?: ModelCampaignFilterInput | null,
+  filter?: ModelAdherenceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   sortDirection?: ModelSortDirection | null,
 };
 
-export type ListCampaignsCustomQuery = {
-  listCampaigns?:  {
-    __typename: "ModelCampaignConnection",
+export type ListAdherencesCustomQuery = {
+  listAdherences?:  {
+    __typename: "ModelAdherenceConnection",
     items:  Array< {
-      __typename: "Campaign",
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
@@ -9156,9 +9858,9 @@ export type ListCampaignsCustomQuery = {
       createdAt: string,
       updatedAt: string,
       products?:  {
-        __typename: "ModelCampaignProductConnection",
+        __typename: "ModelAdherenceProductConnection",
         items:  Array< {
-          __typename: "CampaignProduct",
+          __typename: "AdherenceProduct",
           price?: number | null,
           limit?: number | null,
           product?:  {
@@ -9228,6 +9930,7 @@ export type ListOSsCustomQuery = {
       id: string,
       clientID: string,
       clientUnitID: string,
+      clientCampaignID: string,
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
@@ -9275,7 +9978,7 @@ export type ListOSsCustomQuery = {
       clientUnit?:  {
         __typename: "ClientUnit",
         code?: string | null,
-        name?: string | null,
+        name: string,
         street?: string | null,
         number?: string | null,
         complement?: string | null,
@@ -9311,6 +10014,7 @@ export type ListOSsByNumberCustomQuery = {
       id: string,
       clientID: string,
       clientUnitID: string,
+      clientCampaignID: string,
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
@@ -9358,7 +10062,7 @@ export type ListOSsByNumberCustomQuery = {
       clientUnit?:  {
         __typename: "ClientUnit",
         code?: string | null,
-        name?: string | null,
+        name: string,
         street?: string | null,
         number?: string | null,
         complement?: string | null,
@@ -9395,6 +10099,7 @@ export type ListOSsByStatusNumberCustomQuery = {
       id: string,
       clientID: string,
       clientUnitID: string,
+      clientCampaignID: string,
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
@@ -9442,7 +10147,7 @@ export type ListOSsByStatusNumberCustomQuery = {
       clientUnit?:  {
         __typename: "ClientUnit",
         code?: string | null,
-        name?: string | null,
+        name: string,
         street?: string | null,
         number?: string | null,
         complement?: string | null,
@@ -9483,9 +10188,324 @@ export type ListClientUserByClientCustomQuery = {
         __typename: "User",
         name: string,
         avatar?: string | null,
+        email?: string | null,
+        phone?: string | null,
+        active?: boolean | null,
       } | null,
       createdAt: string,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListOrdersCustomQueryVariables = {
+  id?: string | null,
+  filter?: ModelOrderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListOrdersCustomQuery = {
+  listOrders?:  {
+    __typename: "ModelOrderConnection",
+    items:  Array< {
+      __typename: "Order",
+      id: string,
+      userID: string,
+      status: OrderStatus,
+      createdAt?: string | null,
+      couponID?: string | null,
+      couponName?: string | null,
+      couponDiscount?: number | null,
+      deliveryPrice?: number | null,
+      total?: number | null,
+      rating?: number | null,
+      ratingNotes?: string | null,
+      orderPagarmeID?: string | null,
+      addressReference?: string | null,
+      addressStreet?: string | null,
+      addressNumber?: string | null,
+      addressComplement?: string | null,
+      addressZipcode?: string | null,
+      addressNeighborhood?: string | null,
+      addressCity?: string | null,
+      addressState?: string | null,
+      addressCountry?: string | null,
+      updatedAt: string,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      companyID?: string | null,
+      companyName?: string | null,
+      companyPhone?: string | null,
+      companyOpeningHours?: string | null,
+      company?:  {
+        __typename: "Company",
+        name: string,
+        phones?: string | null,
+        street?: string | null,
+        number?: string | null,
+        complement?: string | null,
+        zipcode?: string | null,
+        neighborhood?: string | null,
+        city?: string | null,
+        state?: string | null,
+      } | null,
+      notes?: string | null,
+      qrCodePix?: string | null,
+      qrCodePixUrl?: string | null,
+      payMethod?: PaymentMethods | null,
+      installments?: number | null,
+      homeCareOrRetail?: string | null,
+      user?:  {
+        __typename: "User",
+        name: string,
+        email?: string | null,
+        phone?: string | null,
+        avatar?: string | null,
+        createdAt?: string | null,
+        addresses?:  {
+          __typename: "ModelAddressConnection",
+          items:  Array< {
+            __typename: "Address",
+            street?: string | null,
+            number?: string | null,
+            complement?: string | null,
+            zipcode?: string | null,
+            neighborhood?: string | null,
+            city?: string | null,
+            state?: string | null,
+          } | null >,
+        } | null,
+      } | null,
+      profile?:  {
+        __typename: "Profile",
+        doc?: string | null,
+      } | null,
+      items?:  {
+        __typename: "ModelOrderItemConnection",
+        items:  Array< {
+          __typename: "OrderItem",
+          id: string,
+          qty: number,
+          code?: string | null,
+          name: string,
+          description?: string | null,
+          price: number,
+          photo1?: string | null,
+          changeName?: string | null,
+          changeDescription?: string | null,
+          changeNameAdmin?: string | null,
+          product?:  {
+            __typename: "Product",
+            categoryProps?:  {
+              __typename: "Category",
+              title?: string | null,
+            } | null,
+            name: string,
+            kitItems?:  {
+              __typename: "ModelKitItemConnection",
+              items:  Array< {
+                __typename: "KitItem",
+                productID: string,
+                product?:  {
+                  __typename: "Product",
+                  name: string,
+                } | null,
+              } | null >,
+            } | null,
+          } | null,
+          optionsItem?:  {
+            __typename: "ModelOrderItemOptionConnection",
+            items:  Array< {
+              __typename: "OrderItemOption",
+              option?:  {
+                __typename: "Option",
+                name?: string | null,
+                price?: number | null,
+              } | null,
+            } | null >,
+          } | null,
+        } | null >,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListClientCampaignsByStatusCreatedAtCustomQueryVariables = {
+  status: ClientCampaignStatus,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListClientCampaignsByStatusCreatedAtCustomQuery = {
+  listClientCampaignsByStatusCreatedAt?:  {
+    __typename: "ModelClientCampaignConnection",
+    items:  Array< {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+      client?:  {
+        __typename: "Client",
+        name: string,
+        logo?: string | null,
+      } | null,
+      products?:  {
+        __typename: "ModelClientCampaignProductConnection",
+        items:  Array< {
+          __typename: "ClientCampaignProduct",
+          productID: string,
+          price?: number | null,
+          limit?: number | null,
+          product?:  {
+            __typename: "Product",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+      units?:  {
+        __typename: "ModelClientCampaignUnitConnection",
+        items:  Array< {
+          __typename: "ClientCampaignUnit",
+          unitID: string,
+          unit?:  {
+            __typename: "ClientUnit",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+      companies?:  {
+        __typename: "ModelClientCampaignCompanyConnection",
+        items:  Array< {
+          __typename: "ClientCampaignCompany",
+          companyID: string,
+          company?:  {
+            __typename: "Company",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListClientCampaignsByIdxCreatedAtCustomQueryVariables = {
+  idx: number,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListClientCampaignsByIdxCreatedAtCustomQuery = {
+  listClientCampaignsByIdxCreatedAt?:  {
+    __typename: "ModelClientCampaignConnection",
+    items:  Array< {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+      client?:  {
+        __typename: "Client",
+        name: string,
+        logo?: string | null,
+      } | null,
+      products?:  {
+        __typename: "ModelClientCampaignProductConnection",
+        items:  Array< {
+          __typename: "ClientCampaignProduct",
+          productID: string,
+          price?: number | null,
+          limit?: number | null,
+          product?:  {
+            __typename: "Product",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+      units?:  {
+        __typename: "ModelClientCampaignUnitConnection",
+        items:  Array< {
+          __typename: "ClientCampaignUnit",
+          unitID: string,
+          unit?:  {
+            __typename: "ClientUnit",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+      companies?:  {
+        __typename: "ModelClientCampaignCompanyConnection",
+        items:  Array< {
+          __typename: "ClientCampaignCompany",
+          companyID: string,
+          company?:  {
+            __typename: "Company",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -9515,71 +10535,6 @@ export type ListClientUserByUserCustomQuery = {
         name: string,
         notes?: string | null,
         status: ClientStatus,
-        search?: string | null,
-        totalUnits?: number | null,
-        unitsServed?: number | null,
-        unitsExpected?: number | null,
-        firstOSDate?: string | null,
-        lastOSDate?: string | null,
-        scheduleRouted?: number | null,
-        scheduleConfirmed?: number | null,
-        schedulePending?: number | null,
-        totalEligibles?: number | null,
-        totalVaccinations?: number | null,
-      } | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListUnitsByClientCustomQueryVariables = {
-  clientID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientUnitFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUnitsByClientCustomQuery = {
-  listUnitsByClient?:  {
-    __typename: "ModelClientUnitConnection",
-    items:  Array< {
-      __typename: "ClientUnit",
-      id: string,
-      clientID: string,
-      name?: string | null,
-      street?: string | null,
-      number?: string | null,
-      complement?: string | null,
-      zipcode?: string | null,
-      neighborhood?: string | null,
-      city?: string | null,
-      state?: string | null,
-      country?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      contactName?: string | null,
-      contactEmail?: string | null,
-      contactPhone?: string | null,
-      totalEligibles?: number | null,
-      code?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      oss?:  {
-        __typename: "ModelOSConnection",
-        items:  Array< {
-          __typename: "OS",
-          number: number,
-          start?: string | null,
-          dateStarted?: string | null,
-          status: OSStatus,
-          qtyApplication?: number | null,
-          stayQtd?: number | null,
-          clientCampaign?:  {
-            __typename: "ClientCampaign",
-            name: string,
-          } | null,
-        } | null >,
       } | null,
     } | null >,
     nextToken?: string | null,
@@ -11087,6 +12042,54 @@ export type DeleteCategoryMutation = {
   } | null,
 };
 
+export type CreateLaboratoryMutationVariables = {
+  input: CreateLaboratoryInput,
+  condition?: ModelLaboratoryConditionInput | null,
+};
+
+export type CreateLaboratoryMutation = {
+  createLaboratory?:  {
+    __typename: "Laboratory",
+    id: string,
+    name: string,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateLaboratoryMutationVariables = {
+  input: UpdateLaboratoryInput,
+  condition?: ModelLaboratoryConditionInput | null,
+};
+
+export type UpdateLaboratoryMutation = {
+  updateLaboratory?:  {
+    __typename: "Laboratory",
+    id: string,
+    name: string,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteLaboratoryMutationVariables = {
+  input: DeleteLaboratoryInput,
+  condition?: ModelLaboratoryConditionInput | null,
+};
+
+export type DeleteLaboratoryMutation = {
+  deleteLaboratory?:  {
+    __typename: "Laboratory",
+    id: string,
+    name: string,
+    description?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateProductMutationVariables = {
   input: CreateProductInput,
   condition?: ModelProductConditionInput | null,
@@ -11130,6 +12133,7 @@ export type CreateProductMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    laboratory?: string | null,
     code?: string | null,
     name: string,
     type?: string | null,
@@ -11228,6 +12232,7 @@ export type UpdateProductMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    laboratory?: string | null,
     code?: string | null,
     name: string,
     type?: string | null,
@@ -11326,6 +12331,7 @@ export type DeleteProductMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    laboratory?: string | null,
     code?: string | null,
     name: string,
     type?: string | null,
@@ -11399,6 +12405,7 @@ export type CreateKitItemMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -11467,6 +12474,7 @@ export type DeleteKitItemMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -11586,6 +12594,7 @@ export type DeleteCartMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -11641,7 +12650,7 @@ export type DeleteCartMutation = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -11765,9 +12774,11 @@ export type DeleteOrderMutation = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -11882,18 +12893,19 @@ export type UpdateNotifyMutation = {
   } | null,
 };
 
-export type CreateCampaignMutationVariables = {
-  input: CreateCampaignInput,
-  condition?: ModelCampaignConditionInput | null,
+export type CreateAdherenceMutationVariables = {
+  input: CreateAdherenceInput,
+  condition?: ModelAdherenceConditionInput | null,
 };
 
-export type CreateCampaignMutation = {
-  createCampaign?:  {
-    __typename: "Campaign",
+export type CreateAdherenceMutation = {
+  createAdherence?:  {
+    __typename: "Adherence",
     id: string,
     name: string,
     description?: string | null,
     code: string,
+    campaignCode?: string | null,
     start?: string | null,
     expiration?: string | null,
     discountPercentage?: number | null,
@@ -11907,15 +12919,15 @@ export type CreateCampaignMutation = {
     zipCodeCoverage?: Array< string | null > | null,
     search?: string | null,
     products?:  {
-      __typename: "ModelCampaignProductConnection",
+      __typename: "ModelAdherenceProductConnection",
       nextToken?: string | null,
     } | null,
-    campaignUsed?:  {
-      __typename: "ModelCampaignUsedConnection",
+    adherenceUsed?:  {
+      __typename: "ModelAdherenceUsedConnection",
       nextToken?: string | null,
     } | null,
     companies?:  {
-      __typename: "ModelCampaignCompanyConnection",
+      __typename: "ModelAdherenceCompanyConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -11923,18 +12935,19 @@ export type CreateCampaignMutation = {
   } | null,
 };
 
-export type DeleteCampaignMutationVariables = {
-  input: DeleteCampaignInput,
-  condition?: ModelCampaignConditionInput | null,
+export type DeleteAdherenceMutationVariables = {
+  input: DeleteAdherenceInput,
+  condition?: ModelAdherenceConditionInput | null,
 };
 
-export type DeleteCampaignMutation = {
-  deleteCampaign?:  {
-    __typename: "Campaign",
+export type DeleteAdherenceMutation = {
+  deleteAdherence?:  {
+    __typename: "Adherence",
     id: string,
     name: string,
     description?: string | null,
     code: string,
+    campaignCode?: string | null,
     start?: string | null,
     expiration?: string | null,
     discountPercentage?: number | null,
@@ -11948,15 +12961,15 @@ export type DeleteCampaignMutation = {
     zipCodeCoverage?: Array< string | null > | null,
     search?: string | null,
     products?:  {
-      __typename: "ModelCampaignProductConnection",
+      __typename: "ModelAdherenceProductConnection",
       nextToken?: string | null,
     } | null,
-    campaignUsed?:  {
-      __typename: "ModelCampaignUsedConnection",
+    adherenceUsed?:  {
+      __typename: "ModelAdherenceUsedConnection",
       nextToken?: string | null,
     } | null,
     companies?:  {
-      __typename: "ModelCampaignCompanyConnection",
+      __typename: "ModelAdherenceCompanyConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -12091,9 +13104,11 @@ export type UpdateVaccinationCardItemMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -12126,13 +13141,14 @@ export type UpdateVaccinationCardItemMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    campaignID?: string | null,
-    campaign?:  {
-      __typename: "Campaign",
+    adherenceID?: string | null,
+    adherence?:  {
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -12146,6 +13162,39 @@ export type UpdateVaccinationCardItemMutation = {
       zipCodeCoverage?: Array< string | null > | null,
       search?: string | null,
       createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID?: string | null,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
       updatedAt: string,
     } | null,
     companyID?: string | null,
@@ -12253,9 +13302,11 @@ export type DeleteVaccinationCardItemMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -12288,13 +13339,14 @@ export type DeleteVaccinationCardItemMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    campaignID?: string | null,
-    campaign?:  {
-      __typename: "Campaign",
+    adherenceID?: string | null,
+    adherence?:  {
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -12308,6 +13360,39 @@ export type DeleteVaccinationCardItemMutation = {
       zipCodeCoverage?: Array< string | null > | null,
       search?: string | null,
       createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID?: string | null,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
       updatedAt: string,
     } | null,
     companyID?: string | null,
@@ -12474,6 +13559,1134 @@ export type DeleteCompanyMutation = {
   } | null,
 };
 
+export type CreateClientMutationVariables = {
+  input: CreateClientInput,
+  condition?: ModelClientConditionInput | null,
+};
+
+export type CreateClientMutation = {
+  createClient?:  {
+    __typename: "Client",
+    id: string,
+    name: string,
+    notes?: string | null,
+    group?: string | null,
+    indication?: string | null,
+    origin?: string | null,
+    status: ClientStatus,
+    search?: string | null,
+    logo?: string | null,
+    logoSrc?: string | null,
+    logoCropper?: string | null,
+    totalUnits?: number | null,
+    unitsServed?: number | null,
+    unitsExpected?: number | null,
+    firstOSDate?: string | null,
+    lastOSDate?: string | null,
+    scheduleRouted?: number | null,
+    scheduleConfirmed?: number | null,
+    schedulePending?: number | null,
+    totalEligibles?: number | null,
+    totalVaccinations?: number | null,
+    code?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    units?:  {
+      __typename: "ModelClientUnitConnection",
+      nextToken?: string | null,
+    } | null,
+    eligibles?:  {
+      __typename: "ModelClientEligibleConnection",
+      nextToken?: string | null,
+    } | null,
+    campaigns?:  {
+      __typename: "ModelClientCampaignConnection",
+      nextToken?: string | null,
+    } | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientMutationVariables = {
+  input: UpdateClientInput,
+  condition?: ModelClientConditionInput | null,
+};
+
+export type UpdateClientMutation = {
+  updateClient?:  {
+    __typename: "Client",
+    id: string,
+    name: string,
+    notes?: string | null,
+    group?: string | null,
+    indication?: string | null,
+    origin?: string | null,
+    status: ClientStatus,
+    search?: string | null,
+    logo?: string | null,
+    logoSrc?: string | null,
+    logoCropper?: string | null,
+    totalUnits?: number | null,
+    unitsServed?: number | null,
+    unitsExpected?: number | null,
+    firstOSDate?: string | null,
+    lastOSDate?: string | null,
+    scheduleRouted?: number | null,
+    scheduleConfirmed?: number | null,
+    schedulePending?: number | null,
+    totalEligibles?: number | null,
+    totalVaccinations?: number | null,
+    code?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    units?:  {
+      __typename: "ModelClientUnitConnection",
+      nextToken?: string | null,
+    } | null,
+    eligibles?:  {
+      __typename: "ModelClientEligibleConnection",
+      nextToken?: string | null,
+    } | null,
+    campaigns?:  {
+      __typename: "ModelClientCampaignConnection",
+      nextToken?: string | null,
+    } | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientMutationVariables = {
+  input: DeleteClientInput,
+  condition?: ModelClientConditionInput | null,
+};
+
+export type DeleteClientMutation = {
+  deleteClient?:  {
+    __typename: "Client",
+    id: string,
+    name: string,
+    notes?: string | null,
+    group?: string | null,
+    indication?: string | null,
+    origin?: string | null,
+    status: ClientStatus,
+    search?: string | null,
+    logo?: string | null,
+    logoSrc?: string | null,
+    logoCropper?: string | null,
+    totalUnits?: number | null,
+    unitsServed?: number | null,
+    unitsExpected?: number | null,
+    firstOSDate?: string | null,
+    lastOSDate?: string | null,
+    scheduleRouted?: number | null,
+    scheduleConfirmed?: number | null,
+    schedulePending?: number | null,
+    totalEligibles?: number | null,
+    totalVaccinations?: number | null,
+    code?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    units?:  {
+      __typename: "ModelClientUnitConnection",
+      nextToken?: string | null,
+    } | null,
+    eligibles?:  {
+      __typename: "ModelClientEligibleConnection",
+      nextToken?: string | null,
+    } | null,
+    campaigns?:  {
+      __typename: "ModelClientCampaignConnection",
+      nextToken?: string | null,
+    } | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientUnitMutationVariables = {
+  input: CreateClientUnitInput,
+  condition?: ModelClientUnitConditionInput | null,
+};
+
+export type CreateClientUnitMutation = {
+  createClientUnit?:  {
+    __typename: "ClientUnit",
+    id: string,
+    clientID: string,
+    cnpj?: string | null,
+    name: string,
+    fullName?: string | null,
+    street?: string | null,
+    number?: string | null,
+    complement?: string | null,
+    zipcode?: string | null,
+    neighborhood?: string | null,
+    city?: string | null,
+    state?: string | null,
+    country?: string | null,
+    billingStreet?: string | null,
+    billingNumber?: string | null,
+    billingComplement?: string | null,
+    billingZipcode?: string | null,
+    billingNeighborhood?: string | null,
+    billingCity?: string | null,
+    billingState?: string | null,
+    billingCountry?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    totalEligibles?: number | null,
+    totalCollaborators?: number | null,
+    code?: string | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientUnitMutationVariables = {
+  input: UpdateClientUnitInput,
+  condition?: ModelClientUnitConditionInput | null,
+};
+
+export type UpdateClientUnitMutation = {
+  updateClientUnit?:  {
+    __typename: "ClientUnit",
+    id: string,
+    clientID: string,
+    cnpj?: string | null,
+    name: string,
+    fullName?: string | null,
+    street?: string | null,
+    number?: string | null,
+    complement?: string | null,
+    zipcode?: string | null,
+    neighborhood?: string | null,
+    city?: string | null,
+    state?: string | null,
+    country?: string | null,
+    billingStreet?: string | null,
+    billingNumber?: string | null,
+    billingComplement?: string | null,
+    billingZipcode?: string | null,
+    billingNeighborhood?: string | null,
+    billingCity?: string | null,
+    billingState?: string | null,
+    billingCountry?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    totalEligibles?: number | null,
+    totalCollaborators?: number | null,
+    code?: string | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientUnitMutationVariables = {
+  input: DeleteClientUnitInput,
+  condition?: ModelClientUnitConditionInput | null,
+};
+
+export type DeleteClientUnitMutation = {
+  deleteClientUnit?:  {
+    __typename: "ClientUnit",
+    id: string,
+    clientID: string,
+    cnpj?: string | null,
+    name: string,
+    fullName?: string | null,
+    street?: string | null,
+    number?: string | null,
+    complement?: string | null,
+    zipcode?: string | null,
+    neighborhood?: string | null,
+    city?: string | null,
+    state?: string | null,
+    country?: string | null,
+    billingStreet?: string | null,
+    billingNumber?: string | null,
+    billingComplement?: string | null,
+    billingZipcode?: string | null,
+    billingNeighborhood?: string | null,
+    billingCity?: string | null,
+    billingState?: string | null,
+    billingCountry?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    totalEligibles?: number | null,
+    totalCollaborators?: number | null,
+    code?: string | null,
+    oss?:  {
+      __typename: "ModelOSConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientCampaignEligibleMutationVariables = {
+  input: CreateClientCampaignEligibleInput,
+  condition?: ModelClientCampaignEligibleConditionInput | null,
+};
+
+export type CreateClientCampaignEligibleMutation = {
+  createClientCampaignEligible?:  {
+    __typename: "ClientCampaignEligible",
+    id: string,
+    clientCampaignID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    cpfRelationship?: string | null,
+    isThird?: boolean | null,
+    thirdName?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientCampaignEligibleMutationVariables = {
+  input: UpdateClientCampaignEligibleInput,
+  condition?: ModelClientCampaignEligibleConditionInput | null,
+};
+
+export type UpdateClientCampaignEligibleMutation = {
+  updateClientCampaignEligible?:  {
+    __typename: "ClientCampaignEligible",
+    id: string,
+    clientCampaignID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    cpfRelationship?: string | null,
+    isThird?: boolean | null,
+    thirdName?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientCampaignEligibleMutationVariables = {
+  input: DeleteClientCampaignEligibleInput,
+  condition?: ModelClientCampaignEligibleConditionInput | null,
+};
+
+export type DeleteClientCampaignEligibleMutation = {
+  deleteClientCampaignEligible?:  {
+    __typename: "ClientCampaignEligible",
+    id: string,
+    clientCampaignID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    cpfRelationship?: string | null,
+    isThird?: boolean | null,
+    thirdName?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientCampaignEligibleVaccinationMutationVariables = {
+  input: CreateClientCampaignEligibleVaccinationInput,
+  condition?: ModelClientCampaignEligibleVaccinationConditionInput | null,
+};
+
+export type CreateClientCampaignEligibleVaccinationMutation = {
+  createClientCampaignEligibleVaccination?:  {
+    __typename: "ClientCampaignEligibleVaccination",
+    id: string,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID: string,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null,
+    clientCampaignEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientCampaignEligibleVaccinationMutationVariables = {
+  input: UpdateClientCampaignEligibleVaccinationInput,
+  condition?: ModelClientCampaignEligibleVaccinationConditionInput | null,
+};
+
+export type UpdateClientCampaignEligibleVaccinationMutation = {
+  updateClientCampaignEligibleVaccination?:  {
+    __typename: "ClientCampaignEligibleVaccination",
+    id: string,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID: string,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null,
+    clientCampaignEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientCampaignEligibleVaccinationMutationVariables = {
+  input: DeleteClientCampaignEligibleVaccinationInput,
+  condition?: ModelClientCampaignEligibleVaccinationConditionInput | null,
+};
+
+export type DeleteClientCampaignEligibleVaccinationMutation = {
+  deleteClientCampaignEligibleVaccination?:  {
+    __typename: "ClientCampaignEligibleVaccination",
+    id: string,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID: string,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null,
+    clientCampaignEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateEligibleVaccinationMutationVariables = {
+  input: CreateEligibleVaccinationInput,
+  condition?: ModelEligibleVaccinationConditionInput | null,
+};
+
+export type CreateEligibleVaccinationMutation = {
+  createEligibleVaccination?:  {
+    __typename: "EligibleVaccination",
+    id: string,
+    osID: string,
+    clientEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientID: string,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateEligibleVaccinationMutationVariables = {
+  input: UpdateEligibleVaccinationInput,
+  condition?: ModelEligibleVaccinationConditionInput | null,
+};
+
+export type UpdateEligibleVaccinationMutation = {
+  updateEligibleVaccination?:  {
+    __typename: "EligibleVaccination",
+    id: string,
+    osID: string,
+    clientEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientID: string,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteEligibleVaccinationMutationVariables = {
+  input: DeleteEligibleVaccinationInput,
+  condition?: ModelEligibleVaccinationConditionInput | null,
+};
+
+export type DeleteEligibleVaccinationMutation = {
+  deleteEligibleVaccination?:  {
+    __typename: "EligibleVaccination",
+    id: string,
+    osID: string,
+    clientEligibleID: string,
+    clientEligible?:  {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientID: string,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    profissionalDoc?: string | null,
+    coren?: string | null,
+    applicationDate?: string | null,
+    reason?: string | null,
+    search?: string | null,
+    vaccination?: string | null,
+    status?: EligibleVaccinationStatus | null,
+    localCity?: string | null,
+    localState?: string | null,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientEligibleMutationVariables = {
+  input: CreateClientEligibleInput,
+  condition?: ModelClientEligibleConditionInput | null,
+};
+
+export type CreateClientEligibleMutation = {
+  createClientEligible?:  {
+    __typename: "ClientEligible",
+    id: string,
+    clientID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientEligibleMutationVariables = {
+  input: UpdateClientEligibleInput,
+  condition?: ModelClientEligibleConditionInput | null,
+};
+
+export type UpdateClientEligibleMutation = {
+  updateClientEligible?:  {
+    __typename: "ClientEligible",
+    id: string,
+    clientID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientEligibleMutationVariables = {
+  input: DeleteClientEligibleInput,
+  condition?: ModelClientEligibleConditionInput | null,
+};
+
+export type DeleteClientEligibleMutation = {
+  deleteClientEligible?:  {
+    __typename: "ClientEligible",
+    id: string,
+    clientID: string,
+    key: string,
+    name?: string | null,
+    cpf?: string | null,
+    rg?: string | null,
+    birth?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    relationship?: string | null,
+    isDependent?: boolean | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateAuthorizationListMutationVariables = {
   input: CreateAuthorizationListInput,
   condition?: ModelAuthorizationListConditionInput | null,
@@ -12497,7 +14710,7 @@ export type CreateAuthorizationListMutation = {
     notesFinished?: string | null,
     professionalFinished?: string | null,
     withList?: boolean | null,
-    campaignCode?: string | null,
+    adherenceCode?: string | null,
     OS?: string | null,
     status?: AuthorizationListStatus | null,
     members?:  {
@@ -12532,7 +14745,7 @@ export type UpdateAuthorizationListMutation = {
     notesFinished?: string | null,
     professionalFinished?: string | null,
     withList?: boolean | null,
-    campaignCode?: string | null,
+    adherenceCode?: string | null,
     OS?: string | null,
     status?: AuthorizationListStatus | null,
     members?:  {
@@ -12567,7 +14780,7 @@ export type DeleteAuthorizationListMutation = {
     notesFinished?: string | null,
     professionalFinished?: string | null,
     withList?: boolean | null,
-    campaignCode?: string | null,
+    adherenceCode?: string | null,
     OS?: string | null,
     status?: AuthorizationListStatus | null,
     members?:  {
@@ -12685,7 +14898,7 @@ export type CreateAuthorizationListMemberMutation = {
       notesFinished?: string | null,
       professionalFinished?: string | null,
       withList?: boolean | null,
-      campaignCode?: string | null,
+      adherenceCode?: string | null,
       OS?: string | null,
       status?: AuthorizationListStatus | null,
       createdAt: string,
@@ -12733,486 +14946,12 @@ export type DeleteAuthorizationListMemberMutation = {
       notesFinished?: string | null,
       professionalFinished?: string | null,
       withList?: boolean | null,
-      campaignCode?: string | null,
+      adherenceCode?: string | null,
       OS?: string | null,
       status?: AuthorizationListStatus | null,
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateClientMutationVariables = {
-  input: CreateClientInput,
-  condition?: ModelClientConditionInput | null,
-};
-
-export type CreateClientMutation = {
-  createClient?:  {
-    __typename: "Client",
-    id: string,
-    name: string,
-    notes?: string | null,
-    status: ClientStatus,
-    search?: string | null,
-    totalUnits?: number | null,
-    unitsServed?: number | null,
-    unitsExpected?: number | null,
-    firstOSDate?: string | null,
-    lastOSDate?: string | null,
-    scheduleRouted?: number | null,
-    scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
-    totalEligibles?: number | null,
-    totalVaccinations?: number | null,
-    code?: string | null,
-    units?:  {
-      __typename: "ModelClientUnitConnection",
-      nextToken?: string | null,
-    } | null,
-    eligibles?:  {
-      __typename: "ModelClientEligibleConnection",
-      nextToken?: string | null,
-    } | null,
-    campaigns?:  {
-      __typename: "ModelClientCampaignConnection",
-      nextToken?: string | null,
-    } | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateClientMutationVariables = {
-  input: UpdateClientInput,
-  condition?: ModelClientConditionInput | null,
-};
-
-export type UpdateClientMutation = {
-  updateClient?:  {
-    __typename: "Client",
-    id: string,
-    name: string,
-    notes?: string | null,
-    status: ClientStatus,
-    search?: string | null,
-    totalUnits?: number | null,
-    unitsServed?: number | null,
-    unitsExpected?: number | null,
-    firstOSDate?: string | null,
-    lastOSDate?: string | null,
-    scheduleRouted?: number | null,
-    scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
-    totalEligibles?: number | null,
-    totalVaccinations?: number | null,
-    code?: string | null,
-    units?:  {
-      __typename: "ModelClientUnitConnection",
-      nextToken?: string | null,
-    } | null,
-    eligibles?:  {
-      __typename: "ModelClientEligibleConnection",
-      nextToken?: string | null,
-    } | null,
-    campaigns?:  {
-      __typename: "ModelClientCampaignConnection",
-      nextToken?: string | null,
-    } | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteClientMutationVariables = {
-  input: DeleteClientInput,
-  condition?: ModelClientConditionInput | null,
-};
-
-export type DeleteClientMutation = {
-  deleteClient?:  {
-    __typename: "Client",
-    id: string,
-    name: string,
-    notes?: string | null,
-    status: ClientStatus,
-    search?: string | null,
-    totalUnits?: number | null,
-    unitsServed?: number | null,
-    unitsExpected?: number | null,
-    firstOSDate?: string | null,
-    lastOSDate?: string | null,
-    scheduleRouted?: number | null,
-    scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
-    totalEligibles?: number | null,
-    totalVaccinations?: number | null,
-    code?: string | null,
-    units?:  {
-      __typename: "ModelClientUnitConnection",
-      nextToken?: string | null,
-    } | null,
-    eligibles?:  {
-      __typename: "ModelClientEligibleConnection",
-      nextToken?: string | null,
-    } | null,
-    campaigns?:  {
-      __typename: "ModelClientCampaignConnection",
-      nextToken?: string | null,
-    } | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateClientUnitMutationVariables = {
-  input: CreateClientUnitInput,
-  condition?: ModelClientUnitConditionInput | null,
-};
-
-export type CreateClientUnitMutation = {
-  createClientUnit?:  {
-    __typename: "ClientUnit",
-    id: string,
-    clientID: string,
-    name?: string | null,
-    street?: string | null,
-    number?: string | null,
-    complement?: string | null,
-    zipcode?: string | null,
-    neighborhood?: string | null,
-    city?: string | null,
-    state?: string | null,
-    country?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    contactName?: string | null,
-    contactEmail?: string | null,
-    contactPhone?: string | null,
-    totalEligibles?: number | null,
-    code?: string | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateClientUnitMutationVariables = {
-  input: UpdateClientUnitInput,
-  condition?: ModelClientUnitConditionInput | null,
-};
-
-export type UpdateClientUnitMutation = {
-  updateClientUnit?:  {
-    __typename: "ClientUnit",
-    id: string,
-    clientID: string,
-    name?: string | null,
-    street?: string | null,
-    number?: string | null,
-    complement?: string | null,
-    zipcode?: string | null,
-    neighborhood?: string | null,
-    city?: string | null,
-    state?: string | null,
-    country?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    contactName?: string | null,
-    contactEmail?: string | null,
-    contactPhone?: string | null,
-    totalEligibles?: number | null,
-    code?: string | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteClientUnitMutationVariables = {
-  input: DeleteClientUnitInput,
-  condition?: ModelClientUnitConditionInput | null,
-};
-
-export type DeleteClientUnitMutation = {
-  deleteClientUnit?:  {
-    __typename: "ClientUnit",
-    id: string,
-    clientID: string,
-    name?: string | null,
-    street?: string | null,
-    number?: string | null,
-    complement?: string | null,
-    zipcode?: string | null,
-    neighborhood?: string | null,
-    city?: string | null,
-    state?: string | null,
-    country?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    contactName?: string | null,
-    contactEmail?: string | null,
-    contactPhone?: string | null,
-    totalEligibles?: number | null,
-    code?: string | null,
-    oss?:  {
-      __typename: "ModelOSConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateClientEligibleMutationVariables = {
-  input: CreateClientEligibleInput,
-  condition?: ModelClientEligibleConditionInput | null,
-};
-
-export type CreateClientEligibleMutation = {
-  createClientEligible?:  {
-    __typename: "ClientEligible",
-    id: string,
-    clientID: string,
-    key: string,
-    name?: string | null,
-    cpf?: string | null,
-    rg?: string | null,
-    birth?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    relationship?: string | null,
-    isDependent?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateClientEligibleMutationVariables = {
-  input: UpdateClientEligibleInput,
-  condition?: ModelClientEligibleConditionInput | null,
-};
-
-export type UpdateClientEligibleMutation = {
-  updateClientEligible?:  {
-    __typename: "ClientEligible",
-    id: string,
-    clientID: string,
-    key: string,
-    name?: string | null,
-    cpf?: string | null,
-    rg?: string | null,
-    birth?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    relationship?: string | null,
-    isDependent?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteClientEligibleMutationVariables = {
-  input: DeleteClientEligibleInput,
-  condition?: ModelClientEligibleConditionInput | null,
-};
-
-export type DeleteClientEligibleMutation = {
-  deleteClientEligible?:  {
-    __typename: "ClientEligible",
-    id: string,
-    clientID: string,
-    key: string,
-    name?: string | null,
-    cpf?: string | null,
-    rg?: string | null,
-    birth?: string | null,
-    notes?: string | null,
-    search?: string | null,
-    relationship?: string | null,
-    isDependent?: boolean | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateEligibleVaccinationMutationVariables = {
-  input: CreateEligibleVaccinationInput,
-  condition?: ModelEligibleVaccinationConditionInput | null,
-};
-
-export type CreateEligibleVaccinationMutation = {
-  createEligibleVaccination?:  {
-    __typename: "EligibleVaccination",
-    id: string,
-    osID: string,
-    clientEligibleID: string,
-    clientEligible?:  {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    clientID: string,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    applicationDate?: string | null,
-    reason?: string | null,
-    vaccination?: string | null,
-    status?: EligibleVaccinationStatus | null,
-    localCity?: string | null,
-    localState?: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateEligibleVaccinationMutationVariables = {
-  input: UpdateEligibleVaccinationInput,
-  condition?: ModelEligibleVaccinationConditionInput | null,
-};
-
-export type UpdateEligibleVaccinationMutation = {
-  updateEligibleVaccination?:  {
-    __typename: "EligibleVaccination",
-    id: string,
-    osID: string,
-    clientEligibleID: string,
-    clientEligible?:  {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    clientID: string,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    applicationDate?: string | null,
-    reason?: string | null,
-    vaccination?: string | null,
-    status?: EligibleVaccinationStatus | null,
-    localCity?: string | null,
-    localState?: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteEligibleVaccinationMutationVariables = {
-  input: DeleteEligibleVaccinationInput,
-  condition?: ModelEligibleVaccinationConditionInput | null,
-};
-
-export type DeleteEligibleVaccinationMutation = {
-  deleteEligibleVaccination?:  {
-    __typename: "EligibleVaccination",
-    id: string,
-    osID: string,
-    clientEligibleID: string,
-    clientEligible?:  {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    clientID: string,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    applicationDate?: string | null,
-    reason?: string | null,
-    vaccination?: string | null,
-    status?: EligibleVaccinationStatus | null,
-    localCity?: string | null,
-    localState?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -13518,6 +15257,7 @@ export type CreateCouponProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -13588,6 +15328,7 @@ export type UpdateCouponProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -13658,6 +15399,7 @@ export type DeleteCouponProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -14179,6 +15921,7 @@ export type CreateCartMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -14234,7 +15977,7 @@ export type CreateCartMutation = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -14258,6 +16001,7 @@ export type UpdateCartMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -14313,7 +16057,7 @@ export type UpdateCartMutation = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -14463,9 +16207,11 @@ export type CreateOrderMutation = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -14603,9 +16349,11 @@ export type UpdateOrderMutation = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -14669,6 +16417,7 @@ export type CreateOrderItemMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -14753,6 +16502,7 @@ export type UpdateOrderItemMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -14837,6 +16587,7 @@ export type DeleteOrderItemMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -15012,9 +16763,11 @@ export type CreateDeliveryOrderMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -15110,9 +16863,11 @@ export type UpdateDeliveryOrderMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -15208,9 +16963,11 @@ export type DeleteDeliveryOrderMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -15308,18 +17065,19 @@ export type DeleteNotifyMutation = {
   } | null,
 };
 
-export type UpdateCampaignMutationVariables = {
-  input: UpdateCampaignInput,
-  condition?: ModelCampaignConditionInput | null,
+export type UpdateAdherenceMutationVariables = {
+  input: UpdateAdherenceInput,
+  condition?: ModelAdherenceConditionInput | null,
 };
 
-export type UpdateCampaignMutation = {
-  updateCampaign?:  {
-    __typename: "Campaign",
+export type UpdateAdherenceMutation = {
+  updateAdherence?:  {
+    __typename: "Adherence",
     id: string,
     name: string,
     description?: string | null,
     code: string,
+    campaignCode?: string | null,
     start?: string | null,
     expiration?: string | null,
     discountPercentage?: number | null,
@@ -15333,15 +17091,15 @@ export type UpdateCampaignMutation = {
     zipCodeCoverage?: Array< string | null > | null,
     search?: string | null,
     products?:  {
-      __typename: "ModelCampaignProductConnection",
+      __typename: "ModelAdherenceProductConnection",
       nextToken?: string | null,
     } | null,
-    campaignUsed?:  {
-      __typename: "ModelCampaignUsedConnection",
+    adherenceUsed?:  {
+      __typename: "ModelAdherenceUsedConnection",
       nextToken?: string | null,
     } | null,
     companies?:  {
-      __typename: "ModelCampaignCompanyConnection",
+      __typename: "ModelAdherenceCompanyConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -15349,22 +17107,23 @@ export type UpdateCampaignMutation = {
   } | null,
 };
 
-export type CreateCampaignUsedMutationVariables = {
-  input: CreateCampaignUsedInput,
-  condition?: ModelCampaignUsedConditionInput | null,
+export type CreateAdherenceUsedMutationVariables = {
+  input: CreateAdherenceUsedInput,
+  condition?: ModelAdherenceUsedConditionInput | null,
 };
 
-export type CreateCampaignUsedMutation = {
-  createCampaignUsed?:  {
-    __typename: "CampaignUsed",
+export type CreateAdherenceUsedMutation = {
+  createAdherenceUsed?:  {
+    __typename: "AdherenceUsed",
     id: string,
-    campaignID: string,
-    campaign?:  {
-      __typename: "Campaign",
+    adherenceID: string,
+    adherence?:  {
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -15400,16 +17159,16 @@ export type CreateCampaignUsedMutation = {
   } | null,
 };
 
-export type CreateCampaignProductMutationVariables = {
-  input: CreateCampaignProductInput,
-  condition?: ModelCampaignProductConditionInput | null,
+export type CreateAdherenceProductMutationVariables = {
+  input: CreateAdherenceProductInput,
+  condition?: ModelAdherenceProductConditionInput | null,
 };
 
-export type CreateCampaignProductMutation = {
-  createCampaignProduct?:  {
-    __typename: "CampaignProduct",
+export type CreateAdherenceProductMutation = {
+  createAdherenceProduct?:  {
+    __typename: "AdherenceProduct",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     productID: string,
     price?: number | null,
     limit?: number | null,
@@ -15420,6 +17179,7 @@ export type CreateCampaignProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -15470,16 +17230,16 @@ export type CreateCampaignProductMutation = {
   } | null,
 };
 
-export type UpdateCampaignProductMutationVariables = {
-  input: UpdateCampaignProductInput,
-  condition?: ModelCampaignProductConditionInput | null,
+export type UpdateAdherenceProductMutationVariables = {
+  input: UpdateAdherenceProductInput,
+  condition?: ModelAdherenceProductConditionInput | null,
 };
 
-export type UpdateCampaignProductMutation = {
-  updateCampaignProduct?:  {
-    __typename: "CampaignProduct",
+export type UpdateAdherenceProductMutation = {
+  updateAdherenceProduct?:  {
+    __typename: "AdherenceProduct",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     productID: string,
     price?: number | null,
     limit?: number | null,
@@ -15490,6 +17250,7 @@ export type UpdateCampaignProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -15540,16 +17301,16 @@ export type UpdateCampaignProductMutation = {
   } | null,
 };
 
-export type DeleteCampaignProductMutationVariables = {
-  input: DeleteCampaignProductInput,
-  condition?: ModelCampaignProductConditionInput | null,
+export type DeleteAdherenceProductMutationVariables = {
+  input: DeleteAdherenceProductInput,
+  condition?: ModelAdherenceProductConditionInput | null,
 };
 
-export type DeleteCampaignProductMutation = {
-  deleteCampaignProduct?:  {
-    __typename: "CampaignProduct",
+export type DeleteAdherenceProductMutation = {
+  deleteAdherenceProduct?:  {
+    __typename: "AdherenceProduct",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     productID: string,
     price?: number | null,
     limit?: number | null,
@@ -15560,6 +17321,7 @@ export type DeleteCampaignProductMutation = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -15610,16 +17372,16 @@ export type DeleteCampaignProductMutation = {
   } | null,
 };
 
-export type CreateCampaignCompanyMutationVariables = {
-  input: CreateCampaignCompanyInput,
-  condition?: ModelCampaignCompanyConditionInput | null,
+export type CreateAdherenceCompanyMutationVariables = {
+  input: CreateAdherenceCompanyInput,
+  condition?: ModelAdherenceCompanyConditionInput | null,
 };
 
-export type CreateCampaignCompanyMutation = {
-  createCampaignCompany?:  {
-    __typename: "CampaignCompany",
+export type CreateAdherenceCompanyMutation = {
+  createAdherenceCompany?:  {
+    __typename: "AdherenceCompany",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     companyID: string,
     company?:  {
       __typename: "Company",
@@ -15654,16 +17416,16 @@ export type CreateCampaignCompanyMutation = {
   } | null,
 };
 
-export type UpdateCampaignCompanyMutationVariables = {
-  input: UpdateCampaignCompanyInput,
-  condition?: ModelCampaignCompanyConditionInput | null,
+export type UpdateAdherenceCompanyMutationVariables = {
+  input: UpdateAdherenceCompanyInput,
+  condition?: ModelAdherenceCompanyConditionInput | null,
 };
 
-export type UpdateCampaignCompanyMutation = {
-  updateCampaignCompany?:  {
-    __typename: "CampaignCompany",
+export type UpdateAdherenceCompanyMutation = {
+  updateAdherenceCompany?:  {
+    __typename: "AdherenceCompany",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     companyID: string,
     company?:  {
       __typename: "Company",
@@ -15698,16 +17460,16 @@ export type UpdateCampaignCompanyMutation = {
   } | null,
 };
 
-export type DeleteCampaignCompanyMutationVariables = {
-  input: DeleteCampaignCompanyInput,
-  condition?: ModelCampaignCompanyConditionInput | null,
+export type DeleteAdherenceCompanyMutationVariables = {
+  input: DeleteAdherenceCompanyInput,
+  condition?: ModelAdherenceCompanyConditionInput | null,
 };
 
-export type DeleteCampaignCompanyMutation = {
-  deleteCampaignCompany?:  {
-    __typename: "CampaignCompany",
+export type DeleteAdherenceCompanyMutation = {
+  deleteAdherenceCompany?:  {
+    __typename: "AdherenceCompany",
     id: string,
-    campaignID: string,
+    adherenceID: string,
     companyID: string,
     company?:  {
       __typename: "Company",
@@ -15791,9 +17553,11 @@ export type CreateVaccinationCardItemMutation = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -15826,13 +17590,14 @@ export type CreateVaccinationCardItemMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    campaignID?: string | null,
-    campaign?:  {
-      __typename: "Campaign",
+    adherenceID?: string | null,
+    adherence?:  {
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -15846,6 +17611,39 @@ export type CreateVaccinationCardItemMutation = {
       zipCodeCoverage?: Array< string | null > | null,
       search?: string | null,
       createdAt: string,
+      updatedAt: string,
+    } | null,
+    clientCampaignID?: string | null,
+    clientCampaign?:  {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
       updatedAt: string,
     } | null,
     companyID?: string | null,
@@ -15901,273 +17699,6 @@ export type CreateVaccinationCardItemMutation = {
     createdAt: string,
     updatedAt: string,
     userID?: string | null,
-  } | null,
-};
-
-export type UpdateAuthorizationListMemberMutationVariables = {
-  input: UpdateAuthorizationListMemberInput,
-  condition?: ModelAuthorizationListMemberConditionInput | null,
-};
-
-export type UpdateAuthorizationListMemberMutation = {
-  updateAuthorizationListMember?:  {
-    __typename: "AuthorizationListMember",
-    id: string,
-    authorizationListID: string,
-    name: string,
-    key?: string | null,
-    cpf?: string | null,
-    birth?: string | null,
-    search?: string | null,
-    others?: string | null,
-    vaccinations?:  {
-      __typename: "ModelAuthorizationListMemberVaccinationConnection",
-      nextToken?: string | null,
-    } | null,
-    authorizationList?:  {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateAuthorizationListMemberVaccinationMutationVariables = {
-  input: CreateAuthorizationListMemberVaccinationInput,
-  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
-};
-
-export type CreateAuthorizationListMemberVaccinationMutation = {
-  createAuthorizationListMemberVaccination?:  {
-    __typename: "AuthorizationListMemberVaccination",
-    id: string,
-    authorizationListID: string,
-    authorizationList?:  {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    authorizationListMemberID: string,
-    authorizationListMember?:  {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    lote?: string | null,
-    dueDate?: string | null,
-    via?: string | null,
-    OS?: string | null,
-    applicationDate?: string | null,
-    applicationTime?: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateAuthorizationListMemberVaccinationMutationVariables = {
-  input: UpdateAuthorizationListMemberVaccinationInput,
-  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
-};
-
-export type UpdateAuthorizationListMemberVaccinationMutation = {
-  updateAuthorizationListMemberVaccination?:  {
-    __typename: "AuthorizationListMemberVaccination",
-    id: string,
-    authorizationListID: string,
-    authorizationList?:  {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    authorizationListMemberID: string,
-    authorizationListMember?:  {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    lote?: string | null,
-    dueDate?: string | null,
-    via?: string | null,
-    OS?: string | null,
-    applicationDate?: string | null,
-    applicationTime?: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteAuthorizationListMemberVaccinationMutationVariables = {
-  input: DeleteAuthorizationListMemberVaccinationInput,
-  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
-};
-
-export type DeleteAuthorizationListMemberVaccinationMutation = {
-  deleteAuthorizationListMemberVaccination?:  {
-    __typename: "AuthorizationListMemberVaccination",
-    id: string,
-    authorizationListID: string,
-    authorizationList?:  {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    authorizationListMemberID: string,
-    authorizationListMember?:  {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    profissionalID?: string | null,
-    profissional?:  {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null,
-    coren?: string | null,
-    lote?: string | null,
-    dueDate?: string | null,
-    via?: string | null,
-    OS?: string | null,
-    applicationDate?: string | null,
-    applicationTime?: string | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -16245,8 +17776,14 @@ export type CreateClientUserMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16258,6 +17795,9 @@ export type CreateClientUserMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -16295,8 +17835,14 @@ export type DeleteClientUserMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16308,6 +17854,9 @@ export type DeleteClientUserMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -16331,8 +17880,14 @@ export type CreateClientCampaignMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16344,12 +17899,16 @@ export type CreateClientCampaignMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     name: string,
     description?: string | null,
-    search?: string | null,
+    clientNotes?: string | null,
+    internalNotes?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -16357,12 +17916,33 @@ export type CreateClientCampaignMutation = {
     lastOSDate?: string | null,
     scheduleRouted?: number | null,
     scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
+    scheduleFinished?: number | null,
     totalEligibles?: number | null,
+    totalEligiblesDependent?: number | null,
+    totalEligiblesThird?: number | null,
     totalVaccinations?: number | null,
-    campaignCode?: string | null,
+    search?: string | null,
+    responsible?: string | null,
+    number?: number | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    createdAt?: string | null,
+    idx: number,
+    campaignCode: string,
     status?: ClientCampaignStatus | null,
-    createdAt: string,
+    products?:  {
+      __typename: "ModelClientCampaignProductConnection",
+      nextToken?: string | null,
+    } | null,
+    companies?:  {
+      __typename: "ModelClientCampaignCompanyConnection",
+      nextToken?: string | null,
+    } | null,
+    units?:  {
+      __typename: "ModelClientCampaignUnitConnection",
+      nextToken?: string | null,
+    } | null,
     updatedAt: string,
   } | null,
 };
@@ -16382,8 +17962,14 @@ export type UpdateClientCampaignMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16395,12 +17981,16 @@ export type UpdateClientCampaignMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     name: string,
     description?: string | null,
-    search?: string | null,
+    clientNotes?: string | null,
+    internalNotes?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -16408,12 +17998,33 @@ export type UpdateClientCampaignMutation = {
     lastOSDate?: string | null,
     scheduleRouted?: number | null,
     scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
+    scheduleFinished?: number | null,
     totalEligibles?: number | null,
+    totalEligiblesDependent?: number | null,
+    totalEligiblesThird?: number | null,
     totalVaccinations?: number | null,
-    campaignCode?: string | null,
+    search?: string | null,
+    responsible?: string | null,
+    number?: number | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    createdAt?: string | null,
+    idx: number,
+    campaignCode: string,
     status?: ClientCampaignStatus | null,
-    createdAt: string,
+    products?:  {
+      __typename: "ModelClientCampaignProductConnection",
+      nextToken?: string | null,
+    } | null,
+    companies?:  {
+      __typename: "ModelClientCampaignCompanyConnection",
+      nextToken?: string | null,
+    } | null,
+    units?:  {
+      __typename: "ModelClientCampaignUnitConnection",
+      nextToken?: string | null,
+    } | null,
     updatedAt: string,
   } | null,
 };
@@ -16433,8 +18044,14 @@ export type DeleteClientCampaignMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16446,12 +18063,16 @@ export type DeleteClientCampaignMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     name: string,
     description?: string | null,
-    search?: string | null,
+    clientNotes?: string | null,
+    internalNotes?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -16459,11 +18080,527 @@ export type DeleteClientCampaignMutation = {
     lastOSDate?: string | null,
     scheduleRouted?: number | null,
     scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
+    scheduleFinished?: number | null,
     totalEligibles?: number | null,
+    totalEligiblesDependent?: number | null,
+    totalEligiblesThird?: number | null,
     totalVaccinations?: number | null,
-    campaignCode?: string | null,
+    search?: string | null,
+    responsible?: string | null,
+    number?: number | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    createdAt?: string | null,
+    idx: number,
+    campaignCode: string,
     status?: ClientCampaignStatus | null,
+    products?:  {
+      __typename: "ModelClientCampaignProductConnection",
+      nextToken?: string | null,
+    } | null,
+    companies?:  {
+      __typename: "ModelClientCampaignCompanyConnection",
+      nextToken?: string | null,
+    } | null,
+    units?:  {
+      __typename: "ModelClientCampaignUnitConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientCampaignProductMutationVariables = {
+  input: CreateClientCampaignProductInput,
+  condition?: ModelClientCampaignProductConditionInput | null,
+};
+
+export type CreateClientCampaignProductMutation = {
+  createClientCampaignProduct?:  {
+    __typename: "ClientCampaignProduct",
+    id: string,
+    clientCampaignID: string,
+    productID: string,
+    price?: number | null,
+    limit?: number | null,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      alias: string,
+      status: PageStatus,
+      category: string,
+      subCategory: string,
+      laboratory?: string | null,
+      code?: string | null,
+      name: string,
+      type?: string | null,
+      description?: string | null,
+      manufacturer?: string | null,
+      contentTitle?: string | null,
+      contentTitle2?: string | null,
+      contentTitle3?: string | null,
+      content?: string | null,
+      content2?: string | null,
+      content3?: string | null,
+      tags?: Array< string | null > | null,
+      changeFreq?: PageChangeFreq | null,
+      priority?: PagePriority | null,
+      price_of?: number | null,
+      price: number,
+      qty?: number | null,
+      stockControl?: boolean | null,
+      applicationTime?: number | null,
+      applicationTimeChild?: number | null,
+      photo1?: string | null,
+      photo2?: string | null,
+      photo3?: string | null,
+      photo4?: string | null,
+      photo5?: string | null,
+      thumbnail?: string | null,
+      thumbnailSrc?: string | null,
+      thumbnailCropper?: string | null,
+      titlePadX?: string | null,
+      titlePadY?: string | null,
+      contentPadX?: string | null,
+      contentPadY?: string | null,
+      optionTitle?: PageOptionTitle | null,
+      sideColumn?: PageSideColumn | null,
+      sideColumnPadX?: string | null,
+      sideColumnPadY?: string | null,
+      sideColumnContent?: string | null,
+      optionSideColumn?: PageOptionSideColumn | null,
+      hideFooter?: boolean | null,
+      hideInMenu?: boolean | null,
+      createdAt?: string | null,
+      search?: string | null,
+      hideInSearch?: boolean | null,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientCampaignProductMutationVariables = {
+  input: UpdateClientCampaignProductInput,
+  condition?: ModelClientCampaignProductConditionInput | null,
+};
+
+export type UpdateClientCampaignProductMutation = {
+  updateClientCampaignProduct?:  {
+    __typename: "ClientCampaignProduct",
+    id: string,
+    clientCampaignID: string,
+    productID: string,
+    price?: number | null,
+    limit?: number | null,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      alias: string,
+      status: PageStatus,
+      category: string,
+      subCategory: string,
+      laboratory?: string | null,
+      code?: string | null,
+      name: string,
+      type?: string | null,
+      description?: string | null,
+      manufacturer?: string | null,
+      contentTitle?: string | null,
+      contentTitle2?: string | null,
+      contentTitle3?: string | null,
+      content?: string | null,
+      content2?: string | null,
+      content3?: string | null,
+      tags?: Array< string | null > | null,
+      changeFreq?: PageChangeFreq | null,
+      priority?: PagePriority | null,
+      price_of?: number | null,
+      price: number,
+      qty?: number | null,
+      stockControl?: boolean | null,
+      applicationTime?: number | null,
+      applicationTimeChild?: number | null,
+      photo1?: string | null,
+      photo2?: string | null,
+      photo3?: string | null,
+      photo4?: string | null,
+      photo5?: string | null,
+      thumbnail?: string | null,
+      thumbnailSrc?: string | null,
+      thumbnailCropper?: string | null,
+      titlePadX?: string | null,
+      titlePadY?: string | null,
+      contentPadX?: string | null,
+      contentPadY?: string | null,
+      optionTitle?: PageOptionTitle | null,
+      sideColumn?: PageSideColumn | null,
+      sideColumnPadX?: string | null,
+      sideColumnPadY?: string | null,
+      sideColumnContent?: string | null,
+      optionSideColumn?: PageOptionSideColumn | null,
+      hideFooter?: boolean | null,
+      hideInMenu?: boolean | null,
+      createdAt?: string | null,
+      search?: string | null,
+      hideInSearch?: boolean | null,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientCampaignProductMutationVariables = {
+  input: DeleteClientCampaignProductInput,
+  condition?: ModelClientCampaignProductConditionInput | null,
+};
+
+export type DeleteClientCampaignProductMutation = {
+  deleteClientCampaignProduct?:  {
+    __typename: "ClientCampaignProduct",
+    id: string,
+    clientCampaignID: string,
+    productID: string,
+    price?: number | null,
+    limit?: number | null,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      alias: string,
+      status: PageStatus,
+      category: string,
+      subCategory: string,
+      laboratory?: string | null,
+      code?: string | null,
+      name: string,
+      type?: string | null,
+      description?: string | null,
+      manufacturer?: string | null,
+      contentTitle?: string | null,
+      contentTitle2?: string | null,
+      contentTitle3?: string | null,
+      content?: string | null,
+      content2?: string | null,
+      content3?: string | null,
+      tags?: Array< string | null > | null,
+      changeFreq?: PageChangeFreq | null,
+      priority?: PagePriority | null,
+      price_of?: number | null,
+      price: number,
+      qty?: number | null,
+      stockControl?: boolean | null,
+      applicationTime?: number | null,
+      applicationTimeChild?: number | null,
+      photo1?: string | null,
+      photo2?: string | null,
+      photo3?: string | null,
+      photo4?: string | null,
+      photo5?: string | null,
+      thumbnail?: string | null,
+      thumbnailSrc?: string | null,
+      thumbnailCropper?: string | null,
+      titlePadX?: string | null,
+      titlePadY?: string | null,
+      contentPadX?: string | null,
+      contentPadY?: string | null,
+      optionTitle?: PageOptionTitle | null,
+      sideColumn?: PageSideColumn | null,
+      sideColumnPadX?: string | null,
+      sideColumnPadY?: string | null,
+      sideColumnContent?: string | null,
+      optionSideColumn?: PageOptionSideColumn | null,
+      hideFooter?: boolean | null,
+      hideInMenu?: boolean | null,
+      createdAt?: string | null,
+      search?: string | null,
+      hideInSearch?: boolean | null,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientCampaignCompanyMutationVariables = {
+  input: CreateClientCampaignCompanyInput,
+  condition?: ModelClientCampaignCompanyConditionInput | null,
+};
+
+export type CreateClientCampaignCompanyMutation = {
+  createClientCampaignCompany?:  {
+    __typename: "ClientCampaignCompany",
+    id: string,
+    clientCampaignID: string,
+    companyID: string,
+    company?:  {
+      __typename: "Company",
+      id: string,
+      cnpj: string,
+      name: string,
+      openingHours?: string | null,
+      phones?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      search?: string | null,
+      enableRetail?: string | null,
+      schedulesSunday?: Array< string | null > | null,
+      schedulesMonday?: Array< string | null > | null,
+      schedulesTuesday?: Array< string | null > | null,
+      schedulesWednesday?: Array< string | null > | null,
+      schedulesThursday?: Array< string | null > | null,
+      schedulesFriday?: Array< string | null > | null,
+      schedulesSaturday?: Array< string | null > | null,
+      status?: CompanyStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientCampaignCompanyMutationVariables = {
+  input: UpdateClientCampaignCompanyInput,
+  condition?: ModelClientCampaignCompanyConditionInput | null,
+};
+
+export type UpdateClientCampaignCompanyMutation = {
+  updateClientCampaignCompany?:  {
+    __typename: "ClientCampaignCompany",
+    id: string,
+    clientCampaignID: string,
+    companyID: string,
+    company?:  {
+      __typename: "Company",
+      id: string,
+      cnpj: string,
+      name: string,
+      openingHours?: string | null,
+      phones?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      search?: string | null,
+      enableRetail?: string | null,
+      schedulesSunday?: Array< string | null > | null,
+      schedulesMonday?: Array< string | null > | null,
+      schedulesTuesday?: Array< string | null > | null,
+      schedulesWednesday?: Array< string | null > | null,
+      schedulesThursday?: Array< string | null > | null,
+      schedulesFriday?: Array< string | null > | null,
+      schedulesSaturday?: Array< string | null > | null,
+      status?: CompanyStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientCampaignCompanyMutationVariables = {
+  input: DeleteClientCampaignCompanyInput,
+  condition?: ModelClientCampaignCompanyConditionInput | null,
+};
+
+export type DeleteClientCampaignCompanyMutation = {
+  deleteClientCampaignCompany?:  {
+    __typename: "ClientCampaignCompany",
+    id: string,
+    clientCampaignID: string,
+    companyID: string,
+    company?:  {
+      __typename: "Company",
+      id: string,
+      cnpj: string,
+      name: string,
+      openingHours?: string | null,
+      phones?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      search?: string | null,
+      enableRetail?: string | null,
+      schedulesSunday?: Array< string | null > | null,
+      schedulesMonday?: Array< string | null > | null,
+      schedulesTuesday?: Array< string | null > | null,
+      schedulesWednesday?: Array< string | null > | null,
+      schedulesThursday?: Array< string | null > | null,
+      schedulesFriday?: Array< string | null > | null,
+      schedulesSaturday?: Array< string | null > | null,
+      status?: CompanyStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateClientCampaignUnitMutationVariables = {
+  input: CreateClientCampaignUnitInput,
+  condition?: ModelClientCampaignUnitConditionInput | null,
+};
+
+export type CreateClientCampaignUnitMutation = {
+  createClientCampaignUnit?:  {
+    __typename: "ClientCampaignUnit",
+    id: string,
+    clientCampaignID: string,
+    unitID: string,
+    unit?:  {
+      __typename: "ClientUnit",
+      id: string,
+      clientID: string,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      totalEligibles?: number | null,
+      totalCollaborators?: number | null,
+      code?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateClientCampaignUnitMutationVariables = {
+  input: UpdateClientCampaignUnitInput,
+  condition?: ModelClientCampaignUnitConditionInput | null,
+};
+
+export type UpdateClientCampaignUnitMutation = {
+  updateClientCampaignUnit?:  {
+    __typename: "ClientCampaignUnit",
+    id: string,
+    clientCampaignID: string,
+    unitID: string,
+    unit?:  {
+      __typename: "ClientUnit",
+      id: string,
+      clientID: string,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      totalEligibles?: number | null,
+      totalCollaborators?: number | null,
+      code?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteClientCampaignUnitMutationVariables = {
+  input: DeleteClientCampaignUnitInput,
+  condition?: ModelClientCampaignUnitConditionInput | null,
+};
+
+export type DeleteClientCampaignUnitMutation = {
+  deleteClientCampaignUnit?:  {
+    __typename: "ClientCampaignUnit",
+    id: string,
+    clientCampaignID: string,
+    unitID: string,
+    unit?:  {
+      __typename: "ClientUnit",
+      id: string,
+      clientID: string,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      totalEligibles?: number | null,
+      totalCollaborators?: number | null,
+      code?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -16520,8 +18657,14 @@ export type CreateOSMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16533,6 +18676,9 @@ export type CreateOSMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -16540,7 +18686,9 @@ export type CreateOSMutation = {
       __typename: "ClientUnit",
       id: string,
       clientID: string,
-      name?: string | null,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
       street?: string | null,
       number?: string | null,
       complement?: string | null,
@@ -16549,12 +18697,21 @@ export type CreateOSMutation = {
       city?: string | null,
       state?: string | null,
       country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
       notes?: string | null,
       search?: string | null,
       contactName?: string | null,
       contactEmail?: string | null,
       contactPhone?: string | null,
       totalEligibles?: number | null,
+      totalCollaborators?: number | null,
       code?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -16565,7 +18722,8 @@ export type CreateOSMutation = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16573,12 +18731,21 @@ export type CreateOSMutation = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
-      createdAt: string,
       updatedAt: string,
     } | null,
     createdAt: string,
@@ -16637,8 +18804,14 @@ export type UpdateOSMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16650,6 +18823,9 @@ export type UpdateOSMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -16657,7 +18833,9 @@ export type UpdateOSMutation = {
       __typename: "ClientUnit",
       id: string,
       clientID: string,
-      name?: string | null,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
       street?: string | null,
       number?: string | null,
       complement?: string | null,
@@ -16666,12 +18844,21 @@ export type UpdateOSMutation = {
       city?: string | null,
       state?: string | null,
       country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
       notes?: string | null,
       search?: string | null,
       contactName?: string | null,
       contactEmail?: string | null,
       contactPhone?: string | null,
       totalEligibles?: number | null,
+      totalCollaborators?: number | null,
       code?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -16682,7 +18869,8 @@ export type UpdateOSMutation = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16690,12 +18878,21 @@ export type UpdateOSMutation = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
-      createdAt: string,
       updatedAt: string,
     } | null,
     createdAt: string,
@@ -16754,8 +18951,14 @@ export type DeleteOSMutation = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16767,6 +18970,9 @@ export type DeleteOSMutation = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -16774,7 +18980,9 @@ export type DeleteOSMutation = {
       __typename: "ClientUnit",
       id: string,
       clientID: string,
-      name?: string | null,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
       street?: string | null,
       number?: string | null,
       complement?: string | null,
@@ -16783,12 +18991,21 @@ export type DeleteOSMutation = {
       city?: string | null,
       state?: string | null,
       country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
       notes?: string | null,
       search?: string | null,
       contactName?: string | null,
       contactEmail?: string | null,
       contactPhone?: string | null,
       totalEligibles?: number | null,
+      totalCollaborators?: number | null,
       code?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -16799,7 +19016,8 @@ export type DeleteOSMutation = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -16807,14 +19025,290 @@ export type DeleteOSMutation = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateAuthorizationListMemberMutationVariables = {
+  input: UpdateAuthorizationListMemberInput,
+  condition?: ModelAuthorizationListMemberConditionInput | null,
+};
+
+export type UpdateAuthorizationListMemberMutation = {
+  updateAuthorizationListMember?:  {
+    __typename: "AuthorizationListMember",
+    id: string,
+    authorizationListID: string,
+    name: string,
+    key?: string | null,
+    cpf?: string | null,
+    birth?: string | null,
+    search?: string | null,
+    others?: string | null,
+    vaccinations?:  {
+      __typename: "ModelAuthorizationListMemberVaccinationConnection",
+      nextToken?: string | null,
+    } | null,
+    authorizationList?:  {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
       createdAt: string,
       updatedAt: string,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateAuthorizationListMemberVaccinationMutationVariables = {
+  input: CreateAuthorizationListMemberVaccinationInput,
+  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
+};
+
+export type CreateAuthorizationListMemberVaccinationMutation = {
+  createAuthorizationListMemberVaccination?:  {
+    __typename: "AuthorizationListMemberVaccination",
+    id: string,
+    authorizationListID: string,
+    authorizationList?:  {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    authorizationListMemberID: string,
+    authorizationListMember?:  {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    coren?: string | null,
+    lote?: string | null,
+    dueDate?: string | null,
+    via?: string | null,
+    OS?: string | null,
+    applicationDate?: string | null,
+    applicationTime?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateAuthorizationListMemberVaccinationMutationVariables = {
+  input: UpdateAuthorizationListMemberVaccinationInput,
+  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
+};
+
+export type UpdateAuthorizationListMemberVaccinationMutation = {
+  updateAuthorizationListMemberVaccination?:  {
+    __typename: "AuthorizationListMemberVaccination",
+    id: string,
+    authorizationListID: string,
+    authorizationList?:  {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    authorizationListMemberID: string,
+    authorizationListMember?:  {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    coren?: string | null,
+    lote?: string | null,
+    dueDate?: string | null,
+    via?: string | null,
+    OS?: string | null,
+    applicationDate?: string | null,
+    applicationTime?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteAuthorizationListMemberVaccinationMutationVariables = {
+  input: DeleteAuthorizationListMemberVaccinationInput,
+  condition?: ModelAuthorizationListMemberVaccinationConditionInput | null,
+};
+
+export type DeleteAuthorizationListMemberVaccinationMutation = {
+  deleteAuthorizationListMemberVaccination?:  {
+    __typename: "AuthorizationListMemberVaccination",
+    id: string,
+    authorizationListID: string,
+    authorizationList?:  {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    authorizationListMemberID: string,
+    authorizationListMember?:  {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    profissionalID?: string | null,
+    profissional?:  {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null,
+    coren?: string | null,
+    lote?: string | null,
+    dueDate?: string | null,
+    via?: string | null,
+    OS?: string | null,
+    applicationDate?: string | null,
+    applicationTime?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -17082,41 +19576,6 @@ export type GetVaccinationCardQuery = {
     } | null,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type ListVaccinationCardItemsQueryVariables = {
-  id?: string | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-};
-
-export type ListVaccinationCardItemsQuery = {
-  listVaccinationCardItems?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -17597,220 +20056,6 @@ export type ListVaccinationCardsByUserQuery = {
       isOwner?: boolean | null,
       createdAt: string,
       updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByVaccinationCardQueryVariables = {
-  vaccinationCardID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByVaccinationCardQuery = {
-  listVaccinationCardsItemsByVaccinationCard?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByOrderQueryVariables = {
-  orderID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByOrderQuery = {
-  listVaccinationCardsItemsByOrder?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByCampaignQueryVariables = {
-  campaignID: string,
-  applicationDate?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByCampaignQuery = {
-  listVaccinationCardsItemsByCampaign?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByCompanyQueryVariables = {
-  companyID: string,
-  applicationDate?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByCompanyQuery = {
-  listVaccinationCardsItemsByCompany?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByProfissionalQueryVariables = {
-  profissionalID: string,
-  applicationDate?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByProfissionalQuery = {
-  listVaccinationCardsItemsByProfissional?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationCardsItemsByStatusQueryVariables = {
-  status: string,
-  applicationDate?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelVaccinationCardItemFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationCardsItemsByStatusQuery = {
-  listVaccinationCardsItemsByStatus?:  {
-    __typename: "ModelVaccinationCardItemConnection",
-    items:  Array< {
-      __typename: "VaccinationCardItem",
-      id: string,
-      vaccinationCardID: string,
-      orderID: string,
-      orderItemID: string,
-      campaignID?: string | null,
-      companyID?: string | null,
-      lote?: string | null,
-      profissionalID?: string | null,
-      profissionalName?: string | null,
-      coren?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      applicationDate?: string | null,
-      status?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      userID?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -19180,6 +21425,29 @@ export type ListCategoryByAliasOrderQuery = {
   } | null,
 };
 
+export type ListLaboratoriesQueryVariables = {
+  id?: string | null,
+  filter?: ModelLaboratoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListLaboratoriesQuery = {
+  listLaboratories?:  {
+    __typename: "ModelLaboratoryConnection",
+    items:  Array< {
+      __typename: "Laboratory",
+      id: string,
+      name: string,
+      description?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetProductQueryVariables = {
   id: string,
 };
@@ -19222,6 +21490,7 @@ export type GetProductQuery = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    laboratory?: string | null,
     code?: string | null,
     name: string,
     type?: string | null,
@@ -19295,6 +21564,7 @@ export type ListProductsQuery = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -19363,6 +21633,7 @@ export type ListProductsByAliasCreatedAtQuery = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -19431,6 +21702,7 @@ export type ListProductsByStatusCategoryNameQuery = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -19499,6 +21771,7 @@ export type ListProductsByCategorySubCategoryNameQuery = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -19657,7 +21930,7 @@ export type ListCartsQuery = {
       changeQtyBlend?: number | null,
       changePriceAdjustment?: string | null,
       blendID?: string | null,
-      campaignToken?: string | null,
+      adherenceToken?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -19687,7 +21960,7 @@ export type ListCartsByUserQuery = {
       changeQtyBlend?: number | null,
       changePriceAdjustment?: string | null,
       blendID?: string | null,
-      campaignToken?: string | null,
+      adherenceToken?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -19810,9 +22083,11 @@ export type GetOrderQuery = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -19893,9 +22168,11 @@ export type ListOrdersQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -19947,9 +22224,11 @@ export type ListOrdersByUserStatusCreatedAtQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -20001,9 +22280,11 @@ export type ListOrdersByUserCreatedAtQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -20055,9 +22336,11 @@ export type ListOrdersByStatusCreatedAtQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -20073,8 +22356,8 @@ export type ListOrdersByStatusCreatedAtQuery = {
   } | null,
 };
 
-export type ListOrdersByCampaignCreatedAtQueryVariables = {
-  campaignID: string,
+export type ListOrdersByAdherenceCreatedAtQueryVariables = {
+  adherenceID: string,
   createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelOrderFilterInput | null,
@@ -20082,8 +22365,8 @@ export type ListOrdersByCampaignCreatedAtQueryVariables = {
   nextToken?: string | null,
 };
 
-export type ListOrdersByCampaignCreatedAtQuery = {
-  listOrdersByCampaignCreatedAt?:  {
+export type ListOrdersByAdherenceCreatedAtQuery = {
+  listOrdersByAdherenceCreatedAt?:  {
     __typename: "ModelOrderConnection",
     items:  Array< {
       __typename: "Order",
@@ -20109,9 +22392,67 @@ export type ListOrdersByCampaignCreatedAtQuery = {
       addressState?: string | null,
       addressCountry?: string | null,
       notes?: string | null,
-      campaignID?: string | null,
-      campaignName?: string | null,
-      campaignOrientation?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
+      companyID?: string | null,
+      companyName?: string | null,
+      companyPhone?: string | null,
+      companyOpeningHours?: string | null,
+      qrCodePix?: string | null,
+      qrCodePixUrl?: string | null,
+      payMethod?: PaymentMethods | null,
+      installments?: number | null,
+      homeCareOrRetail?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListOrdersByClientCampaignCreatedAtQueryVariables = {
+  clientCampaignID: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelOrderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOrdersByClientCampaignCreatedAtQuery = {
+  listOrdersByClientCampaignCreatedAt?:  {
+    __typename: "ModelOrderConnection",
+    items:  Array< {
+      __typename: "Order",
+      id: string,
+      userID: string,
+      status: OrderStatus,
+      createdAt?: string | null,
+      couponID?: string | null,
+      couponName?: string | null,
+      couponDiscount?: number | null,
+      deliveryPrice?: number | null,
+      total?: number | null,
+      rating?: number | null,
+      ratingNotes?: string | null,
+      orderPagarmeID?: string | null,
+      addressReference?: string | null,
+      addressStreet?: string | null,
+      addressNumber?: string | null,
+      addressComplement?: string | null,
+      addressZipcode?: string | null,
+      addressNeighborhood?: string | null,
+      addressCity?: string | null,
+      addressState?: string | null,
+      addressCountry?: string | null,
+      notes?: string | null,
+      adherenceID?: string | null,
+      adherenceName?: string | null,
+      adherenceOrientation?: string | null,
+      clientCampaignID?: string | null,
+      clientCampaignName?: string | null,
       companyID?: string | null,
       companyName?: string | null,
       companyPhone?: string | null,
@@ -20369,17 +22710,18 @@ export type ListDeliveryMethodOrdersQuery = {
   } | null,
 };
 
-export type GetCampaignQueryVariables = {
+export type GetAdherenceQueryVariables = {
   id: string,
 };
 
-export type GetCampaignQuery = {
-  getCampaign?:  {
-    __typename: "Campaign",
+export type GetAdherenceQuery = {
+  getAdherence?:  {
+    __typename: "Adherence",
     id: string,
     name: string,
     description?: string | null,
     code: string,
+    campaignCode?: string | null,
     start?: string | null,
     expiration?: string | null,
     discountPercentage?: number | null,
@@ -20393,15 +22735,15 @@ export type GetCampaignQuery = {
     zipCodeCoverage?: Array< string | null > | null,
     search?: string | null,
     products?:  {
-      __typename: "ModelCampaignProductConnection",
+      __typename: "ModelAdherenceProductConnection",
       nextToken?: string | null,
     } | null,
-    campaignUsed?:  {
-      __typename: "ModelCampaignUsedConnection",
+    adherenceUsed?:  {
+      __typename: "ModelAdherenceUsedConnection",
       nextToken?: string | null,
     } | null,
     companies?:  {
-      __typename: "ModelCampaignCompanyConnection",
+      __typename: "ModelAdherenceCompanyConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -20409,23 +22751,24 @@ export type GetCampaignQuery = {
   } | null,
 };
 
-export type ListCampaignsQueryVariables = {
+export type ListAdherencesQueryVariables = {
   id?: string | null,
-  filter?: ModelCampaignFilterInput | null,
+  filter?: ModelAdherenceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   sortDirection?: ModelSortDirection | null,
 };
 
-export type ListCampaignsQuery = {
-  listCampaigns?:  {
-    __typename: "ModelCampaignConnection",
+export type ListAdherencesQuery = {
+  listAdherences?:  {
+    __typename: "ModelAdherenceConnection",
     items:  Array< {
-      __typename: "Campaign",
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -20445,23 +22788,24 @@ export type ListCampaignsQuery = {
   } | null,
 };
 
-export type ListCampaignByCodeQueryVariables = {
+export type ListAdherenceByCodeQueryVariables = {
   code: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignFilterInput | null,
+  filter?: ModelAdherenceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCampaignByCodeQuery = {
-  listCampaignByCode?:  {
-    __typename: "ModelCampaignConnection",
+export type ListAdherenceByCodeQuery = {
+  listAdherenceByCode?:  {
+    __typename: "ModelAdherenceConnection",
     items:  Array< {
-      __typename: "Campaign",
+      __typename: "Adherence",
       id: string,
       name: string,
       description?: string | null,
       code: string,
+      campaignCode?: string | null,
       start?: string | null,
       expiration?: string | null,
       discountPercentage?: number | null,
@@ -20481,21 +22825,58 @@ export type ListCampaignByCodeQuery = {
   } | null,
 };
 
-export type ListUsedByCampaignQueryVariables = {
-  campaignID: string,
+export type ListAdherenceByCampaignCodeQueryVariables = {
+  campaignCode: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignUsedFilterInput | null,
+  filter?: ModelAdherenceFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListUsedByCampaignQuery = {
-  listUsedByCampaign?:  {
-    __typename: "ModelCampaignUsedConnection",
+export type ListAdherenceByCampaignCodeQuery = {
+  listAdherenceByCampaignCode?:  {
+    __typename: "ModelAdherenceConnection",
     items:  Array< {
-      __typename: "CampaignUsed",
+      __typename: "Adherence",
       id: string,
-      campaignID: string,
+      name: string,
+      description?: string | null,
+      code: string,
+      campaignCode?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      discountPercentage?: number | null,
+      discountValue?: number | null,
+      qtyLimit?: number | null,
+      qtyUsed?: number | null,
+      qtyProduct?: number | null,
+      qtyProductUsed?: number | null,
+      orientation?: string | null,
+      orderMessage?: string | null,
+      zipCodeCoverage?: Array< string | null > | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListUsedByAdherenceQueryVariables = {
+  adherenceID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAdherenceUsedFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsedByAdherenceQuery = {
+  listUsedByAdherence?:  {
+    __typename: "ModelAdherenceUsedConnection",
+    items:  Array< {
+      __typename: "AdherenceUsed",
+      id: string,
+      adherenceID: string,
       userID: string,
       qty?: number | null,
       createdAt: string,
@@ -20505,22 +22886,22 @@ export type ListUsedByCampaignQuery = {
   } | null,
 };
 
-export type ListUsedByCampaignUserQueryVariables = {
-  campaignID: string,
+export type ListUsedByAdherenceUserQueryVariables = {
+  adherenceID: string,
   userID?: ModelIDKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignUsedFilterInput | null,
+  filter?: ModelAdherenceUsedFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListUsedByCampaignUserQuery = {
-  listUsedByCampaignUser?:  {
-    __typename: "ModelCampaignUsedConnection",
+export type ListUsedByAdherenceUserQuery = {
+  listUsedByAdherenceUser?:  {
+    __typename: "ModelAdherenceUsedConnection",
     items:  Array< {
-      __typename: "CampaignUsed",
+      __typename: "AdherenceUsed",
       id: string,
-      campaignID: string,
+      adherenceID: string,
       userID: string,
       qty?: number | null,
       createdAt: string,
@@ -20530,21 +22911,21 @@ export type ListUsedByCampaignUserQuery = {
   } | null,
 };
 
-export type ListProductsByCampaignQueryVariables = {
-  campaignID: string,
+export type ListProductsByAdherenceQueryVariables = {
+  adherenceID: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignProductFilterInput | null,
+  filter?: ModelAdherenceProductFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListProductsByCampaignQuery = {
-  listProductsByCampaign?:  {
-    __typename: "ModelCampaignProductConnection",
+export type ListProductsByAdherenceQuery = {
+  listProductsByAdherence?:  {
+    __typename: "ModelAdherenceProductConnection",
     items:  Array< {
-      __typename: "CampaignProduct",
+      __typename: "AdherenceProduct",
       id: string,
-      campaignID: string,
+      adherenceID: string,
       productID: string,
       price?: number | null,
       limit?: number | null,
@@ -20555,24 +22936,317 @@ export type ListProductsByCampaignQuery = {
   } | null,
 };
 
-export type ListCompaniesByCampaignQueryVariables = {
-  campaignID: string,
+export type ListCompaniesByAdherenceQueryVariables = {
+  adherenceID: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelCampaignCompanyFilterInput | null,
+  filter?: ModelAdherenceCompanyFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCompaniesByCampaignQuery = {
-  listCompaniesByCampaign?:  {
-    __typename: "ModelCampaignCompanyConnection",
+export type ListCompaniesByAdherenceQuery = {
+  listCompaniesByAdherence?:  {
+    __typename: "ModelAdherenceCompanyConnection",
     items:  Array< {
-      __typename: "CampaignCompany",
+      __typename: "AdherenceCompany",
       id: string,
-      campaignID: string,
+      adherenceID: string,
       companyID: string,
       createdAt: string,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardItemsQueryVariables = {
+  id?: string | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListVaccinationCardItemsQuery = {
+  listVaccinationCardItems?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByVaccinationCardQueryVariables = {
+  vaccinationCardID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByVaccinationCardQuery = {
+  listVaccinationCardsItemsByVaccinationCard?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByOrderQueryVariables = {
+  orderID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByOrderQuery = {
+  listVaccinationCardsItemsByOrder?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByAdherenceQueryVariables = {
+  adherenceID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByAdherenceQuery = {
+  listVaccinationCardsItemsByAdherence?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByClientCampaignQuery = {
+  listVaccinationCardsItemsByClientCampaign?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByCompanyQueryVariables = {
+  companyID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByCompanyQuery = {
+  listVaccinationCardsItemsByCompany?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByProfissionalQueryVariables = {
+  profissionalID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByProfissionalQuery = {
+  listVaccinationCardsItemsByProfissional?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationCardsItemsByStatusQueryVariables = {
+  status: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVaccinationCardItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationCardsItemsByStatusQuery = {
+  listVaccinationCardsItemsByStatus?:  {
+    __typename: "ModelVaccinationCardItemConnection",
+    items:  Array< {
+      __typename: "VaccinationCardItem",
+      id: string,
+      vaccinationCardID: string,
+      orderID: string,
+      orderItemID: string,
+      adherenceID?: string | null,
+      clientCampaignID?: string | null,
+      companyID?: string | null,
+      lote?: string | null,
+      profissionalID?: string | null,
+      profissionalName?: string | null,
+      coren?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      applicationDate?: string | null,
+      status?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      userID?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -20742,415 +23416,6 @@ export type ListCompanyByEnableRetailQuery = {
   } | null,
 };
 
-export type ListAuthorizationListQueryVariables = {
-  id?: string | null,
-  filter?: ModelAuthorizationListFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-};
-
-export type ListAuthorizationListQuery = {
-  listAuthorizationList?:  {
-    __typename: "ModelAuthorizationListConnection",
-    items:  Array< {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListAuthorizationListsByCampaignCodeQueryVariables = {
-  campaignCode: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListAuthorizationListsByCampaignCodeQuery = {
-  listAuthorizationListsByCampaignCode?:  {
-    __typename: "ModelAuthorizationListConnection",
-    items:  Array< {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListAuthorizationListsByStatusQueryVariables = {
-  status: AuthorizationListStatus,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListAuthorizationListsByStatusQuery = {
-  listAuthorizationListsByStatus?:  {
-    __typename: "ModelAuthorizationListConnection",
-    items:  Array< {
-      __typename: "AuthorizationList",
-      id: string,
-      name: string,
-      description?: string | null,
-      start?: string | null,
-      expiration?: string | null,
-      orientation?: string | null,
-      search?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      contactNameFinished?: string | null,
-      contactPhoneFinished?: string | null,
-      contactEmailFinished?: string | null,
-      notesFinished?: string | null,
-      professionalFinished?: string | null,
-      withList?: boolean | null,
-      campaignCode?: string | null,
-      OS?: string | null,
-      status?: AuthorizationListStatus | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListClosuresByAuthorizationListQueryVariables = {
-  authorizationListID: string,
-  createdAt?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListClosureFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListClosuresByAuthorizationListQuery = {
-  listClosuresByAuthorizationList?:  {
-    __typename: "ModelAuthorizationListClosureConnection",
-    items:  Array< {
-      __typename: "AuthorizationListClosure",
-      id: string,
-      authorizationListID: string,
-      contactName?: string | null,
-      contactPhone?: string | null,
-      contactEmail?: string | null,
-      notes?: string | null,
-      qtyApplication?: number | null,
-      qtyReturned?: number | null,
-      professionalID?: string | null,
-      OS?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListAuthorizationListMembersQueryVariables = {
-  id?: string | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-};
-
-export type ListAuthorizationListMembersQuery = {
-  listAuthorizationListMembers?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersByAuthorizationListQueryVariables = {
-  authorizationListID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersByAuthorizationListQuery = {
-  listMembersByAuthorizationList?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersByAuthorizationListKeyQueryVariables = {
-  authorizationListID: string,
-  key?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersByAuthorizationListKeyQuery = {
-  listMembersByAuthorizationListKey?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersByAuthorizationListCPFQueryVariables = {
-  authorizationListID: string,
-  cpf?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersByAuthorizationListCPFQuery = {
-  listMembersByAuthorizationListCPF?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersByKeyQueryVariables = {
-  key: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersByKeyQuery = {
-  listMembersByKey?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersByCPFQueryVariables = {
-  cpf: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersByCPFQuery = {
-  listMembersByCPF?:  {
-    __typename: "ModelAuthorizationListMemberConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMember",
-      id: string,
-      authorizationListID: string,
-      name: string,
-      key?: string | null,
-      cpf?: string | null,
-      birth?: string | null,
-      search?: string | null,
-      others?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListMembersVaccinationByAuthorizationListQueryVariables = {
-  authorizationListID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListMembersVaccinationByAuthorizationListQuery = {
-  listMembersVaccinationByAuthorizationList?:  {
-    __typename: "ModelAuthorizationListMemberVaccinationConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMemberVaccination",
-      id: string,
-      authorizationListID: string,
-      authorizationListMemberID: string,
-      profissionalID?: string | null,
-      coren?: string | null,
-      lote?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      OS?: string | null,
-      applicationDate?: string | null,
-      applicationTime?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationsByAuthorizationListMemberQueryVariables = {
-  authorizationListMemberID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationsByAuthorizationListMemberQuery = {
-  listVaccinationsByAuthorizationListMember?:  {
-    __typename: "ModelAuthorizationListMemberVaccinationConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMemberVaccination",
-      id: string,
-      authorizationListID: string,
-      authorizationListMemberID: string,
-      profissionalID?: string | null,
-      coren?: string | null,
-      lote?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      OS?: string | null,
-      applicationDate?: string | null,
-      applicationTime?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListVaccinationsByProfissionalQueryVariables = {
-  profissionalID: string,
-  applicationDate?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListVaccinationsByProfissionalQuery = {
-  listVaccinationsByProfissional?:  {
-    __typename: "ModelAuthorizationListMemberVaccinationConnection",
-    items:  Array< {
-      __typename: "AuthorizationListMemberVaccination",
-      id: string,
-      authorizationListID: string,
-      authorizationListMemberID: string,
-      profissionalID?: string | null,
-      coren?: string | null,
-      lote?: string | null,
-      dueDate?: string | null,
-      via?: string | null,
-      OS?: string | null,
-      applicationDate?: string | null,
-      applicationTime?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
 export type GetCounterQueryVariables = {
   id: string,
 };
@@ -21175,8 +23440,14 @@ export type GetClientQuery = {
     id: string,
     name: string,
     notes?: string | null,
+    group?: string | null,
+    indication?: string | null,
+    origin?: string | null,
     status: ClientStatus,
     search?: string | null,
+    logo?: string | null,
+    logoSrc?: string | null,
+    logoCropper?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -21188,6 +23459,9 @@ export type GetClientQuery = {
     totalEligibles?: number | null,
     totalVaccinations?: number | null,
     code?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
     units?:  {
       __typename: "ModelClientUnitConnection",
       nextToken?: string | null,
@@ -21225,8 +23499,14 @@ export type ListClientsQuery = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21238,6 +23518,9 @@ export type ListClientsQuery = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -21262,8 +23545,14 @@ export type ListClientsByStatusNameQuery = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21275,42 +23564,9 @@ export type ListClientsByStatusNameQuery = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListClientsByCodeQueryVariables = {
-  code: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListClientsByCodeQuery = {
-  listClientsByCode?:  {
-    __typename: "ModelClientConnection",
-    items:  Array< {
-      __typename: "Client",
-      id: string,
-      name: string,
-      notes?: string | null,
-      status: ClientStatus,
-      search?: string | null,
-      totalUnits?: number | null,
-      unitsServed?: number | null,
-      unitsExpected?: number | null,
-      firstOSDate?: string | null,
-      lastOSDate?: string | null,
-      scheduleRouted?: number | null,
-      scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
-      totalEligibles?: number | null,
-      totalVaccinations?: number | null,
-      code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -21380,7 +23636,9 @@ export type ListUnitsByClientQuery = {
       __typename: "ClientUnit",
       id: string,
       clientID: string,
-      name?: string | null,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
       street?: string | null,
       number?: string | null,
       complement?: string | null,
@@ -21389,178 +23647,22 @@ export type ListUnitsByClientQuery = {
       city?: string | null,
       state?: string | null,
       country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
       notes?: string | null,
       search?: string | null,
       contactName?: string | null,
       contactEmail?: string | null,
       contactPhone?: string | null,
       totalEligibles?: number | null,
+      totalCollaborators?: number | null,
       code?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListUnitsByCodeQueryVariables = {
-  code: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientUnitFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUnitsByCodeQuery = {
-  listUnitsByCode?:  {
-    __typename: "ModelClientUnitConnection",
-    items:  Array< {
-      __typename: "ClientUnit",
-      id: string,
-      clientID: string,
-      name?: string | null,
-      street?: string | null,
-      number?: string | null,
-      complement?: string | null,
-      zipcode?: string | null,
-      neighborhood?: string | null,
-      city?: string | null,
-      state?: string | null,
-      country?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      contactName?: string | null,
-      contactEmail?: string | null,
-      contactPhone?: string | null,
-      totalEligibles?: number | null,
-      code?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListEligiblesByClientQueryVariables = {
-  clientID: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientEligibleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListEligiblesByClientQuery = {
-  listEligiblesByClient?:  {
-    __typename: "ModelClientEligibleConnection",
-    items:  Array< {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListEligiblesByClientKeyQueryVariables = {
-  clientID: string,
-  key?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientEligibleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListEligiblesByClientKeyQuery = {
-  listEligiblesByClientKey?:  {
-    __typename: "ModelClientEligibleConnection",
-    items:  Array< {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListEligiblesByClientCPFQueryVariables = {
-  clientID: string,
-  cpf?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientEligibleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListEligiblesByClientCPFQuery = {
-  listEligiblesByClientCPF?:  {
-    __typename: "ModelClientEligibleConnection",
-    items:  Array< {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type ListEligiblesByClientRGQueryVariables = {
-  clientID: string,
-  rg?: ModelStringKeyConditionInput | null,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelClientEligibleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListEligiblesByClientRGQuery = {
-  listEligiblesByClientRG?:  {
-    __typename: "ModelClientEligibleConnection",
-    items:  Array< {
-      __typename: "ClientEligible",
-      id: string,
-      clientID: string,
-      key: string,
-      name?: string | null,
-      cpf?: string | null,
-      rg?: string | null,
-      birth?: string | null,
-      notes?: string | null,
-      search?: string | null,
-      relationship?: string | null,
-      isDependent?: boolean | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -21582,8 +23684,14 @@ export type GetClientCampaignQuery = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21595,12 +23703,16 @@ export type GetClientCampaignQuery = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     name: string,
     description?: string | null,
-    search?: string | null,
+    clientNotes?: string | null,
+    internalNotes?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -21608,13 +23720,81 @@ export type GetClientCampaignQuery = {
     lastOSDate?: string | null,
     scheduleRouted?: number | null,
     scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
+    scheduleFinished?: number | null,
     totalEligibles?: number | null,
+    totalEligiblesDependent?: number | null,
+    totalEligiblesThird?: number | null,
     totalVaccinations?: number | null,
-    campaignCode?: string | null,
+    search?: string | null,
+    responsible?: string | null,
+    number?: number | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    createdAt?: string | null,
+    idx: number,
+    campaignCode: string,
     status?: ClientCampaignStatus | null,
-    createdAt: string,
+    products?:  {
+      __typename: "ModelClientCampaignProductConnection",
+      nextToken?: string | null,
+    } | null,
+    companies?:  {
+      __typename: "ModelClientCampaignCompanyConnection",
+      nextToken?: string | null,
+    } | null,
+    units?:  {
+      __typename: "ModelClientCampaignUnitConnection",
+      nextToken?: string | null,
+    } | null,
     updatedAt: string,
+  } | null,
+};
+
+export type ListClientCampaignsQueryVariables = {
+  id?: string | null,
+  filter?: ModelClientCampaignFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListClientCampaignsQuery = {
+  listClientCampaigns?:  {
+    __typename: "ModelClientCampaignConnection",
+    items:  Array< {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -21635,7 +23815,8 @@ export type ListClientCampaignsByClientQuery = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21643,12 +23824,117 @@ export type ListClientCampaignsByClientQuery = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
-      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListClientCampaignsByClientStatusQueryVariables = {
+  clientID: string,
+  status?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListClientCampaignsByClientStatusQuery = {
+  listClientCampaignsByClientStatus?:  {
+    __typename: "ModelClientCampaignConnection",
+    items:  Array< {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListClientCampaignsByIdxCreatedAtQueryVariables = {
+  idx: number,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListClientCampaignsByIdxCreatedAtQuery = {
+  listClientCampaignsByIdxCreatedAt?:  {
+    __typename: "ModelClientCampaignConnection",
+    items:  Array< {
+      __typename: "ClientCampaign",
+      id: string,
+      clientID: string,
+      name: string,
+      description?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
+      totalUnits?: number | null,
+      unitsServed?: number | null,
+      unitsExpected?: number | null,
+      firstOSDate?: string | null,
+      lastOSDate?: string | null,
+      scheduleRouted?: number | null,
+      scheduleConfirmed?: number | null,
+      scheduleFinished?: number | null,
+      totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
+      totalVaccinations?: number | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
+      status?: ClientCampaignStatus | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -21672,7 +23958,8 @@ export type ListClientCampaignsByCampaignCodeQuery = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21680,28 +23967,38 @@ export type ListClientCampaignsByCampaignCodeQuery = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
-      createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type ListClientCampaignsByStatusQueryVariables = {
+export type ListClientCampaignsByStatusCreatedAtQueryVariables = {
   status: ClientCampaignStatus,
+  createdAt?: ModelStringKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelClientCampaignFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListClientCampaignsByStatusQuery = {
-  listClientCampaignsByStatus?:  {
+export type ListClientCampaignsByStatusCreatedAtQuery = {
+  listClientCampaignsByStatusCreatedAt?:  {
     __typename: "ModelClientCampaignConnection",
     items:  Array< {
       __typename: "ClientCampaign",
@@ -21709,7 +24006,8 @@ export type ListClientCampaignsByStatusQuery = {
       clientID: string,
       name: string,
       description?: string | null,
-      search?: string | null,
+      clientNotes?: string | null,
+      internalNotes?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -21717,11 +24015,335 @@ export type ListClientCampaignsByStatusQuery = {
       lastOSDate?: string | null,
       scheduleRouted?: number | null,
       scheduleConfirmed?: number | null,
-      schedulePending?: number | null,
+      scheduleFinished?: number | null,
       totalEligibles?: number | null,
+      totalEligiblesDependent?: number | null,
+      totalEligiblesThird?: number | null,
       totalVaccinations?: number | null,
-      campaignCode?: string | null,
+      search?: string | null,
+      responsible?: string | null,
+      number?: number | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      createdAt?: string | null,
+      idx: number,
+      campaignCode: string,
       status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListProductsByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListProductsByClientCampaignQuery = {
+  listProductsByClientCampaign?:  {
+    __typename: "ModelClientCampaignProductConnection",
+    items:  Array< {
+      __typename: "ClientCampaignProduct",
+      id: string,
+      clientCampaignID: string,
+      productID: string,
+      price?: number | null,
+      limit?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListCompaniesByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignCompanyFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCompaniesByClientCampaignQuery = {
+  listCompaniesByClientCampaign?:  {
+    __typename: "ModelClientCampaignCompanyConnection",
+    items:  Array< {
+      __typename: "ClientCampaignCompany",
+      id: string,
+      clientCampaignID: string,
+      companyID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListUnitsByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignUnitFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUnitsByClientCampaignQuery = {
+  listUnitsByClientCampaign?:  {
+    __typename: "ModelClientCampaignUnitConnection",
+    items:  Array< {
+      __typename: "ClientCampaignUnit",
+      id: string,
+      clientCampaignID: string,
+      unitID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientCampaignQuery = {
+  listEligiblesByClientCampaign?:  {
+    __typename: "ModelClientCampaignEligibleConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientCampaignKeyQueryVariables = {
+  clientCampaignID: string,
+  key?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientCampaignKeyQuery = {
+  listEligiblesByClientCampaignKey?:  {
+    __typename: "ModelClientCampaignEligibleConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientCampaignCPFQueryVariables = {
+  clientCampaignID: string,
+  cpf?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientCampaignCPFQuery = {
+  listEligiblesByClientCampaignCPF?:  {
+    __typename: "ModelClientCampaignEligibleConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientCampaignRGQueryVariables = {
+  clientCampaignID: string,
+  rg?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientCampaignRGQuery = {
+  listEligiblesByClientCampaignRG?:  {
+    __typename: "ModelClientCampaignEligibleConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationsByOSQueryVariables = {
+  osID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByOSQuery = {
+  listVaccinationsByOS?:  {
+    __typename: "ModelClientCampaignEligibleVaccinationConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligibleVaccination",
+      id: string,
+      osID: string,
+      clientCampaignID: string,
+      clientCampaignEligibleID: string,
+      profissionalID?: string | null,
+      profissionalDoc?: string | null,
+      coren?: string | null,
+      applicationDate?: string | null,
+      reason?: string | null,
+      search?: string | null,
+      vaccination?: string | null,
+      status?: EligibleVaccinationStatus | null,
+      localCity?: string | null,
+      localState?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationsByClientCampaignQueryVariables = {
+  clientCampaignID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByClientCampaignQuery = {
+  listVaccinationsByClientCampaign?:  {
+    __typename: "ModelClientCampaignEligibleVaccinationConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligibleVaccination",
+      id: string,
+      osID: string,
+      clientCampaignID: string,
+      clientCampaignEligibleID: string,
+      profissionalID?: string | null,
+      profissionalDoc?: string | null,
+      coren?: string | null,
+      applicationDate?: string | null,
+      reason?: string | null,
+      search?: string | null,
+      vaccination?: string | null,
+      status?: EligibleVaccinationStatus | null,
+      localCity?: string | null,
+      localState?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationsByClientCampaignEligibleQueryVariables = {
+  clientCampaignEligibleID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByClientCampaignEligibleQuery = {
+  listVaccinationsByClientCampaignEligible?:  {
+    __typename: "ModelClientCampaignEligibleVaccinationConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligibleVaccination",
+      id: string,
+      osID: string,
+      clientCampaignID: string,
+      clientCampaignEligibleID: string,
+      profissionalID?: string | null,
+      profissionalDoc?: string | null,
+      coren?: string | null,
+      applicationDate?: string | null,
+      reason?: string | null,
+      search?: string | null,
+      vaccination?: string | null,
+      status?: EligibleVaccinationStatus | null,
+      localCity?: string | null,
+      localState?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -22182,9 +24804,11 @@ export type ListEligiblesVaccinationByOSQuery = {
       clientEligibleID: string,
       clientID: string,
       profissionalID?: string | null,
+      profissionalDoc?: string | null,
       coren?: string | null,
       applicationDate?: string | null,
       reason?: string | null,
+      search?: string | null,
       vaccination?: string | null,
       status?: EligibleVaccinationStatus | null,
       localCity?: string | null,
@@ -22215,9 +24839,11 @@ export type ListEligiblesVaccinationByClientEligibleQuery = {
       clientEligibleID: string,
       clientID: string,
       profissionalID?: string | null,
+      profissionalDoc?: string | null,
       coren?: string | null,
       applicationDate?: string | null,
       reason?: string | null,
+      search?: string | null,
       vaccination?: string | null,
       status?: EligibleVaccinationStatus | null,
       localCity?: string | null,
@@ -22248,13 +24874,551 @@ export type ListEligiblesVaccinationByClientDateQuery = {
       clientEligibleID: string,
       clientID: string,
       profissionalID?: string | null,
+      profissionalDoc?: string | null,
       coren?: string | null,
       applicationDate?: string | null,
       reason?: string | null,
+      search?: string | null,
       vaccination?: string | null,
       status?: EligibleVaccinationStatus | null,
       localCity?: string | null,
       localState?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientQueryVariables = {
+  clientID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientQuery = {
+  listEligiblesByClient?:  {
+    __typename: "ModelClientEligibleConnection",
+    items:  Array< {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientKeyQueryVariables = {
+  clientID: string,
+  key?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientKeyQuery = {
+  listEligiblesByClientKey?:  {
+    __typename: "ModelClientEligibleConnection",
+    items:  Array< {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientCPFQueryVariables = {
+  clientID: string,
+  cpf?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientCPFQuery = {
+  listEligiblesByClientCPF?:  {
+    __typename: "ModelClientEligibleConnection",
+    items:  Array< {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListEligiblesByClientRGQueryVariables = {
+  clientID: string,
+  rg?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListEligiblesByClientRGQuery = {
+  listEligiblesByClientRG?:  {
+    __typename: "ModelClientEligibleConnection",
+    items:  Array< {
+      __typename: "ClientEligible",
+      id: string,
+      clientID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListAuthorizationListQueryVariables = {
+  id?: string | null,
+  filter?: ModelAuthorizationListFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListAuthorizationListQuery = {
+  listAuthorizationList?:  {
+    __typename: "ModelAuthorizationListConnection",
+    items:  Array< {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListAuthorizationListsByAdherenceCodeQueryVariables = {
+  adherenceCode: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAuthorizationListsByAdherenceCodeQuery = {
+  listAuthorizationListsByAdherenceCode?:  {
+    __typename: "ModelAuthorizationListConnection",
+    items:  Array< {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListAuthorizationListsByStatusQueryVariables = {
+  status: AuthorizationListStatus,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAuthorizationListsByStatusQuery = {
+  listAuthorizationListsByStatus?:  {
+    __typename: "ModelAuthorizationListConnection",
+    items:  Array< {
+      __typename: "AuthorizationList",
+      id: string,
+      name: string,
+      description?: string | null,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      search?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      contactNameFinished?: string | null,
+      contactPhoneFinished?: string | null,
+      contactEmailFinished?: string | null,
+      notesFinished?: string | null,
+      professionalFinished?: string | null,
+      withList?: boolean | null,
+      adherenceCode?: string | null,
+      OS?: string | null,
+      status?: AuthorizationListStatus | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListClosuresByAuthorizationListQueryVariables = {
+  authorizationListID: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListClosureFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListClosuresByAuthorizationListQuery = {
+  listClosuresByAuthorizationList?:  {
+    __typename: "ModelAuthorizationListClosureConnection",
+    items:  Array< {
+      __typename: "AuthorizationListClosure",
+      id: string,
+      authorizationListID: string,
+      contactName?: string | null,
+      contactPhone?: string | null,
+      contactEmail?: string | null,
+      notes?: string | null,
+      qtyApplication?: number | null,
+      qtyReturned?: number | null,
+      professionalID?: string | null,
+      OS?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListAuthorizationListMembersQueryVariables = {
+  id?: string | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListAuthorizationListMembersQuery = {
+  listAuthorizationListMembers?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersByAuthorizationListQueryVariables = {
+  authorizationListID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersByAuthorizationListQuery = {
+  listMembersByAuthorizationList?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersByAuthorizationListKeyQueryVariables = {
+  authorizationListID: string,
+  key?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersByAuthorizationListKeyQuery = {
+  listMembersByAuthorizationListKey?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersByAuthorizationListCPFQueryVariables = {
+  authorizationListID: string,
+  cpf?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersByAuthorizationListCPFQuery = {
+  listMembersByAuthorizationListCPF?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersByKeyQueryVariables = {
+  key: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersByKeyQuery = {
+  listMembersByKey?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersByCPFQueryVariables = {
+  cpf: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersByCPFQuery = {
+  listMembersByCPF?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMember",
+      id: string,
+      authorizationListID: string,
+      name: string,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
+      search?: string | null,
+      others?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListMembersVaccinationByAuthorizationListQueryVariables = {
+  authorizationListID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMembersVaccinationByAuthorizationListQuery = {
+  listMembersVaccinationByAuthorizationList?:  {
+    __typename: "ModelAuthorizationListMemberVaccinationConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMemberVaccination",
+      id: string,
+      authorizationListID: string,
+      authorizationListMemberID: string,
+      profissionalID?: string | null,
+      coren?: string | null,
+      lote?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      OS?: string | null,
+      applicationDate?: string | null,
+      applicationTime?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationsByAuthorizationListMemberQueryVariables = {
+  authorizationListMemberID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByAuthorizationListMemberQuery = {
+  listVaccinationsByAuthorizationListMember?:  {
+    __typename: "ModelAuthorizationListMemberVaccinationConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMemberVaccination",
+      id: string,
+      authorizationListID: string,
+      authorizationListMemberID: string,
+      profissionalID?: string | null,
+      coren?: string | null,
+      lote?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      OS?: string | null,
+      applicationDate?: string | null,
+      applicationTime?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListVaccinationsByProfissionalQueryVariables = {
+  profissionalID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByProfissionalQuery = {
+  listVaccinationsByProfissional?:  {
+    __typename: "ModelAuthorizationListMemberVaccinationConnection",
+    items:  Array< {
+      __typename: "AuthorizationListMemberVaccination",
+      id: string,
+      authorizationListID: string,
+      authorizationListMemberID: string,
+      profissionalID?: string | null,
+      coren?: string | null,
+      lote?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      OS?: string | null,
+      applicationDate?: string | null,
+      applicationTime?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -22545,9 +25709,11 @@ export type OnCreateOrderAdmSubscription = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -22664,8 +25830,14 @@ export type OnUpdateClientSubscription = {
     id: string,
     name: string,
     notes?: string | null,
+    group?: string | null,
+    indication?: string | null,
+    origin?: string | null,
     status: ClientStatus,
     search?: string | null,
+    logo?: string | null,
+    logoSrc?: string | null,
+    logoCropper?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -22677,6 +25849,9 @@ export type OnUpdateClientSubscription = {
     totalEligibles?: number | null,
     totalVaccinations?: number | null,
     code?: string | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
     units?:  {
       __typename: "ModelClientUnitConnection",
       nextToken?: string | null,
@@ -22712,8 +25887,14 @@ export type OnUpdateClientCampaignSubscription = {
       id: string,
       name: string,
       notes?: string | null,
+      group?: string | null,
+      indication?: string | null,
+      origin?: string | null,
       status: ClientStatus,
       search?: string | null,
+      logo?: string | null,
+      logoSrc?: string | null,
+      logoCropper?: string | null,
       totalUnits?: number | null,
       unitsServed?: number | null,
       unitsExpected?: number | null,
@@ -22725,12 +25906,16 @@ export type OnUpdateClientCampaignSubscription = {
       totalEligibles?: number | null,
       totalVaccinations?: number | null,
       code?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
     name: string,
     description?: string | null,
-    search?: string | null,
+    clientNotes?: string | null,
+    internalNotes?: string | null,
     totalUnits?: number | null,
     unitsServed?: number | null,
     unitsExpected?: number | null,
@@ -22738,12 +25923,33 @@ export type OnUpdateClientCampaignSubscription = {
     lastOSDate?: string | null,
     scheduleRouted?: number | null,
     scheduleConfirmed?: number | null,
-    schedulePending?: number | null,
+    scheduleFinished?: number | null,
     totalEligibles?: number | null,
+    totalEligiblesDependent?: number | null,
+    totalEligiblesThird?: number | null,
     totalVaccinations?: number | null,
-    campaignCode?: string | null,
+    search?: string | null,
+    responsible?: string | null,
+    number?: number | null,
+    contactName?: string | null,
+    contactEmail?: string | null,
+    contactPhone?: string | null,
+    createdAt?: string | null,
+    idx: number,
+    campaignCode: string,
     status?: ClientCampaignStatus | null,
-    createdAt: string,
+    products?:  {
+      __typename: "ModelClientCampaignProductConnection",
+      nextToken?: string | null,
+    } | null,
+    companies?:  {
+      __typename: "ModelClientCampaignCompanyConnection",
+      nextToken?: string | null,
+    } | null,
+    units?:  {
+      __typename: "ModelClientCampaignUnitConnection",
+      nextToken?: string | null,
+    } | null,
     updatedAt: string,
   } | null,
 };
@@ -22766,6 +25972,7 @@ export type OnCreateCartSubscription = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -22821,7 +26028,7 @@ export type OnCreateCartSubscription = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -22845,6 +26052,7 @@ export type OnUpdateCartSubscription = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -22900,7 +26108,7 @@ export type OnUpdateCartSubscription = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -22924,6 +26132,7 @@ export type OnDeleteCartSubscription = {
       status: PageStatus,
       category: string,
       subCategory: string,
+      laboratory?: string | null,
       code?: string | null,
       name: string,
       type?: string | null,
@@ -22979,7 +26188,7 @@ export type OnDeleteCartSubscription = {
     changeQtyBlend?: number | null,
     changePriceAdjustment?: string | null,
     blendID?: string | null,
-    campaignToken?: string | null,
+    adherenceToken?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -23077,9 +26286,11 @@ export type OnCreateOrderSubscription = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -23217,9 +26428,11 @@ export type OnUpdateOrderSubscription = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",
@@ -23357,9 +26570,11 @@ export type OnDeleteOrderSubscription = {
     addressState?: string | null,
     addressCountry?: string | null,
     notes?: string | null,
-    campaignID?: string | null,
-    campaignName?: string | null,
-    campaignOrientation?: string | null,
+    adherenceID?: string | null,
+    adherenceName?: string | null,
+    adherenceOrientation?: string | null,
+    clientCampaignID?: string | null,
+    clientCampaignName?: string | null,
     companyID?: string | null,
     company?:  {
       __typename: "Company",

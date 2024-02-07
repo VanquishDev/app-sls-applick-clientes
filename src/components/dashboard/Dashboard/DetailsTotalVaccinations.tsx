@@ -8,7 +8,7 @@ import 'moment/locale/pt-br'
 import Moment from 'moment'
 Moment.locale('pt-br')
 
-import { useEligibleVaccination } from 'hooks/useEligibleVaccination'
+import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEligibleVaccination'
 import { useUser } from 'hooks/useUser'
 
 export default function DetailsTotalVaccinations(props: any) {
@@ -16,14 +16,14 @@ export default function DetailsTotalVaccinations(props: any) {
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listEligiblesVaccinationByClientDate } = useEligibleVaccination()
+  const { listVaccinationsByClientCampaign } = useClientCampaignEligibleVaccination()
 
   return <List
     keys={`${clientID ? clientID : ''}`}
     userID={userID}
     emptyMessage='Nenhum colaborador imunizado por aqui.'
     endMessage='Estes são todos os colaboradores imunizados.'
-    listItems={listEligiblesVaccinationByClientDate}
+    listItems={listVaccinationsByClientCampaign}
     variables={{
       clientID,
       limit: 100,

@@ -11,9 +11,7 @@ import {
   UpdateClientInput,
   DeleteClientInput,
   ListClientsQueryVariables,
-  ListClientsByStatusNameQueryVariables,
-  ListUnitsByClientQueryVariables,
-  ListClientsByCodeQueryVariables,
+  ListClientsByStatusNameQueryVariables
 } from 'API'
 
 export const useClient = () => {
@@ -88,28 +86,12 @@ export const useClient = () => {
     return { items, nextToken }
   }
 
-  const listClientsByCode = async (
-    variables: ListClientsByCodeQueryVariables
-  ) => {
-    const {
-      data: {
-        listClientsByCode: { items, nextToken },
-      },
-    } = (await API.graphql({
-      query: queries.listClientsByCode,
-      variables,
-      authMode: GRAPHQL_AUTH_MODE.API_KEY,
-    })) as GraphQLResult<any>
-    return { items, nextToken }
-  }
-
   return {
     getClient,
     createClient,
     updateClient,
     deleteClient,
     listClients,
-    listClientsByStatusName,
-    listClientsByCode,
+    listClientsByStatusName
   }
 }

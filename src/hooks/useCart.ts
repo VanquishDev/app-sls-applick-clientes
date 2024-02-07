@@ -17,7 +17,7 @@ import {
   DeleteCartOptionInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useCart = () => {
   const listCarts = async (variables: ListCartsQueryVariables) => {

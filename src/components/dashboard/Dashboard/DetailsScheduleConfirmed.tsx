@@ -10,13 +10,14 @@ Moment.locale('pt-br')
 
 import { useOS } from 'hooks/useOS'
 import { useUser } from 'hooks/useUser'
+import { listOSsByClientStatus } from 'graphql/queries'
 
 export default function DetailsScheduleConfirmed(props: any) {
   const { clientID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listOSsByClientStatus } = useOS()
+  const { listOSsByClientStart } = useOS()
 
   return <List
     keys={`${clientID ? clientID : ''}`}

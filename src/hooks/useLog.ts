@@ -50,8 +50,11 @@ export const useLog = () => {
         listLogsByUserCreatedAt: { items, nextToken },
       },
     } = (await API.graphql(
-      graphqlOperation(customQueries.listLogsByUserCreatedAtCustom, variables)
-    )) as GraphQLResult<any>
+      {
+        query: customQueries.listLogsByUserCreatedAtCustom,
+        variables,
+        authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+      })) as GraphQLResult<any>
     return { items, nextToken }
   }
 

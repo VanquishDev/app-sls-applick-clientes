@@ -38,6 +38,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
     search: "",
     relationship: "",
     isDependent: false,
+    cpfRelationship: "",
+    isThird: false,
+    thirdName: "",
   };
   const [clientCampaignID, setClientCampaignID] = React.useState(
     initialValues.clientCampaignID
@@ -55,6 +58,11 @@ export default function ClientCampaignEligibleCreateForm(props) {
   const [isDependent, setIsDependent] = React.useState(
     initialValues.isDependent
   );
+  const [cpfRelationship, setCpfRelationship] = React.useState(
+    initialValues.cpfRelationship
+  );
+  const [isThird, setIsThird] = React.useState(initialValues.isThird);
+  const [thirdName, setThirdName] = React.useState(initialValues.thirdName);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setClientCampaignID(initialValues.clientCampaignID);
@@ -67,6 +75,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
     setSearch(initialValues.search);
     setRelationship(initialValues.relationship);
     setIsDependent(initialValues.isDependent);
+    setCpfRelationship(initialValues.cpfRelationship);
+    setIsThird(initialValues.isThird);
+    setThirdName(initialValues.thirdName);
     setErrors({});
   };
   const validations = {
@@ -80,6 +91,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
     search: [],
     relationship: [],
     isDependent: [],
+    cpfRelationship: [],
+    isThird: [],
+    thirdName: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -117,6 +131,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
           search,
           relationship,
           isDependent,
+          cpfRelationship,
+          isThird,
+          thirdName,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -189,6 +206,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.clientCampaignID ?? value;
@@ -222,6 +242,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.key ?? value;
@@ -255,6 +278,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -288,6 +314,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.cpf ?? value;
@@ -321,6 +350,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.rg ?? value;
@@ -354,6 +386,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.birth ?? value;
@@ -387,6 +422,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.notes ?? value;
@@ -420,6 +458,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search: value,
               relationship,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.search ?? value;
@@ -453,6 +494,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship: value,
               isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.relationship ?? value;
@@ -486,6 +530,9 @@ export default function ClientCampaignEligibleCreateForm(props) {
               search,
               relationship,
               isDependent: value,
+              cpfRelationship,
+              isThird,
+              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.isDependent ?? value;
@@ -500,6 +547,114 @@ export default function ClientCampaignEligibleCreateForm(props) {
         hasError={errors.isDependent?.hasError}
         {...getOverrideProps(overrides, "isDependent")}
       ></SwitchField>
+      <TextField
+        label="Cpf relationship"
+        isRequired={false}
+        isReadOnly={false}
+        value={cpfRelationship}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              clientCampaignID,
+              key,
+              name,
+              cpf,
+              rg,
+              birth,
+              notes,
+              search,
+              relationship,
+              isDependent,
+              cpfRelationship: value,
+              isThird,
+              thirdName,
+            };
+            const result = onChange(modelFields);
+            value = result?.cpfRelationship ?? value;
+          }
+          if (errors.cpfRelationship?.hasError) {
+            runValidationTasks("cpfRelationship", value);
+          }
+          setCpfRelationship(value);
+        }}
+        onBlur={() => runValidationTasks("cpfRelationship", cpfRelationship)}
+        errorMessage={errors.cpfRelationship?.errorMessage}
+        hasError={errors.cpfRelationship?.hasError}
+        {...getOverrideProps(overrides, "cpfRelationship")}
+      ></TextField>
+      <SwitchField
+        label="Is third"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isThird}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              clientCampaignID,
+              key,
+              name,
+              cpf,
+              rg,
+              birth,
+              notes,
+              search,
+              relationship,
+              isDependent,
+              cpfRelationship,
+              isThird: value,
+              thirdName,
+            };
+            const result = onChange(modelFields);
+            value = result?.isThird ?? value;
+          }
+          if (errors.isThird?.hasError) {
+            runValidationTasks("isThird", value);
+          }
+          setIsThird(value);
+        }}
+        onBlur={() => runValidationTasks("isThird", isThird)}
+        errorMessage={errors.isThird?.errorMessage}
+        hasError={errors.isThird?.hasError}
+        {...getOverrideProps(overrides, "isThird")}
+      ></SwitchField>
+      <TextField
+        label="Third name"
+        isRequired={false}
+        isReadOnly={false}
+        value={thirdName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              clientCampaignID,
+              key,
+              name,
+              cpf,
+              rg,
+              birth,
+              notes,
+              search,
+              relationship,
+              isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.thirdName ?? value;
+          }
+          if (errors.thirdName?.hasError) {
+            runValidationTasks("thirdName", value);
+          }
+          setThirdName(value);
+        }}
+        onBlur={() => runValidationTasks("thirdName", thirdName)}
+        errorMessage={errors.thirdName?.errorMessage}
+        hasError={errors.thirdName?.hasError}
+        {...getOverrideProps(overrides, "thirdName")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

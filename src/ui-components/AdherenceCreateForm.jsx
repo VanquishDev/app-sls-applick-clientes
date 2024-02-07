@@ -191,6 +191,7 @@ export default function AdherenceCreateForm(props) {
     name: "",
     description: "",
     code: "",
+    campaignCode: "",
     start: "",
     expiration: "",
     discountPercentage: "",
@@ -209,6 +210,9 @@ export default function AdherenceCreateForm(props) {
     initialValues.description
   );
   const [code, setCode] = React.useState(initialValues.code);
+  const [campaignCode, setCampaignCode] = React.useState(
+    initialValues.campaignCode
+  );
   const [start, setStart] = React.useState(initialValues.start);
   const [expiration, setExpiration] = React.useState(initialValues.expiration);
   const [discountPercentage, setDiscountPercentage] = React.useState(
@@ -238,6 +242,7 @@ export default function AdherenceCreateForm(props) {
     setName(initialValues.name);
     setDescription(initialValues.description);
     setCode(initialValues.code);
+    setCampaignCode(initialValues.campaignCode);
     setStart(initialValues.start);
     setExpiration(initialValues.expiration);
     setDiscountPercentage(initialValues.discountPercentage);
@@ -260,6 +265,7 @@ export default function AdherenceCreateForm(props) {
     name: [{ type: "Required" }],
     description: [],
     code: [{ type: "Required" }],
+    campaignCode: [],
     start: [],
     expiration: [],
     discountPercentage: [],
@@ -302,6 +308,7 @@ export default function AdherenceCreateForm(props) {
           name,
           description,
           code,
+          campaignCode,
           start,
           expiration,
           discountPercentage,
@@ -379,6 +386,7 @@ export default function AdherenceCreateForm(props) {
               name: value,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -417,6 +425,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description: value,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -455,6 +464,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code: value,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -482,6 +492,45 @@ export default function AdherenceCreateForm(props) {
         {...getOverrideProps(overrides, "code")}
       ></TextField>
       <TextField
+        label="Campaign code"
+        isRequired={false}
+        isReadOnly={false}
+        value={campaignCode}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              description,
+              code,
+              campaignCode: value,
+              start,
+              expiration,
+              discountPercentage,
+              discountValue,
+              qtyLimit,
+              qtyUsed,
+              qtyProduct,
+              qtyProductUsed,
+              orientation,
+              orderMessage,
+              zipCodeCoverage,
+              search,
+            };
+            const result = onChange(modelFields);
+            value = result?.campaignCode ?? value;
+          }
+          if (errors.campaignCode?.hasError) {
+            runValidationTasks("campaignCode", value);
+          }
+          setCampaignCode(value);
+        }}
+        onBlur={() => runValidationTasks("campaignCode", campaignCode)}
+        errorMessage={errors.campaignCode?.errorMessage}
+        hasError={errors.campaignCode?.hasError}
+        {...getOverrideProps(overrides, "campaignCode")}
+      ></TextField>
+      <TextField
         label="Start"
         isRequired={false}
         isReadOnly={false}
@@ -494,6 +543,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start: value,
               expiration,
               discountPercentage,
@@ -533,6 +583,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration: value,
               discountPercentage,
@@ -575,6 +626,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage: value,
@@ -619,6 +671,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -661,6 +714,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -703,6 +757,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -745,6 +800,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -787,6 +843,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -825,6 +882,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -863,6 +921,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -897,6 +956,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,
@@ -965,6 +1025,7 @@ export default function AdherenceCreateForm(props) {
               name,
               description,
               code,
+              campaignCode,
               start,
               expiration,
               discountPercentage,

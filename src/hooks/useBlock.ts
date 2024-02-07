@@ -13,7 +13,7 @@ import {
   CreateBlockInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useBlock = () => {
   const getBlock = async (variables: GetBlockQueryVariables) => {

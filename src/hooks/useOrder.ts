@@ -11,6 +11,8 @@ import {
   ListOrdersByUserStatusCreatedAtQueryVariables,
   ListOrdersByUserCreatedAtQueryVariables,
   ListOrdersByStatusCreatedAtQueryVariables,
+  ListOrdersByAdherenceCreatedAtQueryVariables,
+  ListOrdersByClientCampaignCreatedAtQueryVariables,
   CreateOrderInput,
   UpdateOrderInput,
   DeleteOrderInput,
@@ -23,7 +25,7 @@ import {
   DeleteOrderItemOptionInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useOrder = () => {
   const getOrder = async (variables: GetOrderQueryVariables) => {
@@ -43,7 +45,7 @@ export const useOrder = () => {
         listOrders: { items, nextToken },
       },
     } = (await API.graphql({
-      query: queries.listOrders,
+      query: customQueries.listOrdersCustom,
       variables,
       authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
@@ -99,6 +101,38 @@ export const useOrder = () => {
     return { items, nextToken }
   }
 
+  const listOrdersByAdherenceCreatedAt = async (
+    variables: ListOrdersByAdherenceCreatedAtQueryVariables
+  ) => {
+    const {
+      data: {
+        listOrdersByAdherenceCreatedAt: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: queries.listOrdersByAdherenceCreatedAt,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+    })) as GraphQLResult<any>
+
+    return { items, nextToken }
+  }
+
+  const listOrdersByClientCampaignCreatedAt = async (
+    variables: ListOrdersByClientCampaignCreatedAtQueryVariables
+  ) => {
+    const {
+      data: {
+        listOrdersByClientCampaignCreatedAt: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: queries.listOrdersByClientCampaignCreatedAt,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+    })) as GraphQLResult<any>
+
+    return { items, nextToken }
+  }
+
   const createOrder = async (input: CreateOrderInput) => {
     try {
       const r = (await API.graphql({
@@ -124,7 +158,6 @@ export const useOrder = () => {
         variables: { input },
         authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
       })
-      console.log(r)
     } catch (r: any) {
       console.log(r)
       const message =
@@ -273,6 +306,8 @@ export const useOrder = () => {
     listOrdersByUserStatusCreatedAt,
     listOrdersByUserCreatedAt,
     listOrdersByStatusCreatedAt,
+    listOrdersByAdherenceCreatedAt,
+    listOrdersByClientCampaignCreatedAt,
     createOrder,
     updateOrder,
     deleteOrder,

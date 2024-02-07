@@ -49,6 +49,9 @@ export default function ClientCreateForm(props) {
     totalEligibles: "",
     totalVaccinations: "",
     code: "",
+    contactName: "",
+    contactEmail: "",
+    contactPhone: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [notes, setNotes] = React.useState(initialValues.notes);
@@ -89,6 +92,15 @@ export default function ClientCreateForm(props) {
     initialValues.totalVaccinations
   );
   const [code, setCode] = React.useState(initialValues.code);
+  const [contactName, setContactName] = React.useState(
+    initialValues.contactName
+  );
+  const [contactEmail, setContactEmail] = React.useState(
+    initialValues.contactEmail
+  );
+  const [contactPhone, setContactPhone] = React.useState(
+    initialValues.contactPhone
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
@@ -112,6 +124,9 @@ export default function ClientCreateForm(props) {
     setTotalEligibles(initialValues.totalEligibles);
     setTotalVaccinations(initialValues.totalVaccinations);
     setCode(initialValues.code);
+    setContactName(initialValues.contactName);
+    setContactEmail(initialValues.contactEmail);
+    setContactPhone(initialValues.contactPhone);
     setErrors({});
   };
   const validations = {
@@ -136,6 +151,9 @@ export default function ClientCreateForm(props) {
     totalEligibles: [],
     totalVaccinations: [],
     code: [],
+    contactName: [],
+    contactEmail: [{ type: "Email" }],
+    contactPhone: [{ type: "Phone" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -184,6 +202,9 @@ export default function ClientCreateForm(props) {
           totalEligibles,
           totalVaccinations,
           code,
+          contactName,
+          contactEmail,
+          contactPhone,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -267,6 +288,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -311,6 +335,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.notes ?? value;
@@ -355,6 +382,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.group ?? value;
@@ -399,6 +429,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.indication ?? value;
@@ -443,6 +476,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.origin ?? value;
@@ -487,6 +523,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;
@@ -547,6 +586,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.search ?? value;
@@ -591,6 +633,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.logo ?? value;
@@ -635,6 +680,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.logoSrc ?? value;
@@ -679,6 +727,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.logoCropper ?? value;
@@ -727,6 +778,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.totalUnits ?? value;
@@ -775,6 +829,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.unitsServed ?? value;
@@ -823,6 +880,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.unitsExpected ?? value;
@@ -868,6 +928,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.firstOSDate ?? value;
@@ -913,6 +976,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.lastOSDate ?? value;
@@ -961,6 +1027,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.scheduleRouted ?? value;
@@ -1009,6 +1078,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.scheduleConfirmed ?? value;
@@ -1059,6 +1131,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.schedulePending ?? value;
@@ -1107,6 +1182,9 @@ export default function ClientCreateForm(props) {
               totalEligibles: value,
               totalVaccinations,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.totalEligibles ?? value;
@@ -1155,6 +1233,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations: value,
               code,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.totalVaccinations ?? value;
@@ -1201,6 +1282,9 @@ export default function ClientCreateForm(props) {
               totalEligibles,
               totalVaccinations,
               code: value,
+              contactName,
+              contactEmail,
+              contactPhone,
             };
             const result = onChange(modelFields);
             value = result?.code ?? value;
@@ -1214,6 +1298,148 @@ export default function ClientCreateForm(props) {
         errorMessage={errors.code?.errorMessage}
         hasError={errors.code?.hasError}
         {...getOverrideProps(overrides, "code")}
+      ></TextField>
+      <TextField
+        label="Contact name"
+        isRequired={false}
+        isReadOnly={false}
+        value={contactName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+              contactName: value,
+              contactEmail,
+              contactPhone,
+            };
+            const result = onChange(modelFields);
+            value = result?.contactName ?? value;
+          }
+          if (errors.contactName?.hasError) {
+            runValidationTasks("contactName", value);
+          }
+          setContactName(value);
+        }}
+        onBlur={() => runValidationTasks("contactName", contactName)}
+        errorMessage={errors.contactName?.errorMessage}
+        hasError={errors.contactName?.hasError}
+        {...getOverrideProps(overrides, "contactName")}
+      ></TextField>
+      <TextField
+        label="Contact email"
+        isRequired={false}
+        isReadOnly={false}
+        value={contactEmail}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+              contactName,
+              contactEmail: value,
+              contactPhone,
+            };
+            const result = onChange(modelFields);
+            value = result?.contactEmail ?? value;
+          }
+          if (errors.contactEmail?.hasError) {
+            runValidationTasks("contactEmail", value);
+          }
+          setContactEmail(value);
+        }}
+        onBlur={() => runValidationTasks("contactEmail", contactEmail)}
+        errorMessage={errors.contactEmail?.errorMessage}
+        hasError={errors.contactEmail?.hasError}
+        {...getOverrideProps(overrides, "contactEmail")}
+      ></TextField>
+      <TextField
+        label="Contact phone"
+        isRequired={false}
+        isReadOnly={false}
+        type="tel"
+        value={contactPhone}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              notes,
+              group,
+              indication,
+              origin,
+              status,
+              search,
+              logo,
+              logoSrc,
+              logoCropper,
+              totalUnits,
+              unitsServed,
+              unitsExpected,
+              firstOSDate,
+              lastOSDate,
+              scheduleRouted,
+              scheduleConfirmed,
+              schedulePending,
+              totalEligibles,
+              totalVaccinations,
+              code,
+              contactName,
+              contactEmail,
+              contactPhone: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.contactPhone ?? value;
+          }
+          if (errors.contactPhone?.hasError) {
+            runValidationTasks("contactPhone", value);
+          }
+          setContactPhone(value);
+        }}
+        onBlur={() => runValidationTasks("contactPhone", contactPhone)}
+        errorMessage={errors.contactPhone?.errorMessage}
+        hasError={errors.contactPhone?.hasError}
+        {...getOverrideProps(overrides, "contactPhone")}
       ></TextField>
       <Flex
         justifyContent="space-between"

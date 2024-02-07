@@ -11,7 +11,7 @@ import {
   DeleteMidiaInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useMidia = () => {
   const listMidiaByKey = async (variables: ListMidiaByKeyQueryVariables) => {

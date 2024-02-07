@@ -1,7 +1,6 @@
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api'
 import { API, graphqlOperation } from 'aws-amplify'
 
-import * as customQueries from 'graphql/custom-queries'
 import * as queries from 'graphql/queries'
 import * as mutations from 'graphql/mutations'
 
@@ -9,8 +8,7 @@ import {
   CreateClientUnitInput,
   UpdateClientUnitInput,
   DeleteClientUnitInput,
-  ListUnitsByClientQueryVariables,
-  ListUnitsByCodeQueryVariables,
+  ListUnitsByClientQueryVariables
 } from 'API'
 
 export const useClientUnit = () => {
@@ -56,20 +54,7 @@ export const useClientUnit = () => {
         listUnitsByClient: { items, nextToken },
       },
     } = (await API.graphql({
-      query: customQueries.listUnitsByClient,
-      variables,
-      authMode: GRAPHQL_AUTH_MODE.API_KEY,
-    })) as GraphQLResult<any>
-    return { items, nextToken }
-  }
-
-  const listUnitsByCode = async (variables: ListUnitsByCodeQueryVariables) => {
-    const {
-      data: {
-        listUnitsByCode: { items, nextToken },
-      },
-    } = (await API.graphql({
-      query: queries.listUnitsByCode,
+      query: queries.listUnitsByClient,
       variables,
       authMode: GRAPHQL_AUTH_MODE.API_KEY,
     })) as GraphQLResult<any>
@@ -80,7 +65,6 @@ export const useClientUnit = () => {
     createClientUnit,
     updateClientUnit,
     deleteClientUnit,
-    listUnitsByClient,
-    listUnitsByCode,
+    listUnitsByClient
   }
 }

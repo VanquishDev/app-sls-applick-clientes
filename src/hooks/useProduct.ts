@@ -19,7 +19,7 @@ import {
   DeleteKitItemInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useProduct = () => {
   const getProduct = async (variables: GetProductQueryVariables) => {

@@ -8,9 +8,9 @@ import Link from 'next/link'
 import { Amplify, API } from 'aws-amplify';
 import { GraphQLSubscription, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as subscriptions from 'graphql/subscriptions';
-import { OnUpdateClientSubscription } from 'API';
+import { OnUpdateClientCampaignSubscription } from 'API';
 
-import { useClient } from 'hooks/useClient'
+import { useClientCampaign } from 'hooks/useClientCampaign'
 import { useUI } from 'components/ui/context'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
@@ -24,43 +24,43 @@ import DetailsUnitsServed from './DetailsUnitsServed'
 import DetailsSchedules from './DetailsSchedules'
 import DetailsScheduleRouted from './DetailsScheduleRouted'
 import DetailsScheduleConfirmed from './DetailsScheduleConfirmed'
-import DetailsSchedulePending from './DetailsSchedulePending'
+import DetailsScheduleFinished from './DetailsScheduleFinished'
 import DetailsTotalEligibles from './DetailsTotalEligibles'
 import DetailsTotalVaccinations from './DetailsTotalVaccinations'
 
 export default function Statistics(props: any) {
   const { userID } = props
-  const [client, setClient] = useState<any>();
+  const [campaign, setCampaign] = useState({} as any)
   const [modalSel, setModalSel] = useState<string>();
 
-  const { getClient } = useClient()
+  const { getClientCampaign } = useClientCampaign()
   const { openModal, displayModal, closeModal } = useUI()
   const { screenHeight, screenWidth } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const handleClient = async (c: any) => {
-    const cli = await getClient({ id: c.id })
-    cli.percentServed = c.totalUnits ? Math.round((c.unitsServed / c.totalUnits) * 100) : 0
-    cli.progressUnits = 0
-    cli.progressVaccinations = 0
-    setClient(cli)
+  const handleCampaign = async (c: any) => {
+    const cp = await getClientCampaign({ id: c.id })
+    cp.percentServed = c.totalUnits ? Math.round((c.unitsServed / c.totalUnits) * 100) : 0
+    cp.progressUnits = 0
+    cp.progressVaccinations = 0
+    setCampaign(cp)
   }
 
   useEffect(() => {
-    handleClient(props.client)
+    handleCampaign(props.campaign)
   }, [props])
 
   useEffect(() => {
-    if (client && client.id) {
-      const updateSub = API.graphql<GraphQLSubscription<OnUpdateClientSubscription>>({
-        query: subscriptions.onUpdateClient,
+    if (campaign && campaign.id) {
+      const updateSub = API.graphql<GraphQLSubscription<OnUpdateClientCampaignSubscription>>({
+        query: subscriptions.onUpdateClientCampaign,
         authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
       }).subscribe({
         next: ({ provider, value }) => {
           const { data } = value as any;
-          const { onUpdateClient } = data;
-          if (onUpdateClient.id === client.id) {
-            handleClient(onUpdateClient);
+          const { onUpdateClientCampaign } = data;
+          if (onUpdateClientCampaign.id === campaign.id) {
+            handleCampaign(onUpdateClientCampaign);
           }
         },
         error: (error) => console.warn(error)
@@ -70,17 +70,17 @@ export default function Statistics(props: any) {
         updateSub.unsubscribe();
       }
     }
-  }, [client])
+  }, [campaign])
 
-  return (client && client.id) ? (<div>
-    {false && <pre>{JSON.stringify(client, null, 4)}</pre>}
+  return (campaign && campaign.id) ? (<div>
+    {false && <pre>{JSON.stringify(campaign, null, 4)}</pre>}
 
     <div className='mt-2 font-semibold tracking-wide text-tertiary-2'>LOCALIDADES/CNPJs</div>
     <div className='m-4 grid grid-cols-1 gap-y-4 md:gap-4 md:grid-cols-5'>
 
       <div className='col-span-3 bg-accent-0 rounded-lg shadow md:shadow-lg p-4 md:p-6 2xl:p-7.5'>
         <div className='flex justify-between items-center gap-4 md:gap-6 2xl:gap-7.5'>
-          <div className={client.firstOSDate ? 'w-3/5' : 'w-5/5'}>
+          <div className={campaign.firstOSDate ? 'w-3/5' : 'w-5/5'}>
             <div className='flex gap-4 items-center'>
               <div className="stat-figure text-tertiary-2">
                 <Building />
@@ -92,38 +92,38 @@ export default function Statistics(props: any) {
                 setModalSel('totalUnits')
                 openModal()
               }}>
-                <div className="stat-value">{client.totalUnits ? client.totalUnits : 0}</div>
+                <div className="stat-value">{campaign.totalUnits ? campaign.totalUnits : 0}</div>
                 <div className="stat-desc">Total cadastradas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{client.unitsServed ? client.unitsServed : 0}</div>
+                <div className="stat-value">{campaign.unitsServed ? campaign.unitsServed : 0}</div>
                 <div className="stat-desc">Unidades atendidas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{client.percentServed}%</div>
+                <div className="stat-value">{campaign.percentServed}%</div>
                 <div className="stat-desc">% de atendimento</div>
               </div>
             </div>
           </div>
-          {client.firstOSDate && <div className='w-2/5'>
-            {client.firstOSDate && (<div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+          {campaign.firstOSDate && <div className='w-2/5'>
+            {campaign.firstOSDate && (<div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
               setModalSel('schedules')
               openModal()
             }}>
-              <div className='font-semibold'>{Moment(client.firstOSDate).format('DD/MM/YYYY')}</div>
+              <div className='font-semibold'>{Moment(campaign.firstOSDate).format('DD/MM/YYYY')}</div>
               <div className='text-xs text-accent-5'>Data da primeira unidade agendada.</div>
             </div>)}
-            {client.lastOSDate && (<div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+            {campaign.lastOSDate && (<div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
               setModalSel('schedules')
               openModal()
             }}>
-              <div className='mt-5 font-semibold'>{Moment(client.lastOSDate).format('DD/MM/YYYY')}</div>
+              <div className='mt-5 font-semibold'>{Moment(campaign.lastOSDate).format('DD/MM/YYYY')}</div>
               <div className='text-xs text-accent-5'>Data da última unidade agendada.</div>
             </div>)}
           </div>}
@@ -143,22 +143,22 @@ export default function Statistics(props: any) {
               setModalSel('scheduleRouted')
               openModal()
             }}>
-              <div className="stat-value">{client.scheduleRouted ? client.scheduleRouted : 0}</div>
-              <div className="stat-desc">Roterizado</div>
+              <div className="stat-value">{campaign.scheduleRouted ? campaign.scheduleRouted : 0}</div>
+              <div className="stat-desc">Roteirizados</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
               setModalSel('scheduleConfirmed')
               openModal()
             }}>
-              <div className="stat-value">{client.scheduleConfirmed ? client.scheduleConfirmed : 0}</div>
+              <div className="stat-value">{campaign.scheduleConfirmed ? campaign.scheduleConfirmed : 0}</div>
               <div className="stat-desc">Confirmados</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
-              setModalSel('schedulePending')
+              setModalSel('scheduleFinished')
               openModal()
             }}>
-              <div className="stat-value">{client.schedulePending ? client.schedulePending : 0}</div>
-              <div className="stat-desc">À Confirmar</div>
+              <div className="stat-value">{campaign.scheduleFinished ? campaign.scheduleFinished : 0}</div>
+              <div className="stat-desc">Concluídos</div>
             </div>
           </div>
         </div>
@@ -182,8 +182,22 @@ export default function Statistics(props: any) {
               setModalSel('totalEligibles')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{client.totalEligibles ? client.totalEligibles : 0}</div>
+              <div className="mt-5 stat-value">{campaign.totalEligibles ? campaign.totalEligibles : 0}</div>
               <div className="stat-desc">Total cadastrados</div>
+            </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalEligibles')
+              openModal()
+            }}>
+              <div className="mt-5 stat-value">{campaign.totalEligiblesDependent ? campaign.totalEligiblesDependent : 0}</div>
+              <div className="stat-desc">Total dependentes</div>
+            </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalEligibles')
+              openModal()
+            }}>
+              <div className="mt-5 stat-value">{campaign.totalEligiblesThird ? campaign.totalEligiblesThird : 0}</div>
+              <div className="stat-desc">Total terceiros</div>
             </div>
           </div>
           <div>
@@ -197,7 +211,7 @@ export default function Statistics(props: any) {
               setModalSel('totalVaccinations')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{client.totalVaccinations ? client.totalVaccinations : 0}</div>
+              <div className="mt-5 stat-value">{campaign.totalVaccinations ? campaign.totalVaccinations : 0}</div>
               <div className="stat-desc">Doses aplicadas</div>
             </div>
           </div>
@@ -212,7 +226,7 @@ export default function Statistics(props: any) {
               setModalSel('totalVaccinations')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(2) : 0}%</div>
+              <div className="mt-5 stat-value">{(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0}%</div>
               <div className="stat-desc">% de adesão</div>
             </div>
           </div>
@@ -228,16 +242,16 @@ export default function Statistics(props: any) {
         </div>
 
         <div className='mt-5 flex justify-between'>
-          <div>{client.percentServed ? client.percentServed : 0}% unidades atendidas</div>
-          <div>{client.unitsServed ? client.unitsServed : 0}</div>
+          <div>{campaign.percentServed ? campaign.percentServed : 0}% unidades atendidas</div>
+          <div>{campaign.unitsServed ? campaign.unitsServed : 0}</div>
         </div>
-        <progress className="w-full progress progress-warning" value={client.percentServed ? client.percentServed : 0} max="100"></progress>
+        <progress className="w-full progress progress-warning" value={campaign.percentServed ? campaign.percentServed : 0} max="100"></progress>
 
         <div className='mt-2 flex justify-between'>
-          <div>{(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(2) : 0}% doses aplicadas</div>
-          <div>{client.totalVaccinations}</div>
+          <div>{(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0}% doses aplicadas</div>
+          <div>{campaign.totalVaccinations}</div>
         </div>
-        <progress className="w-full progress progress-success" value={(client.totalEligibles && client.totalVaccinations) ? ((client.totalVaccinations / client.totalEligibles) * 100).toFixed(2) : 0} max="100"></progress>
+        <progress className="w-full progress progress-success" value={(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0} max="100"></progress>
       </div>
     </div>
 
@@ -260,9 +274,9 @@ export default function Statistics(props: any) {
           {modalSel === 'totalUnits' && (<><Building /> <span className="ml-2">Unidades cadastradas</span></>)}
           {modalSel === 'unitsServed' && (<><Building /> <span className="ml-2">Unidades atendidas</span></>)}
           {modalSel === 'schedules' && (<><Calendar /> <span className="ml-2">Datas dos agendamentos</span></>)}
-          {modalSel === 'scheduleRouted' && (<><Calendar /> <span className="ml-2">Agendamentos roterizados</span></>)}
+          {modalSel === 'scheduleRouted' && (<><Calendar /> <span className="ml-2">Agendamentos roteirizados</span></>)}
           {modalSel === 'scheduleConfirmed' && (<><Calendar /> <span className="ml-2">Agendamentos confirmados</span></>)}
-          {modalSel === 'schedulePending' && (<><Calendar /> <span className="ml-2">Agendamentos a confirmar</span></>)}
+          {modalSel === 'scheduleFinished' && (<><Calendar /> <span className="ml-2">Agendamentos concluídos</span></>)}
           {modalSel === 'totalEligibles' && (<><Team /> <span className="ml-2">Colaboradores</span></>)}
           {modalSel === 'totalVaccinations' && (<><Plus2 /> <span className="ml-2">Aplicações</span></>)}
         </div>
@@ -277,14 +291,14 @@ export default function Statistics(props: any) {
           maxWidth: isSm ? screenWidth : screenWidth * 0.9,
         }}
       >
-        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientID={client.id} userID={userID} />)}
-        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientID={client.id} userID={userID} />)}
-        {modalSel === 'schedules' && (<DetailsSchedules clientID={client.id} userID={userID} />)}
-        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientID={client.id} userID={userID} />)}
-        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientID={client.id} userID={userID} />)}
-        {modalSel === 'schedulePending' && (<DetailsSchedulePending clientID={client.id} userID={userID} />)}
-        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientID={client.id} userID={userID} />)}
-        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations clientID={client.id} userID={userID} />)}
+        {modalSel === 'totalUnits' && (<DetailsTotalUnits campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'unitsServed' && (<DetailsUnitsServed campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'schedules' && (<DetailsSchedules campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles campaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations campaignID={campaign.id} userID={userID} />)}
       </div>
     </Modal>
 

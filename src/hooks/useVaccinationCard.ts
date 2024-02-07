@@ -17,7 +17,8 @@ import {
   ListVaccinationCardItemsQueryVariables,
   ListVaccinationCardsItemsByVaccinationCardQueryVariables,
   ListVaccinationCardsItemsByOrderQueryVariables,
-  ListVaccinationCardsItemsByCampaignQueryVariables,
+  ListVaccinationCardsItemsByAdherenceQueryVariables,
+  ListVaccinationCardsItemsByClientCampaignQueryVariables,
   ListVaccinationCardsItemsByProfissionalQueryVariables,
   ListVaccinationCardsItemsByStatusQueryVariables,
   ListVaccinationCardsItemsByCompanyQueryVariables,
@@ -144,15 +145,30 @@ export const useVaccinationCard = () => {
     return { items, nextToken }
   }
 
-  const listVaccinationCardsItemsByCampaign = async (
-    variables: ListVaccinationCardsItemsByCampaignQueryVariables
+  const listVaccinationCardsItemsByAdherence = async (
+    variables: ListVaccinationCardsItemsByAdherenceQueryVariables
   ) => {
     const {
       data: {
-        listVaccinationCardsItemsByCampaign: { items, nextToken },
+        listVaccinationCardsItemsByAdherence: { items, nextToken },
       },
     } = (await API.graphql({
-      query: customQueries.listVaccinationCardsItemsByCampaignCustom,
+      query: customQueries.listVaccinationCardsItemsByAdherenceCustom,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+    })) as GraphQLResult<any>
+    return { items, nextToken }
+  }
+
+  const listVaccinationCardsItemsByClientCampaign = async (
+    variables: ListVaccinationCardsItemsByClientCampaignQueryVariables
+  ) => {
+    const {
+      data: {
+        listVaccinationCardsItemsByClientCampaign: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: queries.listVaccinationCardsItemsByClientCampaign,
       variables,
       authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
@@ -254,7 +270,8 @@ export const useVaccinationCard = () => {
     listVaccinationCardItems2,
     listVaccinationCardsItemsByVaccinationCard,
     listVaccinationCardsItemsByOrder,
-    listVaccinationCardsItemsByCampaign,
+    listVaccinationCardsItemsByAdherence,
+    listVaccinationCardsItemsByClientCampaign,
     listVaccinationCardsItemsByProfissional,
     listVaccinationCardsItemsByCompany,
     listVaccinationCardsItemsByStatus,

@@ -17,7 +17,7 @@ import {
   DeleteDeliveryOrderInput,
 } from 'API'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useDeliveryOrder = () => {
   const listDeliveryOrders = async (

@@ -7,7 +7,7 @@ import * as mutations from 'graphql/mutations'
 import { GetConfigQueryVariables } from 'API'
 import { ConfigValidationModes } from 'models'
 
-import { toast } from 'react-toast'
+import { toast } from 'react-toastify'
 
 export const useConfig = () => {
 

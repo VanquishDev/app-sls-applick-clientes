@@ -26,6 +26,7 @@ export declare type AdherenceUpdateFormInputValues = {
     name?: string;
     description?: string;
     code?: string;
+    campaignCode?: string;
     start?: string;
     expiration?: string;
     discountPercentage?: number;
@@ -43,6 +44,7 @@ export declare type AdherenceUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     code?: ValidationFunction<string>;
+    campaignCode?: ValidationFunction<string>;
     start?: ValidationFunction<string>;
     expiration?: ValidationFunction<string>;
     discountPercentage?: ValidationFunction<number>;
@@ -62,6 +64,7 @@ export declare type AdherenceUpdateFormOverridesProps = {
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     code?: PrimitiveOverrideProps<TextFieldProps>;
+    campaignCode?: PrimitiveOverrideProps<TextFieldProps>;
     start?: PrimitiveOverrideProps<TextFieldProps>;
     expiration?: PrimitiveOverrideProps<TextFieldProps>;
     discountPercentage?: PrimitiveOverrideProps<TextFieldProps>;

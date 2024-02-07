@@ -803,7 +803,7 @@ export const listCartsByUserCustom = /* GraphQL */ `
         changeQtyBlend
         changePriceAdjustment
         blendID
-        campaignToken
+        adherenceToken
         product {
           thumbnail
           photo1
@@ -1196,9 +1196,9 @@ export const listOrdersByUserCreatedAtCustom = /* GraphQL */ `
         addressState
         addressCountry
         updatedAt
-        campaignID
-        campaignName
-        campaignOrientation
+        adherenceID
+        adherenceName
+        adherenceOrientation
         companyID
         companyName
         companyPhone
@@ -1309,9 +1309,9 @@ export const listOrdersByStatusCreatedAtCustom = /* GraphQL */ `
         addressState
         addressCountry
         updatedAt
-        campaignID
-        campaignName
-        campaignOrientation
+        adherenceID
+        adherenceName
+        adherenceOrientation
         companyID
         companyName
         companyPhone
@@ -1395,15 +1395,15 @@ export const listOrdersByStatusCreatedAtCustom = /* GraphQL */ `
     }
   }
 `
-export const listCampaignByCodeCustom = /* GraphQL */ `
-  query ListCampaignByCodeCustom(
+export const listAdherenceByCodeCustom = /* GraphQL */ `
+  query ListAdherenceByCodeCustom(
     $code: String!
     $sortDirection: ModelSortDirection
-    $filter: ModelCampaignFilterInput
+    $filter: ModelAdherenceFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCampaignByCode(
+    listAdherenceByCode(
       code: $code
       sortDirection: $sortDirection
       filter: $filter
@@ -2038,16 +2038,44 @@ export const listProductsCustom = /* GraphQL */ `
     }
   }
 `
-export const listUsedByCampaignCustom = /* GraphQL */ `
-  query ListUsedByCampaignCustom(
-    $campaignID: ID!
+export const listProductsCustomNAPP = /* GraphQL */ `
+  query ListProductsCustomNAPP(
+    $id: ID
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
     $sortDirection: ModelSortDirection
-    $filter: ModelCampaignUsedFilterInput
+  ) {
+    listProducts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        description
+        manufacturer
+        price
+        qty
+        status
+      }
+      nextToken
+    }
+  }
+`
+export const listUsedByAdherenceCustom = /* GraphQL */ `
+  query ListUsedByAdherenceCustom(
+    $adherenceID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAdherenceUsedFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listUsedByCampaign(
-      campaignID: $campaignID
+    listUsedByAdherence(
+      adherenceID: $adherenceID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -2055,7 +2083,7 @@ export const listUsedByCampaignCustom = /* GraphQL */ `
     ) {
       items {
         id
-        campaignID
+        adherenceID
         userID
         createdAt
         updatedAt
@@ -2128,9 +2156,9 @@ export const getOrderCustom = /* GraphQL */ `
       addressState
       addressCountry
       updatedAt
-      campaignID
-      campaignName
-      campaignOrientation
+      adherenceID
+      adherenceName
+      adherenceOrientation
       companyID
       companyName
       companyPhone
@@ -2259,9 +2287,9 @@ export const listVaccinationCardsItemsByVaccinationCardCustom = /* GraphQL */ `
     }
   }
 `
-export const getCampaignCustom = /* GraphQL */ `
-  query GetCampaignCustom($id: ID!) {
-    getCampaign(id: $id) {
+export const getAdherenceCustom = /* GraphQL */ `
+  query GetAdherenceCustom($id: ID!) {
+    getAdherence(id: $id) {
       id
       name
       description
@@ -2277,7 +2305,7 @@ export const getCampaignCustom = /* GraphQL */ `
       products {
         nextToken
       }
-      campaignUsed {
+      adherenceUsed {
         nextToken
       }
       companies {
@@ -2380,17 +2408,17 @@ export const listProfilesByCompanyCustom = /* GraphQL */ `
     }
   }
 `
-export const listOrdersByCampaignCreatedAtCustom = /* GraphQL */ `
-  query ListOrdersByCampaignCreatedAtCustom(
-    $campaignID: ID!
+export const listOrdersByAdherenceCreatedAtCustom = /* GraphQL */ `
+  query ListOrdersByAdherenceCreatedAtCustom(
+    $adherenceID: ID!
     $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelOrderFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listOrdersByCampaignCreatedAt(
-      campaignID: $campaignID
+    listOrdersByAdherenceCreatedAt(
+      adherenceID: $adherenceID
       createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
@@ -2436,16 +2464,16 @@ export const listOrdersByCampaignCreatedAtCustom = /* GraphQL */ `
     }
   }
 `
-export const listCompaniesByCampaignCustom = /* GraphQL */ `
-  query ListCompaniesByCampaignCustom(
-    $campaignID: ID!
+export const listCompaniesByAdherenceCustom = /* GraphQL */ `
+  query ListCompaniesByAdherenceCustom(
+    $adherenceID: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelCampaignCompanyFilterInput
+    $filter: ModelAdherenceCompanyFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCompaniesByCampaign(
-      campaignID: $campaignID
+    listCompaniesByAdherence(
+      adherenceID: $adherenceID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -2453,7 +2481,7 @@ export const listCompaniesByCampaignCustom = /* GraphQL */ `
     ) {
       items {
         id
-        campaignID
+        adherenceID
         companyID
         company {
           id
@@ -2516,7 +2544,7 @@ export const listVaccinationCardsItemsByOrderCustom = /* GraphQL */ `
         orderItem {
           name
         }
-        campaign {
+        adherence {
           name
         }
         company {
@@ -2524,7 +2552,7 @@ export const listVaccinationCardsItemsByOrderCustom = /* GraphQL */ `
         }
         orderID
         orderItemID
-        campaignID
+        adherenceID
         companyID
         lote
         profissionalID
@@ -2540,17 +2568,17 @@ export const listVaccinationCardsItemsByOrderCustom = /* GraphQL */ `
     }
   }
 `
-export const listVaccinationCardsItemsByCampaignCustom = /* GraphQL */ `
-  query ListVaccinationCardsItemsByCampaignCustom(
-    $campaignID: ID!
+export const listVaccinationCardsItemsByAdherenceCustom = /* GraphQL */ `
+  query ListVaccinationCardsItemsByAdherenceCustom(
+    $adherenceID: ID!
     $applicationDate: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelVaccinationCardItemFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listVaccinationCardsItemsByCampaign(
-      campaignID: $campaignID
+    listVaccinationCardsItemsByAdherence(
+      adherenceID: $adherenceID
       applicationDate: $applicationDate
       sortDirection: $sortDirection
       filter: $filter
@@ -2609,7 +2637,7 @@ export const listVaccinationCardItemsCustom = /* GraphQL */ `
         vaccinationCardID
         orderID
         orderItemID
-        campaignID
+        adherenceID
         companyID
         lote
         profissionalID
@@ -2632,7 +2660,7 @@ export const listVaccinationCardItemsCustom = /* GraphQL */ `
           addressCity
           addressState
         }
-        campaign {
+        adherence {
           name
         }
         company {
@@ -2665,7 +2693,7 @@ export const listVaccinationCardsItemsByProfissionalCustom = /* GraphQL */ `
         vaccinationCardID
         orderID
         orderItemID
-        campaignID
+        adherenceID
         companyID
         lote
         profissionalID
@@ -2686,7 +2714,7 @@ export const listVaccinationCardsItemsByProfissionalCustom = /* GraphQL */ `
         orderItem {
           name
         }
-        campaign {
+        adherence {
           name
         }
         company {
@@ -2719,7 +2747,7 @@ export const listVaccinationCardsItemsByStatusCustom = /* GraphQL */ `
         vaccinationCardID
         orderID
         orderItemID
-        campaignID
+        adherenceID
         companyID
         lote
         profissionalID
@@ -2740,11 +2768,77 @@ export const listVaccinationCardsItemsByStatusCustom = /* GraphQL */ `
         orderItem {
           name
         }
-        campaign {
+        adherence {
           name
         }
         company {
           name
+        }
+      }
+      nextToken
+    }
+  }
+`
+export const listVaccinationCardsItemsByStatusCustomNAPP = /* GraphQL */ `
+  query ListVaccinationCardsItemsByStatusCustomNAPP(
+    $status: String!
+    $applicationDate: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelVaccinationCardItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVaccinationCardsItemsByStatus(
+      status: $status
+      applicationDate: $applicationDate
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        applicationDate
+        status
+        orderItem {
+          price
+          qty
+          product {
+            name
+            id
+            manufacturer
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`
+export const listVaccinationCardsItemsByStatusCustomNAPP2 = /* GraphQL */ `
+  query ListVaccinationCardsItemsByStatusCustomNAPP2(
+    $status: String!
+    $applicationDate: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelVaccinationCardItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVaccinationCardsItemsByStatus(
+      status: $status
+      applicationDate: $applicationDate
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+        items {
+        id
+        lote
+        dueDate
+        orderItem {
+          id
+          name
+          qty
         }
       }
       nextToken
@@ -2830,7 +2924,7 @@ export const listVaccinationCardsByUserCustom = /* GraphQL */ `
             orderItem {
               name
             }
-            campaign {
+            adherence {
               name
             }
             company {
@@ -3311,9 +3405,9 @@ export const getOrderCustom2 = /* GraphQL */ `
       addressState
       addressCountry
       updatedAt
-      campaignID
-      campaignName
-      campaignOrientation
+      adherenceID
+      adherenceName
+      adherenceOrientation
       companyID
       companyName
       companyPhone
@@ -3560,15 +3654,15 @@ export const listMembersByAuthorizationListCPFCustom = /* GraphQL */ `
     }
   }
 `
-export const listCampaignsCustom = /* GraphQL */ `
-  query ListCampaignsCustom(
+export const listAdherencesCustom = /* GraphQL */ `
+  query ListAdherencesCustom(
     $id: ID
-    $filter: ModelCampaignFilterInput
+    $filter: ModelAdherenceFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listCampaigns(
+    listAdherences(
       id: $id
       filter: $filter
       limit: $limit
@@ -3667,6 +3761,7 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
       id
       clientID
       clientUnitID
+      clientCampaignID
       driverID
       professionals
       collaborators
@@ -3750,6 +3845,7 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
       id
       clientID
       clientUnitID
+      clientCampaignID
       driverID
       professionals
       collaborators
@@ -3838,6 +3934,7 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
       id
       clientID
       clientUnitID
+      clientCampaignID
       driverID
       professionals
       collaborators
@@ -3929,6 +4026,9 @@ export const listClientUserByClientCustom = /* GraphQL */ `query ListClientUserB
       user {
         name
         avatar
+        email
+        phone
+        active
       }
       createdAt
       updatedAt
@@ -3941,6 +4041,305 @@ export const listClientUserByClientCustom = /* GraphQL */ `query ListClientUserB
 ` as GeneratedQuery<
   APITypes.ListClientUserByClientQueryVariables,
   APITypes.ListClientUserByClientQuery
+>;
+export const listOrdersCustom = /* GraphQL */ `query ListOrdersCustom(
+  $id: ID
+  $filter: ModelOrderFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listOrders(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+        userID
+        status
+        createdAt
+        couponID
+        couponName
+        couponDiscount
+        deliveryPrice
+        total
+        rating
+        ratingNotes
+        orderPagarmeID
+        addressReference
+        addressStreet
+        addressNumber
+        addressComplement
+        addressZipcode
+        addressNeighborhood
+        addressCity
+        addressState
+        addressCountry
+        updatedAt
+        adherenceID
+        adherenceName
+        adherenceOrientation
+        companyID
+        companyName
+        companyPhone
+        companyOpeningHours
+        company {
+          name
+          phones
+          street
+          number
+          complement
+          zipcode
+          neighborhood
+          city
+          state
+        }
+        notes
+        qrCodePix
+        qrCodePixUrl
+        payMethod
+        installments
+        homeCareOrRetail
+        user {
+          name
+          email
+          phone
+          avatar
+          createdAt
+          addresses {
+            items {
+              street
+              number
+              complement
+              zipcode
+              neighborhood
+              city
+              state
+            }
+          }
+        }
+        profile {
+          doc
+        }
+        items {
+          items {
+            id
+            qty
+            code
+            name
+            description
+            price
+            photo1
+            changeName
+            changeDescription
+            changeNameAdmin
+            product {
+              categoryProps {
+                title
+              }
+              name
+              kitItems {
+                items {
+                  productID
+                  product {
+                    name
+                  }
+                }
+              }
+            }
+            optionsItem {
+              items {
+                option {
+                  name
+                  price
+                }
+              }
+            }
+          }
+        }
+      }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOrdersQueryVariables,
+  APITypes.ListOrdersQuery
+>;
+export const listClientCampaignsByStatusCreatedAtCustom = /* GraphQL */ `query ListClientCampaignsByStatusCreatedAtCustom(
+  $status: ClientCampaignStatus!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listClientCampaignsByStatusCreatedAt(
+    status: $status
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      name
+      description
+      clientNotes
+      internalNotes
+      totalUnits
+      unitsServed
+      unitsExpected
+      firstOSDate
+      lastOSDate
+      scheduleRouted
+      scheduleConfirmed
+      scheduleFinished
+      totalEligibles
+      totalEligiblesDependent
+      totalEligiblesThird
+      totalVaccinations
+      search
+      responsible
+      number
+      contactName
+      contactEmail
+      contactPhone
+      createdAt
+      idx
+      campaignCode
+      status
+      updatedAt
+      client {
+        name
+        logo
+      }
+      products {
+        items {
+          productID
+          price
+          limit
+          product {
+            name
+          }
+        }
+      }
+      units {
+        items {
+          unitID
+          unit {
+            name
+          }
+        }
+      }
+      companies {
+        items {
+          companyID
+          company {
+            name
+          }
+        }
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListClientCampaignsByStatusCreatedAtQueryVariables,
+  APITypes.ListClientCampaignsByStatusCreatedAtQuery
+>;
+export const listClientCampaignsByIdxCreatedAtCustom = /* GraphQL */ `query ListClientCampaignsByIdxCreatedAtCustom(
+  $idx: Int!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listClientCampaignsByIdxCreatedAt(
+    idx: $idx
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      name
+      description
+      clientNotes
+      internalNotes
+      totalUnits
+      unitsServed
+      unitsExpected
+      firstOSDate
+      lastOSDate
+      scheduleRouted
+      scheduleConfirmed
+      scheduleFinished
+      totalEligibles
+      totalEligiblesDependent
+      totalEligiblesThird
+      totalVaccinations
+      search
+      responsible
+      number
+      contactName
+      contactEmail
+      contactPhone
+      createdAt
+      idx
+      campaignCode
+      status
+      updatedAt
+      client {
+        name
+        logo
+      }
+      products {
+        items {
+          productID
+          price
+          limit
+          product {
+            name
+          }
+        }
+      }
+      units {
+        items {
+          unitID
+          unit {
+            name
+          }
+        }
+      }
+      companies {
+        items {
+          companyID
+          company {
+            name
+          }
+        }
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListClientCampaignsByIdxCreatedAtQueryVariables,
+  APITypes.ListClientCampaignsByIdxCreatedAtQuery
 >;
 export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCustom(
   $userID: ID!
@@ -3965,20 +4364,9 @@ export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCus
       __typename
       client {
         id
-      name
-      notes
-      status
-      search
-      totalUnits
-      unitsServed
-      unitsExpected
-      firstOSDate
-      lastOSDate
-      scheduleRouted
-      scheduleConfirmed
-      schedulePending
-      totalEligibles
-      totalVaccinations
+        name
+        notes
+        status
       }
     }
     nextToken
@@ -3988,114 +4376,4 @@ export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCus
 ` as GeneratedQuery<
   APITypes.ListClientUserByUserQueryVariables,
   APITypes.ListClientUserByUserQuery
->;
-export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClientCustom(
-  $clientID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientUnitFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUnitsByClient(
-    clientID: $clientID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      name
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      code
-      createdAt
-      updatedAt
-      oss {
-        items {
-          number
-          start
-          dateStarted
-          status
-          qtyApplication
-          stayQtd
-          clientCampaign {
-            name
-          }
-        }
-      }
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListUnitsByClientQueryVariables,
-  APITypes.ListUnitsByClientQuery
->;
-export const listEligiblesVaccinationByClientDate = /* GraphQL */ `query ListEligiblesVaccinationByClientDateCustom(
-  $clientID: ID!
-  $applicationDate: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelEligibleVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesVaccinationByClientDate(
-    clientID: $clientID
-    applicationDate: $applicationDate
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      osID
-      clientEligibleID
-      clientID
-      profissionalID
-      coren
-      applicationDate
-      reason
-      vaccination
-      status
-      localCity
-      localState
-      createdAt
-      updatedAt
-      clientEligible {
-        id
-        key
-        name
-        cpf
-        rg
-        birth
-        notes
-        relationship
-        isDependent
-      }
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesVaccinationByClientDateQueryVariables,
-  APITypes.ListEligiblesVaccinationByClientDateQuery
 >;
