@@ -148,12 +148,12 @@ const DashClientes: FC<Props> = ({ }) => {
 
     {(checked && clients.length === 0) && <BannerAccessDeny />}
 
-    <div className='flex justify-center gap-4'>
+    <div className='mb-4 md:mb-0 flex flex-wrap justify-center gap-4'>
       {(checked && clients.length > 1) && <SelectClient />}
-      {(checked && clients.length === 1) && <div className='text-center text-4xl font-bold text-tertiary-2 tracking-wide'>{clients[0].name}</div>}
+      {(checked && clients.length === 1) && <div className='text-center text-xl md:text-4xl font-bold text-tertiary-2 tracking-wide'>{clients[0].name}</div>}
 
       {(checked2 && campaigns.length > 1) && <SelectCampaign />}
-      {(checked2 && campaigns.length === 1) && <div className='text-center text-4xl font-bold text-tertiary-2 tracking-wide'>{campaigns[0].name}</div>}
+      {(checked2 && campaigns.length === 1) && <div className='text-center text-xl md:text-4xl font-semibold text-tertiary-2 tracking-wide'>{campaigns[0].name}</div>}
 
       {loading2 && <Loading />}
     </div>

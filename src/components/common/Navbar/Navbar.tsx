@@ -64,8 +64,8 @@ const Navbar: FC<NavbarProps> = ({ links, displaySearch, user }) => {
                 : `${process.env.HOME}`
                 }`}
             >
-              <span className={s.logo} aria-label="Logo">
-                <Logo maxHeight={45} />
+              <span className={cn(s.logo, 'absolute top-1.5')} aria-label="Logo">
+                <Logo maxHeight={60} />
               </span>
             </Link>
 
