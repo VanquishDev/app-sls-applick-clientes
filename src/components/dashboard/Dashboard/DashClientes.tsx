@@ -41,7 +41,10 @@ const DashClientes: FC<Props> = ({ }) => {
         items.map((item: any) => {
           if (item.client) { c.push(item.client) }
         })
-        setClient(c.length === 1 ? c[0] : {})
+        if (c.length === 1) {
+          setClient(c[0])
+          setClientID(c[0].id)
+        }
         setClients(c)
         setChecked(true)
         setLoading(false)
@@ -59,7 +62,10 @@ const DashClientes: FC<Props> = ({ }) => {
         items.map((item: any) => {
           c.push(item)
         })
-        setCampaign(c.length === 1 ? c[0] : {})
+        if (c.length === 1) {
+          setCampaign(c[0])
+          setCampaignID(c[0].id)
+        }
         setCampaigns(c)
         setChecked2(true)
         setLoading2(false)
