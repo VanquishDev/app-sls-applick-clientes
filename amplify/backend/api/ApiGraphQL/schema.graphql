@@ -1452,7 +1452,7 @@ type ClientCampaignEligible
   search: String
   relationship: String
   isDependent: Boolean
-  cpfRelationship: String
+  cpfRelationship: String @index(name: "dependentsByCPF", queryField: "listDependentsByCPF")
   isThird: Boolean
   thirdName: String
 }
@@ -1517,6 +1517,7 @@ type OS
   driverID: ID
   professionals: [ID!]!
   collaborators: [ID!]
+  companies: [ID!]
   number: Int! @index(name: "ossByNumber", queryField: "listOSsByNumber")
   start: AWSDateTime
   expiration: AWSDateTime
@@ -1544,10 +1545,79 @@ type OS
   stayQtd: Int
   lat: Float
   lng: Float
+  search: String
   eligiblesVaccination: [EligibleVaccination] @hasMany(indexName: "eligiblesVaccinationByClientEligible", fields: ["id"])
   client: Client @hasOne(fields: ["clientID"])
   clientUnit: ClientUnit @hasOne(fields: ["clientUnitID"])
   clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
+}
+
+type RoutingRegion
+  @model(
+    mutations: {
+      create: "createRoutingRegion"
+      update: "updateRoutingRegion"
+      delete: "deleteRoutingRegion"
+    }
+    queries: { get: "", list: "listRoutingRegions" }
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Logistica"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+    ]) {
+  id: ID! @primaryKey
+  name: String!
+}
+
+type Routing
+  @model(
+    mutations: {create: "createRouting", update: "updateRouting", delete: "deleteRouting"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Cliente", "Logistica"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+    ]) {
+  id: ID! @primaryKey
+  start: AWSDateTime! @index(name: "routingByStartRegion", queryField: "listRoutingByStartRegion", sortKeyFields: ["regionID"])
+  end: AWSDateTime!
+  regionID: ID! @index(name: "routingByRegionStart", queryField: "listRoutingByRegionStart", sortKeyFields: ["start"])
+  qty: Int
+  title: String!
+  description: String
+  backgroundColor: String
+  textColor: String
+  borderColor: String
+  notes: String
+  search: String
+}
+
+type RoutingOSs
+  @model(
+    mutations: {
+      create: "createRoutingOSs"
+      update: "updateRoutingOSs"
+      delete: "deleteRoutingOSs"
+    }
+    queries: { get: null, list: null }
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Logistica"], operations: [create, update, delete, read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+    ]) {
+  id: ID! @primaryKey
+  routingID: ID!
+    @index(
+      name: "routingOSsByRouting"
+      queryField: "listRoutingOSsByRouting"
+    )
+  routing: Routing @hasOne(fields: ["routingID"])
+  osID: ID!
+    @index(name: "routingOSsByOS", queryField: "listRoutingOSsByOS")
+  os: OS @hasOne(fields: ["osID"])
 }
 
 enum EligibleVaccinationStatus {

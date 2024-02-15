@@ -5716,6 +5716,47 @@ export const listEligiblesByClientCampaignRG = /* GraphQL */ `query ListEligible
   APITypes.ListEligiblesByClientCampaignRGQueryVariables,
   APITypes.ListEligiblesByClientCampaignRGQuery
 >;
+export const listDependentsByCPF = /* GraphQL */ `query ListDependentsByCPF(
+  $cpfRelationship: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listDependentsByCPF(
+    cpfRelationship: $cpfRelationship
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      name
+      cpf
+      rg
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListDependentsByCPFQueryVariables,
+  APITypes.ListDependentsByCPFQuery
+>;
 export const listVaccinationsByOS = /* GraphQL */ `query ListVaccinationsByOS(
   $osID: ID!
   $applicationDate: ModelStringKeyConditionInput
@@ -5867,6 +5908,7 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -5894,6 +5936,7 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -5925,6 +5968,7 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -5952,6 +5996,7 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -5988,6 +6033,7 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6015,6 +6061,7 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6051,6 +6098,7 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6078,6 +6126,7 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6112,6 +6161,7 @@ export const listOSsByClientUnit = /* GraphQL */ `query ListOSsByClientUnit(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6139,6 +6189,7 @@ export const listOSsByClientUnit = /* GraphQL */ `query ListOSsByClientUnit(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6173,6 +6224,7 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6200,6 +6252,7 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6234,6 +6287,7 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6261,6 +6315,7 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6297,6 +6352,7 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -6324,6 +6380,7 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -6335,6 +6392,177 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
 ` as GeneratedQuery<
   APITypes.ListOSsByStatusNumberQueryVariables,
   APITypes.ListOSsByStatusNumberQuery
+>;
+export const listRoutingRegions = /* GraphQL */ `query ListRoutingRegions(
+  $id: ID
+  $filter: ModelRoutingRegionFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listRoutingRegions(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingRegionsQueryVariables,
+  APITypes.ListRoutingRegionsQuery
+>;
+export const listRoutingByStartRegion = /* GraphQL */ `query ListRoutingByStartRegion(
+  $start: AWSDateTime!
+  $regionID: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingByStartRegion(
+    start: $start
+    regionID: $regionID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      start
+      end
+      regionID
+      qty
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingByStartRegionQueryVariables,
+  APITypes.ListRoutingByStartRegionQuery
+>;
+export const listRoutingByRegionStart = /* GraphQL */ `query ListRoutingByRegionStart(
+  $regionID: ID!
+  $start: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingByRegionStart(
+    regionID: $regionID
+    start: $start
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      start
+      end
+      regionID
+      qty
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingByRegionStartQueryVariables,
+  APITypes.ListRoutingByRegionStartQuery
+>;
+export const listRoutingOSsByRouting = /* GraphQL */ `query ListRoutingOSsByRouting(
+  $routingID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingOSsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingOSsByRouting(
+    routingID: $routingID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      routingID
+      osID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingOSsByRoutingQueryVariables,
+  APITypes.ListRoutingOSsByRoutingQuery
+>;
+export const listRoutingOSsByOS = /* GraphQL */ `query ListRoutingOSsByOS(
+  $osID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingOSsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingOSsByOS(
+    osID: $osID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      routingID
+      osID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingOSsByOSQueryVariables,
+  APITypes.ListRoutingOSsByOSQuery
 >;
 export const listEligiblesVaccinationByOS = /* GraphQL */ `query ListEligiblesVaccinationByOS(
   $osID: ID!

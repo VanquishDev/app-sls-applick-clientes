@@ -3503,6 +3503,7 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -3530,6 +3531,7 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -3637,6 +3639,7 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -3664,6 +3667,7 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -3771,6 +3775,7 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -3798,6 +3803,7 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -3943,6 +3949,7 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -3970,6 +3977,7 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -4039,6 +4047,7 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -4066,6 +4075,7 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -4135,6 +4145,7 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
       driverID
       professionals
       collaborators
+      companies
       number
       start
       expiration
@@ -4162,6 +4173,7 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
       stayQtd
       lat
       lng
+      search
       createdAt
       updatedAt
       __typename
@@ -8248,6 +8260,7 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     driverID
     professionals
     collaborators
+    companies
     number
     start
     expiration
@@ -8275,6 +8288,7 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     stayQtd
     lat
     lng
+    search
     eligiblesVaccination {
       nextToken
       __typename
@@ -8393,6 +8407,7 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     driverID
     professionals
     collaborators
+    companies
     number
     start
     expiration
@@ -8420,6 +8435,7 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     stayQtd
     lat
     lng
+    search
     eligiblesVaccination {
       nextToken
       __typename
@@ -8538,6 +8554,7 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     driverID
     professionals
     collaborators
+    companies
     number
     start
     expiration
@@ -8565,6 +8582,7 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     stayQtd
     lat
     lng
+    search
     eligiblesVaccination {
       nextToken
       __typename
@@ -8673,6 +8691,357 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
 ` as GeneratedMutation<
   APITypes.DeleteOSMutationVariables,
   APITypes.DeleteOSMutation
+>;
+export const createRoutingRegion = /* GraphQL */ `mutation CreateRoutingRegion(
+  $input: CreateRoutingRegionInput!
+  $condition: ModelRoutingRegionConditionInput
+) {
+  createRoutingRegion(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateRoutingRegionMutationVariables,
+  APITypes.CreateRoutingRegionMutation
+>;
+export const updateRoutingRegion = /* GraphQL */ `mutation UpdateRoutingRegion(
+  $input: UpdateRoutingRegionInput!
+  $condition: ModelRoutingRegionConditionInput
+) {
+  updateRoutingRegion(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRoutingRegionMutationVariables,
+  APITypes.UpdateRoutingRegionMutation
+>;
+export const deleteRoutingRegion = /* GraphQL */ `mutation DeleteRoutingRegion(
+  $input: DeleteRoutingRegionInput!
+  $condition: ModelRoutingRegionConditionInput
+) {
+  deleteRoutingRegion(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRoutingRegionMutationVariables,
+  APITypes.DeleteRoutingRegionMutation
+>;
+export const createRouting = /* GraphQL */ `mutation CreateRouting(
+  $input: CreateRoutingInput!
+  $condition: ModelRoutingConditionInput
+) {
+  createRouting(input: $input, condition: $condition) {
+    id
+    start
+    end
+    regionID
+    qty
+    title
+    description
+    backgroundColor
+    textColor
+    borderColor
+    notes
+    search
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateRoutingMutationVariables,
+  APITypes.CreateRoutingMutation
+>;
+export const updateRouting = /* GraphQL */ `mutation UpdateRouting(
+  $input: UpdateRoutingInput!
+  $condition: ModelRoutingConditionInput
+) {
+  updateRouting(input: $input, condition: $condition) {
+    id
+    start
+    end
+    regionID
+    qty
+    title
+    description
+    backgroundColor
+    textColor
+    borderColor
+    notes
+    search
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRoutingMutationVariables,
+  APITypes.UpdateRoutingMutation
+>;
+export const deleteRouting = /* GraphQL */ `mutation DeleteRouting(
+  $input: DeleteRoutingInput!
+  $condition: ModelRoutingConditionInput
+) {
+  deleteRouting(input: $input, condition: $condition) {
+    id
+    start
+    end
+    regionID
+    qty
+    title
+    description
+    backgroundColor
+    textColor
+    borderColor
+    notes
+    search
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRoutingMutationVariables,
+  APITypes.DeleteRoutingMutation
+>;
+export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
+  $input: CreateRoutingOSsInput!
+  $condition: ModelRoutingOSsConditionInput
+) {
+  createRoutingOSs(input: $input, condition: $condition) {
+    id
+    routingID
+    routing {
+      id
+      start
+      end
+      regionID
+      qty
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    osID
+    os {
+      id
+      clientID
+      clientUnitID
+      clientCampaignID
+      driverID
+      professionals
+      collaborators
+      companies
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateRoutingOSsMutationVariables,
+  APITypes.CreateRoutingOSsMutation
+>;
+export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
+  $input: UpdateRoutingOSsInput!
+  $condition: ModelRoutingOSsConditionInput
+) {
+  updateRoutingOSs(input: $input, condition: $condition) {
+    id
+    routingID
+    routing {
+      id
+      start
+      end
+      regionID
+      qty
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    osID
+    os {
+      id
+      clientID
+      clientUnitID
+      clientCampaignID
+      driverID
+      professionals
+      collaborators
+      companies
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRoutingOSsMutationVariables,
+  APITypes.UpdateRoutingOSsMutation
+>;
+export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
+  $input: DeleteRoutingOSsInput!
+  $condition: ModelRoutingOSsConditionInput
+) {
+  deleteRoutingOSs(input: $input, condition: $condition) {
+    id
+    routingID
+    routing {
+      id
+      start
+      end
+      regionID
+      qty
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    osID
+    os {
+      id
+      clientID
+      clientUnitID
+      clientCampaignID
+      driverID
+      professionals
+      collaborators
+      companies
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      allowOffList
+      withList
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRoutingOSsMutationVariables,
+  APITypes.DeleteRoutingOSsMutation
 >;
 export const updateAuthorizationListMember = /* GraphQL */ `mutation UpdateAuthorizationListMember(
   $input: UpdateAuthorizationListMemberInput!

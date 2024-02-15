@@ -924,6 +924,7 @@ export type OS = {
   driverID?: string | null,
   professionals: Array< string >,
   collaborators?: Array< string > | null,
+  companies?: Array< string > | null,
   number: number,
   start?: string | null,
   expiration?: string | null,
@@ -951,6 +952,7 @@ export type OS = {
   stayQtd?: number | null,
   lat?: number | null,
   lng?: number | null,
+  search?: string | null,
   eligiblesVaccination?: ModelEligibleVaccinationConnection | null,
   client?: Client | null,
   clientUnit?: ClientUnit | null,
@@ -2149,6 +2151,7 @@ export type ModelOSFilterInput = {
   driverID?: ModelIDInput | null,
   professionals?: ModelIDInput | null,
   collaborators?: ModelIDInput | null,
+  companies?: ModelIDInput | null,
   number?: ModelIntInput | null,
   start?: ModelStringInput | null,
   expiration?: ModelStringInput | null,
@@ -2176,6 +2179,7 @@ export type ModelOSFilterInput = {
   stayQtd?: ModelIntInput | null,
   lat?: ModelFloatInput | null,
   lng?: ModelFloatInput | null,
+  search?: ModelStringInput | null,
   and?: Array< ModelOSFilterInput | null > | null,
   or?: Array< ModelOSFilterInput | null > | null,
   not?: ModelOSFilterInput | null,
@@ -2258,6 +2262,116 @@ export type ModelClientCampaignFilterInput = {
 export type ModelClientCampaignStatusInput = {
   eq?: ClientCampaignStatus | null,
   ne?: ClientCampaignStatus | null,
+};
+
+export type ModelClientCampaignEligibleVaccinationFilterInput = {
+  id?: ModelIDInput | null,
+  osID?: ModelIDInput | null,
+  clientCampaignID?: ModelIDInput | null,
+  clientCampaignEligibleID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  profissionalDoc?: ModelStringInput | null,
+  coren?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  reason?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  vaccination?: ModelStringInput | null,
+  status?: ModelEligibleVaccinationStatusInput | null,
+  localCity?: ModelStringInput | null,
+  localState?: ModelStringInput | null,
+  and?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
+  or?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
+  not?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+};
+
+export type ModelEligibleVaccinationStatusInput = {
+  eq?: EligibleVaccinationStatus | null,
+  ne?: EligibleVaccinationStatus | null,
+};
+
+export type ModelClientCampaignEligibleVaccinationConnection = {
+  __typename: "ModelClientCampaignEligibleVaccinationConnection",
+  items:  Array<ClientCampaignEligibleVaccination | null >,
+  nextToken?: string | null,
+};
+
+export type ClientCampaignEligibleVaccination = {
+  __typename: "ClientCampaignEligibleVaccination",
+  id: string,
+  osID: string,
+  os?: OS | null,
+  clientCampaignID: string,
+  clientCampaign?: ClientCampaign | null,
+  clientCampaignEligibleID: string,
+  clientEligible?: ClientCampaignEligible | null,
+  profissionalID?: string | null,
+  profissional?: User | null,
+  profissionalDoc?: string | null,
+  coren?: string | null,
+  applicationDate?: string | null,
+  reason?: string | null,
+  search?: string | null,
+  vaccination?: string | null,
+  status?: EligibleVaccinationStatus | null,
+  localCity?: string | null,
+  localState?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ClientCampaignEligible = {
+  __typename: "ClientCampaignEligible",
+  id: string,
+  clientCampaignID: string,
+  key: string,
+  name?: string | null,
+  cpf?: string | null,
+  rg?: string | null,
+  birth?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  relationship?: string | null,
+  isDependent?: boolean | null,
+  cpfRelationship?: string | null,
+  isThird?: boolean | null,
+  thirdName?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelClientUnitFilterInput = {
+  id?: ModelIDInput | null,
+  clientID?: ModelIDInput | null,
+  cnpj?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  fullName?: ModelStringInput | null,
+  street?: ModelStringInput | null,
+  number?: ModelStringInput | null,
+  complement?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  neighborhood?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  country?: ModelStringInput | null,
+  billingStreet?: ModelStringInput | null,
+  billingNumber?: ModelStringInput | null,
+  billingComplement?: ModelStringInput | null,
+  billingZipcode?: ModelStringInput | null,
+  billingNeighborhood?: ModelStringInput | null,
+  billingCity?: ModelStringInput | null,
+  billingState?: ModelStringInput | null,
+  billingCountry?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  contactName?: ModelStringInput | null,
+  contactEmail?: ModelStringInput | null,
+  contactPhone?: ModelStringInput | null,
+  totalEligibles?: ModelIntInput | null,
+  totalCollaborators?: ModelIntInput | null,
+  code?: ModelStringInput | null,
+  and?: Array< ModelClientUnitFilterInput | null > | null,
+  or?: Array< ModelClientUnitFilterInput | null > | null,
+  not?: ModelClientUnitFilterInput | null,
 };
 
 export type UpdateUserInput = {
@@ -3936,26 +4050,6 @@ export type ModelClientCampaignEligibleConditionInput = {
   not?: ModelClientCampaignEligibleConditionInput | null,
 };
 
-export type ClientCampaignEligible = {
-  __typename: "ClientCampaignEligible",
-  id: string,
-  clientCampaignID: string,
-  key: string,
-  name?: string | null,
-  cpf?: string | null,
-  rg?: string | null,
-  birth?: string | null,
-  notes?: string | null,
-  search?: string | null,
-  relationship?: string | null,
-  isDependent?: boolean | null,
-  cpfRelationship?: string | null,
-  isThird?: boolean | null,
-  thirdName?: string | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdateClientCampaignEligibleInput = {
   id: string,
   clientCampaignID?: string | null,
@@ -4011,35 +4105,6 @@ export type ModelClientCampaignEligibleVaccinationConditionInput = {
   and?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
   or?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
   not?: ModelClientCampaignEligibleVaccinationConditionInput | null,
-};
-
-export type ModelEligibleVaccinationStatusInput = {
-  eq?: EligibleVaccinationStatus | null,
-  ne?: EligibleVaccinationStatus | null,
-};
-
-export type ClientCampaignEligibleVaccination = {
-  __typename: "ClientCampaignEligibleVaccination",
-  id: string,
-  osID: string,
-  os?: OS | null,
-  clientCampaignID: string,
-  clientCampaign?: ClientCampaign | null,
-  clientCampaignEligibleID: string,
-  clientEligible?: ClientCampaignEligible | null,
-  profissionalID?: string | null,
-  profissional?: User | null,
-  profissionalDoc?: string | null,
-  coren?: string | null,
-  applicationDate?: string | null,
-  reason?: string | null,
-  search?: string | null,
-  vaccination?: string | null,
-  status?: EligibleVaccinationStatus | null,
-  localCity?: string | null,
-  localState?: string | null,
-  createdAt: string,
-  updatedAt: string,
 };
 
 export type UpdateClientCampaignEligibleVaccinationInput = {
@@ -5230,6 +5295,7 @@ export type CreateOSInput = {
   driverID?: string | null,
   professionals: Array< string >,
   collaborators?: Array< string > | null,
+  companies?: Array< string > | null,
   number: number,
   start?: string | null,
   expiration?: string | null,
@@ -5257,6 +5323,7 @@ export type CreateOSInput = {
   stayQtd?: number | null,
   lat?: number | null,
   lng?: number | null,
+  search?: string | null,
 };
 
 export type ModelOSConditionInput = {
@@ -5266,6 +5333,7 @@ export type ModelOSConditionInput = {
   driverID?: ModelIDInput | null,
   professionals?: ModelIDInput | null,
   collaborators?: ModelIDInput | null,
+  companies?: ModelIDInput | null,
   number?: ModelIntInput | null,
   start?: ModelStringInput | null,
   expiration?: ModelStringInput | null,
@@ -5293,6 +5361,7 @@ export type ModelOSConditionInput = {
   stayQtd?: ModelIntInput | null,
   lat?: ModelFloatInput | null,
   lng?: ModelFloatInput | null,
+  search?: ModelStringInput | null,
   and?: Array< ModelOSConditionInput | null > | null,
   or?: Array< ModelOSConditionInput | null > | null,
   not?: ModelOSConditionInput | null,
@@ -5306,6 +5375,7 @@ export type UpdateOSInput = {
   driverID?: string | null,
   professionals?: Array< string > | null,
   collaborators?: Array< string > | null,
+  companies?: Array< string > | null,
   number?: number | null,
   start?: string | null,
   expiration?: string | null,
@@ -5333,9 +5403,143 @@ export type UpdateOSInput = {
   stayQtd?: number | null,
   lat?: number | null,
   lng?: number | null,
+  search?: string | null,
 };
 
 export type DeleteOSInput = {
+  id: string,
+};
+
+export type CreateRoutingRegionInput = {
+  id?: string | null,
+  name: string,
+};
+
+export type ModelRoutingRegionConditionInput = {
+  name?: ModelStringInput | null,
+  and?: Array< ModelRoutingRegionConditionInput | null > | null,
+  or?: Array< ModelRoutingRegionConditionInput | null > | null,
+  not?: ModelRoutingRegionConditionInput | null,
+};
+
+export type RoutingRegion = {
+  __typename: "RoutingRegion",
+  id: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateRoutingRegionInput = {
+  id: string,
+  name?: string | null,
+};
+
+export type DeleteRoutingRegionInput = {
+  id: string,
+};
+
+export type CreateRoutingInput = {
+  id?: string | null,
+  start: string,
+  end: string,
+  regionID: string,
+  qty?: number | null,
+  title: string,
+  description?: string | null,
+  backgroundColor?: string | null,
+  textColor?: string | null,
+  borderColor?: string | null,
+  notes?: string | null,
+  search?: string | null,
+};
+
+export type ModelRoutingConditionInput = {
+  start?: ModelStringInput | null,
+  end?: ModelStringInput | null,
+  regionID?: ModelIDInput | null,
+  qty?: ModelIntInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  backgroundColor?: ModelStringInput | null,
+  textColor?: ModelStringInput | null,
+  borderColor?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  and?: Array< ModelRoutingConditionInput | null > | null,
+  or?: Array< ModelRoutingConditionInput | null > | null,
+  not?: ModelRoutingConditionInput | null,
+};
+
+export type Routing = {
+  __typename: "Routing",
+  id: string,
+  start: string,
+  end: string,
+  regionID: string,
+  qty?: number | null,
+  title: string,
+  description?: string | null,
+  backgroundColor?: string | null,
+  textColor?: string | null,
+  borderColor?: string | null,
+  notes?: string | null,
+  search?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateRoutingInput = {
+  id: string,
+  start?: string | null,
+  end?: string | null,
+  regionID?: string | null,
+  qty?: number | null,
+  title?: string | null,
+  description?: string | null,
+  backgroundColor?: string | null,
+  textColor?: string | null,
+  borderColor?: string | null,
+  notes?: string | null,
+  search?: string | null,
+};
+
+export type DeleteRoutingInput = {
+  id: string,
+};
+
+export type CreateRoutingOSsInput = {
+  id?: string | null,
+  routingID: string,
+  osID: string,
+};
+
+export type ModelRoutingOSsConditionInput = {
+  routingID?: ModelIDInput | null,
+  osID?: ModelIDInput | null,
+  and?: Array< ModelRoutingOSsConditionInput | null > | null,
+  or?: Array< ModelRoutingOSsConditionInput | null > | null,
+  not?: ModelRoutingOSsConditionInput | null,
+};
+
+export type RoutingOSs = {
+  __typename: "RoutingOSs",
+  id: string,
+  routingID: string,
+  routing?: Routing | null,
+  osID: string,
+  os?: OS | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateRoutingOSsInput = {
+  id: string,
+  routingID?: string | null,
+  osID?: string | null,
+};
+
+export type DeleteRoutingOSsInput = {
   id: string,
 };
 
@@ -5762,41 +5966,6 @@ export type ModelClientConnection = {
   nextToken?: string | null,
 };
 
-export type ModelClientUnitFilterInput = {
-  id?: ModelIDInput | null,
-  clientID?: ModelIDInput | null,
-  cnpj?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  fullName?: ModelStringInput | null,
-  street?: ModelStringInput | null,
-  number?: ModelStringInput | null,
-  complement?: ModelStringInput | null,
-  zipcode?: ModelStringInput | null,
-  neighborhood?: ModelStringInput | null,
-  city?: ModelStringInput | null,
-  state?: ModelStringInput | null,
-  country?: ModelStringInput | null,
-  billingStreet?: ModelStringInput | null,
-  billingNumber?: ModelStringInput | null,
-  billingComplement?: ModelStringInput | null,
-  billingZipcode?: ModelStringInput | null,
-  billingNeighborhood?: ModelStringInput | null,
-  billingCity?: ModelStringInput | null,
-  billingState?: ModelStringInput | null,
-  billingCountry?: ModelStringInput | null,
-  notes?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  contactName?: ModelStringInput | null,
-  contactEmail?: ModelStringInput | null,
-  contactPhone?: ModelStringInput | null,
-  totalEligibles?: ModelIntInput | null,
-  totalCollaborators?: ModelIntInput | null,
-  code?: ModelStringInput | null,
-  and?: Array< ModelClientUnitFilterInput | null > | null,
-  or?: Array< ModelClientUnitFilterInput | null > | null,
-  not?: ModelClientUnitFilterInput | null,
-};
-
 export type ModelClientCampaignProductFilterInput = {
   id?: ModelIDInput | null,
   clientCampaignID?: ModelIDInput | null,
@@ -5852,29 +6021,56 @@ export type ModelClientCampaignEligibleConnection = {
   nextToken?: string | null,
 };
 
-export type ModelClientCampaignEligibleVaccinationFilterInput = {
+export type ModelRoutingRegionFilterInput = {
   id?: ModelIDInput | null,
-  osID?: ModelIDInput | null,
-  clientCampaignID?: ModelIDInput | null,
-  clientCampaignEligibleID?: ModelIDInput | null,
-  profissionalID?: ModelIDInput | null,
-  profissionalDoc?: ModelStringInput | null,
-  coren?: ModelStringInput | null,
-  applicationDate?: ModelStringInput | null,
-  reason?: ModelStringInput | null,
-  search?: ModelStringInput | null,
-  vaccination?: ModelStringInput | null,
-  status?: ModelEligibleVaccinationStatusInput | null,
-  localCity?: ModelStringInput | null,
-  localState?: ModelStringInput | null,
-  and?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
-  or?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
-  not?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelRoutingRegionFilterInput | null > | null,
+  or?: Array< ModelRoutingRegionFilterInput | null > | null,
+  not?: ModelRoutingRegionFilterInput | null,
 };
 
-export type ModelClientCampaignEligibleVaccinationConnection = {
-  __typename: "ModelClientCampaignEligibleVaccinationConnection",
-  items:  Array<ClientCampaignEligibleVaccination | null >,
+export type ModelRoutingRegionConnection = {
+  __typename: "ModelRoutingRegionConnection",
+  items:  Array<RoutingRegion | null >,
+  nextToken?: string | null,
+};
+
+export type ModelRoutingFilterInput = {
+  id?: ModelIDInput | null,
+  start?: ModelStringInput | null,
+  end?: ModelStringInput | null,
+  regionID?: ModelIDInput | null,
+  qty?: ModelIntInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  backgroundColor?: ModelStringInput | null,
+  textColor?: ModelStringInput | null,
+  borderColor?: ModelStringInput | null,
+  notes?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  and?: Array< ModelRoutingFilterInput | null > | null,
+  or?: Array< ModelRoutingFilterInput | null > | null,
+  not?: ModelRoutingFilterInput | null,
+};
+
+export type ModelRoutingConnection = {
+  __typename: "ModelRoutingConnection",
+  items:  Array<Routing | null >,
+  nextToken?: string | null,
+};
+
+export type ModelRoutingOSsFilterInput = {
+  id?: ModelIDInput | null,
+  routingID?: ModelIDInput | null,
+  osID?: ModelIDInput | null,
+  and?: Array< ModelRoutingOSsFilterInput | null > | null,
+  or?: Array< ModelRoutingOSsFilterInput | null > | null,
+  not?: ModelRoutingOSsFilterInput | null,
+};
+
+export type ModelRoutingOSsConnection = {
+  __typename: "ModelRoutingOSsConnection",
+  items:  Array<RoutingOSs | null >,
   nextToken?: string | null,
 };
 
@@ -10541,6 +10737,172 @@ export type ListClientUserByUserCustomQuery = {
   } | null,
 };
 
+export type ListVaccinationsByClientCampaignCustomQueryVariables = {
+  clientCampaignID: string,
+  applicationDate?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleVaccinationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListVaccinationsByClientCampaignCustomQuery = {
+  listVaccinationsByClientCampaign?:  {
+    __typename: "ModelClientCampaignEligibleVaccinationConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligibleVaccination",
+      id: string,
+      osID: string,
+      clientCampaignID: string,
+      clientCampaignEligibleID: string,
+      profissionalID?: string | null,
+      profissionalDoc?: string | null,
+      coren?: string | null,
+      applicationDate?: string | null,
+      reason?: string | null,
+      search?: string | null,
+      vaccination?: string | null,
+      status?: EligibleVaccinationStatus | null,
+      localCity?: string | null,
+      localState?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      clientEligible?:  {
+        __typename: "ClientCampaignEligible",
+        name?: string | null,
+        key: string,
+        cpf?: string | null,
+        rg?: string | null,
+        birth?: string | null,
+        notes?: string | null,
+        search?: string | null,
+        relationship?: string | null,
+        isDependent?: boolean | null,
+        cpfRelationship?: string | null,
+        isThird?: boolean | null,
+        thirdName?: string | null,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListUnitsByClientCustomQueryVariables = {
+  clientID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientUnitFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUnitsByClientCustomQuery = {
+  listUnitsByClient?:  {
+    __typename: "ModelClientUnitConnection",
+    items:  Array< {
+      __typename: "ClientUnit",
+      id: string,
+      clientID: string,
+      cnpj?: string | null,
+      name: string,
+      fullName?: string | null,
+      street?: string | null,
+      number?: string | null,
+      complement?: string | null,
+      zipcode?: string | null,
+      neighborhood?: string | null,
+      city?: string | null,
+      state?: string | null,
+      country?: string | null,
+      billingStreet?: string | null,
+      billingNumber?: string | null,
+      billingComplement?: string | null,
+      billingZipcode?: string | null,
+      billingNeighborhood?: string | null,
+      billingCity?: string | null,
+      billingState?: string | null,
+      billingCountry?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      contactName?: string | null,
+      contactEmail?: string | null,
+      contactPhone?: string | null,
+      totalEligibles?: number | null,
+      totalCollaborators?: number | null,
+      code?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      oss?:  {
+        __typename: "ModelOSConnection",
+        items:  Array< {
+          __typename: "OS",
+          number: number,
+          start?: string | null,
+          status: OSStatus,
+          clientCampaign?:  {
+            __typename: "ClientCampaign",
+            name: string,
+          } | null,
+        } | null >,
+      } | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListOSsByClientCampaignCustomQueryVariables = {
+  clientCampaignID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelOSFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOSsByClientCampaignCustomQuery = {
+  listOSsByClientCampaign?:  {
+    __typename: "ModelOSConnection",
+    items:  Array< {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type AdminDeleteUserMutationVariables = {
   id?: string | null,
 };
@@ -13959,6 +14321,7 @@ export type CreateClientCampaignEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -13986,6 +14349,7 @@ export type CreateClientCampaignEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -14089,6 +14453,7 @@ export type UpdateClientCampaignEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -14116,6 +14481,7 @@ export type UpdateClientCampaignEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -14219,6 +14585,7 @@ export type DeleteClientCampaignEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -14246,6 +14613,7 @@ export type DeleteClientCampaignEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -14390,6 +14758,7 @@ export type CreateEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -14417,6 +14786,7 @@ export type CreateEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -14485,6 +14855,7 @@ export type UpdateEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -14512,6 +14883,7 @@ export type UpdateEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -14580,6 +14952,7 @@ export type DeleteEligibleVaccinationMutation = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -14607,6 +14980,7 @@ export type DeleteEligibleVaccinationMutation = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -18621,6 +18995,7 @@ export type CreateOSMutation = {
     driverID?: string | null,
     professionals: Array< string >,
     collaborators?: Array< string > | null,
+    companies?: Array< string > | null,
     number: number,
     start?: string | null,
     expiration?: string | null,
@@ -18648,6 +19023,7 @@ export type CreateOSMutation = {
     stayQtd?: number | null,
     lat?: number | null,
     lng?: number | null,
+    search?: string | null,
     eligiblesVaccination?:  {
       __typename: "ModelEligibleVaccinationConnection",
       nextToken?: string | null,
@@ -18768,6 +19144,7 @@ export type UpdateOSMutation = {
     driverID?: string | null,
     professionals: Array< string >,
     collaborators?: Array< string > | null,
+    companies?: Array< string > | null,
     number: number,
     start?: string | null,
     expiration?: string | null,
@@ -18795,6 +19172,7 @@ export type UpdateOSMutation = {
     stayQtd?: number | null,
     lat?: number | null,
     lng?: number | null,
+    search?: string | null,
     eligiblesVaccination?:  {
       __typename: "ModelEligibleVaccinationConnection",
       nextToken?: string | null,
@@ -18915,6 +19293,7 @@ export type DeleteOSMutation = {
     driverID?: string | null,
     professionals: Array< string >,
     collaborators?: Array< string > | null,
+    companies?: Array< string > | null,
     number: number,
     start?: string | null,
     expiration?: string | null,
@@ -18942,6 +19321,7 @@ export type DeleteOSMutation = {
     stayQtd?: number | null,
     lat?: number | null,
     lng?: number | null,
+    search?: string | null,
     eligiblesVaccination?:  {
       __typename: "ModelEligibleVaccinationConnection",
       nextToken?: string | null,
@@ -19040,6 +19420,348 @@ export type DeleteOSMutation = {
       idx: number,
       campaignCode: string,
       status?: ClientCampaignStatus | null,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateRoutingRegionMutationVariables = {
+  input: CreateRoutingRegionInput,
+  condition?: ModelRoutingRegionConditionInput | null,
+};
+
+export type CreateRoutingRegionMutation = {
+  createRoutingRegion?:  {
+    __typename: "RoutingRegion",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRoutingRegionMutationVariables = {
+  input: UpdateRoutingRegionInput,
+  condition?: ModelRoutingRegionConditionInput | null,
+};
+
+export type UpdateRoutingRegionMutation = {
+  updateRoutingRegion?:  {
+    __typename: "RoutingRegion",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRoutingRegionMutationVariables = {
+  input: DeleteRoutingRegionInput,
+  condition?: ModelRoutingRegionConditionInput | null,
+};
+
+export type DeleteRoutingRegionMutation = {
+  deleteRoutingRegion?:  {
+    __typename: "RoutingRegion",
+    id: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateRoutingMutationVariables = {
+  input: CreateRoutingInput,
+  condition?: ModelRoutingConditionInput | null,
+};
+
+export type CreateRoutingMutation = {
+  createRouting?:  {
+    __typename: "Routing",
+    id: string,
+    start: string,
+    end: string,
+    regionID: string,
+    qty?: number | null,
+    title: string,
+    description?: string | null,
+    backgroundColor?: string | null,
+    textColor?: string | null,
+    borderColor?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRoutingMutationVariables = {
+  input: UpdateRoutingInput,
+  condition?: ModelRoutingConditionInput | null,
+};
+
+export type UpdateRoutingMutation = {
+  updateRouting?:  {
+    __typename: "Routing",
+    id: string,
+    start: string,
+    end: string,
+    regionID: string,
+    qty?: number | null,
+    title: string,
+    description?: string | null,
+    backgroundColor?: string | null,
+    textColor?: string | null,
+    borderColor?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRoutingMutationVariables = {
+  input: DeleteRoutingInput,
+  condition?: ModelRoutingConditionInput | null,
+};
+
+export type DeleteRoutingMutation = {
+  deleteRouting?:  {
+    __typename: "Routing",
+    id: string,
+    start: string,
+    end: string,
+    regionID: string,
+    qty?: number | null,
+    title: string,
+    description?: string | null,
+    backgroundColor?: string | null,
+    textColor?: string | null,
+    borderColor?: string | null,
+    notes?: string | null,
+    search?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateRoutingOSsMutationVariables = {
+  input: CreateRoutingOSsInput,
+  condition?: ModelRoutingOSsConditionInput | null,
+};
+
+export type CreateRoutingOSsMutation = {
+  createRoutingOSs?:  {
+    __typename: "RoutingOSs",
+    id: string,
+    routingID: string,
+    routing?:  {
+      __typename: "Routing",
+      id: string,
+      start: string,
+      end: string,
+      regionID: string,
+      qty?: number | null,
+      title: string,
+      description?: string | null,
+      backgroundColor?: string | null,
+      textColor?: string | null,
+      borderColor?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRoutingOSsMutationVariables = {
+  input: UpdateRoutingOSsInput,
+  condition?: ModelRoutingOSsConditionInput | null,
+};
+
+export type UpdateRoutingOSsMutation = {
+  updateRoutingOSs?:  {
+    __typename: "RoutingOSs",
+    id: string,
+    routingID: string,
+    routing?:  {
+      __typename: "Routing",
+      id: string,
+      start: string,
+      end: string,
+      regionID: string,
+      qty?: number | null,
+      title: string,
+      description?: string | null,
+      backgroundColor?: string | null,
+      textColor?: string | null,
+      borderColor?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRoutingOSsMutationVariables = {
+  input: DeleteRoutingOSsInput,
+  condition?: ModelRoutingOSsConditionInput | null,
+};
+
+export type DeleteRoutingOSsMutation = {
+  deleteRoutingOSs?:  {
+    __typename: "RoutingOSs",
+    id: string,
+    routingID: string,
+    routing?:  {
+      __typename: "Routing",
+      id: string,
+      start: string,
+      end: string,
+      regionID: string,
+      qty?: number | null,
+      title: string,
+      description?: string | null,
+      backgroundColor?: string | null,
+      textColor?: string | null,
+      borderColor?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    osID: string,
+    os?:  {
+      __typename: "OS",
+      id: string,
+      clientID: string,
+      clientUnitID: string,
+      clientCampaignID: string,
+      driverID?: string | null,
+      professionals: Array< string >,
+      collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
+      number: number,
+      start?: string | null,
+      expiration?: string | null,
+      orientation?: string | null,
+      notes?: string | null,
+      status: OSStatus,
+      allowOffList?: boolean | null,
+      withList?: boolean | null,
+      vaccination?: string | null,
+      qtyApplication?: number | null,
+      dateStarted?: string | null,
+      dateFinished?: string | null,
+      professionalStarted?: string | null,
+      professionalFinished?: string | null,
+      notesStarted?: string | null,
+      notesFinished?: string | null,
+      clientNameStarted?: string | null,
+      clientNameFinished?: string | null,
+      unitNameFinished?: string | null,
+      contactNameFinished?: string | null,
+      contactDocFinished?: string | null,
+      contactCRMFinished?: string | null,
+      contactEmailFinished?: string | null,
+      stayVaccines?: boolean | null,
+      stayQtd?: number | null,
+      lat?: number | null,
+      lng?: number | null,
+      search?: string | null,
+      createdAt: string,
       updatedAt: string,
     } | null,
     createdAt: string,
@@ -24246,6 +24968,40 @@ export type ListEligiblesByClientCampaignRGQuery = {
   } | null,
 };
 
+export type ListDependentsByCPFQueryVariables = {
+  cpfRelationship: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelClientCampaignEligibleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListDependentsByCPFQuery = {
+  listDependentsByCPF?:  {
+    __typename: "ModelClientCampaignEligibleConnection",
+    items:  Array< {
+      __typename: "ClientCampaignEligible",
+      id: string,
+      clientCampaignID: string,
+      key: string,
+      name?: string | null,
+      cpf?: string | null,
+      rg?: string | null,
+      birth?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      relationship?: string | null,
+      isDependent?: boolean | null,
+      cpfRelationship?: string | null,
+      isThird?: boolean | null,
+      thirdName?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListVaccinationsByOSQueryVariables = {
   osID: string,
   applicationDate?: ModelStringKeyConditionInput | null,
@@ -24371,6 +25127,7 @@ export type ListOSsQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24398,6 +25155,7 @@ export type ListOSsQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24425,6 +25183,7 @@ export type ListOSsByClientQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24452,6 +25211,7 @@ export type ListOSsByClientQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24480,6 +25240,7 @@ export type ListOSsByClientStartQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24507,6 +25268,7 @@ export type ListOSsByClientStartQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24535,6 +25297,7 @@ export type ListOSsByClientStatusQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24562,6 +25325,7 @@ export type ListOSsByClientStatusQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24589,6 +25353,7 @@ export type ListOSsByClientUnitQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24616,6 +25381,7 @@ export type ListOSsByClientUnitQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24643,6 +25409,7 @@ export type ListOSsByClientCampaignQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24670,6 +25437,7 @@ export type ListOSsByClientCampaignQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24697,6 +25465,7 @@ export type ListOSsByNumberQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24724,6 +25493,7 @@ export type ListOSsByNumberQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -24752,6 +25522,7 @@ export type ListOSsByStatusNumberQuery = {
       driverID?: string | null,
       professionals: Array< string >,
       collaborators?: Array< string > | null,
+      companies?: Array< string > | null,
       number: number,
       start?: string | null,
       expiration?: string | null,
@@ -24779,6 +25550,141 @@ export type ListOSsByStatusNumberQuery = {
       stayQtd?: number | null,
       lat?: number | null,
       lng?: number | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRoutingRegionsQueryVariables = {
+  id?: string | null,
+  filter?: ModelRoutingRegionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListRoutingRegionsQuery = {
+  listRoutingRegions?:  {
+    __typename: "ModelRoutingRegionConnection",
+    items:  Array< {
+      __typename: "RoutingRegion",
+      id: string,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRoutingByStartRegionQueryVariables = {
+  start: string,
+  regionID?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRoutingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoutingByStartRegionQuery = {
+  listRoutingByStartRegion?:  {
+    __typename: "ModelRoutingConnection",
+    items:  Array< {
+      __typename: "Routing",
+      id: string,
+      start: string,
+      end: string,
+      regionID: string,
+      qty?: number | null,
+      title: string,
+      description?: string | null,
+      backgroundColor?: string | null,
+      textColor?: string | null,
+      borderColor?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRoutingByRegionStartQueryVariables = {
+  regionID: string,
+  start?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRoutingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoutingByRegionStartQuery = {
+  listRoutingByRegionStart?:  {
+    __typename: "ModelRoutingConnection",
+    items:  Array< {
+      __typename: "Routing",
+      id: string,
+      start: string,
+      end: string,
+      regionID: string,
+      qty?: number | null,
+      title: string,
+      description?: string | null,
+      backgroundColor?: string | null,
+      textColor?: string | null,
+      borderColor?: string | null,
+      notes?: string | null,
+      search?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRoutingOSsByRoutingQueryVariables = {
+  routingID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRoutingOSsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoutingOSsByRoutingQuery = {
+  listRoutingOSsByRouting?:  {
+    __typename: "ModelRoutingOSsConnection",
+    items:  Array< {
+      __typename: "RoutingOSs",
+      id: string,
+      routingID: string,
+      osID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ListRoutingOSsByOSQueryVariables = {
+  osID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRoutingOSsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRoutingOSsByOSQuery = {
+  listRoutingOSsByOS?:  {
+    __typename: "ModelRoutingOSsConnection",
+    items:  Array< {
+      __typename: "RoutingOSs",
+      id: string,
+      routingID: string,
+      osID: string,
       createdAt: string,
       updatedAt: string,
     } | null >,

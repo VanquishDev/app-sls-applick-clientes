@@ -40,7 +40,7 @@ export default function Statistics(props: any) {
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
-    cp.percentServed = c.totalUnits ? Math.round((c.unitsServed / c.totalUnits) * 100) : 0
+    cp.percentServed = c.client?.totalUnits ? Math.round((c.client.unitsServed / c.client.totalUnits) * 100) : 0
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
@@ -92,14 +92,14 @@ export default function Statistics(props: any) {
                 setModalSel('totalUnits')
                 openModal()
               }}>
-                <div className="stat-value">{campaign.totalUnits ? campaign.totalUnits : 0}</div>
+                <div className="stat-value">{campaign.client.totalUnits ? campaign.client.totalUnits : 0}</div>
                 <div className="stat-desc">Total cadastradas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{campaign.unitsServed ? campaign.unitsServed : 0}</div>
+                <div className="stat-value">{campaign.client.unitsServed ? campaign.client.unitsServed : 0}</div>
                 <div className="stat-desc">Unidades atendidas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
@@ -214,6 +214,16 @@ export default function Statistics(props: any) {
               <div className="mt-5 stat-value">{campaign.totalVaccinations ? campaign.totalVaccinations : 0}</div>
               <div className="stat-desc">Doses aplicadas</div>
             </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+            }}>
+              <div className="mt-5 stat-value">0</div>
+              <div className="stat-desc">Doses em dependentes</div>
+            </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+            }}>
+              <div className="mt-5 stat-value">0</div>
+              <div className="stat-desc">Doses em terceiros</div>
+            </div>
           </div>
           <div>
             <div className='flex gap-4 items-center'>
@@ -228,6 +238,16 @@ export default function Statistics(props: any) {
             }}>
               <div className="mt-5 stat-value">{(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0}%</div>
               <div className="stat-desc">% de adesão</div>
+            </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+            }}>
+              <div className="mt-5 stat-value">0%</div>
+              <div className="stat-desc">% de dependentes</div>
+            </div>
+            <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+            }}>
+              <div className="mt-5 stat-value">0%</div>
+              <div className="stat-desc">% de terceiros</div>
             </div>
           </div>
         </div>
