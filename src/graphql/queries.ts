@@ -5094,6 +5094,8 @@ export const getClientCampaign = /* GraphQL */ `query GetClientCampaign($id: ID!
     totalEligiblesDependent
     totalEligiblesThird
     totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
     search
     responsible
     number
@@ -5157,6 +5159,8 @@ export const listClientCampaigns = /* GraphQL */ `query ListClientCampaigns(
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5211,6 +5215,8 @@ export const listClientCampaignsByClient = /* GraphQL */ `query ListClientCampai
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5267,6 +5273,8 @@ export const listClientCampaignsByClientStatus = /* GraphQL */ `query ListClient
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5323,6 +5331,8 @@ export const listClientCampaignsByIdxCreatedAt = /* GraphQL */ `query ListClient
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5377,6 +5387,8 @@ export const listClientCampaignsByCampaignCode = /* GraphQL */ `query ListClient
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5433,6 +5445,8 @@ export const listClientCampaignsByStatusCreatedAt = /* GraphQL */ `query ListCli
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -5788,6 +5802,7 @@ export const listVaccinationsByOS = /* GraphQL */ `query ListVaccinationsByOS(
       status
       localCity
       localState
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5831,6 +5846,7 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
       status
       localCity
       localState
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5874,6 +5890,7 @@ export const listVaccinationsByClientCampaignEligible = /* GraphQL */ `query Lis
       status
       localCity
       localState
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5937,6 +5954,7 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5997,6 +6015,7 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6062,6 +6081,7 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6127,6 +6147,7 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6190,6 +6211,7 @@ export const listOSsByClientUnit = /* GraphQL */ `query ListOSsByClientUnit(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6253,6 +6275,7 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6316,6 +6339,7 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6381,6 +6405,7 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename

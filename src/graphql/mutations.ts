@@ -2712,6 +2712,8 @@ export const updateVaccinationCardItem = /* GraphQL */ `mutation UpdateVaccinati
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -2911,6 +2913,8 @@ export const deleteVaccinationCardItem = /* GraphQL */ `mutation DeleteVaccinati
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -3532,6 +3536,7 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3556,6 +3561,8 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -3612,6 +3619,7 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
     status
     localCity
     localState
+    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3668,6 +3676,7 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3692,6 +3701,8 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -3748,6 +3759,7 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
     status
     localCity
     localState
+    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3804,6 +3816,7 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3828,6 +3841,8 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -3884,6 +3899,7 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
     status
     localCity
     localState
+    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3978,6 +3994,7 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -4076,6 +4093,7 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -4174,6 +4192,7 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -7257,6 +7276,8 @@ export const createVaccinationCardItem = /* GraphQL */ `mutation CreateVaccinati
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -7551,6 +7572,8 @@ export const createClientCampaign = /* GraphQL */ `mutation CreateClientCampaign
     totalEligiblesDependent
     totalEligiblesThird
     totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
     search
     responsible
     number
@@ -7634,6 +7657,8 @@ export const updateClientCampaign = /* GraphQL */ `mutation UpdateClientCampaign
     totalEligiblesDependent
     totalEligiblesThird
     totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
     search
     responsible
     number
@@ -7717,6 +7742,8 @@ export const deleteClientCampaign = /* GraphQL */ `mutation DeleteClientCampaign
     totalEligiblesDependent
     totalEligiblesThird
     totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
     search
     responsible
     number
@@ -8289,6 +8316,7 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     lat
     lng
     search
+    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8376,6 +8404,8 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -8436,6 +8466,7 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     lat
     lng
     search
+    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8523,6 +8554,8 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -8583,6 +8616,7 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     lat
     lng
     search
+    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8670,6 +8704,8 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
       totalEligiblesDependent
       totalEligiblesThird
       totalVaccinations
+      totalVaccinationsDependent
+      totalVaccinationsThird
       search
       responsible
       number
@@ -8880,6 +8916,7 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -8955,6 +8992,7 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -9030,6 +9068,7 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       lat
       lng
       search
+      leafDiscount
       createdAt
       updatedAt
       __typename

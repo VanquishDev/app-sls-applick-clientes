@@ -1359,6 +1359,8 @@ type ClientCampaign
   totalEligiblesDependent: Int
   totalEligiblesThird: Int
   totalVaccinations: Int
+  totalVaccinationsDependent: Int
+  totalVaccinationsThird: Int
   search: String
   responsible: String
   number: Int
@@ -1485,6 +1487,7 @@ type ClientCampaignEligibleVaccination
   status: EligibleVaccinationStatus
   localCity: String
   localState: String
+  leafDiscount: Boolean
 }
 
 
@@ -1546,6 +1549,7 @@ type OS
   lat: Float
   lng: Float
   search: String
+  leafDiscount: Boolean
   eligiblesVaccination: [EligibleVaccination] @hasMany(indexName: "eligiblesVaccinationByClientEligible", fields: ["id"])
   client: Client @hasOne(fields: ["clientID"])
   clientUnit: ClientUnit @hasOne(fields: ["clientUnitID"])

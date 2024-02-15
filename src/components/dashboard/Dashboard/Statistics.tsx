@@ -216,12 +216,12 @@ export default function Statistics(props: any) {
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
             }}>
-              <div className="mt-5 stat-value">0</div>
+              <div className="mt-5 stat-value">{campaign.totalVaccinationsDependent ? campaign.totalVaccinationsDependent : 0}</div>
               <div className="stat-desc">Doses em dependentes</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
             }}>
-              <div className="mt-5 stat-value">0</div>
+              <div className="mt-5 stat-value">{campaign.totalVaccinationsThird ? campaign.totalVaccinationsThird : 0}</div>
               <div className="stat-desc">Doses em terceiros</div>
             </div>
           </div>
@@ -241,12 +241,12 @@ export default function Statistics(props: any) {
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
             }}>
-              <div className="mt-5 stat-value">0%</div>
+              <div className="mt-5 stat-value">{(campaign.totalEligiblesDependent && campaign.totalVaccinationsDependent) ? ((campaign.totalVaccinationsDependent / campaign.totalEligiblesDependent) * 100).toFixed(2) : 0}%</div>
               <div className="stat-desc">% de dependentes</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
             }}>
-              <div className="mt-5 stat-value">0%</div>
+              <div className="mt-5 stat-value">{(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0}</div>
               <div className="stat-desc">% de terceiros</div>
             </div>
           </div>

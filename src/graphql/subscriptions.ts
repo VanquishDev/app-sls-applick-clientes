@@ -499,6 +499,8 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
     totalEligiblesDependent
     totalEligiblesThird
     totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
     search
     responsible
     number
