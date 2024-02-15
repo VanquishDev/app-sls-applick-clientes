@@ -40,7 +40,7 @@ export default function Statistics(props: any) {
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
-    cp.percentServed = c.client?.totalUnits ? Math.round((c.client.unitsServed / c.client.totalUnits) * 100) : 0
+    cp.percentServed = cp.client?.totalUnits ? Math.round((cp.client.unitsServed / cp.client.totalUnits) * 100) : 0
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
@@ -73,7 +73,7 @@ export default function Statistics(props: any) {
   }, [campaign])
 
   return (campaign && campaign.id) ? (<div>
-    {false && <pre>{JSON.stringify(campaign, null, 4)}</pre>}
+    {true && <pre>{JSON.stringify(campaign, null, 4)}</pre>}
 
     <div className='mt-2 font-semibold tracking-wide text-tertiary-2'>LOCALIDADES/CNPJs</div>
     <div className='m-4 grid grid-cols-1 gap-y-4 md:gap-4 md:grid-cols-5'>
@@ -246,7 +246,7 @@ export default function Statistics(props: any) {
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
             }}>
-              <div className="mt-5 stat-value">{(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0}</div>
+              <div className="mt-5 stat-value">{(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0}%</div>
               <div className="stat-desc">% de terceiros</div>
             </div>
           </div>
@@ -263,7 +263,7 @@ export default function Statistics(props: any) {
 
         <div className='mt-5 flex justify-between'>
           <div>{campaign.percentServed ? campaign.percentServed : 0}% unidades atendidas</div>
-          <div>{campaign.unitsServed ? campaign.unitsServed : 0}</div>
+          <div>{campaign.client.totalUnits ? campaign.client.totalUnits : 0}</div>
         </div>
         <progress className="w-full progress progress-warning" value={campaign.percentServed ? campaign.percentServed : 0} max="100"></progress>
 
@@ -272,6 +272,18 @@ export default function Statistics(props: any) {
           <div>{campaign.totalVaccinations}</div>
         </div>
         <progress className="w-full progress progress-success" value={(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0} max="100"></progress>
+
+        <div className='mt-2 flex justify-between'>
+          <div>{(campaign.totalEligiblesDependent && campaign.totalVaccinationsDependent) ? ((campaign.totalVaccinationsDependent / campaign.totalEligiblesDependent) * 100).toFixed(2) : 0}% doses em dependentes</div>
+          <div>{campaign.totalVaccinationsDependent}</div>
+        </div>
+        <progress className="w-full progress progress-info" value={(campaign.totalEligiblesDependent && campaign.totalVaccinationsDependent) ? ((campaign.totalVaccinationsDependent / campaign.totalEligiblesDependent) * 100).toFixed(2) : 0} max="100"></progress>
+
+        <div className='mt-2 flex justify-between'>
+          <div>{(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0}% doses em terceiros</div>
+          <div>{campaign.totalVaccinationsThird}</div>
+        </div>
+        <progress className="w-full progress progress-secondary" value={(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0} max="100"></progress>
       </div>
     </div>
 
