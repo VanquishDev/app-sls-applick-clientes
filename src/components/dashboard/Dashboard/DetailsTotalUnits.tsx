@@ -3,12 +3,16 @@ import { ModelSortDirection, OSStatus } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 import { formatPhoneNumber } from 'react-phone-number-input'
+import { Search } from 'components/icons'
+import cn from 'classnames'
 
 import 'moment/locale/pt-br'
 import Moment from 'moment'
 Moment.locale('pt-br')
 
 import { useClientUnit } from 'hooks/useClientUnit'
+import router from 'next/router'
+import { useState } from 'react'
 
 export default function DetailsTotalUnits(props: any) {
   const { clientID, userID } = props;
@@ -165,4 +169,31 @@ function Card(props: any) {
       )}
     </div>
   )
+}
+
+function Header(props: any) {
+  const [search, setSearch] = useState('')
+
+  return (<div className="mb-4 flex flex-col md:flex-row md:justify-between">
+    <div></div>
+    <div>
+      <div
+        className={cn(
+          'cursor-default relative flex items-center justify-center text-base transition-colors duration-150'
+        )}
+      >
+        <input
+          id="searchHeader"
+          className="text-accent-9 py-2 bg-accent-0 w-full pl-3 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
+          autoComplete="off"
+          placeholder="Pesquisar..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
+        />
+        <div className="cursor-pointer text-accent-7 absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <Search />
+        </div>
+      </div>
+    </div>
+  </div>)
 }

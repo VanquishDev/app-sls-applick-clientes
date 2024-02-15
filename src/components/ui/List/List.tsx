@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { FC, useEffect, useRef, ReactNode, Component, useState } from 'react'
+import { FC, useEffect, ReactNode, Component, useState } from 'react'
 import { Container, Loading, EndMessage, EmptyMessage } from 'components/ui'
 import cn from 'classnames'
 import s from './List.module.css'
@@ -22,11 +22,10 @@ interface Props {
   Card: any
   height?: number
   onClickItem?: any
-  Header?: any
   breakItems?: string // 'MENU' | 'CREATEDAT' | 'UPDATEDAT' | 'DATE' | CATEGORY | TYPE
   sortParams?: any // [{name: 'menu', reverse: false}, {name: 'order', reverse: false}]
   paramsItems?: any
-  EmptyHeader?: React.ReactNode
+  Header?: React.ReactNode
   onUpdatedItem?: any
   onCreatedItem?: any
   onDeletedItem?: any
@@ -49,7 +48,6 @@ const List: FC<Props> = ({
   breakItems,
   sortParams,
   paramsItems,
-  EmptyHeader,
   onUpdatedItem,
   onCreatedItem,
   onDeletedItem,
@@ -72,8 +70,6 @@ const List: FC<Props> = ({
   const { isSm, isMd } = useBreakPoints()
   const { screenHeight } = useScreen()
 
-  const [heightHeader, setHeightHeader] = useState(0)
-  const ref = useRef(null as any)
 
   useEffect(() => {
     let isMounted = true
@@ -136,12 +132,6 @@ const List: FC<Props> = ({
     }
   }, [keys])
 
-  useEffect(() => {
-    if (ref.current) {
-      const h = ref.current.clientHeight
-      setHeightHeader(h)
-    }
-  }, [ref.current?.clientHeight])
 
   const fetchData2 = async () => {
     if (hasMore) {
@@ -314,8 +304,14 @@ const List: FC<Props> = ({
         </Container>
       )}
       {!isLoading && itemsList && itemsList.length === 0 && (
-        <Container className={`${EmptyHeader ? '-pt-2' : 'pt-4'}`}>
-          {EmptyHeader}
+        <Container className={`${Header ? '-pt-2' : 'pt-4'}`}>
+          {Header && <div className='z-50 sticky top-0 bg-primary'>
+            <div className='pt-2 px-2'>
+              <div className=' bg-slate-200 rounded-lg shadow'>
+                {Header}
+              </div>
+            </div>
+          </div>}
           <EmptyMessage message={emptyMessage} />
         </Container>
       )}
@@ -332,14 +328,22 @@ const List: FC<Props> = ({
                 </div>
               }
               height={
-                height ? height : screenHeight - (heightNavBar + heightHeader)
+                height ? height : screenHeight - heightNavBar
               }
               scrollThreshold="100px"
               endMessage={<EndMessage message={endMessage} />}
             >
-              {Header && <Header ref={ref} />}
+              {Header && <div className='z-50 sticky top-0 bg-primary'>
+                <div className='pt-2 mx-2'>
+                  <div className=' bg-slate-200 rounded-lg shadow'>
+                    {Header}
+                  </div>
+                </div>
+              </div>}
               <div className={listClassName}>
-                {itemsList.map((item: any, index: number) => (
+                {itemsList.map((item: any, index: number) => (<div className={cn({
+                  'opacity-65 scale-90 -my-2': itemSelected > 0 && index !== itemSelected
+                })} key={item ? item.id : index}>
                   <Card
                     key={item ? item.id : index}
                     index={index}
@@ -354,6 +358,7 @@ const List: FC<Props> = ({
                     itemSelected={itemSelected}
                     paramsItems={paramsItems}
                   />
+                </div>
                 ))}
               </div>
             </InfiniteScroll>
@@ -370,14 +375,26 @@ const List: FC<Props> = ({
                 </div>
               }
               height={
-                height ? height : screenHeight - (heightNavBar + heightHeader)
+                height ? height : screenHeight - heightNavBar
               }
               scrollThreshold="150px"
               endMessage={<EndMessage message={endMessage} />}
             >
-              {Header && <Header ref={ref} />}
+              {Header && <div className='z-50 sticky top-0 bg-primary'>
+                <div className='pt-2 mx-2'>
+                  <div className=' bg-slate-200 rounded-lg shadow'>
+                    {Header}
+                  </div>
+                </div>
+              </div>}
+
+              {/*  (itemSelected < 0 || (itemSelected >= 0 && itemSelected <= index)) &&  */}
+
               <div className={listClassName}>
-                {itemsList.map((item: any, index: number) => (
+                {itemsList.map((item: any, index: number) => (<div className={cn({
+                  'opacity-65 scale-90 -my-1': itemSelected > 0 && index !== itemSelected,
+                  'py-2': itemSelected > 0 && index === itemSelected
+                })} key={item ? item.id : index}>
                   <Card
                     key={item ? item.id : index}
                     index={index}
@@ -392,7 +409,7 @@ const List: FC<Props> = ({
                     itemSelected={itemSelected}
                     paramsItems={paramsItems}
                   />
-                ))}
+                </div>))}
               </div>
             </InfiniteScroll>
           )}
