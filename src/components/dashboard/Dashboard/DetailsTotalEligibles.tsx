@@ -11,7 +11,7 @@ export default function DetailsTotalEligibles(props: any) {
   const { isSm } = useBreakPoints()
 
   const { listEligiblesByClientCampaign, listEligiblesByClientCampaignIsDependent, listEligiblesByClientCampaignIsThird } = useClientCampaignEligible()
-
+  console.log(clientCampaignID)
   return clientCampaignID ? <List
     keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
@@ -25,13 +25,13 @@ export default function DetailsTotalEligibles(props: any) {
     variables={
       dependents ? {
         clientCampaignID,
-        filter: { isDependent: { eq: '1' } },
+        isDependent: { eq: "1" },
         limit: 1000,
         nextToken: null
       } :
         thirds ? {
           clientCampaignID,
-          filter: { isThird: { eq: '1' } },
+          isThird: { eq: '1' },
           limit: 1000,
           nextToken: null
         } :
