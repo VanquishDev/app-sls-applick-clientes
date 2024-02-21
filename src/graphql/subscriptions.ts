@@ -401,11 +401,28 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient($client
   onUpdateClient(clientID: $clientID) {
     id
     name
+    cnpj
+    fullName
     notes
     group
-    indication
     origin
     status
+    street
+    number
+    complement
+    zipcode
+    neighborhood
+    city
+    state
+    country
+    billingStreet
+    billingNumber
+    billingComplement
+    billingZipcode
+    billingNeighborhood
+    billingCity
+    billingState
+    billingCountry
     search
     logo
     logoSrc
@@ -424,10 +441,6 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient($client
     contactName
     contactEmail
     contactPhone
-    units {
-      nextToken
-      __typename
-    }
     eligibles {
       nextToken
       __typename
@@ -456,11 +469,28 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -508,6 +538,8 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
     contactEmail
     contactPhone
     createdAt
+    allowOffList
+    leafDiscount
     idx
     campaignCode
     status

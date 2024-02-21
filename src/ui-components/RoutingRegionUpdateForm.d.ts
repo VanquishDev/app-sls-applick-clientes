@@ -24,14 +24,17 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type RoutingRegionUpdateFormInputValues = {
     name?: string;
+    zipCode?: string[];
 };
 export declare type RoutingRegionUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
+    zipCode?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoutingRegionUpdateFormOverridesProps = {
     RoutingRegionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    zipCode?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type RoutingRegionUpdateFormProps = React.PropsWithChildren<{
     overrides?: RoutingRegionUpdateFormOverridesProps | undefined | null;

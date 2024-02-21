@@ -4775,11 +4775,28 @@ export const getClient = /* GraphQL */ `query GetClient($id: ID!) {
   getClient(id: $id) {
     id
     name
+    cnpj
+    fullName
     notes
     group
-    indication
     origin
     status
+    street
+    number
+    complement
+    zipcode
+    neighborhood
+    city
+    state
+    country
+    billingStreet
+    billingNumber
+    billingComplement
+    billingZipcode
+    billingNeighborhood
+    billingCity
+    billingState
+    billingCountry
     search
     logo
     logoSrc
@@ -4798,10 +4815,6 @@ export const getClient = /* GraphQL */ `query GetClient($id: ID!) {
     contactName
     contactEmail
     contactPhone
-    units {
-      nextToken
-      __typename
-    }
     eligibles {
       nextToken
       __typename
@@ -4837,11 +4850,28 @@ export const listClients = /* GraphQL */ `query ListClients(
     items {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -4891,11 +4921,28 @@ export const listClientsByStatusName = /* GraphQL */ `query ListClientsByStatusN
     items {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -4988,26 +5035,19 @@ export const listClientUserByClient = /* GraphQL */ `query ListClientUserByClien
   APITypes.ListClientUserByClientQueryVariables,
   APITypes.ListClientUserByClientQuery
 >;
-export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClient(
-  $clientID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientUnitFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUnitsByClient(
-    clientID: $clientID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
+export const getClientCampaign = /* GraphQL */ `query GetClientCampaign($id: ID!) {
+  getClientCampaign(id: $id) {
+    id
+    clientID
+    client {
       id
-      clientID
-      cnpj
       name
+      cnpj
       fullName
+      notes
+      group
+      origin
+      status
       street
       number
       complement
@@ -5024,38 +5064,6 @@ export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClient(
       billingCity
       billingState
       billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListUnitsByClientQueryVariables,
-  APITypes.ListUnitsByClientQuery
->;
-export const getClientCampaign = /* GraphQL */ `query GetClientCampaign($id: ID!) {
-  getClientCampaign(id: $id) {
-    id
-    clientID
-    client {
-      id
-      name
-      notes
-      group
-      indication
-      origin
-      status
       search
       logo
       logoSrc
@@ -5103,6 +5111,8 @@ export const getClientCampaign = /* GraphQL */ `query GetClientCampaign($id: ID!
     contactEmail
     contactPhone
     createdAt
+    allowOffList
+    leafDiscount
     idx
     campaignCode
     status
@@ -5168,6 +5178,8 @@ export const listClientCampaigns = /* GraphQL */ `query ListClientCampaigns(
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5224,6 +5236,8 @@ export const listClientCampaignsByClient = /* GraphQL */ `query ListClientCampai
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5282,6 +5296,8 @@ export const listClientCampaignsByClientStatus = /* GraphQL */ `query ListClient
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5340,6 +5356,8 @@ export const listClientCampaignsByIdxCreatedAt = /* GraphQL */ `query ListClient
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5396,6 +5414,8 @@ export const listClientCampaignsByCampaignCode = /* GraphQL */ `query ListClient
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5454,6 +5474,8 @@ export const listClientCampaignsByStatusCreatedAt = /* GraphQL */ `query ListCli
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -5467,6 +5489,131 @@ export const listClientCampaignsByStatusCreatedAt = /* GraphQL */ `query ListCli
 ` as GeneratedQuery<
   APITypes.ListClientCampaignsByStatusCreatedAtQueryVariables,
   APITypes.ListClientCampaignsByStatusCreatedAtQuery
+>;
+export const listUnitsByClientCampaign = /* GraphQL */ `query ListUnitsByClientCampaign(
+  $clientCampaignID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByClientCampaign(
+    clientCampaignID: $clientCampaignID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUnitsByClientCampaignQueryVariables,
+  APITypes.ListUnitsByClientCampaignQuery
+>;
+export const listUnitsByClientCampaignCode = /* GraphQL */ `query ListUnitsByClientCampaignCode(
+  $clientCampaignID: ID!
+  $code: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByClientCampaignCode(
+    clientCampaignID: $clientCampaignID
+    code: $code
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUnitsByClientCampaignCodeQueryVariables,
+  APITypes.ListUnitsByClientCampaignCodeQuery
+>;
+export const listUnitsByRoutingRegion = /* GraphQL */ `query ListUnitsByRoutingRegion(
+  $routingRegionID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByRoutingRegion(
+    routingRegionID: $routingRegionID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUnitsByRoutingRegionQueryVariables,
+  APITypes.ListUnitsByRoutingRegionQuery
 >;
 export const listProductsByClientCampaign = /* GraphQL */ `query ListProductsByClientCampaign(
   $clientCampaignID: ID!
@@ -5529,36 +5676,6 @@ export const listCompaniesByClientCampaign = /* GraphQL */ `query ListCompaniesB
 ` as GeneratedQuery<
   APITypes.ListCompaniesByClientCampaignQueryVariables,
   APITypes.ListCompaniesByClientCampaignQuery
->;
-export const listUnitsByClientCampaign = /* GraphQL */ `query ListUnitsByClientCampaign(
-  $clientCampaignID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientCampaignUnitFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUnitsByClientCampaign(
-    clientCampaignID: $clientCampaignID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientCampaignID
-      unitID
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListUnitsByClientCampaignQueryVariables,
-  APITypes.ListUnitsByClientCampaignQuery
 >;
 export const listEligiblesByClientCampaign = /* GraphQL */ `query ListEligiblesByClientCampaign(
   $clientCampaignID: ID!
@@ -5730,6 +5847,92 @@ export const listEligiblesByClientCampaignRG = /* GraphQL */ `query ListEligible
   APITypes.ListEligiblesByClientCampaignRGQueryVariables,
   APITypes.ListEligiblesByClientCampaignRGQuery
 >;
+export const listEligiblesByClientCampaignIsDependent = /* GraphQL */ `query ListEligiblesByClientCampaignIsDependent(
+  $clientCampaignID: ID!
+  $isDependent: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesByClientCampaignIsDependent(
+    clientCampaignID: $clientCampaignID
+    isDependent: $isDependent
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      name
+      cpf
+      rg
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesByClientCampaignIsDependentQueryVariables,
+  APITypes.ListEligiblesByClientCampaignIsDependentQuery
+>;
+export const listEligiblesByClientCampaignIsThird = /* GraphQL */ `query ListEligiblesByClientCampaignIsThird(
+  $clientCampaignID: ID!
+  $isThird: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesByClientCampaignIsThird(
+    clientCampaignID: $clientCampaignID
+    isThird: $isThird
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      name
+      cpf
+      rg
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesByClientCampaignIsThirdQueryVariables,
+  APITypes.ListEligiblesByClientCampaignIsThirdQuery
+>;
 export const listDependentsByCPF = /* GraphQL */ `query ListDependentsByCPF(
   $cpfRelationship: String!
   $sortDirection: ModelSortDirection
@@ -5802,7 +6005,6 @@ export const listVaccinationsByOS = /* GraphQL */ `query ListVaccinationsByOS(
       status
       localCity
       localState
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5846,7 +6048,6 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
       status
       localCity
       localState
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5890,7 +6091,6 @@ export const listVaccinationsByClientCampaignEligible = /* GraphQL */ `query Lis
       status
       localCity
       localState
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5920,8 +6120,8 @@ export const listOSs = /* GraphQL */ `query ListOSs(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -5932,8 +6132,6 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -5954,7 +6152,6 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -5981,8 +6178,8 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -5993,8 +6190,6 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6015,7 +6210,6 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6047,8 +6241,8 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -6059,8 +6253,6 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6081,7 +6273,6 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6113,8 +6304,8 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -6125,8 +6316,6 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6147,7 +6336,6 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6159,70 +6347,6 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
 ` as GeneratedQuery<
   APITypes.ListOSsByClientStatusQueryVariables,
   APITypes.ListOSsByClientStatusQuery
->;
-export const listOSsByClientUnit = /* GraphQL */ `query ListOSsByClientUnit(
-  $clientUnitID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelOSFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listOSsByClientUnit(
-    clientUnitID: $clientUnitID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      clientUnitID
-      clientCampaignID
-      driverID
-      professionals
-      collaborators
-      companies
-      number
-      start
-      expiration
-      orientation
-      notes
-      status
-      allowOffList
-      withList
-      vaccination
-      qtyApplication
-      dateStarted
-      dateFinished
-      professionalStarted
-      professionalFinished
-      notesStarted
-      notesFinished
-      clientNameStarted
-      clientNameFinished
-      unitNameFinished
-      contactNameFinished
-      contactDocFinished
-      contactCRMFinished
-      contactEmailFinished
-      stayVaccines
-      stayQtd
-      lat
-      lng
-      search
-      leafDiscount
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListOSsByClientUnitQueryVariables,
-  APITypes.ListOSsByClientUnitQuery
 >;
 export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampaign(
   $clientCampaignID: ID!
@@ -6241,8 +6365,8 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -6253,8 +6377,6 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6275,7 +6397,6 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6287,6 +6408,67 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
 ` as GeneratedQuery<
   APITypes.ListOSsByClientCampaignQueryVariables,
   APITypes.ListOSsByClientCampaignQuery
+>;
+export const listOSsByClientCampaignUnit = /* GraphQL */ `query ListOSsByClientCampaignUnit(
+  $clientCampaignUnitID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOSsByClientCampaignUnit(
+    clientCampaignUnitID: $clientCampaignUnitID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      clientCampaignID
+      clientCampaignUnitID
+      driverID
+      professionals
+      collaborators
+      companies
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      vaccination
+      qtyApplication
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOSsByClientCampaignUnitQueryVariables,
+  APITypes.ListOSsByClientCampaignUnitQuery
 >;
 export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
   $number: Int!
@@ -6305,8 +6487,8 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -6317,8 +6499,6 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6339,7 +6519,6 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6371,8 +6550,8 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
     items {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -6383,8 +6562,6 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -6405,7 +6582,6 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -6435,6 +6611,7 @@ export const listRoutingRegions = /* GraphQL */ `query ListRoutingRegions(
     items {
       id
       name
+      zipCode
       createdAt
       updatedAt
       __typename

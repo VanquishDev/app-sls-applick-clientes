@@ -2721,6 +2721,8 @@ export const updateVaccinationCardItem = /* GraphQL */ `mutation UpdateVaccinati
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -2922,6 +2924,8 @@ export const deleteVaccinationCardItem = /* GraphQL */ `mutation DeleteVaccinati
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -3106,11 +3110,28 @@ export const createClient = /* GraphQL */ `mutation CreateClient(
   createClient(input: $input, condition: $condition) {
     id
     name
+    cnpj
+    fullName
     notes
     group
-    indication
     origin
     status
+    street
+    number
+    complement
+    zipcode
+    neighborhood
+    city
+    state
+    country
+    billingStreet
+    billingNumber
+    billingComplement
+    billingZipcode
+    billingNeighborhood
+    billingCity
+    billingState
+    billingCountry
     search
     logo
     logoSrc
@@ -3129,10 +3150,6 @@ export const createClient = /* GraphQL */ `mutation CreateClient(
     contactName
     contactEmail
     contactPhone
-    units {
-      nextToken
-      __typename
-    }
     eligibles {
       nextToken
       __typename
@@ -3161,11 +3178,28 @@ export const updateClient = /* GraphQL */ `mutation UpdateClient(
   updateClient(input: $input, condition: $condition) {
     id
     name
+    cnpj
+    fullName
     notes
     group
-    indication
     origin
     status
+    street
+    number
+    complement
+    zipcode
+    neighborhood
+    city
+    state
+    country
+    billingStreet
+    billingNumber
+    billingComplement
+    billingZipcode
+    billingNeighborhood
+    billingCity
+    billingState
+    billingCountry
     search
     logo
     logoSrc
@@ -3184,10 +3218,6 @@ export const updateClient = /* GraphQL */ `mutation UpdateClient(
     contactName
     contactEmail
     contactPhone
-    units {
-      nextToken
-      __typename
-    }
     eligibles {
       nextToken
       __typename
@@ -3216,11 +3246,28 @@ export const deleteClient = /* GraphQL */ `mutation DeleteClient(
   deleteClient(input: $input, condition: $condition) {
     id
     name
+    cnpj
+    fullName
     notes
     group
-    indication
     origin
     status
+    street
+    number
+    complement
+    zipcode
+    neighborhood
+    city
+    state
+    country
+    billingStreet
+    billingNumber
+    billingComplement
+    billingZipcode
+    billingNeighborhood
+    billingCity
+    billingState
+    billingCountry
     search
     logo
     logoSrc
@@ -3239,10 +3286,6 @@ export const deleteClient = /* GraphQL */ `mutation DeleteClient(
     contactName
     contactEmail
     contactPhone
-    units {
-      nextToken
-      __typename
-    }
     eligibles {
       nextToken
       __typename
@@ -3264,39 +3307,24 @@ export const deleteClient = /* GraphQL */ `mutation DeleteClient(
   APITypes.DeleteClientMutationVariables,
   APITypes.DeleteClientMutation
 >;
-export const createClientUnit = /* GraphQL */ `mutation CreateClientUnit(
-  $input: CreateClientUnitInput!
-  $condition: ModelClientUnitConditionInput
+export const createClientCampaignUnit = /* GraphQL */ `mutation CreateClientCampaignUnit(
+  $input: CreateClientCampaignUnitInput!
+  $condition: ModelClientCampaignUnitConditionInput
 ) {
-  createClientUnit(input: $input, condition: $condition) {
+  createClientCampaignUnit(input: $input, condition: $condition) {
     id
-    clientID
-    cnpj
+    clientCampaignID
     name
-    fullName
-    street
-    number
-    complement
-    zipcode
-    neighborhood
-    city
-    state
-    country
-    billingStreet
-    billingNumber
-    billingComplement
-    billingZipcode
-    billingNeighborhood
-    billingCity
-    billingState
-    billingCountry
     notes
     search
     contactName
     contactEmail
     contactPhone
     totalEligibles
-    totalCollaborators
+    totalContractedVaccines
+    qtyVisits
+    qtyVisitsConfirmed
+    routingRegionID
     code
     oss {
       nextToken
@@ -3308,42 +3336,27 @@ export const createClientUnit = /* GraphQL */ `mutation CreateClientUnit(
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateClientUnitMutationVariables,
-  APITypes.CreateClientUnitMutation
+  APITypes.CreateClientCampaignUnitMutationVariables,
+  APITypes.CreateClientCampaignUnitMutation
 >;
-export const updateClientUnit = /* GraphQL */ `mutation UpdateClientUnit(
-  $input: UpdateClientUnitInput!
-  $condition: ModelClientUnitConditionInput
+export const updateClientCampaignUnit = /* GraphQL */ `mutation UpdateClientCampaignUnit(
+  $input: UpdateClientCampaignUnitInput!
+  $condition: ModelClientCampaignUnitConditionInput
 ) {
-  updateClientUnit(input: $input, condition: $condition) {
+  updateClientCampaignUnit(input: $input, condition: $condition) {
     id
-    clientID
-    cnpj
+    clientCampaignID
     name
-    fullName
-    street
-    number
-    complement
-    zipcode
-    neighborhood
-    city
-    state
-    country
-    billingStreet
-    billingNumber
-    billingComplement
-    billingZipcode
-    billingNeighborhood
-    billingCity
-    billingState
-    billingCountry
     notes
     search
     contactName
     contactEmail
     contactPhone
     totalEligibles
-    totalCollaborators
+    totalContractedVaccines
+    qtyVisits
+    qtyVisitsConfirmed
+    routingRegionID
     code
     oss {
       nextToken
@@ -3355,42 +3368,27 @@ export const updateClientUnit = /* GraphQL */ `mutation UpdateClientUnit(
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateClientUnitMutationVariables,
-  APITypes.UpdateClientUnitMutation
+  APITypes.UpdateClientCampaignUnitMutationVariables,
+  APITypes.UpdateClientCampaignUnitMutation
 >;
-export const deleteClientUnit = /* GraphQL */ `mutation DeleteClientUnit(
-  $input: DeleteClientUnitInput!
-  $condition: ModelClientUnitConditionInput
+export const deleteClientCampaignUnit = /* GraphQL */ `mutation DeleteClientCampaignUnit(
+  $input: DeleteClientCampaignUnitInput!
+  $condition: ModelClientCampaignUnitConditionInput
 ) {
-  deleteClientUnit(input: $input, condition: $condition) {
+  deleteClientCampaignUnit(input: $input, condition: $condition) {
     id
-    clientID
-    cnpj
+    clientCampaignID
     name
-    fullName
-    street
-    number
-    complement
-    zipcode
-    neighborhood
-    city
-    state
-    country
-    billingStreet
-    billingNumber
-    billingComplement
-    billingZipcode
-    billingNeighborhood
-    billingCity
-    billingState
-    billingCountry
     notes
     search
     contactName
     contactEmail
     contactPhone
     totalEligibles
-    totalCollaborators
+    totalContractedVaccines
+    qtyVisits
+    qtyVisitsConfirmed
+    routingRegionID
     code
     oss {
       nextToken
@@ -3402,8 +3400,8 @@ export const deleteClientUnit = /* GraphQL */ `mutation DeleteClientUnit(
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteClientUnitMutationVariables,
-  APITypes.DeleteClientUnitMutation
+  APITypes.DeleteClientCampaignUnitMutationVariables,
+  APITypes.DeleteClientCampaignUnitMutation
 >;
 export const createClientCampaignEligible = /* GraphQL */ `mutation CreateClientCampaignEligible(
   $input: CreateClientCampaignEligibleInput!
@@ -3502,8 +3500,8 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -3514,8 +3512,6 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3536,7 +3532,6 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3570,6 +3565,8 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -3619,7 +3616,6 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
     status
     localCity
     localState
-    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3642,8 +3638,8 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -3654,8 +3650,6 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3676,7 +3670,6 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3710,6 +3703,8 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -3759,7 +3754,6 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
     status
     localCity
     localState
-    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3782,8 +3776,8 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -3794,8 +3788,6 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3816,7 +3808,6 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -3850,6 +3841,8 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -3899,7 +3892,6 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
     status
     localCity
     localState
-    leafDiscount
     createdAt
     updatedAt
     __typename
@@ -3960,8 +3952,8 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -3972,8 +3964,6 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3994,7 +3984,6 @@ export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleV
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -4059,8 +4048,8 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -4071,8 +4060,6 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -4093,7 +4080,6 @@ export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleV
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -4158,8 +4144,8 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -4170,8 +4156,6 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -4192,7 +4176,6 @@ export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleV
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -7285,6 +7268,8 @@ export const createVaccinationCardItem = /* GraphQL */ `mutation CreateVaccinati
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
@@ -7423,11 +7408,28 @@ export const createClientUser = /* GraphQL */ `mutation CreateClientUser(
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -7483,11 +7485,28 @@ export const deleteClientUser = /* GraphQL */ `mutation DeleteClientUser(
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -7529,11 +7548,28 @@ export const createClientCampaign = /* GraphQL */ `mutation CreateClientCampaign
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -7581,6 +7617,8 @@ export const createClientCampaign = /* GraphQL */ `mutation CreateClientCampaign
     contactEmail
     contactPhone
     createdAt
+    allowOffList
+    leafDiscount
     idx
     campaignCode
     status
@@ -7614,11 +7652,28 @@ export const updateClientCampaign = /* GraphQL */ `mutation UpdateClientCampaign
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -7666,6 +7721,8 @@ export const updateClientCampaign = /* GraphQL */ `mutation UpdateClientCampaign
     contactEmail
     contactPhone
     createdAt
+    allowOffList
+    leafDiscount
     idx
     campaignCode
     status
@@ -7699,11 +7756,28 @@ export const deleteClientCampaign = /* GraphQL */ `mutation DeleteClientCampaign
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -7751,6 +7825,8 @@ export const deleteClientCampaign = /* GraphQL */ `mutation DeleteClientCampaign
     contactEmail
     contactPhone
     createdAt
+    allowOffList
+    leafDiscount
     idx
     campaignCode
     status
@@ -8125,165 +8201,12 @@ export const deleteClientCampaignCompany = /* GraphQL */ `mutation DeleteClientC
   APITypes.DeleteClientCampaignCompanyMutationVariables,
   APITypes.DeleteClientCampaignCompanyMutation
 >;
-export const createClientCampaignUnit = /* GraphQL */ `mutation CreateClientCampaignUnit(
-  $input: CreateClientCampaignUnitInput!
-  $condition: ModelClientCampaignUnitConditionInput
-) {
-  createClientCampaignUnit(input: $input, condition: $condition) {
-    id
-    clientCampaignID
-    unitID
-    unit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateClientCampaignUnitMutationVariables,
-  APITypes.CreateClientCampaignUnitMutation
->;
-export const updateClientCampaignUnit = /* GraphQL */ `mutation UpdateClientCampaignUnit(
-  $input: UpdateClientCampaignUnitInput!
-  $condition: ModelClientCampaignUnitConditionInput
-) {
-  updateClientCampaignUnit(input: $input, condition: $condition) {
-    id
-    clientCampaignID
-    unitID
-    unit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateClientCampaignUnitMutationVariables,
-  APITypes.UpdateClientCampaignUnitMutation
->;
-export const deleteClientCampaignUnit = /* GraphQL */ `mutation DeleteClientCampaignUnit(
-  $input: DeleteClientCampaignUnitInput!
-  $condition: ModelClientCampaignUnitConditionInput
-) {
-  deleteClientCampaignUnit(input: $input, condition: $condition) {
-    id
-    clientCampaignID
-    unitID
-    unit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteClientCampaignUnitMutationVariables,
-  APITypes.DeleteClientCampaignUnitMutation
->;
 export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!, $condition: ModelOSConditionInput) {
   createOS(input: $input, condition: $condition) {
     id
     clientID
-    clientUnitID
     clientCampaignID
+    clientCampaignUnitID
     driverID
     professionals
     collaborators
@@ -8294,8 +8217,6 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     orientation
     notes
     status
-    allowOffList
-    withList
     vaccination
     qtyApplication
     dateStarted
@@ -8316,7 +8237,6 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     lat
     lng
     search
-    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8324,11 +8244,28 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -8347,40 +8284,6 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
       contactName
       contactEmail
       contactPhone
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientUnit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
       createdAt
       updatedAt
       __typename
@@ -8413,9 +8316,30 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
+      updatedAt
+      __typename
+    }
+    clientCampaignUnit {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
       updatedAt
       __typename
     }
@@ -8432,8 +8356,8 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
   updateOS(input: $input, condition: $condition) {
     id
     clientID
-    clientUnitID
     clientCampaignID
+    clientCampaignUnitID
     driverID
     professionals
     collaborators
@@ -8444,8 +8368,6 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     orientation
     notes
     status
-    allowOffList
-    withList
     vaccination
     qtyApplication
     dateStarted
@@ -8466,7 +8388,6 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     lat
     lng
     search
-    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8474,11 +8395,28 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -8497,40 +8435,6 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
       contactName
       contactEmail
       contactPhone
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientUnit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
       createdAt
       updatedAt
       __typename
@@ -8563,9 +8467,30 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
+      updatedAt
+      __typename
+    }
+    clientCampaignUnit {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
       updatedAt
       __typename
     }
@@ -8582,8 +8507,8 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
   deleteOS(input: $input, condition: $condition) {
     id
     clientID
-    clientUnitID
     clientCampaignID
+    clientCampaignUnitID
     driverID
     professionals
     collaborators
@@ -8594,8 +8519,6 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     orientation
     notes
     status
-    allowOffList
-    withList
     vaccination
     qtyApplication
     dateStarted
@@ -8616,7 +8539,6 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     lat
     lng
     search
-    leafDiscount
     eligiblesVaccination {
       nextToken
       __typename
@@ -8624,11 +8546,28 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     client {
       id
       name
+      cnpj
+      fullName
       notes
       group
-      indication
       origin
       status
+      street
+      number
+      complement
+      zipcode
+      neighborhood
+      city
+      state
+      country
+      billingStreet
+      billingNumber
+      billingComplement
+      billingZipcode
+      billingNeighborhood
+      billingCity
+      billingState
+      billingCountry
       search
       logo
       logoSrc
@@ -8647,40 +8586,6 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
       contactName
       contactEmail
       contactPhone
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientUnit {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
       createdAt
       updatedAt
       __typename
@@ -8713,9 +8618,30 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
       contactEmail
       contactPhone
       createdAt
+      allowOffList
+      leafDiscount
       idx
       campaignCode
       status
+      updatedAt
+      __typename
+    }
+    clientCampaignUnit {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
       updatedAt
       __typename
     }
@@ -8735,6 +8661,7 @@ export const createRoutingRegion = /* GraphQL */ `mutation CreateRoutingRegion(
   createRoutingRegion(input: $input, condition: $condition) {
     id
     name
+    zipCode
     createdAt
     updatedAt
     __typename
@@ -8751,6 +8678,7 @@ export const updateRoutingRegion = /* GraphQL */ `mutation UpdateRoutingRegion(
   updateRoutingRegion(input: $input, condition: $condition) {
     id
     name
+    zipCode
     createdAt
     updatedAt
     __typename
@@ -8767,6 +8695,7 @@ export const deleteRoutingRegion = /* GraphQL */ `mutation DeleteRoutingRegion(
   deleteRoutingRegion(input: $input, condition: $condition) {
     id
     name
+    zipCode
     createdAt
     updatedAt
     __typename
@@ -8882,8 +8811,8 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -8894,8 +8823,6 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -8916,7 +8843,6 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -8958,8 +8884,8 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -8970,8 +8896,6 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -8992,7 +8916,6 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename
@@ -9034,8 +8957,8 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
     os {
       id
       clientID
-      clientUnitID
       clientCampaignID
+      clientCampaignUnitID
       driverID
       professionals
       collaborators
@@ -9046,8 +8969,6 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -9068,7 +8989,6 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       lat
       lng
       search
-      leafDiscount
       createdAt
       updatedAt
       __typename

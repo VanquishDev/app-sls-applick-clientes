@@ -55,38 +55,43 @@ function Card(props: any) {
         <div className='text-xl font-semibold'>{Moment(item.start).format('dddd')}, {Moment(item.start).format('DD/MM/YYYY')} - OS {item.number}</div>
         <div className="flex mt-1 gap-2 text-sm">
           {item.status ===
-            OSStatus.CONFIRMED && (
-              <div className="bg-emerald-500 text-white px-1 rounded font-semibold">
-                CONFIRMADA
-              </div>
-            )}
-          {item.status ===
-            OSStatus.CANCELED && (
-              <div className="bg-black text-white px-1 rounded font-semibold">
-                CANCELADA
-              </div>
-            )}
-          {item.status ===
-            OSStatus.FINISHED && (
-              <div className="bg-black text-white px-1 rounded font-semibold">
-                FINALIZADA
-              </div>
-            )}
-          {item.status ===
             OSStatus.ROUTED && (
+              <div className="bg-purple-500 text-white px-1 rounded font-semibold">
+                ROTEIRIZADA
+              </div>
+            )}
+          {item.status ===
+            OSStatus.SCHEDULED && (
+              <div className="bg-green text-white px-1 rounded font-semibold">
+                AGENDADA
+              </div>
+            )}
+          {item.status ===
+            OSStatus.PENDING && (
               <div className="bg-cyan text-white px-1 rounded font-semibold">
-                ROTERIZADA
+                PENDENTE DE ALOCAÇÃO
               </div>
             )}
           {item.status ===
             OSStatus.STARTED && (
-              <div className="bg-red text-white px-1 rounded font-semibold">
+              <div className="bg-orange-500 text-white px-1 rounded font-semibold">
                 INICIADA
               </div>
             )}
-          {item.status === OSStatus.STANDBY && (
-            <div className="bg-orange-500 text-white px-1 rounded font-semibold">
-              AGUARDANDO
+          {item.status ===
+            OSStatus.COMPLETED && (
+              <div className="bg-blue text-white px-1 rounded font-semibold">
+                CONCLUÍDA
+              </div>
+            )}
+          {item.status === OSStatus.CANCELED && (
+            <div className="bg-slate-600 text-white px-1 rounded font-semibold">
+              CANCELADA
+            </div>
+          )}
+          {item.status === OSStatus.LATE && (
+            <div className="bg-red text-white px-1 rounded font-semibold">
+              ATRASADA
             </div>
           )}
         </div>
@@ -194,8 +199,7 @@ function GetUserName(props: any) {
   useEffect(() => {
     const GetUser = async () => {
       const u = await getUser({ id: userID as string })
-      console.log(u)
-      setName(u.name)
+      setName(u && u.name ? u.name : '')
     }
     if (userID) {
       GetUser()

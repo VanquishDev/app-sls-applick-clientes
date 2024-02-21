@@ -1,5 +1,5 @@
 import { List } from 'components/ui'
-import { ModelSortDirection, OSStatus } from 'API'
+import { OSStatus } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 import { formatPhoneNumber } from 'react-phone-number-input'
@@ -10,25 +10,24 @@ import 'moment/locale/pt-br'
 import Moment from 'moment'
 Moment.locale('pt-br')
 
-import { useClientUnit } from 'hooks/useClientUnit'
-import router from 'next/router'
+import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
 import { useState } from 'react'
 
 export default function DetailsTotalUnits(props: any) {
-  const { clientID, userID } = props;
+  const { clientCampaignID, userID } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listUnitsByClient } = useClientUnit()
+  const { listUnitsByClientCampaign } = useClientCampaignUnit()
 
   return <List
-    keys={`${clientID ? clientID : ''}`}
+    keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
     emptyMessage='Nenhuma unidade por aqui.'
     endMessage='Estes são todas as unidades.'
-    listItems={listUnitsByClient}
+    listItems={listUnitsByClientCampaign}
     variables={{
-      clientID,
+      clientCampaignID,
       limit: 100,
       // sortDirection: ModelSortDirection.DESC,
       nextToken: null
@@ -55,11 +54,11 @@ function Card(props: any) {
       ].join(' ')}
         onClick={() => handleSelect(index)}>
         <div className='text-xl font-semibold'>{item.name}</div>
-        {item.oss.items.length > 0 && <div className="flex mt-1 gap-2 text-xs font-semibold">
-          <div className="bg-blue text-white px-1 rounded">
-            {item.oss.items.length} OS
+        <div className="flex mt-1 gap-2 font-semibold">
+          <div className="bg-black text-white px-1 rounded">
+            {item.totalContractedVaccines} / {item.totalEligibles}
           </div>
-        </div>}
+        </div>
       </div>
 
       {index === itemSelected && (
@@ -68,25 +67,19 @@ function Card(props: any) {
           itemSelected === index ? 'rounded-t-none shadow-lg' : 'shadow'
         ].join(' ')}
         >
-          <div className="text-sm font-semibold text-tertiary-2">Localização</div>
-          <div>
-            {item.street}
-            {item.number && (
-              <span>, {item.number}</span>
-            )}
-            {item.complement && (
-              <span>, {item.complement}</span>
-            )}
-            {' '}
-            CEP {item.zipcode}
-            {item.neighborhood && (
-              <span>, {item.neighborhood}</span>
-            )}
-            {' '}
-            {item.city && <span>{item.city}</span>}
-            {item.state && (
-              <span>, {item.state}</span>
-            )}
+          <div className='mt-4 flex flex-wrap gap-6'>
+            <div>
+              <div className="text-sm font-semibold text-tertiary-2">N. Total Elegíveis</div>
+              <div>{item.totalEligibles}</div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-tertiary-2">N. Doses Contratadas</div>
+              <div>{item.totalContractedVaccines}</div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-tertiary-2">Qtde. Visitas</div>
+              <div>{item.qtyVisits}</div>
+            </div>
           </div>
           <div className='mt-4 flex flex-wrap gap-6'>
             <div>
@@ -123,38 +116,43 @@ function Card(props: any) {
                     <td>
                       <div className='flex'>
                         {os.status ===
-                          OSStatus.CONFIRMED && (
-                            <div className="bg-emerald-500 text-white px-1 rounded font-semibold">
-                              CONFIRMADA
-                            </div>
-                          )}
-                        {os.status ===
-                          OSStatus.CANCELED && (
-                            <div className="bg-black text-white px-1 rounded font-semibold">
-                              CANCELADA
-                            </div>
-                          )}
-                        {os.status ===
-                          OSStatus.FINISHED && (
-                            <div className="bg-black text-white px-1 rounded font-semibold">
-                              FINALIZADA
-                            </div>
-                          )}
-                        {os.status ===
                           OSStatus.ROUTED && (
+                            <div className="bg-purple-500 text-white px-1 rounded font-semibold">
+                              ROTEIRIZADA
+                            </div>
+                          )}
+                        {os.status ===
+                          OSStatus.SCHEDULED && (
+                            <div className="bg-green text-white px-1 rounded font-semibold">
+                              AGENDADA
+                            </div>
+                          )}
+                        {os.status ===
+                          OSStatus.PENDING && (
                             <div className="bg-cyan text-white px-1 rounded font-semibold">
-                              ROTERIZADA
+                              PENDENTE DE ALOCAÇÃO
                             </div>
                           )}
                         {os.status ===
                           OSStatus.STARTED && (
-                            <div className="bg-red text-white px-1 rounded font-semibold">
+                            <div className="bg-orange-500 text-white px-1 rounded font-semibold">
                               INICIADA
                             </div>
                           )}
-                        {os.status === OSStatus.STANDBY && (
-                          <div className="bg-orange-500 text-white px-1 rounded font-semibold">
-                            AGUARDANDO
+                        {os.status ===
+                          OSStatus.COMPLETED && (
+                            <div className="bg-blue text-white px-1 rounded font-semibold">
+                              CONCLUÍDA
+                            </div>
+                          )}
+                        {os.status === OSStatus.CANCELED && (
+                          <div className="bg-slate-600 text-white px-1 rounded font-semibold">
+                            CANCELADA
+                          </div>
+                        )}
+                        {os.status === OSStatus.LATE && (
+                          <div className="bg-red text-white px-1 rounded font-semibold">
+                            ATRASADA
                           </div>
                         )}
                       </div>

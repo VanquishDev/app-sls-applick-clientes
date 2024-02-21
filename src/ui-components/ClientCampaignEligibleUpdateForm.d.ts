@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { ClientCampaignEligible } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -32,9 +32,9 @@ export declare type ClientCampaignEligibleUpdateFormInputValues = {
     notes?: string;
     search?: string;
     relationship?: string;
-    isDependent?: boolean;
+    isDependent?: string;
     cpfRelationship?: string;
-    isThird?: boolean;
+    isThird?: string;
     thirdName?: string;
 };
 export declare type ClientCampaignEligibleUpdateFormValidationValues = {
@@ -47,9 +47,9 @@ export declare type ClientCampaignEligibleUpdateFormValidationValues = {
     notes?: ValidationFunction<string>;
     search?: ValidationFunction<string>;
     relationship?: ValidationFunction<string>;
-    isDependent?: ValidationFunction<boolean>;
+    isDependent?: ValidationFunction<string>;
     cpfRelationship?: ValidationFunction<string>;
-    isThird?: ValidationFunction<boolean>;
+    isThird?: ValidationFunction<string>;
     thirdName?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -64,9 +64,9 @@ export declare type ClientCampaignEligibleUpdateFormOverridesProps = {
     notes?: PrimitiveOverrideProps<TextFieldProps>;
     search?: PrimitiveOverrideProps<TextFieldProps>;
     relationship?: PrimitiveOverrideProps<TextFieldProps>;
-    isDependent?: PrimitiveOverrideProps<SwitchFieldProps>;
+    isDependent?: PrimitiveOverrideProps<TextFieldProps>;
     cpfRelationship?: PrimitiveOverrideProps<TextFieldProps>;
-    isThird?: PrimitiveOverrideProps<SwitchFieldProps>;
+    isThird?: PrimitiveOverrideProps<TextFieldProps>;
     thirdName?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ClientCampaignEligibleUpdateFormProps = React.PropsWithChildren<{

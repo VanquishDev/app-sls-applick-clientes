@@ -12,6 +12,8 @@ import {
   ListEligiblesByClientCampaignKeyQueryVariables,
   ListEligiblesByClientCampaignCPFQueryVariables,
   ListEligiblesByClientCampaignRGQueryVariables,
+  ListEligiblesByClientCampaignIsDependentQueryVariables,
+  ListEligiblesByClientCampaignIsThirdQueryVariables
 } from 'API'
 
 export const useClientCampaignEligible = () => {
@@ -110,6 +112,36 @@ export const useClientCampaignEligible = () => {
     return { items, nextToken }
   }
 
+  const listEligiblesByClientCampaignIsDependent = async (
+    variables: ListEligiblesByClientCampaignIsDependentQueryVariables
+  ) => {
+    const {
+      data: {
+        listEligiblesByClientCampaignIsDependent: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: queries.listEligiblesByClientCampaignIsDependent,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.API_KEY,
+    })) as GraphQLResult<any>
+    return { items, nextToken }
+  }
+
+  const listEligiblesByClientCampaignIsThird = async (
+    variables: ListEligiblesByClientCampaignIsThirdQueryVariables
+  ) => {
+    const {
+      data: {
+        listEligiblesByClientCampaignIsThird: { items, nextToken },
+      },
+    } = (await API.graphql({
+      query: queries.listEligiblesByClientCampaignIsThird,
+      variables,
+      authMode: GRAPHQL_AUTH_MODE.API_KEY,
+    })) as GraphQLResult<any>
+    return { items, nextToken }
+  }
+
   return {
     createClientCampaignEligible,
     updateClientCampaignEligible,
@@ -118,5 +150,7 @@ export const useClientCampaignEligible = () => {
     listEligiblesByClientCampaignKey,
     listEligiblesByClientCampaignCPF,
     listEligiblesByClientCampaignRG,
+    listEligiblesByClientCampaignIsDependent,
+    listEligiblesByClientCampaignIsThird
   }
 }

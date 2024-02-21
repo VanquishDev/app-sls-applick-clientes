@@ -5,7 +5,7 @@ import Chart1 from '../chart1'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Amplify, API } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { GraphQLSubscription, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as subscriptions from 'graphql/subscriptions';
 import { OnUpdateClientCampaignSubscription } from 'API';
@@ -40,7 +40,7 @@ export default function Statistics(props: any) {
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
-    cp.percentServed = cp.client?.totalUnits ? Math.round((cp.client.unitsServed / cp.client.totalUnits) * 100) : 0
+    cp.percentServed = cp.totalUnits ? Math.round((cp.unitsServed / cp.totalUnits) * 100) : 0
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
@@ -92,14 +92,14 @@ export default function Statistics(props: any) {
                 setModalSel('totalUnits')
                 openModal()
               }}>
-                <div className="stat-value">{campaign.client.totalUnits ? campaign.client.totalUnits : 0}</div>
+                <div className="stat-value">{campaign.totalUnits ? campaign.totalUnits : 0}</div>
                 <div className="stat-desc">Total cadastradas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{campaign.client.unitsServed ? campaign.client.unitsServed : 0}</div>
+                <div className="stat-value">{(campaign.unitsServed && (campaign.totalUnits >= campaign.unitsServed)) ? campaign.unitsServed : 0}</div>
                 <div className="stat-desc">Unidades atendidas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
@@ -263,7 +263,7 @@ export default function Statistics(props: any) {
 
         <div className='mt-5 flex justify-between'>
           <div>{campaign.percentServed ? campaign.percentServed : 0}% unidades atendidas</div>
-          <div>{campaign.client.totalUnits ? campaign.client.totalUnits : 0}</div>
+          <div>{campaign.totalUnits ? campaign.totalUnits : 0}</div>
         </div>
         <progress className="w-full progress progress-warning" value={campaign.percentServed ? campaign.percentServed : 0} max="100"></progress>
 
@@ -325,15 +325,15 @@ export default function Statistics(props: any) {
           maxWidth: isSm ? screenWidth : screenWidth * 0.9,
         }}
       >
-        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientID={campaign.clientID} userID={userID} />)}
-        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientID={campaign.clientID} userID={userID} />)}
+        {modalSel === 'totalUnits' && (<DetailsTotalUnits clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'unitsServed' && (<DetailsUnitsServed clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'schedules' && (<DetailsSchedules clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles isDependent={true} clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles isThird={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations clientCampaignID={campaign.id} userID={userID} />)}
       </div>
     </Modal>

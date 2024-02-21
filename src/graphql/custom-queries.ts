@@ -3760,7 +3760,7 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
     items {
       id
       clientID
-      clientUnitID
+      clientCampaignUnitID
       clientCampaignID
       driverID
       professionals
@@ -3771,8 +3771,6 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3803,17 +3801,9 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
             }
           }
         }
-        clientUnit {
+        clientCampaignUnit {
           code
           name
-          street
-          number
-          complement
-          zipcode
-          neighborhood
-          city
-          state
-          country
           notes
           search
           contactName
@@ -3844,7 +3834,7 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
     items {
       id
       clientID
-      clientUnitID
+      clientCampaignUnitID
       clientCampaignID
       driverID
       professionals
@@ -3855,8 +3845,6 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3887,17 +3875,9 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
             }
           }
         }
-        clientUnit {
+        clientCampaignUnit {
           code
           name
-          street
-          number
-          complement
-          zipcode
-          neighborhood
-          city
-          state
-          country
           notes
           search
           contactName
@@ -3933,7 +3913,7 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
     items {
       id
       clientID
-      clientUnitID
+      clientCampaignUnitID
       clientCampaignID
       driverID
       professionals
@@ -3944,8 +3924,6 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -3976,17 +3954,9 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
             }
           }
         }
-        clientUnit {
+        clientCampaignUnit {
           code
           name
-          street
-          number
-          complement
-          zipcode
-          neighborhood
-          city
-          state
-          country
           notes
           search
           contactName
@@ -4231,10 +4201,7 @@ export const listClientCampaignsByStatusCreatedAtCustom = /* GraphQL */ `query L
       }
       units {
         items {
-          unitID
-          unit {
-            name
-          }
+          name
         }
       }
       companies {
@@ -4317,10 +4284,7 @@ export const listClientCampaignsByIdxCreatedAtCustom = /* GraphQL */ `query List
       }
       units {
         items {
-          unitID
-          unit {
-            name
-          }
+          name
         }
       }
       companies {
@@ -4434,72 +4398,6 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
   APITypes.ListVaccinationsByClientCampaignQueryVariables,
   APITypes.ListVaccinationsByClientCampaignQuery
 >;
-export const listUnitsByClient = /* GraphQL */ `query ListUnitsByClientCustom(
-  $clientID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientUnitFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUnitsByClient(
-    clientID: $clientID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      cnpj
-      name
-      fullName
-      street
-      number
-      complement
-      zipcode
-      neighborhood
-      city
-      state
-      country
-      billingStreet
-      billingNumber
-      billingComplement
-      billingZipcode
-      billingNeighborhood
-      billingCity
-      billingState
-      billingCountry
-      notes
-      search
-      contactName
-      contactEmail
-      contactPhone
-      totalEligibles
-      totalCollaborators
-      code
-      createdAt
-      updatedAt
-      oss {
-        items {
-          number
-          start
-          status
-          clientCampaign {
-            name
-          }
-        }
-      }
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListUnitsByClientQueryVariables,
-  APITypes.ListUnitsByClientQuery
->;
 export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampaignCustom(
   $clientCampaignID: ID!
   $sortDirection: ModelSortDirection
@@ -4517,7 +4415,7 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
     items {
       id
       clientID
-      clientUnitID
+      clientCampaignUnitID
       clientCampaignID
       driverID
       professionals
@@ -4528,8 +4426,6 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       orientation
       notes
       status
-      allowOffList
-      withList
       vaccination
       qtyApplication
       dateStarted
@@ -4560,4 +4456,55 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
 ` as GeneratedQuery<
   APITypes.ListOSsByClientCampaignQueryVariables,
   APITypes.ListOSsByClientCampaignQuery
+>;
+export const listUnitsByClientCampaignCustom = /* GraphQL */ `query ListUnitsByClientCampaignCustom(
+  $clientCampaignID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignUnitFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUnitsByClientCampaign(
+    clientCampaignID: $clientCampaignID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      name
+      notes
+      search
+      contactName
+      contactEmail
+      contactPhone
+      totalEligibles
+      totalContractedVaccines
+      qtyVisits
+      qtyVisitsConfirmed
+      routingRegionID
+      code
+      createdAt
+      updatedAt
+      oss {
+        items {
+          number
+          start
+          status
+          clientCampaign {
+            name
+          }
+        }
+      }
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+APITypes.ListUnitsByClientCampaignQueryVariables,
+APITypes.ListUnitsByClientCampaignQuery
 >;

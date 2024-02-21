@@ -13,7 +13,7 @@ import {
   ListOSsByClientQueryVariables,
   ListOSsByClientStatusQueryVariables,
   ListOSsByClientStartQueryVariables,
-  ListOSsByClientUnitQueryVariables,
+  ListOSsByClientCampaignUnitQueryVariables,
   ListOSsByNumberQueryVariables,
   ListOSsByStatusNumberQueryVariables,
   ListOSsByClientCampaignQueryVariables
@@ -120,15 +120,15 @@ export const useOS = () => {
     return { items, nextToken }
   }
 
-  const listOSsByClientUnit = async (
-    variables: ListOSsByClientUnitQueryVariables
+  const listOSsByClientCampaignUnit = async (
+    variables: ListOSsByClientCampaignUnitQueryVariables
   ) => {
     const {
       data: {
-        listOSsByClientUnit: { items, nextToken },
+        listOSsByClientCampaignUnit: { items, nextToken },
       },
     } = (await API.graphql({
-      query: queries.listOSsByClientUnit,
+      query: queries.listOSsByClientCampaignUnit,
       variables,
       authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
     })) as GraphQLResult<any>
@@ -188,7 +188,7 @@ export const useOS = () => {
     listOSsByClient,
     listOSsByClientStatus,
     listOSsByClientStart,
-    listOSsByClientUnit,
+    listOSsByClientCampaignUnit,
     listOSsByNumber,
     listOSsByStatusNumber,
     listOSsByClientCampaign

@@ -23,14 +23,17 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type RoutingRegionCreateFormInputValues = {
     name?: string;
+    zipCode?: string[];
 };
 export declare type RoutingRegionCreateFormValidationValues = {
     name?: ValidationFunction<string>;
+    zipCode?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoutingRegionCreateFormOverridesProps = {
     RoutingRegionCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    zipCode?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type RoutingRegionCreateFormProps = React.PropsWithChildren<{
     overrides?: RoutingRegionCreateFormOverridesProps | undefined | null;

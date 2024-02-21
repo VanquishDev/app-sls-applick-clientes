@@ -1,6 +1,7 @@
 import { GraphQLResult, GRAPHQL_AUTH_MODE } from '@aws-amplify/api'
 import { API, graphqlOperation } from 'aws-amplify'
 
+import * as customQueries from 'graphql/custom-queries'
 import * as queries from 'graphql/queries'
 import * as mutations from 'graphql/mutations'
 
@@ -55,7 +56,7 @@ export const useClientCampaignUnit = () => {
         listUnitsByClientCampaign: { items, nextToken },
       },
     } = (await API.graphql({
-      query: queries.listUnitsByClientCampaign,
+      query: customQueries.listUnitsByClientCampaignCustom,
       variables,
       authMode: GRAPHQL_AUTH_MODE.API_KEY,
     })) as GraphQLResult<any>

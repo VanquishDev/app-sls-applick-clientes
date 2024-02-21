@@ -6,35 +6,51 @@ import { useBreakPoints } from 'hooks/useBreakPoints'
 import { useClientCampaignEligible } from 'hooks/useClientCampaignEligible'
 
 export default function DetailsTotalEligibles(props: any) {
-  const { clientCampaignID, userID, isDependent, isThird } = props;
+  const { clientCampaignID, userID, dependents, thirds } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { listEligiblesByClientCampaign } = useClientCampaignEligible()
+  const { listEligiblesByClientCampaign, listEligiblesByClientCampaignIsDependent, listEligiblesByClientCampaignIsThird } = useClientCampaignEligible()
 
   return clientCampaignID ? <List
     keys={`${clientCampaignID ? clientCampaignID : ''}`}
     userID={userID}
     emptyMessage='Nenhum colaborador por aqui.'
     endMessage='Estes são todos os colaboradores.'
-    listItems={listEligiblesByClientCampaign}
-    variables={{
-      clientCampaignID,
-      limit: 100,
-      // sortDirection: ModelSortDirection.DESC,
-      nextToken: null
-    }}
+    listItems={
+      dependents ? listEligiblesByClientCampaignIsDependent
+        : thirds ? listEligiblesByClientCampaignIsThird
+          : listEligiblesByClientCampaign
+    }
+    variables={
+      dependents ? {
+        clientCampaignID,
+        filter: { isDependent: { eq: '1' } },
+        limit: 1000,
+        nextToken: null
+      } :
+        thirds ? {
+          clientCampaignID,
+          filter: { isThird: { eq: '1' } },
+          limit: 1000,
+          nextToken: null
+        } :
+          {
+            clientCampaignID,
+            limit: 1000,
+            nextToken: null
+          }
+    }
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
-    paramsItems={{ isDependent, isThird }}
   /> : <Loading />;
 }
 
 function Card(props: any) {
-  const { item, index, handleSelect, itemSelected, isLast, paramsItems } = props
+  const { item, index, handleSelect, itemSelected, isLast } = props
 
-  return (!item || (paramsItems.isDependent && !item.isDependent) || (paramsItems.isThird && !item.isThird)) ? null : (
+  return !item ? null : (
     <div
       key={index}
       className={`px-4 lg:pl-8 w-full ${itemSelected === index ? 'py-3 scale-100' : 'py-1 scale-95'
@@ -77,19 +93,19 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Nascimento</div>
               <div>{item.birth}</div>
             </div>}
-            {item.isDependent && <div>
+            {item.isDependent === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
             </div>}
-            {(item.isDependent && item.cpfRelationship) && <div>
+            {(item.isDependent === '1' && item.cpfRelationship) && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
               <div>{item.cpfRelationship}</div>
             </div>}
-            {item.isThird && <div>
+            {item.isThird === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
               <div>Sim</div>
             </div>}
-            {(item.isThird && item.thirdName) && <div>
+            {(item.isThird === '1' && item.thirdName) && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
               <div>{item.thirdName}</div>
             </div>}

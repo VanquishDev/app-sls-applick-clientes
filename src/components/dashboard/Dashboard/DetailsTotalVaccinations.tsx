@@ -26,7 +26,7 @@ export default function DetailsTotalVaccinations(props: any) {
     listItems={listVaccinationsByClientCampaign}
     variables={{
       clientCampaignID,
-      limit: 100,
+      limit: 1000,
       sortDirection: ModelSortDirection.DESC,
       nextToken: null
     }}
@@ -82,19 +82,19 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Nascimento</div>
               <div>{item.clientEligible.birth}</div>
             </div>}
-            {item.clientEligible.isDependent && <div>
+            {item.clientEligible.isDependent === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
             </div>}
-            {(item.clientEligible.isDependent && item.clientEligible.cpfRelationship) && <div>
+            {(item.clientEligible.isDependent === '1' && item.clientEligible.cpfRelationship) && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
               <div>{item.clientEligible.cpfRelationship}</div>
             </div>}
-            {item.clientEligible.isThird && <div>
+            {item.clientEligible.isThird === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
               <div>Sim</div>
             </div>}
-            {(item.clientEligible.isThird && item.clientEligible.thirdName) && <div>
+            {(item.clientEligible.isThird === '1' && item.clientEligible.thirdName) && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
               <div>{item.clientEligible.thirdName}</div>
             </div>}

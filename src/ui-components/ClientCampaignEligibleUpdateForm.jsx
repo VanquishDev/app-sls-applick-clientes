@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
 import { getClientCampaignEligible } from "../graphql/queries";
@@ -39,9 +33,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
     notes: "",
     search: "",
     relationship: "",
-    isDependent: false,
+    isDependent: "",
     cpfRelationship: "",
-    isThird: false,
+    isThird: "",
     thirdName: "",
   };
   const [clientCampaignID, setClientCampaignID] = React.useState(
@@ -531,13 +525,13 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         hasError={errors.relationship?.hasError}
         {...getOverrideProps(overrides, "relationship")}
       ></TextField>
-      <SwitchField
+      <TextField
         label="Is dependent"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isDependent}
+        isRequired={false}
+        isReadOnly={false}
+        value={isDependent}
         onChange={(e) => {
-          let value = e.target.checked;
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
               clientCampaignID,
@@ -566,7 +560,7 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         errorMessage={errors.isDependent?.errorMessage}
         hasError={errors.isDependent?.hasError}
         {...getOverrideProps(overrides, "isDependent")}
-      ></SwitchField>
+      ></TextField>
       <TextField
         label="Cpf relationship"
         isRequired={false}
@@ -603,13 +597,13 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         hasError={errors.cpfRelationship?.hasError}
         {...getOverrideProps(overrides, "cpfRelationship")}
       ></TextField>
-      <SwitchField
+      <TextField
         label="Is third"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={isThird}
+        isRequired={false}
+        isReadOnly={false}
+        value={isThird}
         onChange={(e) => {
-          let value = e.target.checked;
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
               clientCampaignID,
@@ -638,7 +632,7 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         errorMessage={errors.isThird?.errorMessage}
         hasError={errors.isThird?.hasError}
         {...getOverrideProps(overrides, "isThird")}
-      ></SwitchField>
+      ></TextField>
       <TextField
         label="Third name"
         isRequired={false}
