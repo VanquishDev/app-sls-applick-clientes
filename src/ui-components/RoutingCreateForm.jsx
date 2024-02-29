@@ -22,10 +22,9 @@ export default function RoutingCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
+    idx: "",
     start: "",
     end: "",
-    regionID: "",
-    qty: "",
     title: "",
     description: "",
     backgroundColor: "",
@@ -34,10 +33,9 @@ export default function RoutingCreateForm(props) {
     notes: "",
     search: "",
   };
+  const [idx, setIdx] = React.useState(initialValues.idx);
   const [start, setStart] = React.useState(initialValues.start);
   const [end, setEnd] = React.useState(initialValues.end);
-  const [regionID, setRegionID] = React.useState(initialValues.regionID);
-  const [qty, setQty] = React.useState(initialValues.qty);
   const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
     initialValues.description
@@ -53,10 +51,9 @@ export default function RoutingCreateForm(props) {
   const [search, setSearch] = React.useState(initialValues.search);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setIdx(initialValues.idx);
     setStart(initialValues.start);
     setEnd(initialValues.end);
-    setRegionID(initialValues.regionID);
-    setQty(initialValues.qty);
     setTitle(initialValues.title);
     setDescription(initialValues.description);
     setBackgroundColor(initialValues.backgroundColor);
@@ -67,10 +64,9 @@ export default function RoutingCreateForm(props) {
     setErrors({});
   };
   const validations = {
+    idx: [{ type: "Required" }],
     start: [{ type: "Required" }],
     end: [{ type: "Required" }],
-    regionID: [{ type: "Required" }],
-    qty: [],
     title: [{ type: "Required" }],
     description: [],
     backgroundColor: [],
@@ -122,10 +118,9 @@ export default function RoutingCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
+          idx,
           start,
           end,
-          regionID,
-          qty,
           title,
           description,
           backgroundColor,
@@ -187,6 +182,43 @@ export default function RoutingCreateForm(props) {
       {...rest}
     >
       <TextField
+        label="Idx"
+        isRequired={true}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={idx}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              idx: value,
+              start,
+              end,
+              title,
+              description,
+              backgroundColor,
+              textColor,
+              borderColor,
+              notes,
+              search,
+            };
+            const result = onChange(modelFields);
+            value = result?.idx ?? value;
+          }
+          if (errors.idx?.hasError) {
+            runValidationTasks("idx", value);
+          }
+          setIdx(value);
+        }}
+        onBlur={() => runValidationTasks("idx", idx)}
+        errorMessage={errors.idx?.errorMessage}
+        hasError={errors.idx?.hasError}
+        {...getOverrideProps(overrides, "idx")}
+      ></TextField>
+      <TextField
         label="Start"
         isRequired={true}
         isReadOnly={false}
@@ -197,10 +229,9 @@ export default function RoutingCreateForm(props) {
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
+              idx,
               start: value,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,
@@ -233,10 +264,9 @@ export default function RoutingCreateForm(props) {
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end: value,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,
@@ -259,78 +289,6 @@ export default function RoutingCreateForm(props) {
         {...getOverrideProps(overrides, "end")}
       ></TextField>
       <TextField
-        label="Region id"
-        isRequired={true}
-        isReadOnly={false}
-        value={regionID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              start,
-              end,
-              regionID: value,
-              qty,
-              title,
-              description,
-              backgroundColor,
-              textColor,
-              borderColor,
-              notes,
-              search,
-            };
-            const result = onChange(modelFields);
-            value = result?.regionID ?? value;
-          }
-          if (errors.regionID?.hasError) {
-            runValidationTasks("regionID", value);
-          }
-          setRegionID(value);
-        }}
-        onBlur={() => runValidationTasks("regionID", regionID)}
-        errorMessage={errors.regionID?.errorMessage}
-        hasError={errors.regionID?.hasError}
-        {...getOverrideProps(overrides, "regionID")}
-      ></TextField>
-      <TextField
-        label="Qty"
-        isRequired={false}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={qty}
-        onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              start,
-              end,
-              regionID,
-              qty: value,
-              title,
-              description,
-              backgroundColor,
-              textColor,
-              borderColor,
-              notes,
-              search,
-            };
-            const result = onChange(modelFields);
-            value = result?.qty ?? value;
-          }
-          if (errors.qty?.hasError) {
-            runValidationTasks("qty", value);
-          }
-          setQty(value);
-        }}
-        onBlur={() => runValidationTasks("qty", qty)}
-        errorMessage={errors.qty?.errorMessage}
-        hasError={errors.qty?.hasError}
-        {...getOverrideProps(overrides, "qty")}
-      ></TextField>
-      <TextField
         label="Title"
         isRequired={true}
         isReadOnly={false}
@@ -339,10 +297,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title: value,
               description,
               backgroundColor,
@@ -373,10 +330,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description: value,
               backgroundColor,
@@ -407,10 +363,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor: value,
@@ -441,10 +396,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,
@@ -475,10 +429,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,
@@ -509,10 +462,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,
@@ -543,10 +495,9 @@ export default function RoutingCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
+              idx,
               start,
               end,
-              regionID,
-              qty,
               title,
               description,
               backgroundColor,

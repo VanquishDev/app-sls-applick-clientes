@@ -855,6 +855,8 @@ type Order
   companyName: String
   companyPhone: AWSPhone
   companyOpeningHours: String
+  clientCampaignUnitID: ID
+  clientCampaignUnitName: String
   qrCodePix: String
   qrCodePixUrl: String
   payMethod: PaymentMethods,
@@ -1022,9 +1024,13 @@ type Adherence
   orderMessage: String
   zipCodeCoverage: [String]
   search: String
+  clientID: ID! @index(name: "adherenceByClient", queryField: "listAdherenceByClient")
+  clientCampaignID: ID! @index(name: "adherenceByClientCampaign", queryField: "listAdherenceByClientCampaign")
+  clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
   products: [AdherenceProduct] @hasMany(indexName: "productsByAdherence", fields: ["id"])
   adherenceUsed: [AdherenceUsed] @hasMany(indexName: "usedByAdherence", fields: ["id"])
   companies: [AdherenceCompany] @hasMany(indexName: "companiesByAdherence", fields: ["id"])
+  units: [AdherenceUnit] @hasMany(indexName: "unitsByAdherence", fields: ["id"])
 }
 
 type AdherenceUsed
@@ -1083,6 +1089,23 @@ type AdherenceCompany
   adherenceID: ID! @index(name: "companiesByAdherence", queryField: "listCompaniesByAdherence")
   companyID: ID!
   company: Company @hasOne(fields: ["companyID"])
+}
+
+type AdherenceUnit
+  @model(
+    mutations: {create: "createAdherenceUnit", update: "updateAdherenceUnit", delete: "deleteAdherenceUnit"},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"]},
+    {allow: private, provider: userPools, operations: [read]},
+    {allow: public, provider: apiKey, operations: [read, update, create, delete]}
+  ]) {
+  id: ID! @primaryKey
+  adherenceID: ID! @index(name: "unitsByAdherence", queryField: "listUnitsByAdherence")
+  clientCampaignUnitID: ID!
+  clientCampaignUnit: ClientCampaignUnit @hasOne(fields: ["clientCampaignUnitID"])
 }
 
 type VaccinationCard
@@ -1321,7 +1344,6 @@ type ClientCampaign
       queryField: "listClientCampaignsByClientStatus",
       sortKeyFields: ["status"]
     )
-  client: Client @hasOne(fields: ["clientID"])
   name: String!
   description: String
   clientNotes: String
@@ -1349,6 +1371,7 @@ type ClientCampaign
   createdAt: AWSDateTime
   allowOffList: Boolean
   leafDiscount: Boolean
+  client: Client @hasOne(fields: ["clientID"])
   idx: Int! @default(value: "0") @index(name: "clientCampaignsByIdxCreatedAt", queryField: "listClientCampaignsByIdxCreatedAt", sortKeyFields: ["createdAt"])
   campaignCode: String! @index(name: "clientCampaignsByCampaignCode", queryField: "listClientCampaignsByCampaignCode")
   status: ClientCampaignStatus @index(name: "clientCampaignsByStatusCreatedAt", queryField: "listClientCampaignsByStatusCreatedAt", sortKeyFields: ["createdAt"])
@@ -1360,7 +1383,7 @@ type ClientCampaign
 type ClientCampaignUnit
   @model(
     mutations: {create: "createClientCampaignUnit", update: "updateClientCampaignUnit", delete: "deleteClientCampaignUnit"},
-    queries: {get: null, list: null},
+    queries: {get: "getClientCampaignUnit", list: "listClientCampaignUnits"},
     subscriptions: null
   )
   @auth(rules: [
@@ -1374,6 +1397,14 @@ type ClientCampaignUnit
   name: String
   notes: String
   search: String
+  street: String
+  number: String
+  complement: String
+  zipcode: String
+  neighborhood: String
+  city: String
+  state: String
+  country: String
   contactName: String
   contactEmail: String
   contactPhone: String
@@ -1381,9 +1412,14 @@ type ClientCampaignUnit
   totalContractedVaccines: Int
   qtyVisits: Int
   qtyVisitsConfirmed: Int
+  qtyProfessional: Int
+  servicePoints: Int
+  vaccination: String
+  idx: Int! @default(value: "0") @index(name: "unitsByIdxRegion", queryField: "listUnitsByIdxRegion", sortKeyFields: ["routingRegionID"])
   routingRegionID: ID @index(name: "unitsByRoutingRegion", queryField: "listUnitsByRoutingRegion")
-  code: String!
+  code: String
   oss: [OS] @hasMany(indexName: "ossByClientCampaignUnit", fields: ["id"])
+  clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
 }
 
 type ClientCampaignProduct
@@ -1425,7 +1461,7 @@ type ClientCampaignCompany
 type ClientCampaignEligible
   @model(
     mutations: {create: "createClientCampaignEligible", update: "updateClientCampaignEligible", delete: "deleteClientCampaignEligible"},
-    queries: {get: null, list: null},
+    queries: {get: null, list: "listClientCampaignEligibles"},
     subscriptions: null
   )
   @auth(rules: [
@@ -1511,8 +1547,9 @@ type OS
     @index(name: "ossByClientStatus", queryField: "listOSsByClientStatus", sortKeyFields: ["status"])
   clientCampaignID: ID! @index(name: "ossByClientCampaign", queryField: "listOSsByClientCampaign")
   clientCampaignUnitID: ID @index(name: "ossByClientCampaignUnit", queryField: "listOSsByClientCampaignUnit")
+  idx: Int! @index(name: "ossByIdxStart", queryField: "listOSsByIdxStart", sortKeyFields: ["start"])
   driverID: ID
-  professionals: [ID!]!
+  professionals: [ID!]
   collaborators: [ID!]
   companies: [ID!]
   number: Int! @index(name: "ossByNumber", queryField: "listOSsByNumber")
@@ -1523,6 +1560,7 @@ type OS
   status: OSStatus! @index(name: "ossByStatusNumber", queryField: "listOSsByStatusNumber", sortKeyFields: ["number"])
   vaccination: String
   qtyApplication: Int
+  qtyProfessional: Int
   dateStarted: AWSDateTime
   dateFinished: AWSDateTime
   professionalStarted: ID
@@ -1577,10 +1615,9 @@ type Routing
     {allow: public, provider: apiKey, operations: [read, update, create, delete]}
     ]) {
   id: ID! @primaryKey
-  start: AWSDateTime! @index(name: "routingByStartRegion", queryField: "listRoutingByStartRegion", sortKeyFields: ["regionID"])
+  idx: Int! @index(name: "routingByIdxStart", queryField: "listRoutingByIdxStart", sortKeyFields: ["start"])
+  start: AWSDateTime!
   end: AWSDateTime!
-  regionID: ID! @index(name: "routingByRegionStart", queryField: "listRoutingByRegionStart", sortKeyFields: ["start"])
-  qty: Int
   title: String!
   description: String
   backgroundColor: String
@@ -1588,6 +1625,7 @@ type Routing
   borderColor: String
   notes: String
   search: String
+  routingOSs: [RoutingOSs] @hasMany(indexName: "routingOSsByRouting", fields: ["id"])
 }
 
 type RoutingOSs

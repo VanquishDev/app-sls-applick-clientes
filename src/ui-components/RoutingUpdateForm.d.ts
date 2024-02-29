@@ -23,10 +23,9 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type RoutingUpdateFormInputValues = {
+    idx?: number;
     start?: string;
     end?: string;
-    regionID?: string;
-    qty?: number;
     title?: string;
     description?: string;
     backgroundColor?: string;
@@ -36,10 +35,9 @@ export declare type RoutingUpdateFormInputValues = {
     search?: string;
 };
 export declare type RoutingUpdateFormValidationValues = {
+    idx?: ValidationFunction<number>;
     start?: ValidationFunction<string>;
     end?: ValidationFunction<string>;
-    regionID?: ValidationFunction<string>;
-    qty?: ValidationFunction<number>;
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     backgroundColor?: ValidationFunction<string>;
@@ -51,10 +49,9 @@ export declare type RoutingUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RoutingUpdateFormOverridesProps = {
     RoutingUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    idx?: PrimitiveOverrideProps<TextFieldProps>;
     start?: PrimitiveOverrideProps<TextFieldProps>;
     end?: PrimitiveOverrideProps<TextFieldProps>;
-    regionID?: PrimitiveOverrideProps<TextFieldProps>;
-    qty?: PrimitiveOverrideProps<TextFieldProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
     backgroundColor?: PrimitiveOverrideProps<TextFieldProps>;

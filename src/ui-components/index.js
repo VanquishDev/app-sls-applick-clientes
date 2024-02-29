@@ -4,8 +4,6 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as AdherenceCreateForm } from "./AdherenceCreateForm";
-export { default as AdherenceUpdateForm } from "./AdherenceUpdateForm";
 export { default as AuthorizationListClosureCreateForm } from "./AuthorizationListClosureCreateForm";
 export { default as AuthorizationListClosureUpdateForm } from "./AuthorizationListClosureUpdateForm";
 export { default as AuthorizationListCreateForm } from "./AuthorizationListCreateForm";

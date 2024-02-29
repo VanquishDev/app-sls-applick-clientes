@@ -320,6 +320,8 @@ export const onCreateOrderAdm = /* GraphQL */ `subscription OnCreateOrderAdm {
     companyName
     companyPhone
     companyOpeningHours
+    clientCampaignUnitID
+    clientCampaignUnitName
     qrCodePix
     qrCodePixUrl
     payMethod
@@ -466,6 +468,33 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
   onUpdateClientCampaign(clientID: $clientID) {
     id
     clientID
+    name
+    description
+    clientNotes
+    internalNotes
+    totalUnits
+    unitsServed
+    unitsExpected
+    firstOSDate
+    lastOSDate
+    scheduleRouted
+    scheduleConfirmed
+    scheduleFinished
+    totalEligibles
+    totalEligiblesDependent
+    totalEligiblesThird
+    totalVaccinations
+    totalVaccinationsDependent
+    totalVaccinationsThird
+    search
+    responsible
+    number
+    contactName
+    contactEmail
+    contactPhone
+    createdAt
+    allowOffList
+    leafDiscount
     client {
       id
       name
@@ -513,33 +542,6 @@ export const onUpdateClientCampaign = /* GraphQL */ `subscription OnUpdateClient
       updatedAt
       __typename
     }
-    name
-    description
-    clientNotes
-    internalNotes
-    totalUnits
-    unitsServed
-    unitsExpected
-    firstOSDate
-    lastOSDate
-    scheduleRouted
-    scheduleConfirmed
-    scheduleFinished
-    totalEligibles
-    totalEligiblesDependent
-    totalEligiblesThird
-    totalVaccinations
-    totalVaccinationsDependent
-    totalVaccinationsThird
-    search
-    responsible
-    number
-    contactName
-    contactEmail
-    contactPhone
-    createdAt
-    allowOffList
-    leafDiscount
     idx
     campaignCode
     status
@@ -932,6 +934,8 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
     companyName
     companyPhone
     companyOpeningHours
+    clientCampaignUnitID
+    clientCampaignUnitName
     qrCodePix
     qrCodePixUrl
     payMethod
@@ -1075,6 +1079,8 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
     companyName
     companyPhone
     companyOpeningHours
+    clientCampaignUnitID
+    clientCampaignUnitName
     qrCodePix
     qrCodePixUrl
     payMethod
@@ -1218,6 +1224,8 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
     companyName
     companyPhone
     companyOpeningHours
+    clientCampaignUnitID
+    clientCampaignUnitName
     qrCodePix
     qrCodePixUrl
     payMethod
