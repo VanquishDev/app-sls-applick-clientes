@@ -28,7 +28,7 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Container, Footer, ScrollTopArrow, Modal } from 'components/ui'
+import { Container, Footer, ScrollTopArrow, Modal, Loading } from 'components/ui'
 import { Layout, Head } from 'components/common'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 import { useUI } from 'components/ui/context'
@@ -165,11 +165,7 @@ export default function PageComponent({
   }, [pageSSR])
 
   if (!router.isFallback && !pageSSR?.alias) {
-    return (
-      <div className="p-5 text-2xl font-semibold">
-        Página não localizada. (404)
-      </div>
-    )
+    return <Redirect />
   }
 
   if (router.isFallback) {
@@ -871,4 +867,12 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
       menu: JSON.parse(JSON.stringify(menu)),
     },
   }
+}
+
+export function Redirect() {
+  const router = useRouter()
+  useEffect(() => {
+    router.push(`${process.env.HOME}`)
+  }, [])
+  return <div><Loading /></div>
 }

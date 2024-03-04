@@ -1380,6 +1380,12 @@ type ClientCampaign
   units: [ClientCampaignUnit] @hasMany(indexName: "unitsByClientCampaign", fields: ["id"])
 }
 
+enum UnitsTypeService {
+  IN_COMPANY
+  DESK
+  DELIVERY
+}
+
 type ClientCampaignUnit
   @model(
     mutations: {create: "createClientCampaignUnit", update: "updateClientCampaignUnit", delete: "deleteClientCampaignUnit"},
@@ -1415,6 +1421,7 @@ type ClientCampaignUnit
   qtyProfessional: Int
   servicePoints: Int
   vaccination: String
+  typeService: UnitsTypeService
   idx: Int! @default(value: "0") @index(name: "unitsByIdxRegion", queryField: "listUnitsByIdxRegion", sortKeyFields: ["routingRegionID"])
   routingRegionID: ID @index(name: "unitsByRoutingRegion", queryField: "listUnitsByRoutingRegion")
   code: String
