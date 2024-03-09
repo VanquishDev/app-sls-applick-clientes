@@ -26,9 +26,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
   const initialValues = {
     clientCampaignID: "",
     key: "",
-    name: "",
     cpf: "",
     rg: "",
+    name: "",
     birth: "",
     notes: "",
     search: "",
@@ -42,9 +42,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
     initialValues.clientCampaignID
   );
   const [key, setKey] = React.useState(initialValues.key);
-  const [name, setName] = React.useState(initialValues.name);
   const [cpf, setCpf] = React.useState(initialValues.cpf);
   const [rg, setRg] = React.useState(initialValues.rg);
+  const [name, setName] = React.useState(initialValues.name);
   const [birth, setBirth] = React.useState(initialValues.birth);
   const [notes, setNotes] = React.useState(initialValues.notes);
   const [search, setSearch] = React.useState(initialValues.search);
@@ -66,9 +66,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
       : initialValues;
     setClientCampaignID(cleanValues.clientCampaignID);
     setKey(cleanValues.key);
-    setName(cleanValues.name);
     setCpf(cleanValues.cpf);
     setRg(cleanValues.rg);
+    setName(cleanValues.name);
     setBirth(cleanValues.birth);
     setNotes(cleanValues.notes);
     setSearch(cleanValues.search);
@@ -98,10 +98,10 @@ export default function ClientCampaignEligibleUpdateForm(props) {
   React.useEffect(resetStateValues, [clientCampaignEligibleRecord]);
   const validations = {
     clientCampaignID: [{ type: "Required" }],
-    key: [{ type: "Required" }],
-    name: [],
+    key: [],
     cpf: [],
     rg: [],
+    name: [],
     birth: [],
     notes: [],
     search: [],
@@ -138,10 +138,10 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           clientCampaignID,
-          key,
-          name: name ?? null,
+          key: key ?? null,
           cpf: cpf ?? null,
           rg: rg ?? null,
+          name: name ?? null,
           birth: birth ?? null,
           notes: notes ?? null,
           search: search ?? null,
@@ -212,9 +212,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID: value,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -239,7 +239,7 @@ export default function ClientCampaignEligibleUpdateForm(props) {
       ></TextField>
       <TextField
         label="Key"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={key}
         onChange={(e) => {
@@ -248,9 +248,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key: value,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -274,42 +274,6 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         {...getOverrideProps(overrides, "key")}
       ></TextField>
       <TextField
-        label="Name"
-        isRequired={false}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              clientCampaignID,
-              key,
-              name: value,
-              cpf,
-              rg,
-              birth,
-              notes,
-              search,
-              relationship,
-              isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
         label="Cpf"
         isRequired={false}
         isReadOnly={false}
@@ -320,9 +284,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf: value,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -356,9 +320,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg: value,
+              name,
               birth,
               notes,
               search,
@@ -382,6 +346,42 @@ export default function ClientCampaignEligibleUpdateForm(props) {
         {...getOverrideProps(overrides, "rg")}
       ></TextField>
       <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              clientCampaignID,
+              key,
+              cpf,
+              rg,
+              name: value,
+              birth,
+              notes,
+              search,
+              relationship,
+              isDependent,
+              cpfRelationship,
+              isThird,
+              thirdName,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="Birth"
         isRequired={false}
         isReadOnly={false}
@@ -392,9 +392,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth: value,
               notes,
               search,
@@ -428,9 +428,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes: value,
               search,
@@ -464,9 +464,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search: value,
@@ -500,9 +500,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -536,9 +536,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -572,9 +572,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -608,9 +608,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,
@@ -644,9 +644,9 @@ export default function ClientCampaignEligibleUpdateForm(props) {
             const modelFields = {
               clientCampaignID,
               key,
-              name,
               cpf,
               rg,
+              name,
               birth,
               notes,
               search,

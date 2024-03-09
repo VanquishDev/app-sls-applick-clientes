@@ -2591,33 +2591,6 @@ export const deleteAdherence = /* GraphQL */ `mutation DeleteAdherence(
   APITypes.DeleteAdherenceMutationVariables,
   APITypes.DeleteAdherenceMutation
 >;
-export const createVaccinationCard = /* GraphQL */ `mutation CreateVaccinationCard(
-  $input: CreateVaccinationCardInput!
-  $condition: ModelVaccinationCardConditionInput
-) {
-  createVaccinationCard(input: $input, condition: $condition) {
-    id
-    userID
-    person
-    doc
-    birth
-    relationship
-    notes
-    avatar
-    isOwner
-    vaccinationCardItem {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateVaccinationCardMutationVariables,
-  APITypes.CreateVaccinationCardMutation
->;
 export const updateVaccinationCard = /* GraphQL */ `mutation UpdateVaccinationCard(
   $input: UpdateVaccinationCardInput!
   $condition: ModelVaccinationCardConditionInput
@@ -2848,6 +2821,7 @@ export const updateVaccinationCardItem = /* GraphQL */ `mutation UpdateVaccinati
       updatedAt
       __typename
     }
+    clientCampaignUnitID
     lote
     profissionalID
     profissional {
@@ -3055,6 +3029,7 @@ export const deleteVaccinationCardItem = /* GraphQL */ `mutation DeleteVaccinati
       updatedAt
       __typename
     }
+    clientCampaignUnitID
     lote
     profissionalID
     profissional {
@@ -3244,10 +3219,6 @@ export const createClient = /* GraphQL */ `mutation CreateClient(
     contactName
     contactEmail
     contactPhone
-    eligibles {
-      nextToken
-      __typename
-    }
     campaigns {
       nextToken
       __typename
@@ -3312,10 +3283,6 @@ export const updateClient = /* GraphQL */ `mutation UpdateClient(
     contactName
     contactEmail
     contactPhone
-    eligibles {
-      nextToken
-      __typename
-    }
     campaigns {
       nextToken
       __typename
@@ -3380,10 +3347,6 @@ export const deleteClient = /* GraphQL */ `mutation DeleteClient(
     contactName
     contactEmail
     contactPhone
-    eligibles {
-      nextToken
-      __typename
-    }
     campaigns {
       nextToken
       __typename
@@ -3428,7 +3391,9 @@ export const createClientCampaignUnit = /* GraphQL */ `mutation CreateClientCamp
     qtyVisitsConfirmed
     qtyProfessional
     servicePoints
+    serviceResponsible
     vaccination
+    typeService
     idx
     routingRegionID
     code
@@ -3508,7 +3473,9 @@ export const updateClientCampaignUnit = /* GraphQL */ `mutation UpdateClientCamp
     qtyVisitsConfirmed
     qtyProfessional
     servicePoints
+    serviceResponsible
     vaccination
+    typeService
     idx
     routingRegionID
     code
@@ -3588,7 +3555,9 @@ export const deleteClientCampaignUnit = /* GraphQL */ `mutation DeleteClientCamp
     qtyVisitsConfirmed
     qtyProfessional
     servicePoints
+    serviceResponsible
     vaccination
+    typeService
     idx
     routingRegionID
     code
@@ -3641,34 +3610,6 @@ export const deleteClientCampaignUnit = /* GraphQL */ `mutation DeleteClientCamp
   APITypes.DeleteClientCampaignUnitMutationVariables,
   APITypes.DeleteClientCampaignUnitMutation
 >;
-export const createClientCampaignEligible = /* GraphQL */ `mutation CreateClientCampaignEligible(
-  $input: CreateClientCampaignEligibleInput!
-  $condition: ModelClientCampaignEligibleConditionInput
-) {
-  createClientCampaignEligible(input: $input, condition: $condition) {
-    id
-    clientCampaignID
-    key
-    name
-    cpf
-    rg
-    birth
-    notes
-    search
-    relationship
-    isDependent
-    cpfRelationship
-    isThird
-    thirdName
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateClientCampaignEligibleMutationVariables,
-  APITypes.CreateClientCampaignEligibleMutation
->;
 export const updateClientCampaignEligible = /* GraphQL */ `mutation UpdateClientCampaignEligible(
   $input: UpdateClientCampaignEligibleInput!
   $condition: ModelClientCampaignEligibleConditionInput
@@ -3677,9 +3618,9 @@ export const updateClientCampaignEligible = /* GraphQL */ `mutation UpdateClient
     id
     clientCampaignID
     key
-    name
     cpf
     rg
+    name
     birth
     notes
     search
@@ -3705,9 +3646,9 @@ export const deleteClientCampaignEligible = /* GraphQL */ `mutation DeleteClient
     id
     clientCampaignID
     key
-    name
     cpf
     rg
+    name
     birth
     notes
     search
@@ -3754,6 +3695,8 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -3818,9 +3761,9 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -3894,6 +3837,8 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -3958,9 +3903,9 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -4034,6 +3979,8 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -4098,9 +4045,9 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -4144,653 +4091,6 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
 ` as GeneratedMutation<
   APITypes.DeleteClientCampaignEligibleVaccinationMutationVariables,
   APITypes.DeleteClientCampaignEligibleVaccinationMutation
->;
-export const createEligibleVaccination = /* GraphQL */ `mutation CreateEligibleVaccination(
-  $input: CreateEligibleVaccinationInput!
-  $condition: ModelEligibleVaccinationConditionInput
-) {
-  createEligibleVaccination(input: $input, condition: $condition) {
-    id
-    osID
-    clientEligibleID
-    clientEligible {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientID
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalDoc
-    coren
-    applicationDate
-    reason
-    search
-    vaccination
-    status
-    localCity
-    localState
-    os {
-      id
-      clientID
-      clientCampaignID
-      clientCampaignUnitID
-      idx
-      driverID
-      professionals
-      collaborators
-      companies
-      number
-      start
-      expiration
-      orientation
-      notes
-      status
-      vaccination
-      qtyApplication
-      qtyProfessional
-      dateStarted
-      dateFinished
-      professionalStarted
-      professionalFinished
-      notesStarted
-      notesFinished
-      clientNameStarted
-      clientNameFinished
-      unitNameFinished
-      contactNameFinished
-      contactDocFinished
-      contactCRMFinished
-      contactEmailFinished
-      stayVaccines
-      stayQtd
-      lat
-      lng
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateEligibleVaccinationMutationVariables,
-  APITypes.CreateEligibleVaccinationMutation
->;
-export const updateEligibleVaccination = /* GraphQL */ `mutation UpdateEligibleVaccination(
-  $input: UpdateEligibleVaccinationInput!
-  $condition: ModelEligibleVaccinationConditionInput
-) {
-  updateEligibleVaccination(input: $input, condition: $condition) {
-    id
-    osID
-    clientEligibleID
-    clientEligible {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientID
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalDoc
-    coren
-    applicationDate
-    reason
-    search
-    vaccination
-    status
-    localCity
-    localState
-    os {
-      id
-      clientID
-      clientCampaignID
-      clientCampaignUnitID
-      idx
-      driverID
-      professionals
-      collaborators
-      companies
-      number
-      start
-      expiration
-      orientation
-      notes
-      status
-      vaccination
-      qtyApplication
-      qtyProfessional
-      dateStarted
-      dateFinished
-      professionalStarted
-      professionalFinished
-      notesStarted
-      notesFinished
-      clientNameStarted
-      clientNameFinished
-      unitNameFinished
-      contactNameFinished
-      contactDocFinished
-      contactCRMFinished
-      contactEmailFinished
-      stayVaccines
-      stayQtd
-      lat
-      lng
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateEligibleVaccinationMutationVariables,
-  APITypes.UpdateEligibleVaccinationMutation
->;
-export const deleteEligibleVaccination = /* GraphQL */ `mutation DeleteEligibleVaccination(
-  $input: DeleteEligibleVaccinationInput!
-  $condition: ModelEligibleVaccinationConditionInput
-) {
-  deleteEligibleVaccination(input: $input, condition: $condition) {
-    id
-    osID
-    clientEligibleID
-    clientEligible {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    clientID
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalDoc
-    coren
-    applicationDate
-    reason
-    search
-    vaccination
-    status
-    localCity
-    localState
-    os {
-      id
-      clientID
-      clientCampaignID
-      clientCampaignUnitID
-      idx
-      driverID
-      professionals
-      collaborators
-      companies
-      number
-      start
-      expiration
-      orientation
-      notes
-      status
-      vaccination
-      qtyApplication
-      qtyProfessional
-      dateStarted
-      dateFinished
-      professionalStarted
-      professionalFinished
-      notesStarted
-      notesFinished
-      clientNameStarted
-      clientNameFinished
-      unitNameFinished
-      contactNameFinished
-      contactDocFinished
-      contactCRMFinished
-      contactEmailFinished
-      stayVaccines
-      stayQtd
-      lat
-      lng
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteEligibleVaccinationMutationVariables,
-  APITypes.DeleteEligibleVaccinationMutation
->;
-export const createClientEligible = /* GraphQL */ `mutation CreateClientEligible(
-  $input: CreateClientEligibleInput!
-  $condition: ModelClientEligibleConditionInput
-) {
-  createClientEligible(input: $input, condition: $condition) {
-    id
-    clientID
-    key
-    name
-    cpf
-    rg
-    birth
-    notes
-    search
-    relationship
-    isDependent
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateClientEligibleMutationVariables,
-  APITypes.CreateClientEligibleMutation
->;
-export const updateClientEligible = /* GraphQL */ `mutation UpdateClientEligible(
-  $input: UpdateClientEligibleInput!
-  $condition: ModelClientEligibleConditionInput
-) {
-  updateClientEligible(input: $input, condition: $condition) {
-    id
-    clientID
-    key
-    name
-    cpf
-    rg
-    birth
-    notes
-    search
-    relationship
-    isDependent
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateClientEligibleMutationVariables,
-  APITypes.UpdateClientEligibleMutation
->;
-export const deleteClientEligible = /* GraphQL */ `mutation DeleteClientEligible(
-  $input: DeleteClientEligibleInput!
-  $condition: ModelClientEligibleConditionInput
-) {
-  deleteClientEligible(input: $input, condition: $condition) {
-    id
-    clientID
-    key
-    name
-    cpf
-    rg
-    birth
-    notes
-    search
-    relationship
-    isDependent
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteClientEligibleMutationVariables,
-  APITypes.DeleteClientEligibleMutation
->;
-export const createAuthorizationList = /* GraphQL */ `mutation CreateAuthorizationList(
-  $input: CreateAuthorizationListInput!
-  $condition: ModelAuthorizationListConditionInput
-) {
-  createAuthorizationList(input: $input, condition: $condition) {
-    id
-    name
-    description
-    start
-    expiration
-    orientation
-    search
-    qtyApplication
-    qtyReturned
-    contactNameFinished
-    contactPhoneFinished
-    contactEmailFinished
-    notesFinished
-    professionalFinished
-    withList
-    adherenceCode
-    OS
-    status
-    members {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateAuthorizationListMutationVariables,
-  APITypes.CreateAuthorizationListMutation
->;
-export const updateAuthorizationList = /* GraphQL */ `mutation UpdateAuthorizationList(
-  $input: UpdateAuthorizationListInput!
-  $condition: ModelAuthorizationListConditionInput
-) {
-  updateAuthorizationList(input: $input, condition: $condition) {
-    id
-    name
-    description
-    start
-    expiration
-    orientation
-    search
-    qtyApplication
-    qtyReturned
-    contactNameFinished
-    contactPhoneFinished
-    contactEmailFinished
-    notesFinished
-    professionalFinished
-    withList
-    adherenceCode
-    OS
-    status
-    members {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateAuthorizationListMutationVariables,
-  APITypes.UpdateAuthorizationListMutation
->;
-export const deleteAuthorizationList = /* GraphQL */ `mutation DeleteAuthorizationList(
-  $input: DeleteAuthorizationListInput!
-  $condition: ModelAuthorizationListConditionInput
-) {
-  deleteAuthorizationList(input: $input, condition: $condition) {
-    id
-    name
-    description
-    start
-    expiration
-    orientation
-    search
-    qtyApplication
-    qtyReturned
-    contactNameFinished
-    contactPhoneFinished
-    contactEmailFinished
-    notesFinished
-    professionalFinished
-    withList
-    adherenceCode
-    OS
-    status
-    members {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteAuthorizationListMutationVariables,
-  APITypes.DeleteAuthorizationListMutation
->;
-export const createAuthorizationListClosure = /* GraphQL */ `mutation CreateAuthorizationListClosure(
-  $input: CreateAuthorizationListClosureInput!
-  $condition: ModelAuthorizationListClosureConditionInput
-) {
-  createAuthorizationListClosure(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    contactName
-    contactPhone
-    contactEmail
-    notes
-    qtyApplication
-    qtyReturned
-    professionalID
-    OS
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateAuthorizationListClosureMutationVariables,
-  APITypes.CreateAuthorizationListClosureMutation
->;
-export const updateAuthorizationListClosure = /* GraphQL */ `mutation UpdateAuthorizationListClosure(
-  $input: UpdateAuthorizationListClosureInput!
-  $condition: ModelAuthorizationListClosureConditionInput
-) {
-  updateAuthorizationListClosure(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    contactName
-    contactPhone
-    contactEmail
-    notes
-    qtyApplication
-    qtyReturned
-    professionalID
-    OS
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateAuthorizationListClosureMutationVariables,
-  APITypes.UpdateAuthorizationListClosureMutation
->;
-export const deleteAuthorizationListClosure = /* GraphQL */ `mutation DeleteAuthorizationListClosure(
-  $input: DeleteAuthorizationListClosureInput!
-  $condition: ModelAuthorizationListClosureConditionInput
-) {
-  deleteAuthorizationListClosure(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    contactName
-    contactPhone
-    contactEmail
-    notes
-    qtyApplication
-    qtyReturned
-    professionalID
-    OS
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteAuthorizationListClosureMutationVariables,
-  APITypes.DeleteAuthorizationListClosureMutation
->;
-export const createAuthorizationListMember = /* GraphQL */ `mutation CreateAuthorizationListMember(
-  $input: CreateAuthorizationListMemberInput!
-  $condition: ModelAuthorizationListMemberConditionInput
-) {
-  createAuthorizationListMember(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    name
-    key
-    cpf
-    birth
-    search
-    others
-    vaccinations {
-      nextToken
-      __typename
-    }
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateAuthorizationListMemberMutationVariables,
-  APITypes.CreateAuthorizationListMemberMutation
->;
-export const deleteAuthorizationListMember = /* GraphQL */ `mutation DeleteAuthorizationListMember(
-  $input: DeleteAuthorizationListMemberInput!
-  $condition: ModelAuthorizationListMemberConditionInput
-) {
-  deleteAuthorizationListMember(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    name
-    key
-    cpf
-    birth
-    search
-    others
-    vaccinations {
-      nextToken
-      __typename
-    }
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteAuthorizationListMemberMutationVariables,
-  APITypes.DeleteAuthorizationListMemberMutation
 >;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
@@ -7468,7 +6768,9 @@ export const createAdherenceUnit = /* GraphQL */ `mutation CreateAdherenceUnit(
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -7516,7 +6818,9 @@ export const updateAdherenceUnit = /* GraphQL */ `mutation UpdateAdherenceUnit(
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -7564,7 +6868,9 @@ export const deleteAdherenceUnit = /* GraphQL */ `mutation DeleteAdherenceUnit(
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -7580,6 +6886,33 @@ export const deleteAdherenceUnit = /* GraphQL */ `mutation DeleteAdherenceUnit(
 ` as GeneratedMutation<
   APITypes.DeleteAdherenceUnitMutationVariables,
   APITypes.DeleteAdherenceUnitMutation
+>;
+export const createVaccinationCard = /* GraphQL */ `mutation CreateVaccinationCard(
+  $input: CreateVaccinationCardInput!
+  $condition: ModelVaccinationCardConditionInput
+) {
+  createVaccinationCard(input: $input, condition: $condition) {
+    id
+    userID
+    person
+    doc
+    birth
+    relationship
+    notes
+    avatar
+    isOwner
+    vaccinationCardItem {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateVaccinationCardMutationVariables,
+  APITypes.CreateVaccinationCardMutation
 >;
 export const createVaccinationCardItem = /* GraphQL */ `mutation CreateVaccinationCardItem(
   $input: CreateVaccinationCardItemInput!
@@ -7757,6 +7090,7 @@ export const createVaccinationCardItem = /* GraphQL */ `mutation CreateVaccinati
       updatedAt
       __typename
     }
+    clientCampaignUnitID
     lote
     profissionalID
     profissional {
@@ -8653,6 +7987,34 @@ export const deleteClientCampaignCompany = /* GraphQL */ `mutation DeleteClientC
   APITypes.DeleteClientCampaignCompanyMutationVariables,
   APITypes.DeleteClientCampaignCompanyMutation
 >;
+export const createClientCampaignEligible = /* GraphQL */ `mutation CreateClientCampaignEligible(
+  $input: CreateClientCampaignEligibleInput!
+  $condition: ModelClientCampaignEligibleConditionInput
+) {
+  createClientCampaignEligible(input: $input, condition: $condition) {
+    id
+    clientCampaignID
+    key
+    cpf
+    rg
+    name
+    birth
+    notes
+    search
+    relationship
+    isDependent
+    cpfRelationship
+    isThird
+    thirdName
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateClientCampaignEligibleMutationVariables,
+  APITypes.CreateClientCampaignEligibleMutation
+>;
 export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!, $condition: ModelOSConditionInput) {
   createOS(input: $input, condition: $condition) {
     id
@@ -8673,6 +8035,8 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     vaccination
     qtyApplication
     qtyProfessional
+    servicePoints
+    serviceResponsible
     dateStarted
     dateFinished
     professionalStarted
@@ -8691,10 +8055,6 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     lat
     lng
     search
-    eligiblesVaccination {
-      nextToken
-      __typename
-    }
     client {
       id
       name
@@ -8801,7 +8161,9 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -8838,6 +8200,8 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     vaccination
     qtyApplication
     qtyProfessional
+    servicePoints
+    serviceResponsible
     dateStarted
     dateFinished
     professionalStarted
@@ -8856,10 +8220,6 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     lat
     lng
     search
-    eligiblesVaccination {
-      nextToken
-      __typename
-    }
     client {
       id
       name
@@ -8966,7 +8326,9 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -9003,6 +8365,8 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     vaccination
     qtyApplication
     qtyProfessional
+    servicePoints
+    serviceResponsible
     dateStarted
     dateFinished
     professionalStarted
@@ -9021,10 +8385,6 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     lat
     lng
     search
-    eligiblesVaccination {
-      nextToken
-      __typename
-    }
     client {
       id
       name
@@ -9131,7 +8491,9 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -9329,6 +8691,8 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -9403,6 +8767,8 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -9477,6 +8843,8 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -9507,284 +8875,4 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
 ` as GeneratedMutation<
   APITypes.DeleteRoutingOSsMutationVariables,
   APITypes.DeleteRoutingOSsMutation
->;
-export const updateAuthorizationListMember = /* GraphQL */ `mutation UpdateAuthorizationListMember(
-  $input: UpdateAuthorizationListMemberInput!
-  $condition: ModelAuthorizationListMemberConditionInput
-) {
-  updateAuthorizationListMember(input: $input, condition: $condition) {
-    id
-    authorizationListID
-    name
-    key
-    cpf
-    birth
-    search
-    others
-    vaccinations {
-      nextToken
-      __typename
-    }
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateAuthorizationListMemberMutationVariables,
-  APITypes.UpdateAuthorizationListMemberMutation
->;
-export const createAuthorizationListMemberVaccination = /* GraphQL */ `mutation CreateAuthorizationListMemberVaccination(
-  $input: CreateAuthorizationListMemberVaccinationInput!
-  $condition: ModelAuthorizationListMemberVaccinationConditionInput
-) {
-  createAuthorizationListMemberVaccination(
-    input: $input
-    condition: $condition
-  ) {
-    id
-    authorizationListID
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    authorizationListMemberID
-    authorizationListMember {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    coren
-    lote
-    dueDate
-    via
-    OS
-    applicationDate
-    applicationTime
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.CreateAuthorizationListMemberVaccinationMutationVariables,
-  APITypes.CreateAuthorizationListMemberVaccinationMutation
->;
-export const updateAuthorizationListMemberVaccination = /* GraphQL */ `mutation UpdateAuthorizationListMemberVaccination(
-  $input: UpdateAuthorizationListMemberVaccinationInput!
-  $condition: ModelAuthorizationListMemberVaccinationConditionInput
-) {
-  updateAuthorizationListMemberVaccination(
-    input: $input
-    condition: $condition
-  ) {
-    id
-    authorizationListID
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    authorizationListMemberID
-    authorizationListMember {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    coren
-    lote
-    dueDate
-    via
-    OS
-    applicationDate
-    applicationTime
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.UpdateAuthorizationListMemberVaccinationMutationVariables,
-  APITypes.UpdateAuthorizationListMemberVaccinationMutation
->;
-export const deleteAuthorizationListMemberVaccination = /* GraphQL */ `mutation DeleteAuthorizationListMemberVaccination(
-  $input: DeleteAuthorizationListMemberVaccinationInput!
-  $condition: ModelAuthorizationListMemberVaccinationConditionInput
-) {
-  deleteAuthorizationListMemberVaccination(
-    input: $input
-    condition: $condition
-  ) {
-    id
-    authorizationListID
-    authorizationList {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    authorizationListMemberID
-    authorizationListMember {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    profissionalID
-    profissional {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    coren
-    lote
-    dueDate
-    via
-    OS
-    applicationDate
-    applicationTime
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteAuthorizationListMemberVaccinationMutationVariables,
-  APITypes.DeleteAuthorizationListMemberVaccinationMutation
 >;

@@ -62,7 +62,7 @@ type Profile
     {allow: public, provider: apiKey, operations: [create]}
   ]) {
   userID: ID! @primaryKey
-  user: User @hasOne(fields: ["userID"])
+  user: User @belongsTo(fields: ["userID"])
   doc: String @index(name: "profileByDoc", queryField: "getProfileByDoc")
   docType: DocTypes
   docProfessionType: String
@@ -135,7 +135,7 @@ type GroupUser
   id: ID! @primaryKey
   group: String! @index(name: "usersByGroup", queryField: "listUsersByGroup", sortKeyFields: ["userID"])
   userID: ID! @index(name: "groupsByUser", queryField: "listGroupsByUser", sortKeyFields: ["group"])
-  user: User @hasOne(fields: ["userID"])
+  user: User @belongsTo(fields: ["userID"])
   profileID: ID!
   profile: Profile @hasOne(fields: ["profileID"])
   createdAt: AWSDateTime
@@ -670,7 +670,7 @@ type Product
   )
   @auth(rules: [
     {allow: groups, provider: userPools, groups: ["Admin"]},
-    {allow: private, provider: userPools, operations: [read]},
+    {allow: private, provider: userPools, operations: [read, update]},
     {allow: public, provider: apiKey, operations: [read]}
   ]) {
   id: ID! @primaryKey
@@ -742,7 +742,7 @@ type KitItem
   id: ID! @primaryKey
   productID: ID! @index(name: "kitItemsByProduct", queryField: "listKitItemsByProduct")
   kitItemProductID: ID!
-  product: Product @hasOne(fields: ["kitItemProductID"])
+  product: Product @belongsTo(fields: ["kitItemProductID"])
 }
 
 type Option
@@ -822,7 +822,7 @@ type Order
   ]) {
   id: ID! @primaryKey
   userID: ID! @index(name: "ordersByUserStatusCreatedAt", sortKeyFields: ["status", "createdAt"], queryField: "listOrdersByUserStatusCreatedAt") @index(name: "ordersByUserCreatedAt", sortKeyFields: ["createdAt"], queryField: "listOrdersByUserCreatedAt")
-  user: User @hasOne(fields: ["userID"])
+  user: User @belongsTo(fields: ["userID"])
   profile: Profile @hasOne(fields: ["userID"])
   status: OrderStatus! @index(name: "ordersByStatusCreatedAt", sortKeyFields: ["createdAt"], queryField: "listOrdersByStatusCreatedAt")
   createdAt: AWSDateTime
@@ -1117,6 +1117,8 @@ type VaccinationCard
   @auth(rules: [
     {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID", operations: [create, update, delete, read]},
     {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [read, update, create, delete]},
+    {allow: private, provider: userPools, operations: [read, create]},
+    {allow: public, provider: apiKey, operations: [read, create]}
     ]) {
   id: ID! @primaryKey
   userID: ID! @index(name: "vaccinationCardsByUser", queryField: "listVaccinationCardsByUser")
@@ -1139,13 +1141,14 @@ type VaccinationCardItem
   @auth(rules: [
     {allow: owner, identityClaim: "username", provider: userPools, ownerField: "userID", operations: [create, update, delete, read]},
     {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [read, update, create, delete]},
+    {allow: private, provider: userPools, operations: [read, create]},
     {allow: public, provider: apiKey, operations: [read, create]}
     ]) {
   id: ID! @primaryKey
   vaccinationCardID: ID! @index(name: "vaccinationCardsItemsByVaccinationCard", queryField: "listVaccinationCardsItemsByVaccinationCard")
-  vaccinationCard: VaccinationCard @hasOne(fields: ["vaccinationCardID"])
+  vaccinationCard: VaccinationCard @belongsTo(fields: ["vaccinationCardID"])
   orderID: ID! @index(name: "vaccinationCardsItemsByOrder", queryField: "listVaccinationCardsItemsByOrder")
-  order: Order @hasOne(fields: ["orderID"])
+  order: Order @belongsTo(fields: ["orderID"])
   orderItemID: ID!
   orderItem: OrderItem @hasOne(fields: ["orderItemID"])
   adherenceID: ID @index(name: "vaccinationCardsItemsByAdherence", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByAdherence")
@@ -1154,6 +1157,7 @@ type VaccinationCardItem
   clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
   companyID: ID @index(name: "vaccinationCardsItemsByCompany", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByCompany")
   company: Company @hasOne(fields: ["companyID"])
+  clientCampaignUnitID: ID
   lote: String
   profissionalID: ID @index(name: "vaccinationCardsItemsByProfissional", sortKeyFields: ["applicationDate"], queryField: "listVaccinationCardsItemsByProfissional")
   profissional: User @hasOne(fields: ["profissionalID"])
@@ -1277,7 +1281,6 @@ type Client
   contactName: String
   contactEmail: String
   contactPhone: String
-  eligibles: [ClientEligible] @hasMany(indexName: "eligiblesByClient", fields: ["id"])
   campaigns: [ClientCampaign] @hasMany(indexName: "clientCampaignsByClient", fields: ["id"])
   oss: [OS] @hasMany(indexName: "ossByClient", fields: ["id"])
 }
@@ -1332,6 +1335,7 @@ type ClientCampaign
   @auth(rules: [
     {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
     {allow: public, provider: apiKey, operations: [create, delete, update, read]}
+    {allow: private, provider: userPools, operations: [read]},
   ]) {
   id: ID! @primaryKey
   clientID: ID!
@@ -1371,7 +1375,7 @@ type ClientCampaign
   createdAt: AWSDateTime
   allowOffList: Boolean
   leafDiscount: Boolean
-  client: Client @hasOne(fields: ["clientID"])
+  client: Client @belongsTo(fields: ["clientID"])
   idx: Int! @default(value: "0") @index(name: "clientCampaignsByIdxCreatedAt", queryField: "listClientCampaignsByIdxCreatedAt", sortKeyFields: ["createdAt"])
   campaignCode: String! @index(name: "clientCampaignsByCampaignCode", queryField: "listClientCampaignsByCampaignCode")
   status: ClientCampaignStatus @index(name: "clientCampaignsByStatusCreatedAt", queryField: "listClientCampaignsByStatusCreatedAt", sortKeyFields: ["createdAt"])
@@ -1384,6 +1388,11 @@ enum UnitsTypeService {
   IN_COMPANY
   DESK
   DELIVERY
+}
+
+enum UnitsServiceResponsible {
+  PROCAT
+  PARTNER
 }
 
 type ClientCampaignUnit
@@ -1420,13 +1429,14 @@ type ClientCampaignUnit
   qtyVisitsConfirmed: Int
   qtyProfessional: Int
   servicePoints: Int
+  serviceResponsible: UnitsServiceResponsible
   vaccination: String
   typeService: UnitsTypeService
   idx: Int! @default(value: "0") @index(name: "unitsByIdxRegion", queryField: "listUnitsByIdxRegion", sortKeyFields: ["routingRegionID"])
   routingRegionID: ID @index(name: "unitsByRoutingRegion", queryField: "listUnitsByRoutingRegion")
   code: String
   oss: [OS] @hasMany(indexName: "ossByClientCampaignUnit", fields: ["id"])
-  clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
+  clientCampaign: ClientCampaign @belongsTo(fields: ["clientCampaignID"])
 }
 
 type ClientCampaignProduct
@@ -1473,7 +1483,8 @@ type ClientCampaignEligible
   )
   @auth(rules: [
     {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read]}
+    {allow: private, provider: userPools, operations: [read, create]},
+    {allow: public, provider: apiKey, operations: [read, create]}
   ]) {
   id: ID! @primaryKey
   clientCampaignID: ID!
@@ -1483,10 +1494,10 @@ type ClientCampaignEligible
     @index(name: "eligiblesByClientCampaignRG", queryField: "listEligiblesByClientCampaignRG", sortKeyFields: ["rg"])
     @index(name: "eligiblesByClientCampaignIsDependent", queryField: "listEligiblesByClientCampaignIsDependent", sortKeyFields: ["isDependent"])
     @index(name: "eligiblesByClientCampaignIsThird", queryField: "listEligiblesByClientCampaignIsThird", sortKeyFields: ["isThird"])
-  key: String!
+  key: String @index(name: "eligiblesByKey", queryField: "listEligiblesByKey")
+  cpf: String @index(name: "eligiblesByCPF", queryField: "listEligiblesByCPF")
+  rg: String @index(name: "eligiblesByRG", queryField: "listEligiblesByRG")
   name: String
-  cpf: String
-  rg: String
   birth: String
   notes: String
   search: String
@@ -1568,6 +1579,8 @@ type OS
   vaccination: String
   qtyApplication: Int
   qtyProfessional: Int
+  servicePoints: Int
+  serviceResponsible: UnitsServiceResponsible
   dateStarted: AWSDateTime
   dateFinished: AWSDateTime
   professionalStarted: ID
@@ -1586,10 +1599,9 @@ type OS
   lat: Float
   lng: Float
   search: String
-  eligiblesVaccination: [EligibleVaccination] @hasMany(indexName: "eligiblesVaccinationByClientEligible", fields: ["id"])
-  client: Client @hasOne(fields: ["clientID"])
+  client: Client @belongsTo(fields: ["clientID"])
   clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
-  clientCampaignUnit: ClientCampaignUnit @hasOne(fields: ["clientCampaignUnitID"])
+  clientCampaignUnit: ClientCampaignUnit @belongsTo(fields: ["clientCampaignUnitID"])
 }
 
 type RoutingRegion
@@ -1655,7 +1667,7 @@ type RoutingOSs
       name: "routingOSsByRouting"
       queryField: "listRoutingOSsByRouting"
     )
-  routing: Routing @hasOne(fields: ["routingID"])
+  routing: Routing @belongsTo(fields: ["routingID"])
   osID: ID!
     @index(name: "routingOSsByOS", queryField: "listRoutingOSsByOS")
   os: OS @hasOne(fields: ["osID"])
@@ -1668,21 +1680,18 @@ enum EligibleVaccinationStatus {
 
 type EligibleVaccination
   @model(
-    mutations: {create: "createEligibleVaccination", update: "updateEligibleVaccination", delete: "deleteEligibleVaccination"},
+    mutations: {create: null, update: null, delete: null},
     queries: {get: null, list: null},
     subscriptions: null
   )
   @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read]}
+    {allow: groups, provider: userPools, groups: ["Admin"]},
   ]) {
   id: ID! @primaryKey
-  osID: ID! @index(name: "eligiblesVaccinationByOS", queryField: "listEligiblesVaccinationByOS")
-  clientEligibleID: ID! @index(name: "eligiblesVaccinationByClientEligible", queryField: "listEligiblesVaccinationByClientEligible", sortKeyFields: ["applicationDate"])
-  clientEligible: ClientEligible @hasOne(fields: ["clientEligibleID"])
-  clientID: ID! @index(name: "eligiblesVaccinationByClientDate", queryField: "listEligiblesVaccinationByClientDate", sortKeyFields: ["applicationDate"])
+  osID: ID!
+  clientEligibleID: ID!
+  clientID: ID!
   profissionalID: ID
-  profissional: User @hasOne(fields: ["profissionalID"])
   profissionalDoc: String
   coren: String
   applicationDate: AWSDateTime
@@ -1692,25 +1701,19 @@ type EligibleVaccination
   status: EligibleVaccinationStatus
   localCity: String
   localState: String
-  os: OS @hasOne(fields: ["osID"])
 }
 
 type ClientEligible
   @model(
-    mutations: {create: "createClientEligible", update: "updateClientEligible", delete: "deleteClientEligible"},
+    mutations: {create: null, update: null, delete: null},
     queries: {get: null, list: null},
     subscriptions: null
   )
   @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read]}
+    {allow: groups, provider: userPools, groups: ["Admin"]},
   ]) {
   id: ID! @primaryKey
   clientID: ID!
-    @index(name: "eligiblesByClient", queryField: "listEligiblesByClient")
-    @index(name: "eligiblesByClientKey", queryField: "listEligiblesByClientKey", sortKeyFields: ["key"])
-    @index(name: "eligiblesByClientCPF", queryField: "listEligiblesByClientCPF", sortKeyFields: ["cpf"])
-    @index(name: "eligiblesByClientRG", queryField: "listEligiblesByClientRG", sortKeyFields: ["rg"])
   key: String!
   name: String
   cpf: String
@@ -1730,14 +1733,13 @@ enum AuthorizationListStatus {
 
 type AuthorizationList
   @model(
-    mutations: {create: "createAuthorizationList", update: "updateAuthorizationList", delete: "deleteAuthorizationList"},
-    queries: {get: null, list: "listAuthorizationList"},
+    mutations: {create: null, update: null, delete: null},
+    queries: {get: null, list: null},
     subscriptions: null
   )
   @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read]}
-    ]) {
+    {allow: groups, provider: userPools, groups: ["Admin"]},
+  ]) {
   id: ID! @primaryKey
   name: String!
   description: String
@@ -1753,25 +1755,22 @@ type AuthorizationList
   notesFinished: String
   professionalFinished: ID
   withList: Boolean
-  adherenceCode: String @index(name: "authorizationListByAdherenceCode", queryField: "listAuthorizationListsByAdherenceCode")
+  adherenceCode: String
   OS: String
-  status: AuthorizationListStatus @index(name: "authorizationListsByStatus", queryField: "listAuthorizationListsByStatus")
-  members: [AuthorizationListMember] @hasMany(indexName: "membersByAuthorizationList", fields: ["id"])
+  status: AuthorizationListStatus
 }
 
 type AuthorizationListClosure
   @model(
-    mutations: {create: "createAuthorizationListClosure", update: "updateAuthorizationListClosure", delete: "deleteAuthorizationListClosure"},
+    mutations: {create: null, update: null, delete: null},
     queries: {get: null, list: null},
     subscriptions: null
   )
   @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read]}
+    {allow: groups, provider: userPools, groups: ["Admin"]},
   ]) {
   id: ID! @primaryKey
   authorizationListID: ID!
-    @index(name: "closuresByAuthorizationList", queryField: "listClosuresByAuthorizationList", sortKeyFields: ["createdAt"])
   contactName: String
   contactPhone: String
   contactEmail: String
@@ -1785,46 +1784,36 @@ type AuthorizationListClosure
 
 type AuthorizationListMember
   @model(
-    mutations: {create: "createAuthorizationListMember", update: "updateAuthorizationListMember", delete: "deleteAuthorizationListMember"},
-    queries: {get: null, list: "listAuthorizationListMembers"},
-    subscriptions: null
-  )
-  @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [read, update]}
-  ]) {
-  id: ID! @primaryKey
-  authorizationListID: ID!
-    @index(name: "membersByAuthorizationList", queryField: "listMembersByAuthorizationList")
-    @index(name: "membersByAuthorizationListKey", queryField: "listMembersByAuthorizationListKey", sortKeyFields: ["key"])
-    @index(name: "membersByAuthorizationListCPF", queryField: "listMembersByAuthorizationListCPF", sortKeyFields: ["cpf"])
-  name: String!
-  key: String @index(name: "membersByKey", queryField: "listMembersByKey")
-  cpf: String @index(name: "membersByCPF", queryField: "listMembersByCPF")
-  birth: String
-  search: String
-  others: String
-  vaccinations: [AuthorizationListMemberVaccination] @hasMany(indexName: "vaccinationsByAuthorizationListMember", fields: ["id"])
-  authorizationList: AuthorizationList @hasOne(fields: ["authorizationListID"])
-}
-
-type AuthorizationListMemberVaccination
-  @model(
-    mutations: {create: "createAuthorizationListMemberVaccination", update: "updateAuthorizationListMemberVaccination", delete: "deleteAuthorizationListMemberVaccination"},
+    mutations: {create: null, update: null, delete: null},
     queries: {get: null, list: null},
     subscriptions: null
   )
   @auth(rules: [
-    {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [create, update, delete, read]},
-    {allow: public, provider: apiKey, operations: [create, update, delete, read]}
+    {allow: groups, provider: userPools, groups: ["Admin"]},
   ]) {
   id: ID! @primaryKey
-  authorizationListID: ID! @index(name: "membersVaccinationByAuthorizationList", queryField: "listMembersVaccinationByAuthorizationList")
-  authorizationList: AuthorizationList @hasOne(fields: ["authorizationListID"])
-  authorizationListMemberID: ID! @index(name: "vaccinationsByAuthorizationListMember", queryField: "listVaccinationsByAuthorizationListMember")
-  authorizationListMember: AuthorizationListMember @hasOne(fields: ["authorizationListMemberID"])
-  profissionalID: ID @index(name: "vaccinationsByProfissional", sortKeyFields: ["applicationDate"], queryField: "listVaccinationsByProfissional")
-  profissional: User @hasOne(fields: ["profissionalID"])
+  authorizationListID: ID!
+  name: String!
+  key: String
+  cpf: String
+  birth: String
+  search: String
+  others: String
+}
+
+type AuthorizationListMemberVaccination
+  @model(
+    mutations: {create: null, update: null, delete: null},
+    queries: {get: null, list: null},
+    subscriptions: null
+  )
+  @auth(rules: [
+    {allow: groups, provider: userPools, groups: ["Admin"]},
+  ]) {
+  id: ID! @primaryKey
+  authorizationListID: ID!
+  authorizationListMemberID: ID!
+  profissionalID: ID
   coren: String
   lote: String
   dueDate: AWSDate

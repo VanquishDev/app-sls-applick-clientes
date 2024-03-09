@@ -443,10 +443,6 @@ export const onUpdateClient = /* GraphQL */ `subscription OnUpdateClient($client
     contactName
     contactEmail
     contactPhone
-    eligibles {
-      nextToken
-      __typename
-    }
     campaigns {
       nextToken
       __typename

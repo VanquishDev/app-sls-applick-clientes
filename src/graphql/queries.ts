@@ -254,30 +254,6 @@ export const listFolders = /* GraphQL */ `query ListFolders(
   APITypes.ListFoldersQueryVariables,
   APITypes.ListFoldersQuery
 >;
-export const getVaccinationCard = /* GraphQL */ `query GetVaccinationCard($id: ID!) {
-  getVaccinationCard(id: $id) {
-    id
-    userID
-    person
-    doc
-    birth
-    relationship
-    notes
-    avatar
-    isOwner
-    vaccinationCardItem {
-      nextToken
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetVaccinationCardQueryVariables,
-  APITypes.GetVaccinationCardQuery
->;
 export const getUserByEmail = /* GraphQL */ `query GetUserByEmail(
   $email: AWSEmail!
   $sortDirection: ModelSortDirection
@@ -819,42 +795,6 @@ export const listNotifyByUserCreatedAt = /* GraphQL */ `query ListNotifyByUserCr
 ` as GeneratedQuery<
   APITypes.ListNotifyByUserCreatedAtQueryVariables,
   APITypes.ListNotifyByUserCreatedAtQuery
->;
-export const listVaccinationCardsByUser = /* GraphQL */ `query ListVaccinationCardsByUser(
-  $userID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelVaccinationCardFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listVaccinationCardsByUser(
-    userID: $userID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      userID
-      person
-      doc
-      birth
-      relationship
-      notes
-      avatar
-      isOwner
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListVaccinationCardsByUserQueryVariables,
-  APITypes.ListVaccinationCardsByUserQuery
 >;
 export const getTempAux = /* GraphQL */ `query GetTempAux($id: ID!) {
   getTempAux(id: $id) {
@@ -4404,6 +4344,66 @@ export const listUnitsByAdherence = /* GraphQL */ `query ListUnitsByAdherence(
   APITypes.ListUnitsByAdherenceQueryVariables,
   APITypes.ListUnitsByAdherenceQuery
 >;
+export const getVaccinationCard = /* GraphQL */ `query GetVaccinationCard($id: ID!) {
+  getVaccinationCard(id: $id) {
+    id
+    userID
+    person
+    doc
+    birth
+    relationship
+    notes
+    avatar
+    isOwner
+    vaccinationCardItem {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetVaccinationCardQueryVariables,
+  APITypes.GetVaccinationCardQuery
+>;
+export const listVaccinationCardsByUser = /* GraphQL */ `query ListVaccinationCardsByUser(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelVaccinationCardFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listVaccinationCardsByUser(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userID
+      person
+      doc
+      birth
+      relationship
+      notes
+      avatar
+      isOwner
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListVaccinationCardsByUserQueryVariables,
+  APITypes.ListVaccinationCardsByUserQuery
+>;
 export const listVaccinationCardItems = /* GraphQL */ `query ListVaccinationCardItems(
   $id: ID
   $filter: ModelVaccinationCardItemFilterInput
@@ -4426,6 +4426,7 @@ export const listVaccinationCardItems = /* GraphQL */ `query ListVaccinationCard
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4469,6 +4470,7 @@ export const listVaccinationCardsItemsByVaccinationCard = /* GraphQL */ `query L
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4512,6 +4514,7 @@ export const listVaccinationCardsItemsByOrder = /* GraphQL */ `query ListVaccina
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4557,6 +4560,7 @@ export const listVaccinationCardsItemsByAdherence = /* GraphQL */ `query ListVac
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4602,6 +4606,7 @@ export const listVaccinationCardsItemsByClientCampaign = /* GraphQL */ `query Li
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4647,6 +4652,7 @@ export const listVaccinationCardsItemsByCompany = /* GraphQL */ `query ListVacci
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4692,6 +4698,7 @@ export const listVaccinationCardsItemsByProfissional = /* GraphQL */ `query List
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4737,6 +4744,7 @@ export const listVaccinationCardsItemsByStatus = /* GraphQL */ `query ListVaccin
       adherenceID
       clientCampaignID
       companyID
+      clientCampaignUnitID
       lote
       profissionalID
       profissionalName
@@ -4999,10 +5007,6 @@ export const getClient = /* GraphQL */ `query GetClient($id: ID!) {
     contactName
     contactEmail
     contactPhone
-    eligibles {
-      nextToken
-      __typename
-    }
     campaigns {
       nextToken
       __typename
@@ -5698,7 +5702,9 @@ export const getClientCampaignUnit = /* GraphQL */ `query GetClientCampaignUnit(
     qtyVisitsConfirmed
     qtyProfessional
     servicePoints
+    serviceResponsible
     vaccination
+    typeService
     idx
     routingRegionID
     code
@@ -5788,7 +5794,9 @@ export const listClientCampaignUnits = /* GraphQL */ `query ListClientCampaignUn
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -5841,7 +5849,9 @@ export const listUnitsByClientCampaign = /* GraphQL */ `query ListUnitsByClientC
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -5896,7 +5906,9 @@ export const listUnitsByClientCampaignCode = /* GraphQL */ `query ListUnitsByCli
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -5951,7 +5963,9 @@ export const listUnitsByIdxRegion = /* GraphQL */ `query ListUnitsByIdxRegion(
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -6004,7 +6018,9 @@ export const listUnitsByRoutingRegion = /* GraphQL */ `query ListUnitsByRoutingR
       qtyVisitsConfirmed
       qtyProfessional
       servicePoints
+      serviceResponsible
       vaccination
+      typeService
       idx
       routingRegionID
       code
@@ -6100,9 +6116,9 @@ export const listClientCampaignEligibles = /* GraphQL */ `query ListClientCampai
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6141,9 +6157,9 @@ export const listEligiblesByClientCampaign = /* GraphQL */ `query ListEligiblesB
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6184,9 +6200,9 @@ export const listEligiblesByClientCampaignKey = /* GraphQL */ `query ListEligibl
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6227,9 +6243,9 @@ export const listEligiblesByClientCampaignCPF = /* GraphQL */ `query ListEligibl
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6270,9 +6286,9 @@ export const listEligiblesByClientCampaignRG = /* GraphQL */ `query ListEligible
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6313,9 +6329,9 @@ export const listEligiblesByClientCampaignIsDependent = /* GraphQL */ `query Lis
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6356,9 +6372,9 @@ export const listEligiblesByClientCampaignIsThird = /* GraphQL */ `query ListEli
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6379,6 +6395,129 @@ export const listEligiblesByClientCampaignIsThird = /* GraphQL */ `query ListEli
   APITypes.ListEligiblesByClientCampaignIsThirdQueryVariables,
   APITypes.ListEligiblesByClientCampaignIsThirdQuery
 >;
+export const listEligiblesByKey = /* GraphQL */ `query ListEligiblesByKey(
+  $key: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesByKey(
+    key: $key
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      cpf
+      rg
+      name
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesByKeyQueryVariables,
+  APITypes.ListEligiblesByKeyQuery
+>;
+export const listEligiblesByCPF = /* GraphQL */ `query ListEligiblesByCPF(
+  $cpf: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesByCPF(
+    cpf: $cpf
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      cpf
+      rg
+      name
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesByCPFQueryVariables,
+  APITypes.ListEligiblesByCPFQuery
+>;
+export const listEligiblesByRG = /* GraphQL */ `query ListEligiblesByRG(
+  $rg: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelClientCampaignEligibleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEligiblesByRG(
+    rg: $rg
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientCampaignID
+      key
+      cpf
+      rg
+      name
+      birth
+      notes
+      search
+      relationship
+      isDependent
+      cpfRelationship
+      isThird
+      thirdName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListEligiblesByRGQueryVariables,
+  APITypes.ListEligiblesByRGQuery
+>;
 export const listDependentsByCPF = /* GraphQL */ `query ListDependentsByCPF(
   $cpfRelationship: String!
   $sortDirection: ModelSortDirection
@@ -6397,9 +6536,9 @@ export const listDependentsByCPF = /* GraphQL */ `query ListDependentsByCPF(
       id
       clientCampaignID
       key
-      name
       cpf
       rg
+      name
       birth
       notes
       search
@@ -6582,6 +6721,8 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6642,6 +6783,8 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6707,6 +6850,8 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6772,6 +6917,8 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6835,6 +6982,8 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6898,6 +7047,8 @@ export const listOSsByClientCampaignUnit = /* GraphQL */ `query ListOSsByClientC
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -6963,6 +7114,8 @@ export const listOSsByIdxStart = /* GraphQL */ `query ListOSsByIdxStart(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -7026,6 +7179,8 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -7091,6 +7246,8 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       vaccination
       qtyApplication
       qtyProfessional
+      servicePoints
+      serviceResponsible
       dateStarted
       dateFinished
       professionalStarted
@@ -7250,793 +7407,4 @@ export const listRoutingOSsByOS = /* GraphQL */ `query ListRoutingOSsByOS(
 ` as GeneratedQuery<
   APITypes.ListRoutingOSsByOSQueryVariables,
   APITypes.ListRoutingOSsByOSQuery
->;
-export const listEligiblesVaccinationByOS = /* GraphQL */ `query ListEligiblesVaccinationByOS(
-  $osID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelEligibleVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesVaccinationByOS(
-    osID: $osID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      osID
-      clientEligibleID
-      clientID
-      profissionalID
-      profissionalDoc
-      coren
-      applicationDate
-      reason
-      search
-      vaccination
-      status
-      localCity
-      localState
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesVaccinationByOSQueryVariables,
-  APITypes.ListEligiblesVaccinationByOSQuery
->;
-export const listEligiblesVaccinationByClientEligible = /* GraphQL */ `query ListEligiblesVaccinationByClientEligible(
-  $clientEligibleID: ID!
-  $applicationDate: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelEligibleVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesVaccinationByClientEligible(
-    clientEligibleID: $clientEligibleID
-    applicationDate: $applicationDate
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      osID
-      clientEligibleID
-      clientID
-      profissionalID
-      profissionalDoc
-      coren
-      applicationDate
-      reason
-      search
-      vaccination
-      status
-      localCity
-      localState
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesVaccinationByClientEligibleQueryVariables,
-  APITypes.ListEligiblesVaccinationByClientEligibleQuery
->;
-export const listEligiblesVaccinationByClientDate = /* GraphQL */ `query ListEligiblesVaccinationByClientDate(
-  $clientID: ID!
-  $applicationDate: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelEligibleVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesVaccinationByClientDate(
-    clientID: $clientID
-    applicationDate: $applicationDate
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      osID
-      clientEligibleID
-      clientID
-      profissionalID
-      profissionalDoc
-      coren
-      applicationDate
-      reason
-      search
-      vaccination
-      status
-      localCity
-      localState
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesVaccinationByClientDateQueryVariables,
-  APITypes.ListEligiblesVaccinationByClientDateQuery
->;
-export const listEligiblesByClient = /* GraphQL */ `query ListEligiblesByClient(
-  $clientID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientEligibleFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesByClient(
-    clientID: $clientID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesByClientQueryVariables,
-  APITypes.ListEligiblesByClientQuery
->;
-export const listEligiblesByClientKey = /* GraphQL */ `query ListEligiblesByClientKey(
-  $clientID: ID!
-  $key: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientEligibleFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesByClientKey(
-    clientID: $clientID
-    key: $key
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesByClientKeyQueryVariables,
-  APITypes.ListEligiblesByClientKeyQuery
->;
-export const listEligiblesByClientCPF = /* GraphQL */ `query ListEligiblesByClientCPF(
-  $clientID: ID!
-  $cpf: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientEligibleFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesByClientCPF(
-    clientID: $clientID
-    cpf: $cpf
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesByClientCPFQueryVariables,
-  APITypes.ListEligiblesByClientCPFQuery
->;
-export const listEligiblesByClientRG = /* GraphQL */ `query ListEligiblesByClientRG(
-  $clientID: ID!
-  $rg: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelClientEligibleFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listEligiblesByClientRG(
-    clientID: $clientID
-    rg: $rg
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      clientID
-      key
-      name
-      cpf
-      rg
-      birth
-      notes
-      search
-      relationship
-      isDependent
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListEligiblesByClientRGQueryVariables,
-  APITypes.ListEligiblesByClientRGQuery
->;
-export const listAuthorizationList = /* GraphQL */ `query ListAuthorizationList(
-  $id: ID
-  $filter: ModelAuthorizationListFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-) {
-  listAuthorizationList(
-    id: $id
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
-    items {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListAuthorizationListQueryVariables,
-  APITypes.ListAuthorizationListQuery
->;
-export const listAuthorizationListsByAdherenceCode = /* GraphQL */ `query ListAuthorizationListsByAdherenceCode(
-  $adherenceCode: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listAuthorizationListsByAdherenceCode(
-    adherenceCode: $adherenceCode
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListAuthorizationListsByAdherenceCodeQueryVariables,
-  APITypes.ListAuthorizationListsByAdherenceCodeQuery
->;
-export const listAuthorizationListsByStatus = /* GraphQL */ `query ListAuthorizationListsByStatus(
-  $status: AuthorizationListStatus!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listAuthorizationListsByStatus(
-    status: $status
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      name
-      description
-      start
-      expiration
-      orientation
-      search
-      qtyApplication
-      qtyReturned
-      contactNameFinished
-      contactPhoneFinished
-      contactEmailFinished
-      notesFinished
-      professionalFinished
-      withList
-      adherenceCode
-      OS
-      status
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListAuthorizationListsByStatusQueryVariables,
-  APITypes.ListAuthorizationListsByStatusQuery
->;
-export const listClosuresByAuthorizationList = /* GraphQL */ `query ListClosuresByAuthorizationList(
-  $authorizationListID: ID!
-  $createdAt: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListClosureFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listClosuresByAuthorizationList(
-    authorizationListID: $authorizationListID
-    createdAt: $createdAt
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      contactName
-      contactPhone
-      contactEmail
-      notes
-      qtyApplication
-      qtyReturned
-      professionalID
-      OS
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListClosuresByAuthorizationListQueryVariables,
-  APITypes.ListClosuresByAuthorizationListQuery
->;
-export const listAuthorizationListMembers = /* GraphQL */ `query ListAuthorizationListMembers(
-  $id: ID
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-) {
-  listAuthorizationListMembers(
-    id: $id
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListAuthorizationListMembersQueryVariables,
-  APITypes.ListAuthorizationListMembersQuery
->;
-export const listMembersByAuthorizationList = /* GraphQL */ `query ListMembersByAuthorizationList(
-  $authorizationListID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersByAuthorizationList(
-    authorizationListID: $authorizationListID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersByAuthorizationListQueryVariables,
-  APITypes.ListMembersByAuthorizationListQuery
->;
-export const listMembersByAuthorizationListKey = /* GraphQL */ `query ListMembersByAuthorizationListKey(
-  $authorizationListID: ID!
-  $key: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersByAuthorizationListKey(
-    authorizationListID: $authorizationListID
-    key: $key
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersByAuthorizationListKeyQueryVariables,
-  APITypes.ListMembersByAuthorizationListKeyQuery
->;
-export const listMembersByAuthorizationListCPF = /* GraphQL */ `query ListMembersByAuthorizationListCPF(
-  $authorizationListID: ID!
-  $cpf: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersByAuthorizationListCPF(
-    authorizationListID: $authorizationListID
-    cpf: $cpf
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersByAuthorizationListCPFQueryVariables,
-  APITypes.ListMembersByAuthorizationListCPFQuery
->;
-export const listMembersByKey = /* GraphQL */ `query ListMembersByKey(
-  $key: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersByKey(
-    key: $key
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersByKeyQueryVariables,
-  APITypes.ListMembersByKeyQuery
->;
-export const listMembersByCPF = /* GraphQL */ `query ListMembersByCPF(
-  $cpf: String!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersByCPF(
-    cpf: $cpf
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      name
-      key
-      cpf
-      birth
-      search
-      others
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersByCPFQueryVariables,
-  APITypes.ListMembersByCPFQuery
->;
-export const listMembersVaccinationByAuthorizationList = /* GraphQL */ `query ListMembersVaccinationByAuthorizationList(
-  $authorizationListID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMembersVaccinationByAuthorizationList(
-    authorizationListID: $authorizationListID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      authorizationListMemberID
-      profissionalID
-      coren
-      lote
-      dueDate
-      via
-      OS
-      applicationDate
-      applicationTime
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListMembersVaccinationByAuthorizationListQueryVariables,
-  APITypes.ListMembersVaccinationByAuthorizationListQuery
->;
-export const listVaccinationsByAuthorizationListMember = /* GraphQL */ `query ListVaccinationsByAuthorizationListMember(
-  $authorizationListMemberID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listVaccinationsByAuthorizationListMember(
-    authorizationListMemberID: $authorizationListMemberID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      authorizationListMemberID
-      profissionalID
-      coren
-      lote
-      dueDate
-      via
-      OS
-      applicationDate
-      applicationTime
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListVaccinationsByAuthorizationListMemberQueryVariables,
-  APITypes.ListVaccinationsByAuthorizationListMemberQuery
->;
-export const listVaccinationsByProfissional = /* GraphQL */ `query ListVaccinationsByProfissional(
-  $profissionalID: ID!
-  $applicationDate: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelAuthorizationListMemberVaccinationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listVaccinationsByProfissional(
-    profissionalID: $profissionalID
-    applicationDate: $applicationDate
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      authorizationListID
-      authorizationListMemberID
-      profissionalID
-      coren
-      lote
-      dueDate
-      via
-      OS
-      applicationDate
-      applicationTime
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.ListVaccinationsByProfissionalQueryVariables,
-  APITypes.ListVaccinationsByProfissionalQuery
 >;

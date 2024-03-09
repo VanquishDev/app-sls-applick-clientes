@@ -2845,53 +2845,6 @@ export const listVaccinationCardsItemsByStatusCustomNAPP2 = /* GraphQL */ `
     }
   }
 `
-export const listMembersVaccinationByAuthorizationListCustom = /* GraphQL */ `
-  query ListMembersVaccinationByAuthorizationListCustom(
-    $authorizationListID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberVaccinationFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMembersVaccinationByAuthorizationList(
-      authorizationListID: $authorizationListID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListMember {
-          id
-          key
-          name
-          cpf
-          birth
-          others
-        }
-        profissional {
-          name
-          profile {
-            doc
-            company {
-              name
-            }
-          }
-        }
-        coren
-        lote
-        dueDate
-        OS
-        applicationDate
-        applicationTime
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`
 export const listVaccinationCardsByUserCustom = /* GraphQL */ `
   query ListVaccinationCardsByUserCustom(
     $userID: ID!
@@ -3470,190 +3423,6 @@ export const getOrderCustom2 = /* GraphQL */ `
     }
   }
 `
-export const listMembersByCPFCustom = /* GraphQL */ `
-  query ListMembersByCPFCustom(
-    $cpf: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMembersByCPF(
-      cpf: $cpf
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListID
-        name
-        key
-        cpf
-        birth
-        search
-        others
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-          start
-          expiration
-        }
-      }
-      nextToken
-    }
-  }
-`
-export const listMembersByKeyCustom = /* GraphQL */ `
-  query ListMembersByKeyCustom(
-    $key: String!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMembersByKey(
-      key: $key
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListID
-        name
-        key
-        cpf
-        birth
-        search
-        others
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-          start
-          expiration
-        }
-      }
-      nextToken
-    }
-  }
-`
-export const listAuthorizationListMembersCustom = /* GraphQL */ `
-  query ListAuthorizationListMembersCustom(
-    $id: ID
-    $filter: ModelAuthorizationListMemberFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listAuthorizationListMembers(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        authorizationListID
-        name
-        key
-        cpf
-        birth
-        search
-        others
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-          start
-          expiration
-        }
-      }
-      nextToken
-    }
-  }
-`
-export const listMembersByAuthorizationListKeyCustom = /* GraphQL */ `
-  query ListMembersByAuthorizationListKeyCustom(
-    $authorizationListID: ID!
-    $key: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMembersByAuthorizationListKey(
-      authorizationListID: $authorizationListID
-      key: $key
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListID
-        name
-        key
-        cpf
-        birth
-        search
-        others
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-          start
-          expiration
-        }
-      }
-      nextToken
-    }
-  }
-`
-export const listMembersByAuthorizationListCPFCustom = /* GraphQL */ `
-  query ListMembersByAuthorizationListCPFCustom(
-    $authorizationListID: ID!
-    $cpf: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listMembersByAuthorizationListCPF(
-      authorizationListID: $authorizationListID
-      cpf: $cpf
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListID
-        name
-        key
-        cpf
-        birth
-        search
-        others
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-          start
-          expiration
-        }
-      }
-      nextToken
-    }
-  }
-`
 export const listAdherencesCustom = /* GraphQL */ `
   query ListAdherencesCustom(
     $id: ID
@@ -3697,46 +3466,6 @@ export const listAdherencesCustom = /* GraphQL */ `
               name
             }
           }
-        }
-      }
-      nextToken
-    }
-  }
-`
-export const listVaccinationsByAuthorizationListMemberCustom = /* GraphQL */ `
-  query ListVaccinationsByAuthorizationListMemberCustom(
-    $authorizationListMemberID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelAuthorizationListMemberVaccinationFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listVaccinationsByAuthorizationListMember(
-      authorizationListMemberID: $authorizationListMemberID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        authorizationListID
-        authorizationListMemberID
-        profissionalID
-        coren
-        lote
-        dueDate
-        via
-        OS
-        applicationDate
-        applicationTime
-        createdAt
-        updatedAt
-        authorizationList {
-          name
-        }
-        authorizationListMember {
-          name
         }
       }
       nextToken
@@ -3795,11 +3524,6 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
       client {
           name
           code
-          eligibles {
-            items {
-              id
-            }
-          }
         }
         clientCampaignUnit {
           code
@@ -3869,11 +3593,6 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
       client {
           name
           code
-          eligibles {
-            items {
-              id
-            }
-          }
         }
         clientCampaignUnit {
           code
@@ -3948,11 +3667,6 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
       client {
           name
           code
-          eligibles {
-            items {
-              id
-            }
-          }
         }
         clientCampaignUnit {
           code

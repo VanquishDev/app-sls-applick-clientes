@@ -25,9 +25,9 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ClientCampaignEligibleUpdateFormInputValues = {
     clientCampaignID?: string;
     key?: string;
-    name?: string;
     cpf?: string;
     rg?: string;
+    name?: string;
     birth?: string;
     notes?: string;
     search?: string;
@@ -40,9 +40,9 @@ export declare type ClientCampaignEligibleUpdateFormInputValues = {
 export declare type ClientCampaignEligibleUpdateFormValidationValues = {
     clientCampaignID?: ValidationFunction<string>;
     key?: ValidationFunction<string>;
-    name?: ValidationFunction<string>;
     cpf?: ValidationFunction<string>;
     rg?: ValidationFunction<string>;
+    name?: ValidationFunction<string>;
     birth?: ValidationFunction<string>;
     notes?: ValidationFunction<string>;
     search?: ValidationFunction<string>;
@@ -57,9 +57,9 @@ export declare type ClientCampaignEligibleUpdateFormOverridesProps = {
     ClientCampaignEligibleUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     clientCampaignID?: PrimitiveOverrideProps<TextFieldProps>;
     key?: PrimitiveOverrideProps<TextFieldProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
     cpf?: PrimitiveOverrideProps<TextFieldProps>;
     rg?: PrimitiveOverrideProps<TextFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
     birth?: PrimitiveOverrideProps<TextFieldProps>;
     notes?: PrimitiveOverrideProps<TextFieldProps>;
     search?: PrimitiveOverrideProps<TextFieldProps>;

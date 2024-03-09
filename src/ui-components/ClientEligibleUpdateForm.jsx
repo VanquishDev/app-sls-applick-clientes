@@ -6,13 +6,21 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { createClientCampaignEligible } from "../graphql/mutations";
-export default function ClientCampaignEligibleCreateForm(props) {
+import { getClientEligible } from "../graphql/queries";
+import { updateClientEligible } from "../graphql/mutations";
+export default function ClientEligibleUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    clientEligible: clientEligibleModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -22,27 +30,22 @@ export default function ClientCampaignEligibleCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    clientCampaignID: "",
+    clientID: "",
     key: "",
+    name: "",
     cpf: "",
     rg: "",
-    name: "",
     birth: "",
     notes: "",
     search: "",
     relationship: "",
-    isDependent: "",
-    cpfRelationship: "",
-    isThird: "",
-    thirdName: "",
+    isDependent: false,
   };
-  const [clientCampaignID, setClientCampaignID] = React.useState(
-    initialValues.clientCampaignID
-  );
+  const [clientID, setClientID] = React.useState(initialValues.clientID);
   const [key, setKey] = React.useState(initialValues.key);
+  const [name, setName] = React.useState(initialValues.name);
   const [cpf, setCpf] = React.useState(initialValues.cpf);
   const [rg, setRg] = React.useState(initialValues.rg);
-  const [name, setName] = React.useState(initialValues.name);
   const [birth, setBirth] = React.useState(initialValues.birth);
   const [notes, setNotes] = React.useState(initialValues.notes);
   const [search, setSearch] = React.useState(initialValues.search);
@@ -52,42 +55,52 @@ export default function ClientCampaignEligibleCreateForm(props) {
   const [isDependent, setIsDependent] = React.useState(
     initialValues.isDependent
   );
-  const [cpfRelationship, setCpfRelationship] = React.useState(
-    initialValues.cpfRelationship
-  );
-  const [isThird, setIsThird] = React.useState(initialValues.isThird);
-  const [thirdName, setThirdName] = React.useState(initialValues.thirdName);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setClientCampaignID(initialValues.clientCampaignID);
-    setKey(initialValues.key);
-    setCpf(initialValues.cpf);
-    setRg(initialValues.rg);
-    setName(initialValues.name);
-    setBirth(initialValues.birth);
-    setNotes(initialValues.notes);
-    setSearch(initialValues.search);
-    setRelationship(initialValues.relationship);
-    setIsDependent(initialValues.isDependent);
-    setCpfRelationship(initialValues.cpfRelationship);
-    setIsThird(initialValues.isThird);
-    setThirdName(initialValues.thirdName);
+    const cleanValues = clientEligibleRecord
+      ? { ...initialValues, ...clientEligibleRecord }
+      : initialValues;
+    setClientID(cleanValues.clientID);
+    setKey(cleanValues.key);
+    setName(cleanValues.name);
+    setCpf(cleanValues.cpf);
+    setRg(cleanValues.rg);
+    setBirth(cleanValues.birth);
+    setNotes(cleanValues.notes);
+    setSearch(cleanValues.search);
+    setRelationship(cleanValues.relationship);
+    setIsDependent(cleanValues.isDependent);
     setErrors({});
   };
+  const [clientEligibleRecord, setClientEligibleRecord] = React.useState(
+    clientEligibleModelProp
+  );
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await API.graphql({
+              query: getClientEligible.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getClientEligible
+        : clientEligibleModelProp;
+      setClientEligibleRecord(record);
+    };
+    queryData();
+  }, [idProp, clientEligibleModelProp]);
+  React.useEffect(resetStateValues, [clientEligibleRecord]);
   const validations = {
-    clientCampaignID: [{ type: "Required" }],
-    key: [],
+    clientID: [{ type: "Required" }],
+    key: [{ type: "Required" }],
+    name: [],
     cpf: [],
     rg: [],
-    name: [],
     birth: [],
     notes: [],
     search: [],
     relationship: [],
     isDependent: [],
-    cpfRelationship: [],
-    isThird: [],
-    thirdName: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -115,19 +128,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          clientCampaignID,
+          clientID,
           key,
-          cpf,
-          rg,
-          name,
-          birth,
-          notes,
-          search,
-          relationship,
-          isDependent,
-          cpfRelationship,
-          isThird,
-          thirdName,
+          name: name ?? null,
+          cpf: cpf ?? null,
+          rg: rg ?? null,
+          birth: birth ?? null,
+          notes: notes ?? null,
+          search: search ?? null,
+          relationship: relationship ?? null,
+          isDependent: isDependent ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -158,18 +168,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createClientCampaignEligible.replaceAll("__typename", ""),
+            query: updateClientEligible.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: clientEligibleRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -178,67 +186,61 @@ export default function ClientCampaignEligibleCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "ClientCampaignEligibleCreateForm")}
+      {...getOverrideProps(overrides, "ClientEligibleUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Client campaign id"
+        label="Client id"
         isRequired={true}
         isReadOnly={false}
-        value={clientCampaignID}
+        value={clientID}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID: value,
+              clientID: value,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
-            value = result?.clientCampaignID ?? value;
+            value = result?.clientID ?? value;
           }
-          if (errors.clientCampaignID?.hasError) {
-            runValidationTasks("clientCampaignID", value);
+          if (errors.clientID?.hasError) {
+            runValidationTasks("clientID", value);
           }
-          setClientCampaignID(value);
+          setClientID(value);
         }}
-        onBlur={() => runValidationTasks("clientCampaignID", clientCampaignID)}
-        errorMessage={errors.clientCampaignID?.errorMessage}
-        hasError={errors.clientCampaignID?.hasError}
-        {...getOverrideProps(overrides, "clientCampaignID")}
+        onBlur={() => runValidationTasks("clientID", clientID)}
+        errorMessage={errors.clientID?.errorMessage}
+        hasError={errors.clientID?.hasError}
+        {...getOverrideProps(overrides, "clientID")}
       ></TextField>
       <TextField
         label="Key"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={key}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key: value,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.key ?? value;
@@ -254,6 +256,39 @@ export default function ClientCampaignEligibleCreateForm(props) {
         {...getOverrideProps(overrides, "key")}
       ></TextField>
       <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              clientID,
+              key,
+              name: value,
+              cpf,
+              rg,
+              birth,
+              notes,
+              search,
+              relationship,
+              isDependent,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
+      <TextField
         label="Cpf"
         isRequired={false}
         isReadOnly={false}
@@ -262,19 +297,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf: value,
               rg,
-              name,
               birth,
               notes,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.cpf ?? value;
@@ -298,19 +330,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg: value,
-              name,
               birth,
               notes,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.rg ?? value;
@@ -326,42 +355,6 @@ export default function ClientCampaignEligibleCreateForm(props) {
         {...getOverrideProps(overrides, "rg")}
       ></TextField>
       <TextField
-        label="Name"
-        isRequired={false}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              clientCampaignID,
-              key,
-              cpf,
-              rg,
-              name: value,
-              birth,
-              notes,
-              search,
-              relationship,
-              isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
         label="Birth"
         isRequired={false}
         isReadOnly={false}
@@ -370,19 +363,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth: value,
               notes,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.birth ?? value;
@@ -406,19 +396,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes: value,
               search,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.notes ?? value;
@@ -442,19 +429,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes,
               search: value,
               relationship,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.search ?? value;
@@ -478,19 +462,16 @@ export default function ClientCampaignEligibleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes,
               search,
               relationship: value,
               isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.relationship ?? value;
@@ -505,28 +486,25 @@ export default function ClientCampaignEligibleCreateForm(props) {
         hasError={errors.relationship?.hasError}
         {...getOverrideProps(overrides, "relationship")}
       ></TextField>
-      <TextField
+      <SwitchField
         label="Is dependent"
-        isRequired={false}
-        isReadOnly={false}
-        value={isDependent}
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isDependent}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = e.target.checked;
           if (onChange) {
             const modelFields = {
-              clientCampaignID,
+              clientID,
               key,
+              name,
               cpf,
               rg,
-              name,
               birth,
               notes,
               search,
               relationship,
               isDependent: value,
-              cpfRelationship,
-              isThird,
-              thirdName,
             };
             const result = onChange(modelFields);
             value = result?.isDependent ?? value;
@@ -540,127 +518,20 @@ export default function ClientCampaignEligibleCreateForm(props) {
         errorMessage={errors.isDependent?.errorMessage}
         hasError={errors.isDependent?.hasError}
         {...getOverrideProps(overrides, "isDependent")}
-      ></TextField>
-      <TextField
-        label="Cpf relationship"
-        isRequired={false}
-        isReadOnly={false}
-        value={cpfRelationship}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              clientCampaignID,
-              key,
-              cpf,
-              rg,
-              name,
-              birth,
-              notes,
-              search,
-              relationship,
-              isDependent,
-              cpfRelationship: value,
-              isThird,
-              thirdName,
-            };
-            const result = onChange(modelFields);
-            value = result?.cpfRelationship ?? value;
-          }
-          if (errors.cpfRelationship?.hasError) {
-            runValidationTasks("cpfRelationship", value);
-          }
-          setCpfRelationship(value);
-        }}
-        onBlur={() => runValidationTasks("cpfRelationship", cpfRelationship)}
-        errorMessage={errors.cpfRelationship?.errorMessage}
-        hasError={errors.cpfRelationship?.hasError}
-        {...getOverrideProps(overrides, "cpfRelationship")}
-      ></TextField>
-      <TextField
-        label="Is third"
-        isRequired={false}
-        isReadOnly={false}
-        value={isThird}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              clientCampaignID,
-              key,
-              cpf,
-              rg,
-              name,
-              birth,
-              notes,
-              search,
-              relationship,
-              isDependent,
-              cpfRelationship,
-              isThird: value,
-              thirdName,
-            };
-            const result = onChange(modelFields);
-            value = result?.isThird ?? value;
-          }
-          if (errors.isThird?.hasError) {
-            runValidationTasks("isThird", value);
-          }
-          setIsThird(value);
-        }}
-        onBlur={() => runValidationTasks("isThird", isThird)}
-        errorMessage={errors.isThird?.errorMessage}
-        hasError={errors.isThird?.hasError}
-        {...getOverrideProps(overrides, "isThird")}
-      ></TextField>
-      <TextField
-        label="Third name"
-        isRequired={false}
-        isReadOnly={false}
-        value={thirdName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              clientCampaignID,
-              key,
-              cpf,
-              rg,
-              name,
-              birth,
-              notes,
-              search,
-              relationship,
-              isDependent,
-              cpfRelationship,
-              isThird,
-              thirdName: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.thirdName ?? value;
-          }
-          if (errors.thirdName?.hasError) {
-            runValidationTasks("thirdName", value);
-          }
-          setThirdName(value);
-        }}
-        onBlur={() => runValidationTasks("thirdName", thirdName)}
-        errorMessage={errors.thirdName?.errorMessage}
-        hasError={errors.thirdName?.hasError}
-        {...getOverrideProps(overrides, "thirdName")}
-      ></TextField>
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || clientEligibleModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -670,7 +541,10 @@ export default function ClientCampaignEligibleCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || clientEligibleModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

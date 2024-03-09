@@ -1,0 +1,122 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
+import * as React from "react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { ClientCampaignUnit } from "../API.ts";
+export declare type EscapeHatchProps = {
+    [elementHierarchy: string]: Record<string, unknown>;
+} | null;
+export declare type VariantValues = {
+    [key: string]: string;
+};
+export declare type Variant = {
+    variantValues: VariantValues;
+    overrides: EscapeHatchProps;
+};
+export declare type ValidationResponse = {
+    hasError: boolean;
+    errorMessage?: string;
+};
+export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
+export declare type ClientCampaignUnitUpdateFormInputValues = {
+    name?: string;
+    notes?: string;
+    search?: string;
+    street?: string;
+    number?: string;
+    complement?: string;
+    zipcode?: string;
+    neighborhood?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    contactName?: string;
+    contactEmail?: string;
+    contactPhone?: string;
+    totalEligibles?: number;
+    totalContractedVaccines?: number;
+    qtyVisits?: number;
+    qtyVisitsConfirmed?: number;
+    qtyProfessional?: number;
+    servicePoints?: number;
+    serviceResponsible?: string;
+    vaccination?: string;
+    typeService?: string;
+    idx?: number;
+    routingRegionID?: string;
+    code?: string;
+};
+export declare type ClientCampaignUnitUpdateFormValidationValues = {
+    name?: ValidationFunction<string>;
+    notes?: ValidationFunction<string>;
+    search?: ValidationFunction<string>;
+    street?: ValidationFunction<string>;
+    number?: ValidationFunction<string>;
+    complement?: ValidationFunction<string>;
+    zipcode?: ValidationFunction<string>;
+    neighborhood?: ValidationFunction<string>;
+    city?: ValidationFunction<string>;
+    state?: ValidationFunction<string>;
+    country?: ValidationFunction<string>;
+    contactName?: ValidationFunction<string>;
+    contactEmail?: ValidationFunction<string>;
+    contactPhone?: ValidationFunction<string>;
+    totalEligibles?: ValidationFunction<number>;
+    totalContractedVaccines?: ValidationFunction<number>;
+    qtyVisits?: ValidationFunction<number>;
+    qtyVisitsConfirmed?: ValidationFunction<number>;
+    qtyProfessional?: ValidationFunction<number>;
+    servicePoints?: ValidationFunction<number>;
+    serviceResponsible?: ValidationFunction<string>;
+    vaccination?: ValidationFunction<string>;
+    typeService?: ValidationFunction<string>;
+    idx?: ValidationFunction<number>;
+    routingRegionID?: ValidationFunction<string>;
+    code?: ValidationFunction<string>;
+};
+export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
+export declare type ClientCampaignUnitUpdateFormOverridesProps = {
+    ClientCampaignUnitUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    notes?: PrimitiveOverrideProps<TextFieldProps>;
+    search?: PrimitiveOverrideProps<TextFieldProps>;
+    street?: PrimitiveOverrideProps<TextFieldProps>;
+    number?: PrimitiveOverrideProps<TextFieldProps>;
+    complement?: PrimitiveOverrideProps<TextFieldProps>;
+    zipcode?: PrimitiveOverrideProps<TextFieldProps>;
+    neighborhood?: PrimitiveOverrideProps<TextFieldProps>;
+    city?: PrimitiveOverrideProps<TextFieldProps>;
+    state?: PrimitiveOverrideProps<TextFieldProps>;
+    country?: PrimitiveOverrideProps<TextFieldProps>;
+    contactName?: PrimitiveOverrideProps<TextFieldProps>;
+    contactEmail?: PrimitiveOverrideProps<TextFieldProps>;
+    contactPhone?: PrimitiveOverrideProps<TextFieldProps>;
+    totalEligibles?: PrimitiveOverrideProps<TextFieldProps>;
+    totalContractedVaccines?: PrimitiveOverrideProps<TextFieldProps>;
+    qtyVisits?: PrimitiveOverrideProps<TextFieldProps>;
+    qtyVisitsConfirmed?: PrimitiveOverrideProps<TextFieldProps>;
+    qtyProfessional?: PrimitiveOverrideProps<TextFieldProps>;
+    servicePoints?: PrimitiveOverrideProps<TextFieldProps>;
+    serviceResponsible?: PrimitiveOverrideProps<SelectFieldProps>;
+    vaccination?: PrimitiveOverrideProps<TextFieldProps>;
+    typeService?: PrimitiveOverrideProps<SelectFieldProps>;
+    idx?: PrimitiveOverrideProps<TextFieldProps>;
+    routingRegionID?: PrimitiveOverrideProps<TextFieldProps>;
+    code?: PrimitiveOverrideProps<TextFieldProps>;
+} & EscapeHatchProps;
+export declare type ClientCampaignUnitUpdateFormProps = React.PropsWithChildren<{
+    overrides?: ClientCampaignUnitUpdateFormOverridesProps | undefined | null;
+} & {
+    id?: string;
+    clientCampaignUnit?: ClientCampaignUnit;
+    onSubmit?: (fields: ClientCampaignUnitUpdateFormInputValues) => ClientCampaignUnitUpdateFormInputValues;
+    onSuccess?: (fields: ClientCampaignUnitUpdateFormInputValues) => void;
+    onError?: (fields: ClientCampaignUnitUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: ClientCampaignUnitUpdateFormInputValues) => ClientCampaignUnitUpdateFormInputValues;
+    onValidate?: ClientCampaignUnitUpdateFormValidationValues;
+} & React.CSSProperties>;
+export default function ClientCampaignUnitUpdateForm(props: ClientCampaignUnitUpdateFormProps): React.ReactElement;
