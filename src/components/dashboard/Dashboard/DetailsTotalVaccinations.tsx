@@ -4,12 +4,18 @@ import { ModelSortDirection } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 
+import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEligibleVaccination'
+import { useUser } from 'hooks/useUser'
+
+import { useUI } from 'components/ui/context'
+import { useDebounce } from 'use-debounce'
+import { toast } from 'react-toastify'
+
 import 'moment/locale/pt-br'
 import Moment from 'moment'
 Moment.locale('pt-br')
 
-import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEligibleVaccination'
-import { useUser } from 'hooks/useUser'
+import Header from './Header'
 
 export default function DetailsTotalVaccinations(props: any) {
   const { clientCampaignID, userID } = props;
@@ -18,13 +24,102 @@ export default function DetailsTotalVaccinations(props: any) {
 
   const { listVaccinationsByClientCampaign } = useClientCampaignEligibleVaccination()
 
+  const [downloadReady, setDownloadReady] = useState(false)
+  const [downloadItems, setDownloadItems] = useState([] as any)
+  const { searchText, setStartDownload, startDownload } = useUI()
+  const [value] = useDebounce(searchText, 600)
+
+  const download = async () => {
+    setDownloadItems([])
+    setDownloadReady(false)
+    toast.info('Preparando dados para download...')
+    const fetchData = async (n: string | null) => {
+      const { items, nextToken } = await listVaccinationsByClientCampaign({
+        clientCampaignID,
+        limit: 1000,
+        nextToken: n,
+      })
+
+      const t = [] as any
+      items.map((item: any) => {
+        const input = {
+          Identificador: item.clientEligible.key,
+          Nome: item.clientEligible.name,
+          CPF: item.clientEligible.cpf,
+          RG: item.clientEligible.rg,
+          Nascimento: item.clientEligible.birth !== 'Data inválida' ? item.clientEligible.birth : '',
+          Dependente: item.clientEligible.isDependent === '1' ? 'Sim' : 'Não',
+          CPF_Responsável: item.clientEligible.cpfRelationship,
+          Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
+          Empresa: item.clientEligible.thirdName,
+          Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
+          Coren: item.coren ? item.coren : '',
+          Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
+        } as any
+
+        t.push(input)
+      })
+      setDownloadItems((downloadItems: any) => [...downloadItems, ...t])
+      return nextToken
+    }
+
+    let nextToken = null
+
+    for await (const num of [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4,
+      5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8,
+      9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2,
+      3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
+      7, 8, 9, 10,
+    ]) {
+      nextToken = await fetchData(nextToken)
+      if (!nextToken) {
+        setDownloadReady(true)
+        break
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (startDownload) {
+      download()
+      setStartDownload(false)
+    }
+    return () => {
+      setStartDownload(false)
+    }
+  }, [startDownload])
+
+  useEffect(() => {
+    if (downloadReady) {
+      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Data_Aplicação,Coren,Dose\n'
+      csv += downloadItems.map((row: any) =>
+        Object.values(row).map((item: any) => `"${item}"`).join(',')
+      ).join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Colaboradores_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    }
+  }, [downloadReady])
+
   return <List
-    keys={`${clientCampaignID ? clientCampaignID : ''}`}
+    keys={`${clientCampaignID ? clientCampaignID : ''} ${value}`}
     userID={userID}
+    Header={<Header />}
     emptyMessage='Nenhum colaborador imunizado por aqui.'
     endMessage='Estes são todos os colaboradores imunizados.'
     listItems={listVaccinationsByClientCampaign}
-    variables={{
+    variables={value ? {
+      clientCampaignID,
+      filter: { search: { contains: value.toLowerCase() } },
+      limit: 1000,
+      sortDirection: ModelSortDirection.DESC,
+      nextToken: null
+    } : {
       clientCampaignID,
       limit: 1000,
       sortDirection: ModelSortDirection.DESC,

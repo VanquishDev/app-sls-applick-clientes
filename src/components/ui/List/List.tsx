@@ -173,7 +173,7 @@ const List: FC<Props> = ({
 
   const handleOnUpdatedItem = (itemUpd: any) => {
     const itemsFmt1 = itemsList.map((item: any) => {
-      if (item.id !== itemUpd.id) {
+      if (item && item.id !== itemUpd.id) {
         return item
       } else {
         Object.keys(item).forEach((p: any) => {
@@ -306,11 +306,7 @@ const List: FC<Props> = ({
       {!isLoading && itemsList && itemsList.length === 0 && (
         <Container className={`${Header ? '-pt-2' : 'pt-4'}`}>
           {Header && <div className='z-50 sticky top-0 bg-primary'>
-            <div className='pt-2 px-2'>
-              <div className=' bg-slate-200 rounded-lg shadow'>
-                {Header}
-              </div>
-            </div>
+            {Header}
           </div>}
           <EmptyMessage message={emptyMessage} />
         </Container>
@@ -333,11 +329,9 @@ const List: FC<Props> = ({
               scrollThreshold="100px"
               endMessage={<EndMessage message={endMessage} />}
             >
-              {Header && <div className='z-50 sticky top-0 bg-primary'>
-                <div className='pt-2 mx-2'>
-                  <div className=' bg-slate-200 rounded-lg shadow'>
-                    {Header}
-                  </div>
+              {Header && <div className='z-50 sticky top-0 bg-primary mx-4'>
+                <div className=' bg-slate-200 rounded-lg shadow'>
+                  {Header}
                 </div>
               </div>}
               <div className={listClassName}>

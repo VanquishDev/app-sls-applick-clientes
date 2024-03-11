@@ -17,6 +17,7 @@ export interface State {
   config: any
   itemListSelected: any
   itemListMode: string
+  startDownload: boolean
 }
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   displayModal: false,
   displaySearch: false,
   displayEditPage: false,
+  startDownload: false,
   modalView: 'LOGIN_VIEW',
   searchText: '',
   searchTab: 0,
@@ -60,6 +62,7 @@ type Action =
   | { type: 'SET_CONFIG'; config: Config }
   | { type: 'SET_ITEM_LIST_SELECTED'; itemListSelected: ItemListSelected }
   | { type: 'SET_ITEM_LIST_MODE'; itemListMode: ItemListMode }
+  | { type: 'SET_START_DOWNLOAD'; startDownload: boolean }
 
 type MODAL_VIEWS =
   | 'SIGNUP_VIEW'
@@ -141,6 +144,9 @@ function uiReducer(state: State, action: Action) {
     case 'HIDE_EDIT_PAGE': {
       return { ...state, displayEditPage: false }
     }
+    case 'SET_START_DOWNLOAD': {
+      return { ...state, startDownload: action.startDownload }
+    }
     case 'SET_CONFIG': {
       return { ...state, config: action.config }
     }
@@ -212,6 +218,8 @@ export const UIProvider: FC<Props> = (props) => {
   const showEditPage = () => dispatch({ type: 'SHOW_EDIT_PAGE' })
   const hideEditPage = () => dispatch({ type: 'HIDE_EDIT_PAGE' })
 
+  const setStartDownload = (startDownload: boolean) => dispatch({ type: 'SET_START_DOWNLOAD', startDownload })
+
   const setProgress = (progress: number) =>
     dispatch({ type: 'SET_PROGRESS', progress })
 
@@ -265,6 +273,7 @@ export const UIProvider: FC<Props> = (props) => {
       setHeightNavBar,
       setItemListSelected,
       setItemListMode,
+      setStartDownload,
     }),
     [state]
   )

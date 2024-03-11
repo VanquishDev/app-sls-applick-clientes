@@ -3,15 +3,18 @@ import { OSStatus } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 import { formatPhoneNumber } from 'react-phone-number-input'
-import { Search } from 'components/icons'
-import cn from 'classnames'
+import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
+import { useState, useEffect } from 'react'
+
+import { useUI } from 'components/ui/context'
+import { useDebounce } from 'use-debounce'
+import { toast } from 'react-toastify'
 
 import 'moment/locale/pt-br'
 import Moment from 'moment'
 Moment.locale('pt-br')
 
-import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
-import { useState } from 'react'
+import Header from './Header'
 
 export default function DetailsTotalUnits(props: any) {
   const { clientCampaignID, userID } = props;
@@ -20,13 +23,98 @@ export default function DetailsTotalUnits(props: any) {
 
   const { listUnitsByClientCampaign } = useClientCampaignUnit()
 
+  const [downloadReady, setDownloadReady] = useState(false)
+  const [downloadItems, setDownloadItems] = useState([] as any)
+  const { searchText, setStartDownload, startDownload } = useUI()
+  const [value] = useDebounce(searchText, 600)
+
+  const download = async () => {
+    setDownloadItems([])
+    setDownloadReady(false)
+    toast.info('Preparando dados para download...')
+    const fetchData = async (n: string | null) => {
+      const { items, nextToken } = await listUnitsByClientCampaign({
+        clientCampaignID,
+        limit: 1000,
+        nextToken: n,
+      })
+
+      const t = [] as any
+      items.map((item: any) => {
+        const input = {
+          Nome: item.name,
+          Código: item.code,
+          TotalElegíveis: item.totalEligibles,
+          DosesContratadas: item.totalContractedVaccines,
+          QtdeVisitas: item.qtyVisits,
+          Contato: item.contactName,
+          ContatoEmail: item.contactEmail,
+          ContatoPhone: item.contactPhone,
+        } as any
+
+        t.push(input)
+      })
+      setDownloadItems((downloadItems: any) => [...downloadItems, ...t])
+      return nextToken
+    }
+
+    let nextToken = null
+
+    for await (const num of [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4,
+      5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8,
+      9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2,
+      3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
+      7, 8, 9, 10,
+    ]) {
+      nextToken = await fetchData(nextToken)
+      if (!nextToken) {
+        setDownloadReady(true)
+        break
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (startDownload) {
+      download()
+      setStartDownload(false)
+    }
+    return () => {
+      setStartDownload(false)
+    }
+  }, [startDownload])
+
+  useEffect(() => {
+    if (downloadReady) {
+      let csv = 'Nome,Código,TotalElegíveis,DosesContratadas,QtdeVisitas,Contato,ContatoEmail,ContatoPhone\n'
+      csv += downloadItems.map((row: any) =>
+        Object.values(row).map((item: any) => `"${item}"`).join(',')
+      ).join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Unidades_Cadastradas_${Moment().format('YYYYMMDDHHmmss')}.csv`
+      a.click()
+      window.URL.revokeObjectURL(url)
+    }
+  }, [downloadReady])
+
   return <List
-    keys={`${clientCampaignID ? clientCampaignID : ''}`}
+    keys={`${clientCampaignID ? clientCampaignID : ''} ${value}`}
     userID={userID}
+    Header={<Header />}
     emptyMessage='Nenhuma unidade por aqui.'
     endMessage='Estes são todas as unidades.'
     listItems={listUnitsByClientCampaign}
-    variables={{
+    variables={value ? {
+      clientCampaignID,
+      filter: { search: { contains: value.toLowerCase() } },
+      limit: 100,
+      // sortDirection: ModelSortDirection.DESC,
+      nextToken: null
+    } : {
       clientCampaignID,
       limit: 100,
       // sortDirection: ModelSortDirection.DESC,
@@ -169,29 +257,3 @@ function Card(props: any) {
   )
 }
 
-function Header(props: any) {
-  const [search, setSearch] = useState('')
-
-  return (<div className="mb-4 flex flex-col md:flex-row md:justify-between">
-    <div></div>
-    <div>
-      <div
-        className={cn(
-          'cursor-default relative flex items-center justify-center text-base transition-colors duration-150'
-        )}
-      >
-        <input
-          id="searchHeader"
-          className="text-accent-9 py-2 bg-accent-0 w-full pl-3 rounded-lg border-2 border-accent-2 outline-none focus:border-indigo-500"
-          autoComplete="off"
-          placeholder="Pesquisar..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
-        />
-        <div className="cursor-pointer text-accent-7 absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-          <Search />
-        </div>
-      </div>
-    </div>
-  </div>)
-}
