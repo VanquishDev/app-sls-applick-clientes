@@ -305,8 +305,12 @@ const List: FC<Props> = ({
       )}
       {!isLoading && itemsList && itemsList.length === 0 && (
         <Container className={`${Header ? '-pt-2' : 'pt-4'}`}>
-          {Header && <div className='z-50 sticky top-0 bg-primary'>
-            {Header}
+          {Header && <div className='z-50 sticky top-0 bg-primary mx-4'>
+            <div className='pt-2'>
+              <div className=' bg-slate-200 rounded-lg shadow'>
+                {Header}
+              </div>
+            </div>
           </div>}
           <EmptyMessage message={emptyMessage} />
         </Container>
@@ -374,8 +378,8 @@ const List: FC<Props> = ({
               scrollThreshold="150px"
               endMessage={<EndMessage message={endMessage} />}
             >
-              {Header && <div className='z-50 sticky top-0 bg-primary'>
-                <div className='pt-2 mx-2'>
+              {Header && <div className='z-50 sticky top-0 bg-primary mx-4'>
+                <div className='pt-2'>
                   <div className=' bg-slate-200 rounded-lg shadow'>
                     {Header}
                   </div>
