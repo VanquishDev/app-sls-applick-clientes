@@ -18,7 +18,7 @@ Moment.locale('pt-br')
 import Header from './Header'
 
 export default function DetailsTotalVaccinations(props: any) {
-  const { clientCampaignID, userID } = props;
+  const { clientCampaignID, userID, dependents, thirds } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
@@ -42,6 +42,8 @@ export default function DetailsTotalVaccinations(props: any) {
 
       const t = [] as any
       items.map((item: any) => {
+        if (dependents && item.clientEligible.isDependent !== '1') return
+        if (thirds && item.clientEligible.isThird !== '1') return
         const input = {
           Identificador: item.clientEligible.key,
           Nome: item.clientEligible.name,
@@ -100,7 +102,9 @@ export default function DetailsTotalVaccinations(props: any) {
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `Colaboradores_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv`
+      a.download = dependents ? `Dependentes_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv` :
+        thirds ? `Terceiros_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv` :
+          `Colaboradores_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv`
       a.click()
       window.URL.revokeObjectURL(url)
     }
@@ -128,13 +132,14 @@ export default function DetailsTotalVaccinations(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
+    paramsItems={{ dependents, thirds }}
   />;
 }
 
 function Card(props: any) {
-  const { item, index, handleSelect, itemSelected, isLast } = props
+  const { item, index, handleSelect, itemSelected, isLast, paramsItems } = props
 
-  return !item ? null : (
+  return (!item || (paramsItems.dependents && (item.clientEligible.isDependent !== '1')) || (paramsItems.thirds && (item.clientEligible.isThird !== '1'))) ? null : (
     <div
       key={index}
       className={`px-4 lg:pl-8 w-full ${itemSelected === index ? 'py-3 scale-100' : 'py-1 scale-95'

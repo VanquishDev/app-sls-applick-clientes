@@ -182,22 +182,22 @@ export default function Statistics(props: any) {
               setModalSel('totalEligibles')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{campaign.totalEligibles ? campaign.totalEligibles : 0}</div>
-              <div className="stat-desc">Total cadastrados</div>
+              <div className="mt-5 stat-value">{campaign.totalEligibles ? (campaign.totalEligibles - (campaign.totalEligiblesDependent ? campaign.totalEligiblesDependent : 0) + (campaign.totalEligiblesThird ? campaign.totalEligiblesThird : 0)) : 0}</div>
+              <div className="stat-desc">Colaboradores</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
               setModalSel('totalEligiblesDependent')
               openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalEligiblesDependent ? campaign.totalEligiblesDependent : 0}</div>
-              <div className="stat-desc">Total dependentes</div>
+              <div className="stat-desc">Dependentes</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
               setModalSel('totalEligiblesThird')
               openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalEligiblesThird ? campaign.totalEligiblesThird : 0}</div>
-              <div className="stat-desc">Total terceiros</div>
+              <div className="stat-desc">Terceiros</div>
             </div>
           </div>
           <div>
@@ -211,18 +211,22 @@ export default function Statistics(props: any) {
               setModalSel('totalVaccinations')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{campaign.totalVaccinations ? campaign.totalVaccinations : 0}</div>
-              <div className="stat-desc">Doses aplicadas</div>
+              <div className="mt-5 stat-value">{campaign.totalVaccinations ? (campaign.totalVaccinations - ((campaign.totalVaccinationsDependent ? campaign.totalVaccinationsDependent : 0) + (campaign.totalVaccinationsThird ? campaign.totalVaccinationsThird : 0))) : 0}</div>
+              <div className="stat-desc">Em Colaboradores</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalVaccinationsDependent')
+              openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalVaccinationsDependent ? campaign.totalVaccinationsDependent : 0}</div>
-              <div className="stat-desc">Doses em dependentes</div>
+              <div className="stat-desc">Em Dependentes</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalVaccinationsThird')
+              openModal()
             }}>
               <div className="mt-5 stat-value">{campaign.totalVaccinationsThird ? campaign.totalVaccinationsThird : 0}</div>
-              <div className="stat-desc">Doses em terceiros</div>
+              <div className="stat-desc">Em Terceiros</div>
             </div>
           </div>
           <div>
@@ -240,14 +244,18 @@ export default function Statistics(props: any) {
               <div className="stat-desc">% de adesão</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalVaccinationsDependent')
+              openModal()
             }}>
               <div className="mt-5 stat-value">{(campaign.totalEligiblesDependent && campaign.totalVaccinationsDependent) ? ((campaign.totalVaccinationsDependent / campaign.totalEligiblesDependent) * 100).toFixed(2) : 0}%</div>
-              <div className="stat-desc">% de dependentes</div>
+              <div className="stat-desc">% de adesão</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
+              setModalSel('totalVaccinationsThird')
+              openModal()
             }}>
               <div className="mt-5 stat-value">{(campaign.totalEligiblesThird && campaign.totalVaccinationsThird) ? ((campaign.totalVaccinationsThird / campaign.totalEligiblesThird) * 100).toFixed(2) : 0}%</div>
-              <div className="stat-desc">% de terceiros</div>
+              <div className="stat-desc">% de adesão</div>
             </div>
           </div>
         </div>
@@ -287,11 +295,11 @@ export default function Statistics(props: any) {
       </div>
     </div>
 
-    <div className='mt-8 mx-4'>
+    {false && <div className='mt-8 mx-4'>
       <div className='bg-accent-0 rounded-lg shadow md:shadow-lg p-4 md:p-6 2xl:p-7.5'>
         <Chart1 />
       </div>
-    </div>
+    </div>}
 
     <div className='mt-8 mx-4 flex justify-center'>
       <Link href="/page/ia"><Image className='rounded-lg shadow md:shadow-lg' alt="IA" src="/ia.png" width={985} height={275} /></Link>
@@ -312,7 +320,9 @@ export default function Statistics(props: any) {
           {modalSel === 'totalEligibles' && (<><Team /> <span className="ml-2">Colaboradores</span></>)}
           {modalSel === 'totalEligiblesDependent' && (<><Team /> <span className="ml-2">Dependentes</span></>)}
           {modalSel === 'totalEligiblesThird' && (<><Team /> <span className="ml-2">Terceiros</span></>)}
-          {modalSel === 'totalVaccinations' && (<><Plus2 /> <span className="ml-2">Aplicações</span></>)}
+          {modalSel === 'totalVaccinations' && (<><Plus2 /> <span className="ml-2">Aplicações em Colaboradores</span></>)}
+          {modalSel === 'totalVaccinationsDependent' && (<><Plus2 /> <span className="ml-2">Aplicações em Dependentes</span></>)}
+          {modalSel === 'totalVaccinationsThird' && (<><Plus2 /> <span className="ml-2">Aplicações em Terceiros</span></>)}
         </div>
       }
     >
@@ -335,6 +345,8 @@ export default function Statistics(props: any) {
         {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinationsDependent' && (<DetailsTotalVaccinations dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinationsThird' && (<DetailsTotalVaccinations thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
       </div>
     </Modal>
 
