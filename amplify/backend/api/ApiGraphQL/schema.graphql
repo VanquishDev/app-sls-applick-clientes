@@ -994,6 +994,7 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   adminCreateUser(name: String, email: String, phone: String, id: String, messageAction: String, passwordLength: Int, resendTempPass: Int, confirmSignUp: Int): String @function(name: "AdminCreateUser-${env}")
   adminAddUserToGroup(username: String, groups: String): String @function(name: "AdminAddUserToGroup-${env}")
   adminUpdateUserAttributes(username: String, attributes: String): String @function(name: "AdminUpdateUserAttributes-${env}")
+  adminSetUserPassword(username: String, password: String): String @function(name: "AdminSetUserPassword-${env}")
 }
 
 type Adherence
@@ -1035,7 +1036,7 @@ type Adherence
 
 type AdherenceUsed
   @model(
-    mutations: {create: "createAdherenceUsed", update: null, delete: null},
+    mutations: {create: "createAdherenceUsed", update: null, delete: "deleteAdherenceUsed"},
     queries: {get: null, list: null},
     subscriptions: null
   )
@@ -1050,7 +1051,7 @@ type AdherenceUsed
     @index(name: "usedByAdherence", queryField: "listUsedByAdherence")
     @index(name: "usedByAdherenceUser", queryField: "listUsedByAdherenceUser", sortKeyFields: ["userID"])
   adherence: Adherence @belongsTo(fields: ["adherenceID"])
-  userID: ID!
+  userID: ID! @index(name: "usedByUserAdherence", queryField: "listUsedByUserAdherence", sortKeyFields: ["adherenceID"])
   user: User @hasOne(fields: ["userID"])
   qty: Int
 }
@@ -1410,6 +1411,7 @@ type ClientCampaignUnit
     @index(name: "unitsByClientCampaign", queryField: "listUnitsByClientCampaign")
     @index(name: "unitsByClientCampaignCode", queryField: "listUnitsByClientCampaignCode", sortKeyFields: ["code"])
   name: String
+  cnpj: String
   notes: String
   search: String
   street: String
@@ -1511,7 +1513,7 @@ type ClientCampaignEligible
 type ClientCampaignEligibleVaccination
   @model(
     mutations: {create: "createClientCampaignEligibleVaccination", update: "updateClientCampaignEligibleVaccination", delete: "deleteClientCampaignEligibleVaccination"},
-    queries: {get: null, list: null},
+    queries: {get: null, list: "listClientCampaignEligibleVaccinations"},
     subscriptions: null
   )
   @auth(rules: [
@@ -1571,7 +1573,7 @@ type OS
   collaborators: [ID!]
   companies: [ID!]
   number: Int! @index(name: "ossByNumber", queryField: "listOSsByNumber")
-  start: AWSDateTime
+  start: AWSDateTime @index(name: "ossByStartStatus", queryField: "listOSsByStartStatus", sortKeyFields: ["status"])
   expiration: AWSDateTime
   orientation: String
   notes: String
@@ -1599,6 +1601,7 @@ type OS
   lat: Float
   lng: Float
   search: String
+  typeService: UnitsTypeService
   client: Client @belongsTo(fields: ["clientID"])
   clientCampaign: ClientCampaign @hasOne(fields: ["clientCampaignID"])
   clientCampaignUnit: ClientCampaignUnit @belongsTo(fields: ["clientCampaignUnitID"])
@@ -1619,7 +1622,7 @@ type RoutingRegion
     {allow: public, provider: apiKey, operations: [read, update, create, delete]}
     ]) {
   id: ID! @primaryKey
-  name: String!
+  name: String! @index(name: "routingByName", queryField: "listRoutingByName")
   zipCode: [String]
 }
 
@@ -1635,6 +1638,7 @@ type Routing
     ]) {
   id: ID! @primaryKey
   idx: Int! @index(name: "routingByIdxStart", queryField: "listRoutingByIdxStart", sortKeyFields: ["start"])
+  routingRegionID: ID @index(name: "routingByRoutingRegion", queryField: "listRoutingByRoutingRegion", sortKeyFields: ["start"])
   start: AWSDateTime!
   end: AWSDateTime!
   title: String!

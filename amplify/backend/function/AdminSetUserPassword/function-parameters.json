@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "auth": {
+      "AuthCognito": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

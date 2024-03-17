@@ -245,6 +245,10 @@ function Card(props: any) {
               <div>{item.thirdName}</div>
             </div>}
           </div>
+          {item.notes && <>
+            <div className="mt-4 text-sm font-semibold text-tertiary-2">Observações</div>
+            <div>{item.notes}</div>
+          </>}
           {false && <pre>{JSON.stringify(item, null, 4)}</pre>}
         </div>
       )}

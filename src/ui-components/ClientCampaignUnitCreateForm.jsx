@@ -29,6 +29,7 @@ export default function ClientCampaignUnitCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    cnpj: "",
     notes: "",
     search: "",
     street: "",
@@ -56,6 +57,7 @@ export default function ClientCampaignUnitCreateForm(props) {
     code: "",
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [cnpj, setCnpj] = React.useState(initialValues.cnpj);
   const [notes, setNotes] = React.useState(initialValues.notes);
   const [search, setSearch] = React.useState(initialValues.search);
   const [street, setStreet] = React.useState(initialValues.street);
@@ -110,6 +112,7 @@ export default function ClientCampaignUnitCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
+    setCnpj(initialValues.cnpj);
     setNotes(initialValues.notes);
     setSearch(initialValues.search);
     setStreet(initialValues.street);
@@ -139,6 +142,7 @@ export default function ClientCampaignUnitCreateForm(props) {
   };
   const validations = {
     name: [],
+    cnpj: [],
     notes: [],
     search: [],
     street: [],
@@ -192,6 +196,7 @@ export default function ClientCampaignUnitCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
+          cnpj,
           notes,
           search,
           street,
@@ -280,6 +285,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              cnpj,
               notes,
               search,
               street,
@@ -320,6 +326,56 @@ export default function ClientCampaignUnitCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
+        label="Cnpj"
+        isRequired={false}
+        isReadOnly={false}
+        value={cnpj}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              cnpj: value,
+              notes,
+              search,
+              street,
+              number,
+              complement,
+              zipcode,
+              neighborhood,
+              city,
+              state,
+              country,
+              contactName,
+              contactEmail,
+              contactPhone,
+              totalEligibles,
+              totalContractedVaccines,
+              qtyVisits,
+              qtyVisitsConfirmed,
+              qtyProfessional,
+              servicePoints,
+              serviceResponsible,
+              vaccination,
+              typeService,
+              idx,
+              routingRegionID,
+              code,
+            };
+            const result = onChange(modelFields);
+            value = result?.cnpj ?? value;
+          }
+          if (errors.cnpj?.hasError) {
+            runValidationTasks("cnpj", value);
+          }
+          setCnpj(value);
+        }}
+        onBlur={() => runValidationTasks("cnpj", cnpj)}
+        errorMessage={errors.cnpj?.errorMessage}
+        hasError={errors.cnpj?.hasError}
+        {...getOverrideProps(overrides, "cnpj")}
+      ></TextField>
+      <TextField
         label="Notes"
         isRequired={false}
         isReadOnly={false}
@@ -329,6 +385,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes: value,
               search,
               street,
@@ -378,6 +435,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search: value,
               street,
@@ -427,6 +485,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street: value,
@@ -476,6 +535,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -525,6 +585,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -574,6 +635,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -623,6 +685,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -672,6 +735,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -721,6 +785,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -770,6 +835,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -819,6 +885,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -868,6 +935,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -917,6 +985,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -970,6 +1039,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1023,6 +1093,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1078,6 +1149,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1131,6 +1203,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1186,6 +1259,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1239,6 +1313,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1288,6 +1363,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1350,6 +1426,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1399,6 +1476,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1468,6 +1546,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1517,6 +1596,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,
@@ -1566,6 +1646,7 @@ export default function ClientCampaignUnitCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              cnpj,
               notes,
               search,
               street,

@@ -4252,6 +4252,39 @@ export const listUsedByAdherenceUser = /* GraphQL */ `query ListUsedByAdherenceU
   APITypes.ListUsedByAdherenceUserQueryVariables,
   APITypes.ListUsedByAdherenceUserQuery
 >;
+export const listUsedByUserAdherence = /* GraphQL */ `query ListUsedByUserAdherence(
+  $userID: ID!
+  $adherenceID: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelAdherenceUsedFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsedByUserAdherence(
+    userID: $userID
+    adherenceID: $adherenceID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      adherenceID
+      userID
+      qty
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUsedByUserAdherenceQueryVariables,
+  APITypes.ListUsedByUserAdherenceQuery
+>;
 export const listProductsByAdherence = /* GraphQL */ `query ListProductsByAdherence(
   $adherenceID: ID!
   $sortDirection: ModelSortDirection
@@ -5683,6 +5716,7 @@ export const getClientCampaignUnit = /* GraphQL */ `query GetClientCampaignUnit(
     id
     clientCampaignID
     name
+    cnpj
     notes
     search
     street
@@ -5775,6 +5809,7 @@ export const listClientCampaignUnits = /* GraphQL */ `query ListClientCampaignUn
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -5830,6 +5865,7 @@ export const listUnitsByClientCampaign = /* GraphQL */ `query ListUnitsByClientC
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -5887,6 +5923,7 @@ export const listUnitsByClientCampaignCode = /* GraphQL */ `query ListUnitsByCli
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -5944,6 +5981,7 @@ export const listUnitsByIdxRegion = /* GraphQL */ `query ListUnitsByIdxRegion(
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -5999,6 +6037,7 @@ export const listUnitsByRoutingRegion = /* GraphQL */ `query ListUnitsByRoutingR
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -6559,6 +6598,47 @@ export const listDependentsByCPF = /* GraphQL */ `query ListDependentsByCPF(
   APITypes.ListDependentsByCPFQueryVariables,
   APITypes.ListDependentsByCPFQuery
 >;
+export const listClientCampaignEligibleVaccinations = /* GraphQL */ `query ListClientCampaignEligibleVaccinations(
+  $id: ID
+  $filter: ModelClientCampaignEligibleVaccinationFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listClientCampaignEligibleVaccinations(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      osID
+      clientCampaignID
+      clientCampaignEligibleID
+      profissionalID
+      profissionalDoc
+      coren
+      applicationDate
+      reason
+      search
+      vaccination
+      status
+      localCity
+      localState
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListClientCampaignEligibleVaccinationsQueryVariables,
+  APITypes.ListClientCampaignEligibleVaccinationsQuery
+>;
 export const listVaccinationsByOS = /* GraphQL */ `query ListVaccinationsByOS(
   $osID: ID!
   $applicationDate: ModelStringKeyConditionInput
@@ -6741,6 +6821,7 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -6803,6 +6884,7 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -6870,6 +6952,7 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -6937,6 +7020,7 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7002,6 +7086,7 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7067,6 +7152,7 @@ export const listOSsByClientCampaignUnit = /* GraphQL */ `query ListOSsByClientC
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7134,6 +7220,7 @@ export const listOSsByIdxStart = /* GraphQL */ `query ListOSsByIdxStart(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7199,6 +7286,7 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7210,6 +7298,74 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
 ` as GeneratedQuery<
   APITypes.ListOSsByNumberQueryVariables,
   APITypes.ListOSsByNumberQuery
+>;
+export const listOSsByStartStatus = /* GraphQL */ `query ListOSsByStartStatus(
+  $start: AWSDateTime!
+  $status: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelOSFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listOSsByStartStatus(
+    start: $start
+    status: $status
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      clientID
+      clientCampaignID
+      clientCampaignUnitID
+      idx
+      driverID
+      professionals
+      collaborators
+      companies
+      number
+      start
+      expiration
+      orientation
+      notes
+      status
+      vaccination
+      qtyApplication
+      qtyProfessional
+      servicePoints
+      serviceResponsible
+      dateStarted
+      dateFinished
+      professionalStarted
+      professionalFinished
+      notesStarted
+      notesFinished
+      clientNameStarted
+      clientNameFinished
+      unitNameFinished
+      contactNameFinished
+      contactDocFinished
+      contactCRMFinished
+      contactEmailFinished
+      stayVaccines
+      stayQtd
+      lat
+      lng
+      search
+      typeService
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListOSsByStartStatusQueryVariables,
+  APITypes.ListOSsByStartStatusQuery
 >;
 export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
   $status: OSStatus!
@@ -7266,6 +7422,7 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -7308,6 +7465,36 @@ export const listRoutingRegions = /* GraphQL */ `query ListRoutingRegions(
   APITypes.ListRoutingRegionsQueryVariables,
   APITypes.ListRoutingRegionsQuery
 >;
+export const listRoutingByName = /* GraphQL */ `query ListRoutingByName(
+  $name: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingRegionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingByName(
+    name: $name
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      zipCode
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingByNameQueryVariables,
+  APITypes.ListRoutingByNameQuery
+>;
 export const listRoutingByIdxStart = /* GraphQL */ `query ListRoutingByIdxStart(
   $idx: Int!
   $start: ModelStringKeyConditionInput
@@ -7327,6 +7514,7 @@ export const listRoutingByIdxStart = /* GraphQL */ `query ListRoutingByIdxStart(
     items {
       id
       idx
+      routingRegionID
       start
       end
       title
@@ -7347,6 +7535,47 @@ export const listRoutingByIdxStart = /* GraphQL */ `query ListRoutingByIdxStart(
 ` as GeneratedQuery<
   APITypes.ListRoutingByIdxStartQueryVariables,
   APITypes.ListRoutingByIdxStartQuery
+>;
+export const listRoutingByRoutingRegion = /* GraphQL */ `query ListRoutingByRoutingRegion(
+  $routingRegionID: ID!
+  $start: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelRoutingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRoutingByRoutingRegion(
+    routingRegionID: $routingRegionID
+    start: $start
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      idx
+      routingRegionID
+      start
+      end
+      title
+      description
+      backgroundColor
+      textColor
+      borderColor
+      notes
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListRoutingByRoutingRegionQueryVariables,
+  APITypes.ListRoutingByRoutingRegionQuery
 >;
 export const listRoutingOSsByRouting = /* GraphQL */ `query ListRoutingOSsByRouting(
   $routingID: ID!

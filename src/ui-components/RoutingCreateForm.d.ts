@@ -23,6 +23,7 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type RoutingCreateFormInputValues = {
     idx?: number;
+    routingRegionID?: string;
     start?: string;
     end?: string;
     title?: string;
@@ -35,6 +36,7 @@ export declare type RoutingCreateFormInputValues = {
 };
 export declare type RoutingCreateFormValidationValues = {
     idx?: ValidationFunction<number>;
+    routingRegionID?: ValidationFunction<string>;
     start?: ValidationFunction<string>;
     end?: ValidationFunction<string>;
     title?: ValidationFunction<string>;
@@ -49,6 +51,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type RoutingCreateFormOverridesProps = {
     RoutingCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     idx?: PrimitiveOverrideProps<TextFieldProps>;
+    routingRegionID?: PrimitiveOverrideProps<TextFieldProps>;
     start?: PrimitiveOverrideProps<TextFieldProps>;
     end?: PrimitiveOverrideProps<TextFieldProps>;
     title?: PrimitiveOverrideProps<TextFieldProps>;

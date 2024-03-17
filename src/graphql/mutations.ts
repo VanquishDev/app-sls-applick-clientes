@@ -54,6 +54,13 @@ export const adminUpdateUserAttributes = /* GraphQL */ `mutation AdminUpdateUser
   APITypes.AdminUpdateUserAttributesMutationVariables,
   APITypes.AdminUpdateUserAttributesMutation
 >;
+export const adminSetUserPassword = /* GraphQL */ `mutation AdminSetUserPassword($username: String, $password: String) {
+  adminSetUserPassword(username: $username, password: $password)
+}
+` as GeneratedMutation<
+  APITypes.AdminSetUserPasswordMutationVariables,
+  APITypes.AdminSetUserPasswordMutation
+>;
 export const updateUser = /* GraphQL */ `mutation UpdateUser(
   $input: UpdateUserInput!
   $condition: ModelUserConditionInput
@@ -2591,6 +2598,61 @@ export const deleteAdherence = /* GraphQL */ `mutation DeleteAdherence(
   APITypes.DeleteAdherenceMutationVariables,
   APITypes.DeleteAdherenceMutation
 >;
+export const deleteAdherenceUsed = /* GraphQL */ `mutation DeleteAdherenceUsed(
+  $input: DeleteAdherenceUsedInput!
+  $condition: ModelAdherenceUsedConditionInput
+) {
+  deleteAdherenceUsed(input: $input, condition: $condition) {
+    id
+    adherenceID
+    adherence {
+      id
+      name
+      description
+      code
+      campaignCode
+      start
+      expiration
+      discountPercentage
+      discountValue
+      qtyLimit
+      qtyUsed
+      qtyProduct
+      qtyProductUsed
+      orientation
+      orderMessage
+      zipCodeCoverage
+      search
+      clientID
+      clientCampaignID
+      createdAt
+      updatedAt
+      __typename
+    }
+    userID
+    user {
+      id
+      name
+      email
+      phone
+      status
+      active
+      avatar
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    qty
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteAdherenceUsedMutationVariables,
+  APITypes.DeleteAdherenceUsedMutation
+>;
 export const updateVaccinationCard = /* GraphQL */ `mutation UpdateVaccinationCard(
   $input: UpdateVaccinationCardInput!
   $condition: ModelVaccinationCardConditionInput
@@ -3372,6 +3434,7 @@ export const createClientCampaignUnit = /* GraphQL */ `mutation CreateClientCamp
     id
     clientCampaignID
     name
+    cnpj
     notes
     search
     street
@@ -3454,6 +3517,7 @@ export const updateClientCampaignUnit = /* GraphQL */ `mutation UpdateClientCamp
     id
     clientCampaignID
     name
+    cnpj
     notes
     search
     street
@@ -3536,6 +3600,7 @@ export const deleteClientCampaignUnit = /* GraphQL */ `mutation DeleteClientCamp
     id
     clientCampaignID
     name
+    cnpj
     notes
     search
     street
@@ -3715,6 +3780,7 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -3857,6 +3923,7 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -3999,6 +4066,7 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -6749,6 +6817,7 @@ export const createAdherenceUnit = /* GraphQL */ `mutation CreateAdherenceUnit(
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -6799,6 +6868,7 @@ export const updateAdherenceUnit = /* GraphQL */ `mutation UpdateAdherenceUnit(
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -6849,6 +6919,7 @@ export const deleteAdherenceUnit = /* GraphQL */ `mutation DeleteAdherenceUnit(
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -8055,6 +8126,7 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     lat
     lng
     search
+    typeService
     client {
       id
       name
@@ -8142,6 +8214,7 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -8220,6 +8293,7 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     lat
     lng
     search
+    typeService
     client {
       id
       name
@@ -8307,6 +8381,7 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -8385,6 +8460,7 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     lat
     lng
     search
+    typeService
     client {
       id
       name
@@ -8472,6 +8548,7 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
       id
       clientCampaignID
       name
+      cnpj
       notes
       search
       street
@@ -8568,6 +8645,7 @@ export const createRouting = /* GraphQL */ `mutation CreateRouting(
   createRouting(input: $input, condition: $condition) {
     id
     idx
+    routingRegionID
     start
     end
     title
@@ -8597,6 +8675,7 @@ export const updateRouting = /* GraphQL */ `mutation UpdateRouting(
   updateRouting(input: $input, condition: $condition) {
     id
     idx
+    routingRegionID
     start
     end
     title
@@ -8626,6 +8705,7 @@ export const deleteRouting = /* GraphQL */ `mutation DeleteRouting(
   deleteRouting(input: $input, condition: $condition) {
     id
     idx
+    routingRegionID
     start
     end
     title
@@ -8658,6 +8738,7 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
     routing {
       id
       idx
+      routingRegionID
       start
       end
       title
@@ -8711,6 +8792,7 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -8734,6 +8816,7 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
     routing {
       id
       idx
+      routingRegionID
       start
       end
       title
@@ -8787,6 +8870,7 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename
@@ -8810,6 +8894,7 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
     routing {
       id
       idx
+      routingRegionID
       start
       end
       title
@@ -8863,6 +8948,7 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       lat
       lng
       search
+      typeService
       createdAt
       updatedAt
       __typename

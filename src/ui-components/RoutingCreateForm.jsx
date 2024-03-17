@@ -23,6 +23,7 @@ export default function RoutingCreateForm(props) {
   } = props;
   const initialValues = {
     idx: "",
+    routingRegionID: "",
     start: "",
     end: "",
     title: "",
@@ -34,6 +35,9 @@ export default function RoutingCreateForm(props) {
     search: "",
   };
   const [idx, setIdx] = React.useState(initialValues.idx);
+  const [routingRegionID, setRoutingRegionID] = React.useState(
+    initialValues.routingRegionID
+  );
   const [start, setStart] = React.useState(initialValues.start);
   const [end, setEnd] = React.useState(initialValues.end);
   const [title, setTitle] = React.useState(initialValues.title);
@@ -52,6 +56,7 @@ export default function RoutingCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setIdx(initialValues.idx);
+    setRoutingRegionID(initialValues.routingRegionID);
     setStart(initialValues.start);
     setEnd(initialValues.end);
     setTitle(initialValues.title);
@@ -65,6 +70,7 @@ export default function RoutingCreateForm(props) {
   };
   const validations = {
     idx: [{ type: "Required" }],
+    routingRegionID: [],
     start: [{ type: "Required" }],
     end: [{ type: "Required" }],
     title: [{ type: "Required" }],
@@ -119,6 +125,7 @@ export default function RoutingCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           idx,
+          routingRegionID,
           start,
           end,
           title,
@@ -195,6 +202,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx: value,
+              routingRegionID,
               start,
               end,
               title,
@@ -219,6 +227,40 @@ export default function RoutingCreateForm(props) {
         {...getOverrideProps(overrides, "idx")}
       ></TextField>
       <TextField
+        label="Routing region id"
+        isRequired={false}
+        isReadOnly={false}
+        value={routingRegionID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              idx,
+              routingRegionID: value,
+              start,
+              end,
+              title,
+              description,
+              backgroundColor,
+              textColor,
+              borderColor,
+              notes,
+              search,
+            };
+            const result = onChange(modelFields);
+            value = result?.routingRegionID ?? value;
+          }
+          if (errors.routingRegionID?.hasError) {
+            runValidationTasks("routingRegionID", value);
+          }
+          setRoutingRegionID(value);
+        }}
+        onBlur={() => runValidationTasks("routingRegionID", routingRegionID)}
+        errorMessage={errors.routingRegionID?.errorMessage}
+        hasError={errors.routingRegionID?.hasError}
+        {...getOverrideProps(overrides, "routingRegionID")}
+      ></TextField>
+      <TextField
         label="Start"
         isRequired={true}
         isReadOnly={false}
@@ -230,6 +272,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start: value,
               end,
               title,
@@ -265,6 +308,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end: value,
               title,
@@ -298,6 +342,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title: value,
@@ -331,6 +376,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,
@@ -364,6 +410,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,
@@ -397,6 +444,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,
@@ -430,6 +478,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,
@@ -463,6 +512,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,
@@ -496,6 +546,7 @@ export default function RoutingCreateForm(props) {
           if (onChange) {
             const modelFields = {
               idx,
+              routingRegionID,
               start,
               end,
               title,

@@ -158,6 +158,20 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "AdminSetUserPassword": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "AuthCognito"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "AdminUpdateUserAttributes": {
       "build": true,
       "dependsOn": [
@@ -236,6 +250,22 @@
         {
           "category": "function",
           "resourceName": "AdminQueries6808354f"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminSetUserPassword_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminSetUserPassword"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminSetUserPassword_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminSetUserPassword"
         }
       ]
     },

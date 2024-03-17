@@ -60,6 +60,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "AdminSetUserPassword": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "AdminUpdateUserAttributes": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

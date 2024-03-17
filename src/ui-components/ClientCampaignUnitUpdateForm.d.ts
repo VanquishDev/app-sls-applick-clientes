@@ -24,6 +24,7 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ClientCampaignUnitUpdateFormInputValues = {
     name?: string;
+    cnpj?: string;
     notes?: string;
     search?: string;
     street?: string;
@@ -52,6 +53,7 @@ export declare type ClientCampaignUnitUpdateFormInputValues = {
 };
 export declare type ClientCampaignUnitUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
+    cnpj?: ValidationFunction<string>;
     notes?: ValidationFunction<string>;
     search?: ValidationFunction<string>;
     street?: ValidationFunction<string>;
@@ -82,6 +84,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type ClientCampaignUnitUpdateFormOverridesProps = {
     ClientCampaignUnitUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
+    cnpj?: PrimitiveOverrideProps<TextFieldProps>;
     notes?: PrimitiveOverrideProps<TextFieldProps>;
     search?: PrimitiveOverrideProps<TextFieldProps>;
     street?: PrimitiveOverrideProps<TextFieldProps>;

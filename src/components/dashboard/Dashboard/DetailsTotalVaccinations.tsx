@@ -54,6 +54,7 @@ export default function DetailsTotalVaccinations(props: any) {
           CPF_Responsável: item.clientEligible.cpfRelationship,
           Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
           Empresa: item.clientEligible.thirdName,
+          Obs: item.clientEligible.notes,
           Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
           Coren: item.coren ? item.coren : '',
           Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
