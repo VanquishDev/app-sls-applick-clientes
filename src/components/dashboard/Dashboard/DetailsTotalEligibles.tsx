@@ -70,6 +70,7 @@ export default function DetailsTotalEligibles(props: any) {
           CPF_Responsável: item.cpfRelationship ? item.cpfRelationship : '',
           Terceiro: item.isThird === '1' ? 'Sim' : 'Não',
           Empresa: item.thirdName ? item.thirdName : '',
+          Obs: item.notes ? item.notes : ''
         } as any
 
         t.push(input)
@@ -107,7 +108,7 @@ export default function DetailsTotalEligibles(props: any) {
 
   useEffect(() => {
     if (downloadReady) {
-      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa\n'
+      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Obs\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
       ).join('\n')

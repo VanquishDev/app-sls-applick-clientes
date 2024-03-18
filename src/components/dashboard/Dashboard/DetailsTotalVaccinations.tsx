@@ -95,7 +95,7 @@ export default function DetailsTotalVaccinations(props: any) {
 
   useEffect(() => {
     if (downloadReady) {
-      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Data_Aplicação,Coren,Dose\n'
+      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Obs,Data_Aplicação,Coren,Dose\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
       ).join('\n')
