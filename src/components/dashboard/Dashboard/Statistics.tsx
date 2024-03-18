@@ -75,7 +75,7 @@ export default function Statistics(props: any) {
   return (campaign && campaign.id) ? (<div className='select-none'>
     {false && <pre>{JSON.stringify(campaign, null, 4)}</pre>}
 
-    <div className='mt-2 font-semibold tracking-wide text-tertiary-2'>LOCALIDADES/CNPJs</div>
+    <div className='mt-6 font-semibold tracking-wide text-tertiary-2'>LOCALIDADES/CNPJs</div>
     <div className='m-4 grid grid-cols-1 gap-y-4 md:gap-4 md:grid-cols-5'>
 
       <div className='col-span-3 bg-accent-0 rounded-lg shadow md:shadow-lg p-4 md:p-6 2xl:p-7.5'>

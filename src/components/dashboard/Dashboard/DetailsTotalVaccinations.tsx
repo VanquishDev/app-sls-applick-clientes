@@ -152,8 +152,9 @@ function Card(props: any) {
         itemSelected === index ? 'rounded-b-none' : 'shadow'
       ].join(' ')}
         onClick={() => handleSelect(index)}>
-        <div className='text-lg font-semibold'>{item.clientEligible.name}</div>
+        {item.clientEligible && <div className='text-lg font-semibold'>{item.clientEligible.name}</div>}
         <div className="flex mt-1 gap-2 text-xs font-semibold">
+          <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
           <div className="bg-teal-500 text-white px-1 rounded">
             {Moment(item.applicationDate).format('DD/MM/YYYY HH:mm')}
           </div>
