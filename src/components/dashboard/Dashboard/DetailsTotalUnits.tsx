@@ -143,8 +143,12 @@ function Card(props: any) {
         onClick={() => handleSelect(index)}>
         <div className='text-xl font-semibold'>{item.name}</div>
         <div className="flex mt-1 gap-2 font-semibold">
-          <div className="bg-orange- text-white px-1 rounded">
-            {item.totalContractedVaccines} / {item.totalEligibles}
+          <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
+          <div className="bg-blue text-white px-1 rounded">
+            Elegíveis {item.totalEligibles}
+          </div>
+          <div className="bg-orange-500 text-white px-1 rounded">
+            Doses Contratadas {item.totalContractedVaccines}
           </div>
         </div>
       </div>

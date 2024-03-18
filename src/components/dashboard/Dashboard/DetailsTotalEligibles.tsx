@@ -199,11 +199,15 @@ function Card(props: any) {
       ].join(' ')}
         onClick={() => handleSelect(index)}>
         <div className='text-lg font-semibold'>{item.name}</div>
-        {false && <div className="flex mt-1 gap-2 text-xs font-semibold">
-          <div className="bg-blue text-white px-1 rounded">
-            {item.key}
-          </div>
-        </div>}
+        <div className="flex mt-1 gap-2 text-sm font-semibold">
+          <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
+          {(item.cpf && item.cpf !== '0') && <div className="bg-teal-500 text-white px-1 rounded font-semibold line-clamp-1">
+            CPF {item.cpf}
+          </div>}
+          {item.notes && <div className="bg-cyan text-white px-1 rounded font-semibold line-clamp-1">
+            {item.notes}
+          </div>}
+        </div>
       </div>
 
       {index === itemSelected && (
@@ -217,11 +221,11 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
               <div>{item.key}</div>
             </div>}
-            {(item.cpf && item.cpf !== 'NaN') && <div>
+            {(item.cpf && item.cpf !== 'NaN' && item.cpf !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF</div>
               <div>{item.cpf}</div>
             </div>}
-            {(item.rg && item.rg !== 'NaN') && <div>
+            {(item.rg && item.rg !== 'NaN' && item.rg !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">RG</div>
               <div>{item.rg}</div>
             </div>}

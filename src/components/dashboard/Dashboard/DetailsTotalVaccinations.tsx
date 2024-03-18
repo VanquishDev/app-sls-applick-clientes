@@ -154,7 +154,7 @@ function Card(props: any) {
       ].join(' ')}
         onClick={() => handleSelect(index)}>
         {item.clientEligible && <div className='text-lg font-semibold'>{item.clientEligible.name}</div>}
-        <div className="flex mt-1 gap-2 text-xs font-semibold">
+        <div className="flex mt-1 gap-2 text-sm font-semibold">
           <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
           <div className="bg-teal-500 text-white px-1 rounded">
             {Moment(item.applicationDate).format('DD/MM/YYYY HH:mm')}
@@ -208,10 +208,6 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Profissional Applick</div>
               <div><GetUserName userID={item.profissionalID} /></div>
             </div>}
-            {item.coren && <div>
-              <div className="text-sm font-semibold text-tertiary-2">Coren</div>
-              <div>{item.coren}</div>
-            </div>}
           </div>
           {false && <pre>{JSON.stringify(item, null, 4)}</pre>}
         </div>
@@ -253,18 +249,34 @@ function VaccinationCard(props: any) {
 function GetUserName(props: any) {
   const { userID } = props
   const [name, setName] = useState('')
+  const [birth, setBirth] = useState('')
+  const [doc, setDoc] = useState('')
+  const [docProfession, setDocProfession] = useState('')
   const { getUser } = useUser()
 
   useEffect(() => {
     const GetUser = async () => {
       const u = await getUser({ id: userID as string })
-      console.log(u)
-      setName(u.name)
+      setName(u && u.name ? u.name : '')
+      setBirth(u && u.profile && u.profile.birth ? u.profile.birth : '')
+      setDoc(u && u.profile && u.profile.doc ? u.profile.doc : '')
+      setDocProfession(u && u.profile && u.profile.docProfession ? u.profile.docProfession : '')
     }
     if (userID) {
       GetUser()
     }
+    return () => {
+      setName('')
+      setBirth('')
+      setDoc('')
+      setDocProfession('')
+    }
   }, [userID])
 
-  return (<div>{name}</div>)
+  return (<div className='flex gap-3'>
+    <div className='font-semibold'>{name}</div>
+    {birth && <div> - {Moment(birth).format('DD/MM/YYYY')}</div>}
+    {doc && <div> - CPF {doc}</div>}
+    {docProfession && <div> - COREN {docProfession}</div>}
+  </div>)
 }

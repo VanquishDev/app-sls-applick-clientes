@@ -55,6 +55,7 @@ function Card(props: any) {
         onClick={() => handleSelect(index)}>
         <div className='text-xl font-semibold'>{Moment(item.start).format('dddd')}, {Moment(item.start).format('DD/MM/YYYY')} - OS {item.number}</div>
         <div className="flex mt-1 gap-2 text-sm">
+          <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
           {item.status ===
             OSStatus.ROUTED && (
               <div className="bg-purple-500 text-white px-1 rounded font-semibold">
@@ -195,18 +196,34 @@ function VaccinationCard(props: any) {
 function GetUserName(props: any) {
   const { userID } = props
   const [name, setName] = useState('')
+  const [birth, setBirth] = useState('')
+  const [doc, setDoc] = useState('')
+  const [docProfession, setDocProfession] = useState('')
   const { getUser } = useUser()
 
   useEffect(() => {
     const GetUser = async () => {
       const u = await getUser({ id: userID as string })
-      console.log(u)
-      setName(u.name)
+      setName(u && u.name ? u.name : '')
+      setBirth(u && u.profile && u.profile.birth ? u.profile.birth : '')
+      setDoc(u && u.profile && u.profile.doc ? u.profile.doc : '')
+      setDocProfession(u && u.profile && u.profile.docProfession ? u.profile.docProfession : '')
     }
     if (userID) {
       GetUser()
     }
+    return () => {
+      setName('')
+      setBirth('')
+      setDoc('')
+      setDocProfession('')
+    }
   }, [userID])
 
-  return (<div>{name}</div>)
+  return (<div className='flex gap-3'>
+    <div className='font-semibold'>{name}</div>
+    {birth && <div> - {Moment(birth).format('DD/MM/YYYY')}</div>}
+    {doc && <div> - CPF {doc}</div>}
+    {docProfession && <div> - COREN {docProfession}</div>}
+  </div>)
 }
