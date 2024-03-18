@@ -44,24 +44,29 @@ export default function DetailsTotalVaccinations(props: any) {
       items.map((item: any) => {
         if (dependents && item.clientEligible.isDependent !== '1') return
         if (thirds && item.clientEligible.isThird !== '1') return
-        const input = {
-          Identificador: item.clientEligible.key,
-          Nome: item.clientEligible.name,
-          CPF: item.clientEligible.cpf,
-          RG: item.clientEligible.rg,
-          Nascimento: item.clientEligible.birth !== 'Data inválida' ? item.clientEligible.birth : '',
-          Dependente: item.clientEligible.isDependent === '1' ? 'Sim' : 'Não',
-          CPF_Responsável: item.clientEligible.cpfRelationship,
-          Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
-          Empresa: item.clientEligible.thirdName,
-          Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
-          Coren: item.coren ? item.coren : '',
-          Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
-          Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
-          Obs: item.clientEligible.notes,
-        } as any
+        if (item.clientEligible) {
+          const input = {
+            Identificador: item.clientEligible.key,
+            Nome: item.clientEligible.name,
+            CPF: item.clientEligible.cpf,
+            RG: item.clientEligible.rg,
+            Nascimento: item.clientEligible.birth !== 'Data inválida' ? item.clientEligible.birth : '',
+            Dependente: item.clientEligible.isDependent === '1' ? 'Sim' : 'Não',
+            CPF_Responsável: item.clientEligible.cpfRelationship,
+            Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
+            Empresa: item.clientEligible.thirdName,
+            Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
+            Coren: item.coren ? item.coren : '',
+            Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
+            Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
+            Obs: item.clientEligible.notes,
+          } as any
 
-        t.push(input)
+          t.push(input)
+        } else {
+          console.log('item.clientEligible', item)
+        }
+
       })
       setDownloadItems((downloadItems: any) => [...downloadItems, ...t])
       return nextToken
