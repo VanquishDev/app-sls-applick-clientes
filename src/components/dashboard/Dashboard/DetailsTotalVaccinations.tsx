@@ -54,10 +54,11 @@ export default function DetailsTotalVaccinations(props: any) {
           CPF_Responsável: item.clientEligible.cpfRelationship,
           Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
           Empresa: item.clientEligible.thirdName,
-          Obs: item.clientEligible.notes,
           Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
           Coren: item.coren ? item.coren : '',
           Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
+          Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
+          Obs: item.clientEligible.notes,
         } as any
 
         t.push(input)
@@ -95,7 +96,7 @@ export default function DetailsTotalVaccinations(props: any) {
 
   useEffect(() => {
     if (downloadReady) {
-      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Obs,Data_Aplicação,Coren,Dose\n'
+      let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Data_Aplicação,Coren,Dose,Unidade,Observação\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
       ).join('\n')

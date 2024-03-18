@@ -4102,6 +4102,11 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
         isThird
         thirdName
       }
+      os {
+        clientCampaignUnit {
+          name
+        }
+      }
       __typename
     }
     nextToken
