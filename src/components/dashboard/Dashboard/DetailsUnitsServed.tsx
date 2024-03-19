@@ -197,7 +197,7 @@ function Card(props: any) {
           <div className="mt-4 text-sm font-semibold text-tertiary-2">Ordens de Serviços</div>
           {item.oss.items.length === 0 && <div>Nenhuma ordem de serviço localizada.</div>}
           {item.oss.items.length > 0 && <>
-            <div className="overflow-x-auto">
+            <div className="pb-20 overflow-x-auto">
               <table className="table">
                 <thead>
                   <tr>

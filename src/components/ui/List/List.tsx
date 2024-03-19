@@ -86,10 +86,39 @@ const List: FC<Props> = ({
             setToken(nextToken)
           }
 
+          const filteredItems = [] as any
+
+          console.log(paramsItems)
+
+          if (paramsItems && paramsItems.dependents) {
+            items.forEach((item: any) => {
+              if (item.clientEligible && item.clientEligible.isDependent === '1') {
+                filteredItems.push(item)
+              }
+            })
+          } else if (paramsItems && paramsItems.thirds) {
+            items.forEach((item: any) => {
+              if (item.clientEligible && item.clientEligible.isThird === '1') {
+                filteredItems.push(item)
+              }
+            })
+          } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
+            items.forEach((item: any) => {
+              if (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0') {
+                filteredItems.push(item)
+              }
+            })
+          }
+          else {
+            items.forEach((item: any) => {
+              filteredItems.push(item)
+            })
+          }
+
           const itemsFmt =
             sortParams && sortParams.length > 0
-              ? items.sort(generateSortFn(sortParams))
-              : items
+              ? filteredItems.sort(generateSortFn(sortParams))
+              : filteredItems
 
           if (breakItems && breakItems === 'CATEGORY') {
             setItemsList(breakCategory(itemsFmt))
@@ -135,7 +164,6 @@ const List: FC<Props> = ({
 
   const fetchData2 = async () => {
     if (hasMore) {
-      console.log('****** List - Fetch Data More ******')
       variables.nextToken = token ? token : null
       const { items, nextToken } = await listItems(variables)
       if (items) {
@@ -146,10 +174,30 @@ const List: FC<Props> = ({
           setToken(nextToken)
         }
 
+        const filteredItems = [] as any
+
+        if (paramsItems && paramsItems.dependents) {
+          items.forEach((item: any) => {
+            if (item.clientEligible && item.clientEligible.isDependent === '1') {
+              filteredItems.push(item)
+            }
+          })
+        } else if (paramsItems && paramsItems.thirds) {
+          items.forEach((item: any) => {
+            if (item.clientEligible && item.clientEligible.isThird === '1') {
+              filteredItems.push(item)
+            }
+          })
+        } else {
+          items.forEach((item: any) => {
+            filteredItems.push(item)
+          })
+        }
+
         const itemsFmt =
           sortParams && sortParams.length > 0
-            ? items.sort(generateSortFn(sortParams))
-            : items
+            ? filteredItems.sort(generateSortFn(sortParams))
+            : filteredItems
 
         if (breakItems && breakItems === 'CATEGORY') {
           setItemsList(breakCategory(itemsList.concat(itemsFmt)))

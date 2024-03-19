@@ -139,7 +139,7 @@ export default function DetailsTotalVaccinations(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
-    paramsItems={{ dependents, thirds }}
+    paramsItems={{ dependents, thirds, colaborators: true }}
   />;
 }
 
