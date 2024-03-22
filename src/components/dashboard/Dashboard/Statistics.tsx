@@ -46,7 +46,6 @@ export default function Statistics(props: any) {
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
-    cp.percentServed = cp.totalUnits ? Math.round((cp.unitsServed / cp.totalUnits) * 100) : 0
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
@@ -290,10 +289,10 @@ export default function Statistics(props: any) {
         </div>
 
         <div className='mt-5 flex justify-between'>
-          <div>{campaign.percentServed ? campaign.percentServed : 0}% unidades atendidas</div>
+          <div>{percentServed}% unidades atendidas</div>
           <div>{campaign.totalUnits ? campaign.totalUnits : 0}</div>
         </div>
-        <progress className="w-full progress progress-warning" value={campaign.percentServed ? campaign.percentServed : 0} max="100"></progress>
+        <progress className="w-full progress progress-warning" value={percentServed} max="100"></progress>
 
         <div className='mt-2 flex justify-between'>
           <div>{(campaign.totalEligibles && campaign.totalVaccinations) ? ((campaign.totalVaccinations / campaign.totalEligibles) * 100).toFixed(2) : 0}% doses aplicadas</div>
