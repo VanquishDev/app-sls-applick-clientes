@@ -88,8 +88,6 @@ const List: FC<Props> = ({
 
           const filteredItems = [] as any
 
-          console.log(paramsItems)
-
           if (paramsItems && paramsItems.dependents) {
             items.forEach((item: any) => {
               if (item.clientEligible && item.clientEligible.isDependent === '1') {
@@ -108,8 +106,14 @@ const List: FC<Props> = ({
                 filteredItems.push(item)
               }
             })
-          }
-          else {
+          } else if (paramsItems && paramsItems.unitsServed) {
+            items.forEach((item: any) => {
+              const { qtyVisits, qtyVisitsConfirmed } = item
+              if (qtyVisitsConfirmed >= qtyVisits) {
+                filteredItems.push(item)
+              }
+            })
+          } else {
             items.forEach((item: any) => {
               filteredItems.push(item)
             })
@@ -185,6 +189,19 @@ const List: FC<Props> = ({
         } else if (paramsItems && paramsItems.thirds) {
           items.forEach((item: any) => {
             if (item.clientEligible && item.clientEligible.isThird === '1') {
+              filteredItems.push(item)
+            }
+          })
+        } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
+          items.forEach((item: any) => {
+            if (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0') {
+              filteredItems.push(item)
+            }
+          })
+        } else if (paramsItems && paramsItems.unitsServed) {
+          items.forEach((item: any) => {
+            const { qtyVisits, qtyVisitsConfirmed } = item
+            if (qtyVisitsConfirmed >= qtyVisits) {
               filteredItems.push(item)
             }
           })

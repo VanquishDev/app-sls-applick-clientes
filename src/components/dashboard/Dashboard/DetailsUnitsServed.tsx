@@ -39,16 +39,19 @@ export default function DetailsUnitsServed(props: any) {
         nextToken: n,
       })
 
+      let count = 0
       const t = [] as any
-      items.map((item: any) => {
+      items.map((item: any, index: number) => {
         if (item.oss.items.length === 0) return
-
+        if (item.qtyVisitsConfirmed < item.qtyVisits) return
+        count++
         let OSs = ''
         item.oss.items.map((os: any) => {
           OSs += `${os.number} - ${os.clientCampaign.name} - ${Moment(os.start).format('DD/MM/YYYY')}\n`
         })
 
         const input = {
+          Item: count,
           Nome: item.name,
           Código: item.code,
           TotalElegíveis: item.totalEligibles,
@@ -131,6 +134,7 @@ export default function DetailsUnitsServed(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
+    paramsItems={{ unitsServed: true }}
   />;
 }
 
@@ -151,6 +155,9 @@ function Card(props: any) {
         onClick={() => handleSelect(index)}>
         <div className='text-xl font-semibold'>{item.name}</div>
         <div className="flex mt-1 gap-2 font-semibold">
+          <div className="bg-slate-700 text-white px-1 rounded">
+            {index + 1}
+          </div>
           <div className="bg-blue text-white px-1 rounded">
             Elegíveis {item.totalEligibles}
           </div>
