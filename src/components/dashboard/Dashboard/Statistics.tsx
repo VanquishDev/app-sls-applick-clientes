@@ -11,6 +11,7 @@ import * as subscriptions from 'graphql/subscriptions';
 import { OnUpdateClientCampaignSubscription } from 'API';
 
 import { useClientCampaign } from 'hooks/useClientCampaign'
+import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
 import { useUI } from 'components/ui/context'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
@@ -34,9 +35,14 @@ export default function Statistics(props: any) {
   const [modalSel, setModalSel] = useState<string>();
 
   const { getClientCampaign } = useClientCampaign()
+  const { listUnitsByClientCampaign } = useClientCampaignUnit()
+
   const { openModal, displayModal, closeModal } = useUI()
   const { screenHeight, screenWidth } = useScreen()
   const { isSm } = useBreakPoints()
+
+  const [unitsServed, setUnitsServed] = useState(0)
+  const [percentServed, setPercentServed] = useState(0)
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
@@ -44,6 +50,20 @@ export default function Statistics(props: any) {
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
+
+    const { items } = await listUnitsByClientCampaign({
+      clientCampaignID: c.id,
+      limit: 1000,
+    })
+    let t = 0
+    items.map((item: any) => {
+      const { qtyVisits, qtyVisitsConfirmed } = item
+      if (qtyVisitsConfirmed >= qtyVisits) { t++ }
+    })
+    setUnitsServed(t)
+
+    const p = cp.totalUnits ? Math.round((t / cp.totalUnits) * 100) : 0
+    setPercentServed(p)
   }
 
   useEffect(() => {
@@ -99,14 +119,14 @@ export default function Statistics(props: any) {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{(campaign.unitsServed && (campaign.totalUnits >= campaign.unitsServed)) ? campaign.unitsServed : 0}</div>
+                <div className="stat-value">{unitsServed}</div>
                 <div className="stat-desc">Unidades atendidas</div>
               </div>
               <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
                 setModalSel('unitsServed')
                 openModal()
               }}>
-                <div className="stat-value">{campaign.percentServed}%</div>
+                <div className="stat-value">{percentServed}%</div>
                 <div className="stat-desc">% de atendimento</div>
               </div>
             </div>
