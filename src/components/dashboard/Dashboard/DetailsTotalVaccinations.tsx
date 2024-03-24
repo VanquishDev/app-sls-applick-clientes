@@ -5,6 +5,7 @@ import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 
 import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEligibleVaccination'
+import { useClientCampaign } from 'hooks/useClientCampaign'
 import { useUser } from 'hooks/useUser'
 
 import { useUI } from 'components/ui/context'
@@ -23,6 +24,7 @@ export default function DetailsTotalVaccinations(props: any) {
   const { isSm } = useBreakPoints()
 
   const { listVaccinationsByClientCampaign } = useClientCampaignEligibleVaccination()
+  const { updateClientCampaign } = useClientCampaign()
 
   const [downloadReady, setDownloadReady] = useState(false)
   const [downloadItems, setDownloadItems] = useState([] as any)
@@ -33,6 +35,11 @@ export default function DetailsTotalVaccinations(props: any) {
     setDownloadItems([])
     setDownloadReady(false)
     toast.info('Preparando dados para download...')
+
+    let totalDependents = 0
+    let totalThirds = 0
+    let total = 0
+
     const fetchData = async (n: string | null) => {
       const { items, nextToken } = await listVaccinationsByClientCampaign({
         clientCampaignID,
@@ -42,9 +49,14 @@ export default function DetailsTotalVaccinations(props: any) {
 
       const t = [] as any
       items.map((item: any) => {
+        total++
+        if (item.clientEligible && item.clientEligible.isDependent === '1') totalDependents++
+        if (item.clientEligible && item.clientEligible.isThird === '1') totalThirds++
+
         if (dependents && (!item.clientEligible || (item.clientEligible && item.clientEligible.isDependent !== '1'))) return
         if (thirds && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1'))) return
         if (!thirds && !dependents && (item.clientEligible && (item.clientEligible.isThird === '1' || item.clientEligible.isDependent === '1'))) return
+
         if (item.clientEligible) {
           const input = {
             Identificador: item.clientEligible.key ? item.clientEligible.key : '',
@@ -85,6 +97,14 @@ export default function DetailsTotalVaccinations(props: any) {
       nextToken = await fetchData(nextToken)
       if (!nextToken) {
         setDownloadReady(true)
+
+        await updateClientCampaign({
+          id: clientCampaignID,
+          totalVaccinationsDependent: totalDependents,
+          totalVaccinationsThird: totalThirds,
+          totalVaccinations: total,
+        })
+
         break
       }
     }
@@ -147,7 +167,42 @@ export default function DetailsTotalVaccinations(props: any) {
 function Card(props: any) {
   const { item, index, handleSelect, itemSelected, isLast, paramsItems } = props
 
-  return (!item || (paramsItems.dependents && (item.clientEligible.isDependent !== '1')) || (paramsItems.thirds && (item.clientEligible.isThird !== '1'))) ? null : (
+  const [currentItem, setCurrentItem] = useState(item)
+
+  useEffect(() => {
+    if (!item.clientEligible) {
+      const searchCharacterLess = item.search.replace(/[a-zA-Z]/g, '').trim().split(' ');
+      const searchName = item.search.replace(/[0-9]/g, '').replace('  ', ' ').replace('  ', ' ').replace(',', '');
+
+      const clientEligible = {
+        id: item.clientEligibleID,
+        key: searchCharacterLess && searchCharacterLess[0] ? searchCharacterLess[0] : '',
+        name: searchName,
+        cpf: searchCharacterLess && searchCharacterLess[1] ? searchCharacterLess[1] : '',
+        rg: searchCharacterLess && searchCharacterLess[2] ? searchCharacterLess[2] : '',
+        birth: '',
+        isDependent: '',
+        cpfRelationship: '',
+        isThird: '',
+        thirdName: '',
+        notes: '',
+      }
+      console.log(item, clientEligible)
+      setCurrentItem({
+        ...item,
+        clientEligible
+      })
+    } else {
+      setCurrentItem(item)
+    }
+
+    return () => {
+      setCurrentItem(null)
+    }
+  }, [item])
+
+
+  return (!item || (paramsItems.dependents && (currentItem.clientEligible.isDependent !== '1')) || (paramsItems.thirds && (currentItem.clientEligible.isThird !== '1'))) ? null : (
     <div
       key={index}
       className={`px-4 lg:pl-8 w-full ${itemSelected === index ? 'py-3 scale-100' : 'py-1 scale-95'
@@ -159,11 +214,11 @@ function Card(props: any) {
         itemSelected === index ? 'rounded-b-none' : 'shadow'
       ].join(' ')}
         onClick={() => handleSelect(index)}>
-        {item.clientEligible && <div className='text-lg font-semibold'>{item.clientEligible.name}</div>}
+        {currentItem.clientEligible && <div className='text-lg font-semibold'>{currentItem.clientEligible.name}</div>}
         <div className="flex mt-1 gap-2 text-sm font-semibold">
           <div className="bg-slate-700 text-white px-1 rounded">{index + 1}</div>
           <div className="bg-teal-500 text-white px-1 rounded">
-            {Moment(item.applicationDate).format('DD/MM/YYYY HH:mm')}
+            {Moment(currentItem.applicationDate).format('DD/MM/YYYY HH:mm')}
           </div>
         </div>
       </div>
@@ -175,44 +230,44 @@ function Card(props: any) {
         ].join(' ')}
         >
           <div className='flex flex-wrap gap-8'>
-            {item.clientEligible.key && <div>
+            {currentItem.clientEligible.key && <div>
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
-              <div>{item.clientEligible.key}</div>
+              <div>{currentItem.clientEligible.key}</div>
             </div>}
-            {(item.clientEligible.cpf && item.clientEligible.cpf !== 'NaN' && item.clientEligible.cpf !== '0') && <div>
+            {(currentItem.clientEligible.cpf && currentItem.clientEligible.cpf !== 'NaN' && currentItem.clientEligible.cpf !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF</div>
-              <div>{item.clientEligible.cpf}</div>
+              <div>{currentItem.clientEligible.cpf}</div>
             </div>}
-            {(item.clientEligible.rg && item.clientEligible.rg !== 'NaN' && item.clientEligible.rg !== '0') && <div>
+            {(currentItem.clientEligible.rg && currentItem.clientEligible.rg !== 'NaN' && currentItem.clientEligible.rg !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">RG</div>
-              <div>{item.clientEligible.rg}</div>
+              <div>{currentItem.clientEligible.rg}</div>
             </div>}
-            {item.clientEligible.birth && <div>
+            {currentItem.clientEligible.birth && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nascimento</div>
-              <div>{item.clientEligible.birth}</div>
+              <div>{currentItem.clientEligible.birth}</div>
             </div>}
-            {item.clientEligible.isDependent === '1' && <div>
+            {currentItem.clientEligible.isDependent === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
             </div>}
-            {(item.clientEligible.isDependent === '1' && item.clientEligible.cpfRelationship) && <div>
+            {(currentItem.clientEligible.isDependent === '1' && currentItem.clientEligible.cpfRelationship) && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
-              <div>{item.clientEligible.cpfRelationship}</div>
+              <div>{currentItem.clientEligible.cpfRelationship}</div>
             </div>}
-            {item.clientEligible.isThird === '1' && <div>
+            {currentItem.clientEligible.isThird === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
               <div>Sim</div>
             </div>}
-            {(item.clientEligible.isThird === '1' && item.clientEligible.thirdName) && <div>
+            {(currentItem.clientEligible.isThird === '1' && currentItem.clientEligible.thirdName) && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
-              <div>{item.clientEligible.thirdName}</div>
+              <div>{currentItem.clientEligible.thirdName}</div>
             </div>}
           </div>
-          <VaccinationCard vaccination={item.vaccination} />
+          <VaccinationCard vaccination={currentItem.vaccination} />
           <div className='mt-4 flex flex-wrap gap-8'>
-            {item.profissionalID && <div>
+            {currentItem.profissionalID && <div>
               <div className="text-sm font-semibold text-tertiary-2">Profissional Applick</div>
-              <div><GetUserName userID={item.profissionalID} /></div>
+              <div><GetUserName userID={currentItem.profissionalID} /></div>
             </div>}
           </div>
           {false && <pre>{JSON.stringify(item, null, 4)}</pre>}
@@ -220,6 +275,7 @@ function Card(props: any) {
       )}
     </div>
   )
+
 }
 
 function VaccinationCard(props: any) {

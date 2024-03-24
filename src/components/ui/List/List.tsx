@@ -102,7 +102,7 @@ const List: FC<Props> = ({
             })
           } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
             items.forEach((item: any) => {
-              if (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0') {
+              if (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
                 filteredItems.push(item)
               }
             })
@@ -194,7 +194,7 @@ const List: FC<Props> = ({
           })
         } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
           items.forEach((item: any) => {
-            if (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0') {
+            if (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
               filteredItems.push(item)
             }
           })

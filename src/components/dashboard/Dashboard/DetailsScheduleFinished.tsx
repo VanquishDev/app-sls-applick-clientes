@@ -26,7 +26,7 @@ export default function DetailsScheduleFinished(props: any) {
     listItems={listOSsByClientStatus}
     variables={{
       clientID,
-      status: { eq: OSStatus.SCHEDULED },
+      status: { eq: OSStatus.COMPLETED },
       limit: 100,
       // sortDirection: ModelSortDirection.DESC,
       nextToken: null
