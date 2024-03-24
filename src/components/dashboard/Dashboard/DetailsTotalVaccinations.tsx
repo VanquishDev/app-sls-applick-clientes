@@ -42,24 +42,25 @@ export default function DetailsTotalVaccinations(props: any) {
 
       const t = [] as any
       items.map((item: any) => {
-        if (dependents && item.clientEligible.isDependent !== '1') return
-        if (thirds && item.clientEligible.isThird !== '1') return
+        if (dependents && (!item.clientEligible || (item.clientEligible && item.clientEligible.isDependent !== '1'))) return
+        if (thirds && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1'))) return
+        if (!thirds && !dependents && (item.clientEligible && (item.clientEligible.isThird === '1' || item.clientEligible.isDependent === '1'))) return
         if (item.clientEligible) {
           const input = {
-            Identificador: item.clientEligible.key,
+            Identificador: item.clientEligible.key ? item.clientEligible.key : '',
             Nome: item.clientEligible.name,
-            CPF: item.clientEligible.cpf,
-            RG: item.clientEligible.rg,
+            CPF: item.clientEligible.cpf && item.clientEligible.cpf !== '0' ? item.clientEligible.cpf : '',
+            RG: item.clientEligible.rg && item.clientEligible.rg !== '0' ? item.clientEligible.rg : '',
             Nascimento: item.clientEligible.birth !== 'Data inválida' ? item.clientEligible.birth : '',
             Dependente: item.clientEligible.isDependent === '1' ? 'Sim' : 'Não',
-            CPF_Responsável: item.clientEligible.cpfRelationship,
+            CPF_Responsável: item.clientEligible.cpfRelationship && item.clientEligible.cpfRelationship !== '0' ? item.clientEligible.cpfRelationship : '',
             Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
-            Empresa: item.clientEligible.thirdName,
+            Empresa: item.clientEligible.thirdName ? item.clientEligible.thirdName : '',
             Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
             Coren: item.coren ? item.coren : '',
             Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
-            Obs: item.clientEligible.notes,
+            Obs: item.clientEligible.notes ? item.clientEligible.notes : '',
           } as any
 
           t.push(input)
@@ -178,11 +179,11 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
               <div>{item.clientEligible.key}</div>
             </div>}
-            {(item.clientEligible.cpf && item.clientEligible.cpf !== 'NaN') && <div>
+            {(item.clientEligible.cpf && item.clientEligible.cpf !== 'NaN' && item.clientEligible.cpf !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF</div>
               <div>{item.clientEligible.cpf}</div>
             </div>}
-            {(item.clientEligible.rg && item.clientEligible.rg !== 'NaN') && <div>
+            {(item.clientEligible.rg && item.clientEligible.rg !== 'NaN' && item.clientEligible.rg !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">RG</div>
               <div>{item.clientEligible.rg}</div>
             </div>}
