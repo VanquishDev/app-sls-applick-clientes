@@ -224,7 +224,7 @@ function Card(props: any) {
         ].join(' ')}
         >
           <div className='flex flex-wrap gap-8'>
-            {item.key && <div>
+            {(item.key && item.key !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">Identificador</div>
               <div>{item.key}</div>
             </div>}
@@ -244,7 +244,7 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Dependente</div>
               <div>Sim</div>
             </div>}
-            {(item.isDependent === '1' && item.cpfRelationship) && <div>
+            {(item.isDependent === '1' && item.cpfRelationship && item.cpfRelationship !== '0') && <div>
               <div className="text-sm font-semibold text-tertiary-2">CPF do responsável</div>
               <div>{item.cpfRelationship}</div>
             </div>}

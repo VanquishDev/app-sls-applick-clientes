@@ -50,17 +50,18 @@ export default function Statistics(props: any) {
     cp.progressVaccinations = 0
     setCampaign(cp)
 
-    const { items } = await listUnitsByClientCampaign({
+    const { items, nextToken } = await listUnitsByClientCampaign({
       clientCampaignID: c.id,
       limit: 1000,
     })
+
     let t = 0
     items.map((item: any) => {
       const { qtyVisits, qtyVisitsConfirmed } = item
       if (qtyVisitsConfirmed >= qtyVisits) {
         let allFinished = true
         item.oss.items.map((item2: any) => {
-          if (item2.status !== OSStatus.COMPLETED) {
+          if (item2.status !== OSStatus.COMPLETED && item2.status !== OSStatus.CANCELED) {
             allFinished = false
           }
         })

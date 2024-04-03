@@ -46,6 +46,15 @@ export default function DetailsUnitsServed(props: any) {
       items.map((item: any, index: number) => {
         if (item.oss.items.length === 0) return
         if (item.qtyVisitsConfirmed < item.qtyVisits) return
+
+        let allFinished = true
+        item.oss.items.map((item2: any) => {
+          if (item2.status !== OSStatus.COMPLETED && item2.status !== OSStatus.CANCELED) {
+            allFinished = false
+          }
+        })
+        if (!allFinished) return
+
         count++
         let OSs = ''
         item.oss.items.map((os: any) => {
@@ -129,12 +138,12 @@ export default function DetailsUnitsServed(props: any) {
     variables={value ? {
       clientCampaignID,
       filter: { search: { contains: value.toLowerCase() } },
-      limit: 100,
+      limit: 1000,
       // sortDirection: ModelSortDirection.DESC,
       nextToken: null
     } : {
       clientCampaignID,
-      limit: 100,
+      limit: 1000,
       // sortDirection: ModelSortDirection.DESC,
       nextToken: null
     }}

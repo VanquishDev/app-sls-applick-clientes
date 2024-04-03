@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import generateSortFn from 'lib/generateSortFn'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 import { useScreen } from 'hooks/useScreen'
+import { OSStatus } from 'API'
 
 interface Props {
   className?: string
@@ -110,7 +111,13 @@ const List: FC<Props> = ({
             items.forEach((item: any) => {
               const { qtyVisits, qtyVisitsConfirmed } = item
               if (qtyVisitsConfirmed >= qtyVisits) {
-                filteredItems.push(item)
+                let allFinished = true
+                item.oss.items.map((item2: any) => {
+                  if (item2.status !== OSStatus.COMPLETED) {
+                    allFinished = false
+                  }
+                })
+                if (allFinished) { filteredItems.push(item) }
               }
             })
           } else {
@@ -202,7 +209,13 @@ const List: FC<Props> = ({
           items.forEach((item: any) => {
             const { qtyVisits, qtyVisitsConfirmed } = item
             if (qtyVisitsConfirmed >= qtyVisits) {
-              filteredItems.push(item)
+              let allFinished = true
+              item.oss.items.map((item2: any) => {
+                if (item2.status !== OSStatus.COMPLETED) {
+                  allFinished = false
+                }
+              })
+              if (allFinished) { filteredItems.push(item) }
             }
           })
         } else {
