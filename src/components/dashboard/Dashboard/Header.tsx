@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { Search } from 'components/icons'
 import cn from 'classnames'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
 
 import { useUI } from 'components/ui/context'
+import { Loading } from 'components/ui'
 
 export default function Header() {
   const { screenWidth } = useScreen()
   const { isSm } = useBreakPoints()
 
-  const { searchText, setSearchText, setStartDownload } = useUI()
+  const { searchText, setSearchText, setStartDownload, startDownload } = useUI()
 
   return (
     <div className="p-2 mb-4 flex flex-col md:flex-row md:justify-between items-center">
-      <div>
-        <button onClick={() => setStartDownload(true)} className='btn btn-sm btn-neutral'>Download</button>
+      <div className='flex gap-2'>
+        <button disabled={startDownload} onClick={() => setStartDownload(true)} className='btn btn-sm btn-neutral'>Download</button>
+        {startDownload && <Loading />}
       </div>
       <div
         className="mt-3 md:mt-0"

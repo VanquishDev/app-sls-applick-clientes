@@ -3,6 +3,7 @@ import { List } from 'components/ui'
 import { ModelSortDirection } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
+import * as XLSX from 'xlsx';
 
 import { useClientCampaignEligibleVaccination } from 'hooks/useClientCampaignEligibleVaccination'
 import { useClientCampaign } from 'hooks/useClientCampaign'
@@ -33,6 +34,7 @@ export default function DetailsTotalVaccinations(props: any) {
 
   const download = async () => {
     setDownloadItems([])
+    setStartDownload(true)
     setDownloadReady(false)
     toast.info('Preparando dados para download...')
 
@@ -59,10 +61,10 @@ export default function DetailsTotalVaccinations(props: any) {
 
         if (item.clientEligible) {
           const input = {
-            Identificador: item.clientEligible.key ? item.clientEligible.key : '',
+            Identificador: item.clientEligible.key && item.clientEligible.key !== '0' ? item.clientEligible.key : '',
             Nome: item.clientEligible.name,
-            CPF: item.clientEligible.cpf && item.clientEligible.cpf !== '0' ? item.clientEligible.cpf : '',
-            RG: item.clientEligible.rg && item.clientEligible.rg !== '0' ? item.clientEligible.rg : '',
+            CPF: item.clientEligible.cpf && item.clientEligible.cpf !== '0' && item.clientEligible.cpf !== 'NaN' ? item.clientEligible.cpf : '',
+            RG: item.clientEligible.rg && item.clientEligible.rg !== '0' && item.clientEligible.rg !== 'NaN' ? item.clientEligible.rg : '',
             Nascimento: item.clientEligible.birth !== 'Data inválida' ? item.clientEligible.birth : '',
             Dependente: item.clientEligible.isDependent === '1' ? 'Sim' : 'Não',
             CPF_Responsável: item.clientEligible.cpfRelationship && item.clientEligible.cpfRelationship !== '0' ? item.clientEligible.cpfRelationship : '',
@@ -70,7 +72,7 @@ export default function DetailsTotalVaccinations(props: any) {
             Empresa: item.clientEligible.thirdName ? item.clientEligible.thirdName : '',
             Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
             Coren: item.coren ? item.coren : '',
-            Dose: JSON.parse(item.vaccination).map((v: any) => v.productName).join(', '),
+            Dose: item.vaccinatio ? JSON.parse(item.vaccination).map((v: any) => v.productName).join(', ') : '',
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
             Obs: item.clientEligible.notes ? item.clientEligible.notes : '',
           } as any
@@ -96,8 +98,8 @@ export default function DetailsTotalVaccinations(props: any) {
     ]) {
       nextToken = await fetchData(nextToken)
       if (!nextToken) {
+        setStartDownload(false)
         setDownloadReady(true)
-
         await updateClientCampaign({
           id: clientCampaignID,
           totalVaccinationsDependent: totalDependents,
@@ -113,15 +115,21 @@ export default function DetailsTotalVaccinations(props: any) {
   useEffect(() => {
     if (startDownload) {
       download()
-      setStartDownload(false)
-    }
-    return () => {
-      setStartDownload(false)
     }
   }, [startDownload])
 
   useEffect(() => {
     if (downloadReady) {
+      const fileName = dependents ? `Dependentes_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.xlsx` :
+        thirds ? `Terceiros_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.xlsx` :
+          `Colaboradores_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.xlsx`
+
+      const worksheet = XLSX.utils.json_to_sheet(downloadItems);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, fileName);
+
+      /*
       let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Data_Aplicação,Coren,Dose,Unidade,Observação\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
@@ -135,6 +143,7 @@ export default function DetailsTotalVaccinations(props: any) {
           `Colaboradores_Imunizados_${Moment().format('YYYYMMDDHHmmss')}.csv`
       a.click()
       window.URL.revokeObjectURL(url)
+      */
     }
   }, [downloadReady])
 

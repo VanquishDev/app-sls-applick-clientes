@@ -3,6 +3,7 @@ import { List, Loading } from 'components/ui'
 import { ModelSortDirection } from 'API'
 import { useScreen } from 'hooks/useScreen'
 import { useBreakPoints } from 'hooks/useBreakPoints'
+import * as XLSX from 'xlsx';
 
 import { useClientCampaignEligible } from 'hooks/useClientCampaignEligible'
 
@@ -30,6 +31,7 @@ export default function DetailsTotalEligibles(props: any) {
 
   const download = async () => {
     setDownloadItems([])
+    setStartDownload(true)
     setDownloadReady(false)
     toast.info('Preparando dados para download...')
     const fetchData = async (n: string | null) => {
@@ -61,13 +63,13 @@ export default function DetailsTotalEligibles(props: any) {
       const t = [] as any
       l.items.map((item: any) => {
         const input = {
-          Identificador: item.key ? item.key : '',
+          Identificador: item.key && item.key !== '0' ? item.key : '',
           Nome: item.name,
-          CPF: item.cpf ? item.cpf : '',
-          RG: item.rg ? item.rg : '',
+          CPF: item.cpf && item.cpf !== '0' && item.cpf !== 'NaN' ? item.cpf : '',
+          RG: item.rg && item.rg !== '0' && item.rg !== 'NaN' ? item.rg : '',
           Nascimento: item.birth !== 'Data inválida' ? item.birth : '',
           Dependente: item.isDependent === '1' ? 'Sim' : 'Não',
-          CPF_Responsável: item.cpfRelationship ? item.cpfRelationship : '',
+          CPF_Responsável: item.cpfRelationship && item.cpfRelationship !== '0' ? item.cpfRelationship : '',
           Terceiro: item.isThird === '1' ? 'Sim' : 'Não',
           Empresa: item.thirdName ? item.thirdName : '',
           Obs: item.notes ? item.notes : ''
@@ -91,6 +93,7 @@ export default function DetailsTotalEligibles(props: any) {
       nextToken = await fetchData(nextToken)
       if (!nextToken) {
         setDownloadReady(true)
+        setStartDownload(false)
         break
       }
     }
@@ -99,15 +102,18 @@ export default function DetailsTotalEligibles(props: any) {
   useEffect(() => {
     if (startDownload) {
       download()
-      setStartDownload(false)
-    }
-    return () => {
-      setStartDownload(false)
     }
   }, [startDownload])
 
   useEffect(() => {
     if (downloadReady) {
+      const fileName = `${dependents ? 'Dependentes_' : thirds ? 'Terceiros_' : 'Colaboradores_'}${Moment().format('YYYYMMDDHHmmss')}.xlsx`
+      const worksheet = XLSX.utils.json_to_sheet(downloadItems);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, fileName);
+
+      /*
       let csv = 'Identificador,Nome,CPF,RG,Nascimento,Dependente,CPF_Responsável,Terceiro,Empresa,Obs\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
@@ -119,6 +125,7 @@ export default function DetailsTotalEligibles(props: any) {
       a.download = `${dependents ? 'Dependentes_' : thirds ? 'Terceiros_' : 'Colaboradores_'}${Moment().format('YYYYMMDDHHmmss')}.csv`
       a.click()
       window.URL.revokeObjectURL(url)
+      */
     }
   }, [downloadReady])
 

@@ -5,6 +5,7 @@ import { useBreakPoints } from 'hooks/useBreakPoints'
 import { formatPhoneNumber } from 'react-phone-number-input'
 import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
 import { useState, useEffect } from 'react'
+import * as XLSX from 'xlsx';
 
 import { useUI } from 'components/ui/context'
 import { useDebounce } from 'use-debounce'
@@ -30,6 +31,7 @@ export default function DetailsTotalUnits(props: any) {
 
   const download = async () => {
     setDownloadItems([])
+    setStartDownload(true)
     setDownloadReady(false)
     toast.info('Preparando dados para download...')
     const fetchData = async (n: string | null) => {
@@ -70,6 +72,7 @@ export default function DetailsTotalUnits(props: any) {
       nextToken = await fetchData(nextToken)
       if (!nextToken) {
         setDownloadReady(true)
+        setStartDownload(false)
         break
       }
     }
@@ -78,15 +81,18 @@ export default function DetailsTotalUnits(props: any) {
   useEffect(() => {
     if (startDownload) {
       download()
-      setStartDownload(false)
-    }
-    return () => {
-      setStartDownload(false)
     }
   }, [startDownload])
 
   useEffect(() => {
     if (downloadReady) {
+      const fileName = `Unidades_Cadastradas_${Moment().format('YYYYMMDDHHmmss')}.xlsx`
+      const worksheet = XLSX.utils.json_to_sheet(downloadItems);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, fileName);
+
+      /*
       let csv = 'Nome,Código,TotalElegíveis,DosesContratadas,QtdeVisitas,Contato,ContatoEmail,ContatoPhone\n'
       csv += downloadItems.map((row: any) =>
         Object.values(row).map((item: any) => `"${item}"`).join(',')
@@ -98,6 +104,7 @@ export default function DetailsTotalUnits(props: any) {
       a.download = `Unidades_Cadastradas_${Moment().format('YYYYMMDDHHmmss')}.csv`
       a.click()
       window.URL.revokeObjectURL(url)
+      */
     }
   }, [downloadReady])
 

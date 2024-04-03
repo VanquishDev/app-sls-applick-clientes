@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { API } from 'aws-amplify';
 import { GraphQLSubscription, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import * as subscriptions from 'graphql/subscriptions';
-import { OnUpdateClientCampaignSubscription } from 'API';
+import { OnUpdateClientCampaignSubscription, OSStatus } from 'API';
 
 import { useClientCampaign } from 'hooks/useClientCampaign'
 import { useClientCampaignUnit } from 'hooks/useClientCampaignUnit'
@@ -57,7 +57,15 @@ export default function Statistics(props: any) {
     let t = 0
     items.map((item: any) => {
       const { qtyVisits, qtyVisitsConfirmed } = item
-      if (qtyVisitsConfirmed >= qtyVisits) { t++ }
+      if (qtyVisitsConfirmed >= qtyVisits) {
+        let allFinished = true
+        item.oss.items.map((item2: any) => {
+          if (item2.status !== OSStatus.COMPLETED) {
+            allFinished = false
+          }
+        })
+        if (allFinished) { t++ }
+      }
     })
     setUnitsServed(t)
 
