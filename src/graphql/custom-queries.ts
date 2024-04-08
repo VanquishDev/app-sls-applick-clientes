@@ -4103,6 +4103,8 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
         thirdName
       }
       os {
+        number
+        start
         clientCampaignUnit {
           name
         }

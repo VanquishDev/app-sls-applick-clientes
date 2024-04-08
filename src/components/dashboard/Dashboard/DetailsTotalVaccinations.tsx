@@ -51,6 +51,8 @@ export default function DetailsTotalVaccinations(props: any) {
 
       const t = [] as any
       items.map((item: any) => {
+        if (item.status === 'CANCELED') { return }
+
         total++
         if (item.clientEligible && item.clientEligible.isDependent === '1') totalDependents++
         if (item.clientEligible && item.clientEligible.isThird === '1') totalThirds++
@@ -71,6 +73,8 @@ export default function DetailsTotalVaccinations(props: any) {
             Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
             Empresa: item.clientEligible.thirdName ? item.clientEligible.thirdName : '',
             Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
+            OS: item.os && item.os.number ? item.os.number : '',
+            Data_OS: item.os && item.os.start ? Moment(item.os.start).format('DD/MM/YYYY') : '',
             Coren: item.coren ? item.coren : '',
             Dose: item.vaccinatio ? JSON.parse(item.vaccination).map((v: any) => v.productName).join(', ') : '',
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
@@ -196,7 +200,7 @@ function Card(props: any) {
         thirdName: '',
         notes: '',
       }
-      console.log(item, clientEligible)
+
       setCurrentItem({
         ...item,
         clientEligible
@@ -266,6 +270,14 @@ function Card(props: any) {
             {currentItem.clientEligible.isThird === '1' && <div>
               <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
               <div>Sim</div>
+            </div>}
+            {currentItem.os && <div>
+              <div className="text-sm font-semibold text-tertiary-2">O.S.</div>
+              <div>{currentItem.os.number}</div>
+            </div>}
+            {currentItem.os && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Data O.S.</div>
+              <div>{Moment(currentItem.os.start).format('DD-MM-YYYY')}</div>
             </div>}
             {(currentItem.clientEligible.isThird === '1' && currentItem.clientEligible.thirdName) && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>

@@ -91,19 +91,19 @@ const List: FC<Props> = ({
 
           if (paramsItems && paramsItems.dependents) {
             items.forEach((item: any) => {
-              if (item.clientEligible && item.clientEligible.isDependent === '1') {
+              if (item.status !== 'CANCELED' && item.clientEligible && item.clientEligible.isDependent === '1') {
                 filteredItems.push(item)
               }
             })
           } else if (paramsItems && paramsItems.thirds) {
             items.forEach((item: any) => {
-              if (item.clientEligible && item.clientEligible.isThird === '1') {
+              if (item.status !== 'CANCELED' && item.clientEligible && item.clientEligible.isThird === '1') {
                 filteredItems.push(item)
               }
             })
           } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
             items.forEach((item: any) => {
-              if (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
+              if (item.status !== 'CANCELED' && !item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
                 filteredItems.push(item)
               }
             })
@@ -189,19 +189,19 @@ const List: FC<Props> = ({
 
         if (paramsItems && paramsItems.dependents) {
           items.forEach((item: any) => {
-            if (item.clientEligible && item.clientEligible.isDependent === '1') {
+            if (item.clientEligible && item.clientEligible.isDependent === '1' && item.status !== 'CANCELED') {
               filteredItems.push(item)
             }
           })
         } else if (paramsItems && paramsItems.thirds) {
           items.forEach((item: any) => {
-            if (item.clientEligible && item.clientEligible.isThird === '1') {
+            if (item.clientEligible && item.clientEligible.isThird === '1' && item.status !== 'CANCELED') {
               filteredItems.push(item)
             }
           })
         } else if (paramsItems && paramsItems.colaborators && !paramsItems.thirds && !paramsItems.dependents) {
           items.forEach((item: any) => {
-            if (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
+            if (item.status !== 'CANCELED' && !item.clientEligible || (item.clientEligible && item.clientEligible.isThird === '0' && item.clientEligible.isDependent === '0')) {
               filteredItems.push(item)
             }
           })
