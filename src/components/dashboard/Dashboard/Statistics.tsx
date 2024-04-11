@@ -43,6 +43,7 @@ export default function Statistics(props: any) {
 
   const [unitsServed, setUnitsServed] = useState(0)
   const [percentServed, setPercentServed] = useState(0)
+  const [colaborators, setColaborators] = useState(0)
 
   const handleCampaign = async (c: any) => {
     const cp = await getClientCampaign({ id: c.id })
@@ -72,6 +73,12 @@ export default function Statistics(props: any) {
 
     const p = cp.totalUnits ? Math.round((t / cp.totalUnits) * 100) : 0
     setPercentServed(p)
+
+    const total = cp.totalEligibles ? cp.totalEligibles : 0
+    const dependent = cp.totalEligiblesDependent ? cp.totalEligiblesDependent : 0
+    const third = cp.totalEligiblesThird ? cp.totalEligiblesThird : 0
+    console.log('total', total, 'dependent', dependent, 'third', third)
+    setColaborators(total - (dependent + third))
   }
 
   useEffect(() => {
@@ -210,7 +217,7 @@ export default function Statistics(props: any) {
               setModalSel('totalEligibles')
               openModal()
             }}>
-              <div className="mt-5 stat-value">{campaign.totalEligibles ? (campaign.totalEligibles - (campaign.totalEligiblesDependent ? campaign.totalEligiblesDependent : 0) + (campaign.totalEligiblesThird ? campaign.totalEligiblesThird : 0)) : 0}</div>
+              <div className="mt-5 stat-value">{colaborators}</div>
               <div className="stat-desc">Colaboradores</div>
             </div>
             <div className='cursor-pointer transform transition duration-500 hover:scale-110' onClick={() => {
