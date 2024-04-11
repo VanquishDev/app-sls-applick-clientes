@@ -46,7 +46,17 @@ export default function Statistics(props: any) {
   const [colaborators, setColaborators] = useState(0)
 
   const handleCampaign = async (c: any) => {
+    setCampaign({})
+    setColaborators(0)
+    setUnitsServed(0)
+    setPercentServed(0)
     const cp = await getClientCampaign({ id: c.id })
+
+    const total = cp.totalEligibles ? cp.totalEligibles : 0
+    const dependent = cp.totalEligiblesDependent ? cp.totalEligiblesDependent : 0
+    const third = cp.totalEligiblesThird ? cp.totalEligiblesThird : 0
+    setColaborators(total - (dependent + third))
+
     cp.progressUnits = 0
     cp.progressVaccinations = 0
     setCampaign(cp)
@@ -73,15 +83,23 @@ export default function Statistics(props: any) {
 
     const p = cp.totalUnits ? Math.round((t / cp.totalUnits) * 100) : 0
     setPercentServed(p)
-
-    const total = cp.totalEligibles ? cp.totalEligibles : 0
-    const dependent = cp.totalEligiblesDependent ? cp.totalEligiblesDependent : 0
-    const third = cp.totalEligiblesThird ? cp.totalEligiblesThird : 0
-    setColaborators(total - (dependent + third))
   }
 
   useEffect(() => {
-    handleCampaign(props.campaign)
+    if (props.campaign && props.campaign.id) {
+      handleCampaign(props.campaign)
+    } else {
+      setCampaign({})
+      setColaborators(0)
+      setUnitsServed(0)
+      setPercentServed(0)
+    }
+    return () => {
+      setCampaign({})
+      setColaborators(0)
+      setUnitsServed(0)
+      setPercentServed(0)
+    }
   }, [props])
 
   useEffect(() => {
