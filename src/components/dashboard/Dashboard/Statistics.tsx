@@ -369,9 +369,9 @@ export default function Statistics(props: any) {
         {modalSel === 'scheduleRouted' && (<DetailsScheduleRouted clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'scheduleConfirmed' && (<DetailsScheduleConfirmed clientID={campaign.clientID} userID={userID} />)}
         {modalSel === 'scheduleFinished' && (<DetailsScheduleFinished clientID={campaign.clientID} userID={userID} />)}
-        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligibles' && (<DetailsTotalEligibles colaborators={true} thirds={false} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles colaborators={false} thirds={false} dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles colaborators={false} thirds={true} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations colaborators={true} thirds={false} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalVaccinationsDependent' && (<DetailsTotalVaccinations colaborators={false} thirds={false} dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalVaccinationsThird' && (<DetailsTotalVaccinations colaborators={false} thirds={true} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}

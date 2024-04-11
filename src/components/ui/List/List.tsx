@@ -107,6 +107,12 @@ const List: FC<Props> = ({
                 filteredItems.push(item)
               }
             })
+          } else if (paramsItems && paramsItems.colaborators2) {
+            items.forEach((item: any) => {
+              if (item.isThird !== '1' && item.isDependent !== '1') {
+                filteredItems.push(item)
+              }
+            })
           } else if (paramsItems && paramsItems.unitsServed) {
             items.forEach((item: any) => {
               const { qtyVisits, qtyVisitsConfirmed } = item
@@ -202,6 +208,12 @@ const List: FC<Props> = ({
         } else if (paramsItems && paramsItems.colaborators) {
           items.forEach((item: any) => {
             if (item.status !== 'CANCELED' && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1' && item.clientEligible.isDependent !== '1'))) {
+              filteredItems.push(item)
+            }
+          })
+        } else if (paramsItems && paramsItems.colaborators2) {
+          items.forEach((item: any) => {
+            if (item.isThird !== '1' && item.isDependent !== '1') {
               filteredItems.push(item)
             }
           })

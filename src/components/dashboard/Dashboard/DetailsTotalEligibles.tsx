@@ -19,7 +19,7 @@ import Header from './Header'
 import { useClientCampaign } from 'hooks/useClientCampaign'
 
 export default function DetailsTotalEligibles(props: any) {
-  const { clientCampaignID, userID, dependents, thirds } = props;
+  const { clientCampaignID, userID, dependents, thirds, colaborators } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
@@ -50,14 +50,14 @@ export default function DetailsTotalEligibles(props: any) {
           clientCampaignID,
           isDependent: { eq: "1" },
           limit: 1000,
-          nextToken: null
+          nextToken: n
         })
       } else if (thirds) {
         l = await listEligiblesByClientCampaignIsThird({
           clientCampaignID,
           isThird: { eq: '1' },
           limit: 1000,
-          nextToken: null
+          nextToken: n
         })
       } else {
         l = await listEligiblesByClientCampaign({
@@ -72,6 +72,10 @@ export default function DetailsTotalEligibles(props: any) {
         total++
         if (item.isDependent === '1') totalDependents++
         if (item.isThird === '1') totalThirds++
+
+        if (dependents && item.isDependent !== '1') return
+        if (thirds && item.isThird !== '1') return
+        if (colaborators && (item.isDependent === '1' || item.isThird === '1')) return
 
         const input = {
           Identificador: item.key && item.key !== '0' ? item.key : '',
@@ -99,6 +103,10 @@ export default function DetailsTotalEligibles(props: any) {
       5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8,
       9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2,
       3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
+      7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8,
+      9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2,
+      3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
       7, 8, 9, 10,
     ]) {
       nextToken = await fetchData(nextToken)
@@ -106,7 +114,7 @@ export default function DetailsTotalEligibles(props: any) {
         setDownloadReady(true)
         setStartDownload(false)
 
-        if (!dependents && !thirds) {
+        if (!dependents && !thirds && colaborators) {
           await updateClientCampaign({
             id: clientCampaignID,
             totalEligiblesDependent: totalDependents,
@@ -114,6 +122,8 @@ export default function DetailsTotalEligibles(props: any) {
             totalEligibles: total,
           })
         }
+
+        console.log({ total, totalDependents, totalThirds, colaborators: (total - (totalDependents + totalThirds)) })
         break
       }
     }
@@ -207,6 +217,7 @@ export default function DetailsTotalEligibles(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
+    paramsItems={colaborators ? { colaborators2: true } : {}}
   /> : <Loading />;
 }
 
