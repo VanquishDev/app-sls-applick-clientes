@@ -372,9 +372,9 @@ export default function Statistics(props: any) {
         {modalSel === 'totalEligibles' && (<DetailsTotalEligibles clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalEligiblesDependent' && (<DetailsTotalEligibles dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
         {modalSel === 'totalEligiblesThird' && (<DetailsTotalEligibles thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalVaccinationsDependent' && (<DetailsTotalVaccinations dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
-        {modalSel === 'totalVaccinationsThird' && (<DetailsTotalVaccinations thirds={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinations' && (<DetailsTotalVaccinations colaborators={true} thirds={false} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinationsDependent' && (<DetailsTotalVaccinations colaborators={false} thirds={false} dependents={true} clientCampaignID={campaign.id} userID={userID} />)}
+        {modalSel === 'totalVaccinationsThird' && (<DetailsTotalVaccinations colaborators={false} thirds={true} dependents={false} clientCampaignID={campaign.id} userID={userID} />)}
       </div>
     </Modal>
 

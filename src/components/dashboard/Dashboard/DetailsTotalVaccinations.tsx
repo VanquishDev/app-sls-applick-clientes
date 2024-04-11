@@ -18,13 +18,15 @@ import Moment from 'moment'
 Moment.locale('pt-br')
 
 import Header from './Header'
+import { useClientCampaignEligible } from 'hooks/useClientCampaignEligible'
 
 export default function DetailsTotalVaccinations(props: any) {
-  const { clientCampaignID, userID, dependents, thirds } = props;
+  const { clientCampaignID, userID, dependents, thirds, colaborators } = props;
   const { screenHeight } = useScreen()
   const { isSm } = useBreakPoints()
 
   const { listVaccinationsByClientCampaign } = useClientCampaignEligibleVaccination()
+  const { createClientCampaignEligible } = useClientCampaignEligible()
   const { updateClientCampaign } = useClientCampaign()
 
   const [downloadReady, setDownloadReady] = useState(false)
@@ -50,7 +52,7 @@ export default function DetailsTotalVaccinations(props: any) {
       })
 
       const t = [] as any
-      items.map((item: any) => {
+      items.map(async (item: any) => {
         if (item.status === 'CANCELED') { return }
 
         total++
@@ -59,7 +61,7 @@ export default function DetailsTotalVaccinations(props: any) {
 
         if (dependents && (!item.clientEligible || (item.clientEligible && item.clientEligible.isDependent !== '1'))) return
         if (thirds && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1'))) return
-        if (!thirds && !dependents && (item.clientEligible && (item.clientEligible.isThird === '1' || item.clientEligible.isDependent === '1'))) return
+        if (colaborators && (item.clientEligible && (item.clientEligible.isThird === '1' || item.clientEligible.isDependent === '1'))) return
 
         if (item.clientEligible) {
           const input = {
@@ -80,10 +82,47 @@ export default function DetailsTotalVaccinations(props: any) {
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
             Obs: item.clientEligible.notes ? item.clientEligible.notes : '',
           } as any
-
           t.push(input)
         } else {
-          console.log('item.clientEligible', item)
+
+          const name = item.search
+
+            .replace(/\d+/g, '')
+            .replace(',', '')
+            .replace('  ', '')
+            .replace('  ', '')
+            .replace('  ', '')
+            .replace('  ', '')
+            .replace('X', '')
+            .trim()
+
+          const parts = item.search.toLowerCase()
+            .replace(name, '')
+            .replace(name, '')
+            .replace(name, '')
+            .replace('  ', ' ')
+            .replace('  ', ' ')
+            .replace(',', '')
+            .trim()
+
+          const parts2 = parts.split(' ')
+
+          const cpf = parts2 && parts2[1] ? parts2[1].replace(/\D/g, "") : ''
+          const rg = parts2 && parts2[2] ? parts2[2].replace(/\D/g, "") : ''
+          const key = parts2 && parts2[0] ? parts2[0].replace(/\D/g, "") : ''
+
+          console.log({ cpf, rg, key, parts: parts, name, item })
+
+          if (cpf && name) {
+            await createClientCampaignEligible({
+              id: item.clientCampaignEligibleID,
+              clientCampaignID: item.clientCampaignID,
+              name,
+              cpf,
+              rg: rg ? rg : '0',
+              key
+            })
+          }
         }
 
       })
@@ -110,7 +149,7 @@ export default function DetailsTotalVaccinations(props: any) {
           totalVaccinationsThird: totalThirds,
           totalVaccinations: total,
         })
-
+        console.log({ total, totalDependents, totalThirds })
         break
       }
     }
@@ -173,7 +212,7 @@ export default function DetailsTotalVaccinations(props: any) {
     layout='flexCol'
     Card={Card}
     height={isSm ? screenHeight - 70 : screenHeight * 0.8}
-    paramsItems={{ dependents, thirds, colaborators: true }}
+    paramsItems={{ dependents, thirds, colaborators }}
   />;
 }
 

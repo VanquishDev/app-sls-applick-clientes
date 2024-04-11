@@ -16,6 +16,7 @@ import Moment from 'moment'
 Moment.locale('pt-br')
 
 import Header from './Header'
+import { useClientCampaign } from 'hooks/useClientCampaign'
 
 export default function DetailsTotalEligibles(props: any) {
   const { clientCampaignID, userID, dependents, thirds } = props;
@@ -23,6 +24,7 @@ export default function DetailsTotalEligibles(props: any) {
   const { isSm } = useBreakPoints()
 
   const { listEligiblesByClientCampaign, listEligiblesByClientCampaignIsDependent, listEligiblesByClientCampaignIsThird } = useClientCampaignEligible()
+  const { updateClientCampaign } = useClientCampaign()
 
   const [downloadReady, setDownloadReady] = useState(false)
   const [downloadItems, setDownloadItems] = useState([] as any)
@@ -34,6 +36,11 @@ export default function DetailsTotalEligibles(props: any) {
     setStartDownload(true)
     setDownloadReady(false)
     toast.info('Preparando dados para download...')
+
+    let totalDependents = 0
+    let totalThirds = 0
+    let total = 0
+
     const fetchData = async (n: string | null) => {
 
       let l = {} as any
@@ -62,6 +69,10 @@ export default function DetailsTotalEligibles(props: any) {
 
       const t = [] as any
       l.items.map((item: any) => {
+        total++
+        if (item.isDependent === '1') totalDependents++
+        if (item.isThird === '1') totalThirds++
+
         const input = {
           Identificador: item.key && item.key !== '0' ? item.key : '',
           Nome: item.name,
@@ -94,6 +105,15 @@ export default function DetailsTotalEligibles(props: any) {
       if (!nextToken) {
         setDownloadReady(true)
         setStartDownload(false)
+
+        if (!dependents && !thirds) {
+          await updateClientCampaign({
+            id: clientCampaignID,
+            totalEligiblesDependent: totalDependents,
+            totalEligiblesThird: totalThirds,
+            totalEligibles: total,
+          })
+        }
         break
       }
     }
