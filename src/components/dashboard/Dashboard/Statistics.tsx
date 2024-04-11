@@ -46,7 +46,6 @@ export default function Statistics(props: any) {
   const [colaborators, setColaborators] = useState(0)
 
   const handleCampaign = async (c: any) => {
-    setCampaign({})
     setColaborators(0)
     setUnitsServed(0)
     setPercentServed(0)
@@ -88,17 +87,6 @@ export default function Statistics(props: any) {
   useEffect(() => {
     if (props.campaign && props.campaign.id) {
       handleCampaign(props.campaign)
-    } else {
-      setCampaign({})
-      setColaborators(0)
-      setUnitsServed(0)
-      setPercentServed(0)
-    }
-    return () => {
-      setCampaign({})
-      setColaborators(0)
-      setUnitsServed(0)
-      setPercentServed(0)
     }
   }, [props])
 
