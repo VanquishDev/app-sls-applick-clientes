@@ -242,7 +242,7 @@ function Card(props: any) {
           {(item.cpf && item.cpf !== '0') && <div className="bg-teal-500 text-white px-1 rounded font-semibold line-clamp-1">
             CPF {item.cpf}
           </div>}
-          {item.notes && <div className="bg-cyan text-white px-1 rounded font-semibold line-clamp-1">
+          {(item.notes && item.notes !== 'Não') && <div className="bg-cyan text-white px-1 rounded font-semibold line-clamp-1">
             {item.notes}
           </div>}
         </div>

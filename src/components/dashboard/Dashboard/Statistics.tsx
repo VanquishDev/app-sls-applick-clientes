@@ -77,7 +77,6 @@ export default function Statistics(props: any) {
     const total = cp.totalEligibles ? cp.totalEligibles : 0
     const dependent = cp.totalEligiblesDependent ? cp.totalEligiblesDependent : 0
     const third = cp.totalEligiblesThird ? cp.totalEligiblesThird : 0
-    console.log('total', total, 'dependent', dependent, 'third', third)
     setColaborators(total - (dependent + third))
   }
 
