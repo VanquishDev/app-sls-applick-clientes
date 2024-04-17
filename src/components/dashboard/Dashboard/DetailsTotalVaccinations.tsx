@@ -111,16 +111,12 @@ export default function DetailsTotalVaccinations(props: any) {
           const rg = parts2 && parts2[2] ? parts2[2].replace(/\D/g, "") : ''
           const key = parts2 && parts2[0] ? parts2[0].replace(/\D/g, "") : ''
 
-          console.log({ cpf, rg, key, parts: parts, name, item })
-
-          if (cpf && name) {
+          if ((cpf || key || rg) && name) {
             await createClientCampaignEligible({
               id: item.clientCampaignEligibleID,
               clientCampaignID: item.clientCampaignID,
               name,
-              cpf,
-              rg: rg ? rg : '0',
-              key
+              key: key ? key : cpf ? cpf : rg,
             })
           }
         }
