@@ -74,7 +74,7 @@ export default function DetailsTotalVaccinations(props: any) {
             CPF_Responsável: item.clientEligible.cpfRelationship && item.clientEligible.cpfRelationship !== '0' ? item.clientEligible.cpfRelationship : '',
             Terceiro: item.clientEligible.isThird === '1' ? 'Sim' : 'Não',
             Empresa: item.clientEligible.thirdName ? item.clientEligible.thirdName : '',
-            Data_Aplicação: Moment(item.os && item.os.start ? item.os.start : item.applicationDate).format('DD/MM/YYYY HH:mm'),
+            // Data_Aplicação: Moment(item.os && item.os.start ? item.os.start : item.applicationDate).format('DD/MM/YYYY HH:mm'),
             OS: item.os && item.os.number ? item.os.number : '',
             Data_OS: item.os && item.os.start ? Moment(item.os.start).format('DD/MM/YYYY') : '',
             Coren: item.coren ? item.coren : '',
