@@ -84,7 +84,7 @@ export default function DetailsTotalVaccinations(props: any) {
           } as any
           t.push(input)
         } else {
-
+          /*
           const name = item.search
 
             .replace(/\d+/g, '')
@@ -119,6 +119,7 @@ export default function DetailsTotalVaccinations(props: any) {
               key: key ? key : cpf ? cpf : rg,
             })
           }
+          */
         }
 
       })
