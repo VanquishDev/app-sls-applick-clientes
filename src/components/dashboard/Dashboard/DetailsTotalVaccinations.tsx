@@ -330,6 +330,10 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Terceiro</div>
               <div>Sim</div>
             </div>}
+            {currentItem.applicationDate && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Data Aplicação</div>
+              <div>{Moment(currentItem.applicationDate).format('DD-MM-YYYY HH:mm')}</div>
+            </div>}
             {currentItem.os && <div>
               <div className="text-sm font-semibold text-tertiary-2">O.S.</div>
               <div>{currentItem.os.number}</div>
