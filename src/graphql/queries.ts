@@ -8,131 +8,6 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
-  getUser(id: $id) {
-    id
-    name
-    email
-    phone
-    status
-    active
-    avatar
-    search
-    createdAt
-    profile {
-      userID
-      doc
-      docType
-      docProfessionType
-      docProfession
-      profession
-      specialties
-      subSpecialties
-      bio
-      gender
-      birth
-      notes
-      urlUserName
-      urlEnable
-      allowViewEmail
-      allowViewPhone
-      allowCookiesPreference
-      allowCookiesStatistic
-      pix
-      zipCodeCoverage
-      schedulesSunday
-      schedulesMonday
-      schedulesTuesday
-      schedulesWednesday
-      schedulesThursday
-      schedulesFriday
-      schedulesSaturday
-      regionsConfig
-      regionSunday
-      regionMonday
-      regionTuesday
-      regionWednesday
-      regionThursday
-      regionFriday
-      regionSaturday
-      customerPagarmeID
-      companyID
-      companyHomeCare
-      companyCampaign
-      companyAdmin
-      createdAt
-      updatedAt
-      __typename
-    }
-    groups {
-      nextToken
-      __typename
-    }
-    logs {
-      nextToken
-      __typename
-    }
-    addresses {
-      nextToken
-      __typename
-    }
-    payMethods {
-      nextToken
-      __typename
-    }
-    relationsLink {
-      nextToken
-      __typename
-    }
-    carts {
-      nextToken
-      __typename
-    }
-    ordersByCreatedAt {
-      nextToken
-      __typename
-    }
-    ordersByStatusCreatedAt {
-      nextToken
-      __typename
-    }
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
-export const listUsers = /* GraphQL */ `query ListUsers(
-  $id: ID
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-) {
-  listUsers(
-    id: $id
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
-    items {
-      id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
 export const getProfile = /* GraphQL */ `query GetProfile($userID: ID!) {
   getProfile(userID: $userID) {
     userID
@@ -254,29 +129,29 @@ export const listFolders = /* GraphQL */ `query ListFolders(
   APITypes.ListFoldersQueryVariables,
   APITypes.ListFoldersQuery
 >;
-export const getUserByEmail = /* GraphQL */ `query GetUserByEmail(
-  $email: AWSEmail!
-  $sortDirection: ModelSortDirection
-  $filter: ModelUserFilterInput
+export const listAuthorizationListMembers = /* GraphQL */ `query ListAuthorizationListMembers(
+  $id: ID
+  $filter: ModelAuthorizationListMemberFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  getUserByEmail(
-    email: $email
-    sortDirection: $sortDirection
+  listAuthorizationListMembers(
+    id: $id
     filter: $filter
     limit: $limit
     nextToken: $nextToken
+    sortDirection: $sortDirection
   ) {
     items {
       id
+      authorizationListID
       name
-      email
-      phone
-      status
-      active
-      avatar
+      key
+      cpf
+      birth
       search
+      others
       createdAt
       updatedAt
       __typename
@@ -286,32 +161,35 @@ export const getUserByEmail = /* GraphQL */ `query GetUserByEmail(
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetUserByEmailQueryVariables,
-  APITypes.GetUserByEmailQuery
+  APITypes.ListAuthorizationListMembersQueryVariables,
+  APITypes.ListAuthorizationListMembersQuery
 >;
-export const getUserByPhone = /* GraphQL */ `query GetUserByPhone(
-  $phone: AWSPhone!
-  $sortDirection: ModelSortDirection
-  $filter: ModelUserFilterInput
+export const listAuthorizationListMemberVaccinations = /* GraphQL */ `query ListAuthorizationListMemberVaccinations(
+  $id: ID
+  $filter: ModelAuthorizationListMemberVaccinationFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  getUserByPhone(
-    phone: $phone
-    sortDirection: $sortDirection
+  listAuthorizationListMemberVaccinations(
+    id: $id
     filter: $filter
     limit: $limit
     nextToken: $nextToken
+    sortDirection: $sortDirection
   ) {
     items {
       id
-      name
-      email
-      phone
-      status
-      active
-      avatar
-      search
+      authorizationListID
+      authorizationListMemberID
+      profissionalID
+      coren
+      lote
+      dueDate
+      via
+      OS
+      applicationDate
+      applicationTime
       createdAt
       updatedAt
       __typename
@@ -321,8 +199,8 @@ export const getUserByPhone = /* GraphQL */ `query GetUserByPhone(
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetUserByPhoneQueryVariables,
-  APITypes.GetUserByPhoneQuery
+  APITypes.ListAuthorizationListMemberVaccinationsQueryVariables,
+  APITypes.ListAuthorizationListMemberVaccinationsQuery
 >;
 export const getProfileByDoc = /* GraphQL */ `query GetProfileByDoc(
   $doc: String!
@@ -795,6 +673,201 @@ export const listNotifyByUserCreatedAt = /* GraphQL */ `query ListNotifyByUserCr
 ` as GeneratedQuery<
   APITypes.ListNotifyByUserCreatedAtQueryVariables,
   APITypes.ListNotifyByUserCreatedAtQuery
+>;
+export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    name
+    email
+    phone
+    status
+    active
+    avatar
+    search
+    createdAt
+    profile {
+      userID
+      doc
+      docType
+      docProfessionType
+      docProfession
+      profession
+      specialties
+      subSpecialties
+      bio
+      gender
+      birth
+      notes
+      urlUserName
+      urlEnable
+      allowViewEmail
+      allowViewPhone
+      allowCookiesPreference
+      allowCookiesStatistic
+      pix
+      zipCodeCoverage
+      schedulesSunday
+      schedulesMonday
+      schedulesTuesday
+      schedulesWednesday
+      schedulesThursday
+      schedulesFriday
+      schedulesSaturday
+      regionsConfig
+      regionSunday
+      regionMonday
+      regionTuesday
+      regionWednesday
+      regionThursday
+      regionFriday
+      regionSaturday
+      customerPagarmeID
+      companyID
+      companyHomeCare
+      companyCampaign
+      companyAdmin
+      createdAt
+      updatedAt
+      __typename
+    }
+    groups {
+      nextToken
+      __typename
+    }
+    logs {
+      nextToken
+      __typename
+    }
+    addresses {
+      nextToken
+      __typename
+    }
+    payMethods {
+      nextToken
+      __typename
+    }
+    relationsLink {
+      nextToken
+      __typename
+    }
+    carts {
+      nextToken
+      __typename
+    }
+    ordersByCreatedAt {
+      nextToken
+      __typename
+    }
+    ordersByStatusCreatedAt {
+      nextToken
+      __typename
+    }
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+export const listUsers = /* GraphQL */ `query ListUsers(
+  $id: ID
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listUsers(
+    id: $id
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      name
+      email
+      phone
+      status
+      active
+      avatar
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
+export const getUserByEmail = /* GraphQL */ `query GetUserByEmail(
+  $email: AWSEmail!
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getUserByEmail(
+    email: $email
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      email
+      phone
+      status
+      active
+      avatar
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetUserByEmailQueryVariables,
+  APITypes.GetUserByEmailQuery
+>;
+export const getUserByPhone = /* GraphQL */ `query GetUserByPhone(
+  $phone: AWSPhone!
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getUserByPhone(
+    phone: $phone
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      email
+      phone
+      status
+      active
+      avatar
+      search
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetUserByPhoneQueryVariables,
+  APITypes.GetUserByPhoneQuery
 >;
 export const getTempAux = /* GraphQL */ `query GetTempAux($id: ID!) {
   getTempAux(id: $id) {
@@ -1590,6 +1663,40 @@ export const listRelationsLink = /* GraphQL */ `query ListRelationsLink(
   APITypes.ListRelationsLinkQueryVariables,
   APITypes.ListRelationsLinkQuery
 >;
+export const relationLinksByUserID = /* GraphQL */ `query RelationLinksByUserID(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelRelationLinkFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  relationLinksByUserID(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userID
+      relationID
+      type
+      notify
+      updatedAt
+      search
+      percentage
+      createdAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.RelationLinksByUserIDQueryVariables,
+  APITypes.RelationLinksByUserIDQuery
+>;
 export const listRelationsLinkByUserTypeNotifyUpdatedAt = /* GraphQL */ `query ListRelationsLinkByUserTypeNotifyUpdatedAt(
   $userID: ID!
   $typeNotifyUpdatedAt: ModelRelationLinkRelationsLinkByUserTypeNotifyUpdatedAtCompositeKeyConditionInput
@@ -1625,6 +1732,40 @@ export const listRelationsLinkByUserTypeNotifyUpdatedAt = /* GraphQL */ `query L
 ` as GeneratedQuery<
   APITypes.ListRelationsLinkByUserTypeNotifyUpdatedAtQueryVariables,
   APITypes.ListRelationsLinkByUserTypeNotifyUpdatedAtQuery
+>;
+export const relationLinksByRelationID = /* GraphQL */ `query RelationLinksByRelationID(
+  $relationID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelRelationLinkFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  relationLinksByRelationID(
+    relationID: $relationID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userID
+      relationID
+      type
+      notify
+      updatedAt
+      search
+      percentage
+      createdAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.RelationLinksByRelationIDQueryVariables,
+  APITypes.RelationLinksByRelationIDQuery
 >;
 export const listRelationsLinkByRelationUser = /* GraphQL */ `query ListRelationsLinkByRelationUser(
   $relationID: ID!
@@ -1662,6 +1803,41 @@ export const listRelationsLinkByRelationUser = /* GraphQL */ `query ListRelation
   APITypes.ListRelationsLinkByRelationUserQueryVariables,
   APITypes.ListRelationsLinkByRelationUserQuery
 >;
+export const messagesByRelationID = /* GraphQL */ `query MessagesByRelationID(
+  $relationID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelMessageFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  messagesByRelationID(
+    relationID: $relationID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      relationID
+      userID
+      type
+      content
+      search
+      identityId
+      createdAt
+      status
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.MessagesByRelationIDQueryVariables,
+  APITypes.MessagesByRelationIDQuery
+>;
 export const listMessagesByRelationCreatedAt = /* GraphQL */ `query ListMessagesByRelationCreatedAt(
   $relationID: ID!
   $createdAt: ModelStringKeyConditionInput
@@ -1698,6 +1874,41 @@ export const listMessagesByRelationCreatedAt = /* GraphQL */ `query ListMessages
 ` as GeneratedQuery<
   APITypes.ListMessagesByRelationCreatedAtQueryVariables,
   APITypes.ListMessagesByRelationCreatedAtQuery
+>;
+export const messagesByUserID = /* GraphQL */ `query MessagesByUserID(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelMessageFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  messagesByUserID(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      relationID
+      userID
+      type
+      content
+      search
+      identityId
+      createdAt
+      status
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.MessagesByUserIDQueryVariables,
+  APITypes.MessagesByUserIDQuery
 >;
 export const listMessagesByUserCreatedAt = /* GraphQL */ `query ListMessagesByUserCreatedAt(
   $userID: ID!
@@ -6109,6 +6320,7 @@ export const listProductsByClientCampaign = /* GraphQL */ `query ListProductsByC
 >;
 export const listCompaniesByClientCampaign = /* GraphQL */ `query ListCompaniesByClientCampaign(
   $clientCampaignID: ID!
+  $companyID: ModelIDKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelClientCampaignCompanyFilterInput
   $limit: Int
@@ -6116,6 +6328,7 @@ export const listCompaniesByClientCampaign = /* GraphQL */ `query ListCompaniesB
 ) {
   listCompaniesByClientCampaign(
     clientCampaignID: $clientCampaignID
+    companyID: $companyID
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -6790,6 +7003,8 @@ export const listOSs = /* GraphQL */ `query ListOSs(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -6853,6 +7068,8 @@ export const listOSsByClient = /* GraphQL */ `query ListOSsByClient(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -6921,6 +7138,8 @@ export const listOSsByClientStart = /* GraphQL */ `query ListOSsByClientStart(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -6989,6 +7208,8 @@ export const listOSsByClientStatus = /* GraphQL */ `query ListOSsByClientStatus(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7055,6 +7276,8 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7121,6 +7344,8 @@ export const listOSsByClientCampaignUnit = /* GraphQL */ `query ListOSsByClientC
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7189,6 +7414,8 @@ export const listOSsByIdxStart = /* GraphQL */ `query ListOSsByIdxStart(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7255,6 +7482,8 @@ export const listOSsByNumber = /* GraphQL */ `query ListOSsByNumber(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7323,6 +7552,8 @@ export const listOSsByStartStatus = /* GraphQL */ `query ListOSsByStartStatus(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -7391,6 +7622,8 @@ export const listOSsByStatusNumber = /* GraphQL */ `query ListOSsByStatusNumber(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number

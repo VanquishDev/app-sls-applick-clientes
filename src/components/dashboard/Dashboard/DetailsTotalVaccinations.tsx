@@ -54,7 +54,7 @@ export default function DetailsTotalVaccinations(props: any) {
       const t = [] as any
       items.map(async (item: any) => {
         if (item.status === 'CANCELED') { return }
-
+        console.log(item)
         total++
         if (item.clientEligible && item.clientEligible.isDependent === '1') totalDependents++
         if (item.clientEligible && item.clientEligible.isThird === '1') totalThirds++
@@ -77,6 +77,7 @@ export default function DetailsTotalVaccinations(props: any) {
             Data_Aplicação: Moment(item.applicationDate).format('DD/MM/YYYY HH:mm'),
             OS: item.os && item.os.number ? item.os.number : '',
             Data_OS: item.os && item.os.start ? Moment(item.os.start).format('DD/MM/YYYY') : '',
+            Profissional: item.profissional && item.profissional.name ? item.profissional.name : '',
             Coren: item.coren ? item.coren : '',
             Dose: item.vaccinatio ? JSON.parse(item.vaccination).map((v: any) => v.productName).join(', ') : '',
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',

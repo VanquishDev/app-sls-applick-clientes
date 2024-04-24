@@ -15,7 +15,7 @@ type User
     {allow: owner, identityClaim: "username", provider: userPools, ownerField: "id"},
     {allow: groups, provider: userPools, groups: ["Admin", "Clinica", "Profissional", "Colaborador"], operations: [read, update, create, delete]},
     {allow: private, provider: userPools, operations: [create]},
-    {allow: public, provider: apiKey, operations: [create]}
+    {allow: public, provider: apiKey, operations: [create, read]}
     ]) {
   id: ID! @primaryKey
   name: String!
@@ -1472,7 +1472,7 @@ type ClientCampaignCompany
     {allow: public, provider: apiKey, operations: [read, update, create, delete]}
   ]) {
   id: ID! @primaryKey
-  clientCampaignID: ID! @index(name: "companiesByClientCampaign", queryField: "listCompaniesByClientCampaign")
+  clientCampaignID: ID! @index(name: "companiesByClientCampaign", queryField: "listCompaniesByClientCampaign", sortKeyFields: ["companyID"])
   companyID: ID!
   company: Company @hasOne(fields: ["companyID"])
 }
@@ -1570,6 +1570,8 @@ type OS
   idx: Int! @index(name: "ossByIdxStart", queryField: "listOSsByIdxStart", sortKeyFields: ["start"])
   driverID: ID
   professionals: [ID!]
+  professionalsAccepted: [ID]
+  professionalsRefused: [ID]
   collaborators: [ID!]
   companies: [ID!]
   number: Int! @index(name: "ossByNumber", queryField: "listOSsByNumber")
@@ -1789,7 +1791,7 @@ type AuthorizationListClosure
 type AuthorizationListMember
   @model(
     mutations: {create: null, update: null, delete: null},
-    queries: {get: null, list: null},
+    queries: {get: null, list: "listAuthorizationListMembers"},
     subscriptions: null
   )
   @auth(rules: [
@@ -1808,7 +1810,7 @@ type AuthorizationListMember
 type AuthorizationListMemberVaccination
   @model(
     mutations: {create: null, update: null, delete: null},
-    queries: {get: null, list: null},
+    queries: {get: null, list: "listAuthorizationListMemberVaccinations"},
     subscriptions: null
   )
   @auth(rules: [

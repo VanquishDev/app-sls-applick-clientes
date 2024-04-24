@@ -1,9 +1,8 @@
-import * as APITypes from "../API";
+import * as APITypes from '../API'
 type GeneratedQuery<InputType, OutputType> = string & {
-  __generatedQueryInput: InputType;
-  __generatedQueryOutput: OutputType;
-};
-
+  __generatedQueryInput: InputType
+  __generatedQueryOutput: OutputType
+}
 
 export const getUserCustom = /* GraphQL */ `
   query GetUserCustom($id: ID!) {
@@ -2831,7 +2830,7 @@ export const listVaccinationCardsItemsByStatusCustomNAPP2 = /* GraphQL */ `
       limit: $limit
       nextToken: $nextToken
     ) {
-        items {
+      items {
         id
         lote
         dueDate
@@ -3540,7 +3539,7 @@ export const listOSsCustom = /* GraphQL */ `query ListOSsCustom(
     __typename
   }
 }
-` as GeneratedQuery<APITypes.ListOSsQueryVariables, APITypes.ListOSsQuery>;
+` as GeneratedQuery<APITypes.ListOSsQueryVariables, APITypes.ListOSsQuery>
 export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
   $number: Int!
   $sortDirection: ModelSortDirection
@@ -3612,8 +3611,9 @@ export const listOSsByNumberCustom = /* GraphQL */ `query ListOSsByNumberCustom(
 ` as GeneratedQuery<
   APITypes.ListOSsByNumberQueryVariables,
   APITypes.ListOSsByNumberQuery
->;
-export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusNumberCustom(
+>
+export const listOSsByStatusNumberCustom =
+  /* GraphQL */ `query ListOSsByStatusNumberCustom(
   $status: OSStatus!
   $number: ModelIntKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -3684,10 +3684,11 @@ export const listOSsByStatusNumberCustom = /* GraphQL */ `query ListOSsByStatusN
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListOSsByStatusNumberQueryVariables,
-  APITypes.ListOSsByStatusNumberQuery
->;
-export const listClientUserByClientCustom = /* GraphQL */ `query ListClientUserByClientCustom(
+    APITypes.ListOSsByStatusNumberQueryVariables,
+    APITypes.ListOSsByStatusNumberQuery
+  >
+export const listClientUserByClientCustom =
+  /* GraphQL */ `query ListClientUserByClientCustom(
   $clientID: ID!
   $userID: ModelIDKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -3723,9 +3724,9 @@ export const listClientUserByClientCustom = /* GraphQL */ `query ListClientUserB
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListClientUserByClientQueryVariables,
-  APITypes.ListClientUserByClientQuery
->;
+    APITypes.ListClientUserByClientQueryVariables,
+    APITypes.ListClientUserByClientQuery
+  >
 export const listOrdersCustom = /* GraphQL */ `query ListOrdersCustom(
   $id: ID
   $filter: ModelOrderFilterInput
@@ -3849,11 +3850,9 @@ export const listOrdersCustom = /* GraphQL */ `query ListOrdersCustom(
     __typename
   }
 }
-` as GeneratedQuery<
-  APITypes.ListOrdersQueryVariables,
-  APITypes.ListOrdersQuery
->;
-export const listClientCampaignsByStatusCreatedAtCustom = /* GraphQL */ `query ListClientCampaignsByStatusCreatedAtCustom(
+` as GeneratedQuery<APITypes.ListOrdersQueryVariables, APITypes.ListOrdersQuery>
+export const listClientCampaignsByStatusCreatedAtCustom =
+  /* GraphQL */ `query ListClientCampaignsByStatusCreatedAtCustom(
   $status: ClientCampaignStatus!
   $createdAt: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -3933,10 +3932,11 @@ export const listClientCampaignsByStatusCreatedAtCustom = /* GraphQL */ `query L
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListClientCampaignsByStatusCreatedAtQueryVariables,
-  APITypes.ListClientCampaignsByStatusCreatedAtQuery
->;
-export const listClientCampaignsByIdxCreatedAtCustom = /* GraphQL */ `query ListClientCampaignsByIdxCreatedAtCustom(
+    APITypes.ListClientCampaignsByStatusCreatedAtQueryVariables,
+    APITypes.ListClientCampaignsByStatusCreatedAtQuery
+  >
+export const listClientCampaignsByIdxCreatedAtCustom =
+  /* GraphQL */ `query ListClientCampaignsByIdxCreatedAtCustom(
   $idx: Int!
   $createdAt: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -4016,10 +4016,11 @@ export const listClientCampaignsByIdxCreatedAtCustom = /* GraphQL */ `query List
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListClientCampaignsByIdxCreatedAtQueryVariables,
-  APITypes.ListClientCampaignsByIdxCreatedAtQuery
->;
-export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCustom(
+    APITypes.ListClientCampaignsByIdxCreatedAtQueryVariables,
+    APITypes.ListClientCampaignsByIdxCreatedAtQuery
+  >
+export const listClientUserByUser =
+  /* GraphQL */ `query ListClientUserByUserCustom(
   $userID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelClientUserFilterInput
@@ -4052,10 +4053,11 @@ export const listClientUserByUser = /* GraphQL */ `query ListClientUserByUserCus
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListClientUserByUserQueryVariables,
-  APITypes.ListClientUserByUserQuery
->;
-export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccinationsByClientCampaignCustom(
+    APITypes.ListClientUserByUserQueryVariables,
+    APITypes.ListClientUserByUserQuery
+  >
+export const listVaccinationsByClientCampaign =
+  /* GraphQL */ `query ListVaccinationsByClientCampaignCustom(
   $clientCampaignID: ID!
   $applicationDate: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -4109,6 +4111,9 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
           name
         }
       }
+      profissional {
+        name
+      }
       __typename
     }
     nextToken
@@ -4116,10 +4121,11 @@ export const listVaccinationsByClientCampaign = /* GraphQL */ `query ListVaccina
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListVaccinationsByClientCampaignQueryVariables,
-  APITypes.ListVaccinationsByClientCampaignQuery
->;
-export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampaignCustom(
+    APITypes.ListVaccinationsByClientCampaignQueryVariables,
+    APITypes.ListVaccinationsByClientCampaignQuery
+  >
+export const listOSsByClientCampaign =
+  /* GraphQL */ `query ListOSsByClientCampaignCustom(
   $clientCampaignID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelOSFilterInput
@@ -4175,10 +4181,11 @@ export const listOSsByClientCampaign = /* GraphQL */ `query ListOSsByClientCampa
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListOSsByClientCampaignQueryVariables,
-  APITypes.ListOSsByClientCampaignQuery
->;
-export const listUnitsByClientCampaignCustom = /* GraphQL */ `query ListUnitsByClientCampaignCustom(
+    APITypes.ListOSsByClientCampaignQueryVariables,
+    APITypes.ListOSsByClientCampaignQuery
+  >
+export const listUnitsByClientCampaignCustom =
+  /* GraphQL */ `query ListUnitsByClientCampaignCustom(
   $clientCampaignID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelClientCampaignUnitFilterInput
@@ -4226,6 +4233,6 @@ export const listUnitsByClientCampaignCustom = /* GraphQL */ `query ListUnitsByC
   }
 }
 ` as GeneratedQuery<
-APITypes.ListUnitsByClientCampaignQueryVariables,
-APITypes.ListUnitsByClientCampaignQuery
->;
+    APITypes.ListUnitsByClientCampaignQueryVariables,
+    APITypes.ListUnitsByClientCampaignQuery
+  >

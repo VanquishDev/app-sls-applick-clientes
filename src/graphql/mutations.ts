@@ -3749,6 +3749,8 @@ export const createClientCampaignEligibleVaccination = /* GraphQL */ `mutation C
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -3892,6 +3894,8 @@ export const updateClientCampaignEligibleVaccination = /* GraphQL */ `mutation U
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -4035,6 +4039,8 @@ export const deleteClientCampaignEligibleVaccination = /* GraphQL */ `mutation D
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -8095,6 +8101,8 @@ export const createOS = /* GraphQL */ `mutation CreateOS($input: CreateOSInput!,
     idx
     driverID
     professionals
+    professionalsAccepted
+    professionalsRefused
     collaborators
     companies
     number
@@ -8262,6 +8270,8 @@ export const updateOS = /* GraphQL */ `mutation UpdateOS($input: UpdateOSInput!,
     idx
     driverID
     professionals
+    professionalsAccepted
+    professionalsRefused
     collaborators
     companies
     number
@@ -8429,6 +8439,8 @@ export const deleteOS = /* GraphQL */ `mutation DeleteOS($input: DeleteOSInput!,
     idx
     driverID
     professionals
+    professionalsAccepted
+    professionalsRefused
     collaborators
     companies
     number
@@ -8761,6 +8773,8 @@ export const createRoutingOSs = /* GraphQL */ `mutation CreateRoutingOSs(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -8839,6 +8853,8 @@ export const updateRoutingOSs = /* GraphQL */ `mutation UpdateRoutingOSs(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number
@@ -8917,6 +8933,8 @@ export const deleteRoutingOSs = /* GraphQL */ `mutation DeleteRoutingOSs(
       idx
       driverID
       professionals
+      professionalsAccepted
+      professionalsRefused
       collaborators
       companies
       number

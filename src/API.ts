@@ -862,6 +862,8 @@ export type OS = {
   idx: number,
   driverID?: string | null,
   professionals?: Array< string > | null,
+  professionalsAccepted?: Array< string | null > | null,
+  professionalsRefused?: Array< string | null > | null,
   collaborators?: Array< string > | null,
   companies?: Array< string > | null,
   number: number,
@@ -1115,6 +1117,7 @@ export type ModelRelationFilterInput = {
   updatedAt?: ModelStringInput | null,
   status?: ModelRelationStatusInput | null,
   search?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelRelationFilterInput | null > | null,
   or?: Array< ModelRelationFilterInput | null > | null,
   not?: ModelRelationFilterInput | null,
@@ -1395,6 +1398,7 @@ export type ModelPageFilterInput = {
   hideInMenu?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   search?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelPageFilterInput | null > | null,
   or?: Array< ModelPageFilterInput | null > | null,
   not?: ModelPageFilterInput | null,
@@ -1525,6 +1529,7 @@ export type ModelProductFilterInput = {
   createdAt?: ModelStringInput | null,
   search?: ModelStringInput | null,
   hideInSearch?: ModelBooleanInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelProductFilterInput | null > | null,
   or?: Array< ModelProductFilterInput | null > | null,
   not?: ModelProductFilterInput | null,
@@ -1562,6 +1567,8 @@ export type ModelCartFilterInput = {
   changePriceAdjustment?: ModelStringInput | null,
   blendID?: ModelIDInput | null,
   adherenceToken?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelCartFilterInput | null > | null,
   or?: Array< ModelCartFilterInput | null > | null,
   not?: ModelCartFilterInput | null,
@@ -1592,6 +1599,7 @@ export type ModelUserFilterInput = {
   avatar?: ModelStringInput | null,
   search?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
@@ -1668,6 +1676,7 @@ export type ModelOrderFilterInput = {
   payMethod?: ModelPaymentMethodsInput | null,
   installments?: ModelIntInput | null,
   homeCareOrRetail?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelOrderFilterInput | null > | null,
   or?: Array< ModelOrderFilterInput | null > | null,
   not?: ModelOrderFilterInput | null,
@@ -1703,6 +1712,8 @@ export type ModelAdherenceFilterInput = {
   search?: ModelStringInput | null,
   clientID?: ModelIDInput | null,
   clientCampaignID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelAdherenceFilterInput | null > | null,
   or?: Array< ModelAdherenceFilterInput | null > | null,
   not?: ModelAdherenceFilterInput | null,
@@ -1721,6 +1732,8 @@ export type ModelDeliveryOrderFilterInput = {
   deliveryUserID?: ModelIDInput | null,
   deliveryCompanyID?: ModelIDInput | null,
   status?: ModelDeliveryStatusInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelDeliveryOrderFilterInput | null > | null,
   or?: Array< ModelDeliveryOrderFilterInput | null > | null,
   not?: ModelDeliveryOrderFilterInput | null,
@@ -1855,9 +1868,12 @@ export type ModelVaccinationCardItemFilterInput = {
   via?: ModelStringInput | null,
   applicationDate?: ModelStringInput | null,
   status?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelVaccinationCardItemFilterInput | null > | null,
   or?: Array< ModelVaccinationCardItemFilterInput | null > | null,
   not?: ModelVaccinationCardItemFilterInput | null,
+  userID?: ModelStringInput | null,
 };
 
 export type ModelProfileFilterInput = {
@@ -1966,6 +1982,8 @@ export type ModelCouponFilterInput = {
   qtyProduct?: ModelIntInput | null,
   qtyProductUsed?: ModelIntInput | null,
   search?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelCouponFilterInput | null > | null,
   or?: Array< ModelCouponFilterInput | null > | null,
   not?: ModelCouponFilterInput | null,
@@ -1986,6 +2004,7 @@ export type ModelRelationLinkFilterInput = {
   updatedAt?: ModelStringInput | null,
   search?: ModelStringInput | null,
   percentage?: ModelIntInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelRelationLinkFilterInput | null > | null,
   or?: Array< ModelRelationLinkFilterInput | null > | null,
   not?: ModelRelationLinkFilterInput | null,
@@ -2035,6 +2054,8 @@ export type ModelOSFilterInput = {
   idx?: ModelIntInput | null,
   driverID?: ModelIDInput | null,
   professionals?: ModelIDInput | null,
+  professionalsAccepted?: ModelIDInput | null,
+  professionalsRefused?: ModelIDInput | null,
   collaborators?: ModelIDInput | null,
   companies?: ModelIDInput | null,
   number?: ModelIntInput | null,
@@ -2067,6 +2088,8 @@ export type ModelOSFilterInput = {
   lng?: ModelFloatInput | null,
   search?: ModelStringInput | null,
   typeService?: ModelUnitsTypeServiceInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelOSFilterInput | null > | null,
   or?: Array< ModelOSFilterInput | null > | null,
   not?: ModelOSFilterInput | null,
@@ -2155,6 +2178,7 @@ export type ModelClientCampaignFilterInput = {
   idx?: ModelIntInput | null,
   campaignCode?: ModelStringInput | null,
   status?: ModelClientCampaignStatusInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientCampaignFilterInput | null > | null,
   or?: Array< ModelClientCampaignFilterInput | null > | null,
   not?: ModelClientCampaignFilterInput | null,
@@ -2180,6 +2204,8 @@ export type ModelClientCampaignEligibleVaccinationFilterInput = {
   status?: ModelEligibleVaccinationStatusInput | null,
   localCity?: ModelStringInput | null,
   localState?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
   or?: Array< ModelClientCampaignEligibleVaccinationFilterInput | null > | null,
   not?: ModelClientCampaignEligibleVaccinationFilterInput | null,
@@ -2276,6 +2302,8 @@ export type ModelClientCampaignUnitFilterInput = {
   idx?: ModelIntInput | null,
   routingRegionID?: ModelIDInput | null,
   code?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientCampaignUnitFilterInput | null > | null,
   or?: Array< ModelClientCampaignUnitFilterInput | null > | null,
   not?: ModelClientCampaignUnitFilterInput | null,
@@ -2305,6 +2333,8 @@ export type ModelUserConditionInput = {
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
   not?: ModelUserConditionInput | null,
+  updatedAt?: ModelStringInput | null,
+  id?: ModelStringInput | null,
 };
 
 export type DeleteUserInput = {
@@ -2397,6 +2427,9 @@ export type ModelProfileConditionInput = {
   and?: Array< ModelProfileConditionInput | null > | null,
   or?: Array< ModelProfileConditionInput | null > | null,
   not?: ModelProfileConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userID?: ModelStringInput | null,
 };
 
 export type DeleteProfileInput = {
@@ -2419,6 +2452,7 @@ export type ModelGroupUserConditionInput = {
   and?: Array< ModelGroupUserConditionInput | null > | null,
   or?: Array< ModelGroupUserConditionInput | null > | null,
   not?: ModelGroupUserConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteGroupUserInput = {
@@ -2457,6 +2491,8 @@ export type ModelAddressConditionInput = {
   and?: Array< ModelAddressConditionInput | null > | null,
   or?: Array< ModelAddressConditionInput | null > | null,
   not?: ModelAddressConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateAddressInput = {
@@ -2509,6 +2545,8 @@ export type ModelPayMethodConditionInput = {
   and?: Array< ModelPayMethodConditionInput | null > | null,
   or?: Array< ModelPayMethodConditionInput | null > | null,
   not?: ModelPayMethodConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdatePayMethodInput = {
@@ -2578,6 +2616,7 @@ export type ModelLogConditionInput = {
   and?: Array< ModelLogConditionInput | null > | null,
   or?: Array< ModelLogConditionInput | null > | null,
   not?: ModelLogConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type CreateConfigInput = {
@@ -2656,6 +2695,8 @@ export type ModelConfigConditionInput = {
   and?: Array< ModelConfigConditionInput | null > | null,
   or?: Array< ModelConfigConditionInput | null > | null,
   not?: ModelConfigConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelConfigValidationModesInput = {
@@ -2765,6 +2806,7 @@ export type ModelInviteConditionInput = {
   and?: Array< ModelInviteConditionInput | null > | null,
   or?: Array< ModelInviteConditionInput | null > | null,
   not?: ModelInviteConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelInviteStatusInput = {
@@ -2821,6 +2863,8 @@ export type ModelCouponConditionInput = {
   and?: Array< ModelCouponConditionInput | null > | null,
   or?: Array< ModelCouponConditionInput | null > | null,
   not?: ModelCouponConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteCouponInput = {
@@ -2837,6 +2881,8 @@ export type ModelFolderConditionInput = {
   and?: Array< ModelFolderConditionInput | null > | null,
   or?: Array< ModelFolderConditionInput | null > | null,
   not?: ModelFolderConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type Folder = {
@@ -2888,6 +2934,8 @@ export type ModelMidiaConditionInput = {
   and?: Array< ModelMidiaConditionInput | null > | null,
   or?: Array< ModelMidiaConditionInput | null > | null,
   not?: ModelMidiaConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelMidiaTypesInput = {
@@ -2952,6 +3000,8 @@ export type ModelMenuConditionInput = {
   and?: Array< ModelMenuConditionInput | null > | null,
   or?: Array< ModelMenuConditionInput | null > | null,
   not?: ModelMenuConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateMenuInput = {
@@ -3037,6 +3087,7 @@ export type ModelPageConditionInput = {
   and?: Array< ModelPageConditionInput | null > | null,
   or?: Array< ModelPageConditionInput | null > | null,
   not?: ModelPageConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeletePageInput = {
@@ -3061,6 +3112,8 @@ export type ModelBlockConditionInput = {
   and?: Array< ModelBlockConditionInput | null > | null,
   or?: Array< ModelBlockConditionInput | null > | null,
   not?: ModelBlockConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateBlockInput = {
@@ -3102,6 +3155,8 @@ export type ModelCategoryConditionInput = {
   and?: Array< ModelCategoryConditionInput | null > | null,
   or?: Array< ModelCategoryConditionInput | null > | null,
   not?: ModelCategoryConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateCategoryInput = {
@@ -3133,6 +3188,8 @@ export type ModelLaboratoryConditionInput = {
   and?: Array< ModelLaboratoryConditionInput | null > | null,
   or?: Array< ModelLaboratoryConditionInput | null > | null,
   not?: ModelLaboratoryConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type Laboratory = {
@@ -3258,6 +3315,7 @@ export type ModelProductConditionInput = {
   and?: Array< ModelProductConditionInput | null > | null,
   or?: Array< ModelProductConditionInput | null > | null,
   not?: ModelProductConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateProductInput = {
@@ -3328,6 +3386,8 @@ export type ModelKitItemConditionInput = {
   and?: Array< ModelKitItemConditionInput | null > | null,
   or?: Array< ModelKitItemConditionInput | null > | null,
   not?: ModelKitItemConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteKitItemInput = {
@@ -3348,6 +3408,8 @@ export type ModelOptionConditionInput = {
   and?: Array< ModelOptionConditionInput | null > | null,
   or?: Array< ModelOptionConditionInput | null > | null,
   not?: ModelOptionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateOptionInput = {
@@ -3378,6 +3440,8 @@ export type ModelCartConditionInput = {
   and?: Array< ModelCartConditionInput | null > | null,
   or?: Array< ModelCartConditionInput | null > | null,
   not?: ModelCartConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteCartOptionInput = {
@@ -3390,6 +3454,9 @@ export type ModelCartOptionConditionInput = {
   and?: Array< ModelCartOptionConditionInput | null > | null,
   or?: Array< ModelCartOptionConditionInput | null > | null,
   not?: ModelCartOptionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userID?: ModelStringInput | null,
 };
 
 export type DeleteOrderInput = {
@@ -3437,6 +3504,7 @@ export type ModelOrderConditionInput = {
   and?: Array< ModelOrderConditionInput | null > | null,
   or?: Array< ModelOrderConditionInput | null > | null,
   not?: ModelOrderConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type CreateDeliveryMethodOrderInput = {
@@ -3453,6 +3521,8 @@ export type ModelDeliveryMethodOrderConditionInput = {
   and?: Array< ModelDeliveryMethodOrderConditionInput | null > | null,
   or?: Array< ModelDeliveryMethodOrderConditionInput | null > | null,
   not?: ModelDeliveryMethodOrderConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeliveryMethodOrder = {
@@ -3494,6 +3564,7 @@ export type ModelNotifyConditionInput = {
   and?: Array< ModelNotifyConditionInput | null > | null,
   or?: Array< ModelNotifyConditionInput | null > | null,
   not?: ModelNotifyConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type Notify = {
@@ -3551,6 +3622,8 @@ export type ModelAdherenceConditionInput = {
   and?: Array< ModelAdherenceConditionInput | null > | null,
   or?: Array< ModelAdherenceConditionInput | null > | null,
   not?: ModelAdherenceConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteAdherenceInput = {
@@ -3568,6 +3641,8 @@ export type ModelAdherenceUsedConditionInput = {
   and?: Array< ModelAdherenceUsedConditionInput | null > | null,
   or?: Array< ModelAdherenceUsedConditionInput | null > | null,
   not?: ModelAdherenceUsedConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateVaccinationCardInput = {
@@ -3594,6 +3669,8 @@ export type ModelVaccinationCardConditionInput = {
   and?: Array< ModelVaccinationCardConditionInput | null > | null,
   or?: Array< ModelVaccinationCardConditionInput | null > | null,
   not?: ModelVaccinationCardConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteVaccinationCardInput = {
@@ -3638,6 +3715,9 @@ export type ModelVaccinationCardItemConditionInput = {
   and?: Array< ModelVaccinationCardItemConditionInput | null > | null,
   or?: Array< ModelVaccinationCardItemConditionInput | null > | null,
   not?: ModelVaccinationCardItemConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  userID?: ModelStringInput | null,
 };
 
 export type DeleteVaccinationCardItemInput = {
@@ -3696,6 +3776,8 @@ export type ModelCompanyConditionInput = {
   and?: Array< ModelCompanyConditionInput | null > | null,
   or?: Array< ModelCompanyConditionInput | null > | null,
   not?: ModelCompanyConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelCompanyStatusInput = {
@@ -3823,6 +3905,8 @@ export type ModelClientConditionInput = {
   and?: Array< ModelClientConditionInput | null > | null,
   or?: Array< ModelClientConditionInput | null > | null,
   not?: ModelClientConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelClientStatusInput = {
@@ -3943,6 +4027,8 @@ export type ModelClientCampaignUnitConditionInput = {
   and?: Array< ModelClientCampaignUnitConditionInput | null > | null,
   or?: Array< ModelClientCampaignUnitConditionInput | null > | null,
   not?: ModelClientCampaignUnitConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateClientCampaignUnitInput = {
@@ -4015,6 +4101,8 @@ export type ModelClientCampaignEligibleConditionInput = {
   and?: Array< ModelClientCampaignEligibleConditionInput | null > | null,
   or?: Array< ModelClientCampaignEligibleConditionInput | null > | null,
   not?: ModelClientCampaignEligibleConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteClientCampaignEligibleInput = {
@@ -4055,6 +4143,8 @@ export type ModelClientCampaignEligibleVaccinationConditionInput = {
   and?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
   or?: Array< ModelClientCampaignEligibleVaccinationConditionInput | null > | null,
   not?: ModelClientCampaignEligibleVaccinationConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateClientCampaignEligibleVaccinationInput = {
@@ -4147,6 +4237,8 @@ export type ModelTempAuxConditionInput = {
   and?: Array< ModelTempAuxConditionInput | null > | null,
   or?: Array< ModelTempAuxConditionInput | null > | null,
   not?: ModelTempAuxConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type TempAux = {
@@ -4206,6 +4298,8 @@ export type ModelCouponProductConditionInput = {
   and?: Array< ModelCouponProductConditionInput | null > | null,
   or?: Array< ModelCouponProductConditionInput | null > | null,
   not?: ModelCouponProductConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateCouponProductInput = {
@@ -4234,6 +4328,8 @@ export type ModelCouponUsedConditionInput = {
   and?: Array< ModelCouponUsedConditionInput | null > | null,
   or?: Array< ModelCouponUsedConditionInput | null > | null,
   not?: ModelCouponUsedConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type CreateRelationInput = {
@@ -4266,6 +4362,7 @@ export type ModelRelationConditionInput = {
   and?: Array< ModelRelationConditionInput | null > | null,
   or?: Array< ModelRelationConditionInput | null > | null,
   not?: ModelRelationConditionInput | null,
+  createdAt?: ModelStringInput | null,
 };
 
 export type UpdateRelationInput = {
@@ -4309,6 +4406,7 @@ export type ModelRelationLinkConditionInput = {
   and?: Array< ModelRelationLinkConditionInput | null > | null,
   or?: Array< ModelRelationLinkConditionInput | null > | null,
   not?: ModelRelationLinkConditionInput | null,
+  createdAt?: ModelStringInput | null,
 };
 
 export type UpdateRelationLinkInput = {
@@ -4350,6 +4448,7 @@ export type ModelMessageConditionInput = {
   and?: Array< ModelMessageConditionInput | null > | null,
   or?: Array< ModelMessageConditionInput | null > | null,
   not?: ModelMessageConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteMessageInput = {
@@ -4544,6 +4643,8 @@ export type ModelOrderItemConditionInput = {
   and?: Array< ModelOrderItemConditionInput | null > | null,
   or?: Array< ModelOrderItemConditionInput | null > | null,
   not?: ModelOrderItemConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateOrderItemInput = {
@@ -4580,6 +4681,8 @@ export type ModelOrderItemOptionConditionInput = {
   and?: Array< ModelOrderItemOptionConditionInput | null > | null,
   or?: Array< ModelOrderItemOptionConditionInput | null > | null,
   not?: ModelOrderItemOptionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateOrderItemOptionInput = {
@@ -4610,6 +4713,8 @@ export type ModelDeliveryOrderConditionInput = {
   and?: Array< ModelDeliveryOrderConditionInput | null > | null,
   or?: Array< ModelDeliveryOrderConditionInput | null > | null,
   not?: ModelDeliveryOrderConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateDeliveryOrderInput = {
@@ -4683,6 +4788,8 @@ export type ModelAdherenceProductConditionInput = {
   and?: Array< ModelAdherenceProductConditionInput | null > | null,
   or?: Array< ModelAdherenceProductConditionInput | null > | null,
   not?: ModelAdherenceProductConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateAdherenceProductInput = {
@@ -4709,6 +4816,8 @@ export type ModelAdherenceCompanyConditionInput = {
   and?: Array< ModelAdherenceCompanyConditionInput | null > | null,
   or?: Array< ModelAdherenceCompanyConditionInput | null > | null,
   not?: ModelAdherenceCompanyConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateAdherenceCompanyInput = {
@@ -4733,6 +4842,8 @@ export type ModelAdherenceUnitConditionInput = {
   and?: Array< ModelAdherenceUnitConditionInput | null > | null,
   or?: Array< ModelAdherenceUnitConditionInput | null > | null,
   not?: ModelAdherenceUnitConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateAdherenceUnitInput = {
@@ -4786,6 +4897,8 @@ export type ModelCounterConditionInput = {
   and?: Array< ModelCounterConditionInput | null > | null,
   or?: Array< ModelCounterConditionInput | null > | null,
   not?: ModelCounterConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type Counter = {
@@ -4817,6 +4930,8 @@ export type ModelClientUserConditionInput = {
   and?: Array< ModelClientUserConditionInput | null > | null,
   or?: Array< ModelClientUserConditionInput | null > | null,
   not?: ModelClientUserConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type DeleteClientUserInput = {
@@ -4893,6 +5008,7 @@ export type ModelClientCampaignConditionInput = {
   and?: Array< ModelClientCampaignConditionInput | null > | null,
   or?: Array< ModelClientCampaignConditionInput | null > | null,
   not?: ModelClientCampaignConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateClientCampaignInput = {
@@ -4950,6 +5066,8 @@ export type ModelClientCampaignProductConditionInput = {
   and?: Array< ModelClientCampaignProductConditionInput | null > | null,
   or?: Array< ModelClientCampaignProductConditionInput | null > | null,
   not?: ModelClientCampaignProductConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateClientCampaignProductInput = {
@@ -4976,6 +5094,8 @@ export type ModelClientCampaignCompanyConditionInput = {
   and?: Array< ModelClientCampaignCompanyConditionInput | null > | null,
   or?: Array< ModelClientCampaignCompanyConditionInput | null > | null,
   not?: ModelClientCampaignCompanyConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateClientCampaignCompanyInput = {
@@ -5013,6 +5133,8 @@ export type CreateOSInput = {
   idx: number,
   driverID?: string | null,
   professionals?: Array< string > | null,
+  professionalsAccepted?: Array< string | null > | null,
+  professionalsRefused?: Array< string | null > | null,
   collaborators?: Array< string > | null,
   companies?: Array< string > | null,
   number: number,
@@ -5054,6 +5176,8 @@ export type ModelOSConditionInput = {
   idx?: ModelIntInput | null,
   driverID?: ModelIDInput | null,
   professionals?: ModelIDInput | null,
+  professionalsAccepted?: ModelIDInput | null,
+  professionalsRefused?: ModelIDInput | null,
   collaborators?: ModelIDInput | null,
   companies?: ModelIDInput | null,
   number?: ModelIntInput | null,
@@ -5089,6 +5213,8 @@ export type ModelOSConditionInput = {
   and?: Array< ModelOSConditionInput | null > | null,
   or?: Array< ModelOSConditionInput | null > | null,
   not?: ModelOSConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateOSInput = {
@@ -5099,6 +5225,8 @@ export type UpdateOSInput = {
   idx?: number | null,
   driverID?: string | null,
   professionals?: Array< string > | null,
+  professionalsAccepted?: Array< string | null > | null,
+  professionalsRefused?: Array< string | null > | null,
   collaborators?: Array< string > | null,
   companies?: Array< string > | null,
   number?: number | null,
@@ -5149,6 +5277,8 @@ export type ModelRoutingRegionConditionInput = {
   and?: Array< ModelRoutingRegionConditionInput | null > | null,
   or?: Array< ModelRoutingRegionConditionInput | null > | null,
   not?: ModelRoutingRegionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type RoutingRegion = {
@@ -5200,6 +5330,8 @@ export type ModelRoutingConditionInput = {
   and?: Array< ModelRoutingConditionInput | null > | null,
   or?: Array< ModelRoutingConditionInput | null > | null,
   not?: ModelRoutingConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type Routing = {
@@ -5269,6 +5401,8 @@ export type ModelRoutingOSsConditionInput = {
   and?: Array< ModelRoutingOSsConditionInput | null > | null,
   or?: Array< ModelRoutingOSsConditionInput | null > | null,
   not?: ModelRoutingOSsConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type UpdateRoutingOSsInput = {
@@ -5284,6 +5418,8 @@ export type DeleteRoutingOSsInput = {
 export type ModelFolderFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelFolderFilterInput | null > | null,
   or?: Array< ModelFolderFilterInput | null > | null,
   not?: ModelFolderFilterInput | null,
@@ -5293,6 +5429,84 @@ export type ModelFolderConnection = {
   __typename: "ModelFolderConnection",
   items:  Array<Folder | null >,
   nextToken?: string | null,
+};
+
+export type ModelAuthorizationListMemberFilterInput = {
+  id?: ModelIDInput | null,
+  authorizationListID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  key?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  birth?: ModelStringInput | null,
+  search?: ModelStringInput | null,
+  others?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelAuthorizationListMemberFilterInput | null > | null,
+  or?: Array< ModelAuthorizationListMemberFilterInput | null > | null,
+  not?: ModelAuthorizationListMemberFilterInput | null,
+};
+
+export type ModelAuthorizationListMemberConnection = {
+  __typename: "ModelAuthorizationListMemberConnection",
+  items:  Array<AuthorizationListMember | null >,
+  nextToken?: string | null,
+};
+
+export type AuthorizationListMember = {
+  __typename: "AuthorizationListMember",
+  id: string,
+  authorizationListID: string,
+  name: string,
+  key?: string | null,
+  cpf?: string | null,
+  birth?: string | null,
+  search?: string | null,
+  others?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelAuthorizationListMemberVaccinationFilterInput = {
+  id?: ModelIDInput | null,
+  authorizationListID?: ModelIDInput | null,
+  authorizationListMemberID?: ModelIDInput | null,
+  profissionalID?: ModelIDInput | null,
+  coren?: ModelStringInput | null,
+  lote?: ModelStringInput | null,
+  dueDate?: ModelStringInput | null,
+  via?: ModelStringInput | null,
+  OS?: ModelStringInput | null,
+  applicationDate?: ModelStringInput | null,
+  applicationTime?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelAuthorizationListMemberVaccinationFilterInput | null > | null,
+  or?: Array< ModelAuthorizationListMemberVaccinationFilterInput | null > | null,
+  not?: ModelAuthorizationListMemberVaccinationFilterInput | null,
+};
+
+export type ModelAuthorizationListMemberVaccinationConnection = {
+  __typename: "ModelAuthorizationListMemberVaccinationConnection",
+  items:  Array<AuthorizationListMemberVaccination | null >,
+  nextToken?: string | null,
+};
+
+export type AuthorizationListMemberVaccination = {
+  __typename: "AuthorizationListMemberVaccination",
+  id: string,
+  authorizationListID: string,
+  authorizationListMemberID: string,
+  profissionalID?: string | null,
+  coren?: string | null,
+  lote?: string | null,
+  dueDate?: string | null,
+  via?: string | null,
+  OS?: string | null,
+  applicationDate?: string | null,
+  applicationTime?: string | null,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type ModelAddressFilterInput = {
@@ -5359,6 +5573,7 @@ export type ModelInviteFilterInput = {
   groups?: ModelStringInput | null,
   status?: ModelInviteStatusInput | null,
   createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelInviteFilterInput | null > | null,
   or?: Array< ModelInviteFilterInput | null > | null,
   not?: ModelInviteFilterInput | null,
@@ -5389,6 +5604,8 @@ export type ModelMidiaFilterInput = {
   subTitle?: ModelStringInput | null,
   description?: ModelStringInput | null,
   identifyText?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelMidiaFilterInput | null > | null,
   or?: Array< ModelMidiaFilterInput | null > | null,
   not?: ModelMidiaFilterInput | null,
@@ -5413,6 +5630,8 @@ export type ModelMenuFilterInput = {
   showDescriptionPage?: ModelStringInput | null,
   showThumbnailPage?: ModelStringInput | null,
   hide?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelMenuFilterInput | null > | null,
   or?: Array< ModelMenuFilterInput | null > | null,
   not?: ModelMenuFilterInput | null,
@@ -5431,6 +5650,8 @@ export type ModelBlockFilterInput = {
   component?: ModelStringInput | null,
   content?: ModelStringInput | null,
   config?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelBlockFilterInput | null > | null,
   or?: Array< ModelBlockFilterInput | null > | null,
   not?: ModelBlockFilterInput | null,
@@ -5447,6 +5668,8 @@ export type ModelCategoryFilterInput = {
   thumbnailCropper?: ModelStringInput | null,
   hide?: ModelBooleanInput | null,
   isSub?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelCategoryFilterInput | null > | null,
   or?: Array< ModelCategoryFilterInput | null > | null,
   not?: ModelCategoryFilterInput | null,
@@ -5462,6 +5685,8 @@ export type ModelLaboratoryFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelLaboratoryFilterInput | null > | null,
   or?: Array< ModelLaboratoryFilterInput | null > | null,
   not?: ModelLaboratoryFilterInput | null,
@@ -5487,6 +5712,8 @@ export type ModelOptionFilterInput = {
   productID?: ModelIDInput | null,
   name?: ModelStringInput | null,
   price?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelOptionFilterInput | null > | null,
   or?: Array< ModelOptionFilterInput | null > | null,
   not?: ModelOptionFilterInput | null,
@@ -5499,6 +5726,7 @@ export type ModelCartOptionFilterInput = {
   and?: Array< ModelCartOptionFilterInput | null > | null,
   or?: Array< ModelCartOptionFilterInput | null > | null,
   not?: ModelCartOptionFilterInput | null,
+  userID?: ModelStringInput | null,
 };
 
 export type ModelOrderOrdersByUserStatusCreatedAtCompositeKeyConditionInput = {
@@ -5551,6 +5779,8 @@ export type ModelDeliveryMethodOrderFilterInput = {
   name?: ModelStringInput | null,
   zipCode?: ModelStringInput | null,
   price?: ModelFloatInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelDeliveryMethodOrderFilterInput | null > | null,
   or?: Array< ModelDeliveryMethodOrderFilterInput | null > | null,
   not?: ModelDeliveryMethodOrderFilterInput | null,
@@ -5606,6 +5836,8 @@ export type ModelCompanyFilterInput = {
   schedulesFriday?: ModelStringInput | null,
   schedulesSaturday?: ModelStringInput | null,
   status?: ModelCompanyStatusInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelCompanyFilterInput | null > | null,
   or?: Array< ModelCompanyFilterInput | null > | null,
   not?: ModelCompanyFilterInput | null,
@@ -5660,6 +5892,8 @@ export type ModelClientFilterInput = {
   contactName?: ModelStringInput | null,
   contactEmail?: ModelStringInput | null,
   contactPhone?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientFilterInput | null > | null,
   or?: Array< ModelClientFilterInput | null > | null,
   not?: ModelClientFilterInput | null,
@@ -5706,6 +5940,8 @@ export type ModelClientCampaignEligibleFilterInput = {
   cpfRelationship?: ModelStringInput | null,
   isThird?: ModelStringInput | null,
   thirdName?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelClientCampaignEligibleFilterInput | null > | null,
   or?: Array< ModelClientCampaignEligibleFilterInput | null > | null,
   not?: ModelClientCampaignEligibleFilterInput | null,
@@ -5721,6 +5957,8 @@ export type ModelRoutingRegionFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   zipCode?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelRoutingRegionFilterInput | null > | null,
   or?: Array< ModelRoutingRegionFilterInput | null > | null,
   not?: ModelRoutingRegionFilterInput | null,
@@ -5775,8 +6013,11 @@ export type ModelSubscriptionCartFilterInput = {
   changePriceAdjustment?: ModelSubscriptionStringInput | null,
   blendID?: ModelSubscriptionIDInput | null,
   adherenceToken?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCartFilterInput | null > | null,
   or?: Array< ModelSubscriptionCartFilterInput | null > | null,
+  userID?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -5859,8 +6100,10 @@ export type ModelSubscriptionOrderFilterInput = {
   payMethod?: ModelSubscriptionStringInput | null,
   installments?: ModelSubscriptionIntInput | null,
   homeCareOrRetail?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionOrderFilterInput | null > | null,
   or?: Array< ModelSubscriptionOrderFilterInput | null > | null,
+  userID?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionFloatInput = {
@@ -10067,6 +10310,19 @@ export type ListVaccinationsByClientCampaignCustomQuery = {
         isThird?: string | null,
         thirdName?: string | null,
       } | null,
+      os?:  {
+        __typename: "OS",
+        number: number,
+        start?: string | null,
+        clientCampaignUnit?:  {
+          __typename: "ClientCampaignUnit",
+          name?: string | null,
+        } | null,
+      } | null,
+      profissional?:  {
+        __typename: "User",
+        name: string,
+      } | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -13838,6 +14094,8 @@ export type CreateClientCampaignEligibleVaccinationMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -13977,6 +14235,8 @@ export type UpdateClientCampaignEligibleVaccinationMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -14116,6 +14376,8 @@ export type DeleteClientCampaignEligibleVaccinationMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -18113,6 +18375,8 @@ export type CreateOSMutation = {
     idx: number,
     driverID?: string | null,
     professionals?: Array< string > | null,
+    professionalsAccepted?: Array< string | null > | null,
+    professionalsRefused?: Array< string | null > | null,
     collaborators?: Array< string > | null,
     companies?: Array< string > | null,
     number: number,
@@ -18282,6 +18546,8 @@ export type UpdateOSMutation = {
     idx: number,
     driverID?: string | null,
     professionals?: Array< string > | null,
+    professionalsAccepted?: Array< string | null > | null,
+    professionalsRefused?: Array< string | null > | null,
     collaborators?: Array< string > | null,
     companies?: Array< string > | null,
     number: number,
@@ -18451,6 +18717,8 @@ export type DeleteOSMutation = {
     idx: number,
     driverID?: string | null,
     professionals?: Array< string > | null,
+    professionalsAccepted?: Array< string | null > | null,
+    professionalsRefused?: Array< string | null > | null,
     collaborators?: Array< string > | null,
     companies?: Array< string > | null,
     number: number,
@@ -18777,6 +19045,8 @@ export type CreateRoutingOSsMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -18854,6 +19124,8 @@ export type UpdateRoutingOSsMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -18931,6 +19203,8 @@ export type DeleteRoutingOSsMutation = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -18968,131 +19242,6 @@ export type DeleteRoutingOSsMutation = {
     } | null,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type GetUserQueryVariables = {
-  id: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    name: string,
-    email?: string | null,
-    phone?: string | null,
-    status?: UserStatus | null,
-    active?: boolean | null,
-    avatar?: string | null,
-    search?: string | null,
-    createdAt?: string | null,
-    profile?:  {
-      __typename: "Profile",
-      userID: string,
-      doc?: string | null,
-      docType?: DocTypes | null,
-      docProfessionType?: string | null,
-      docProfession?: string | null,
-      profession?: string | null,
-      specialties?: string | null,
-      subSpecialties?: string | null,
-      bio?: string | null,
-      gender?: GenderOptions | null,
-      birth?: string | null,
-      notes?: string | null,
-      urlUserName?: string | null,
-      urlEnable?: boolean | null,
-      allowViewEmail?: boolean | null,
-      allowViewPhone?: boolean | null,
-      allowCookiesPreference?: boolean | null,
-      allowCookiesStatistic?: boolean | null,
-      pix?: string | null,
-      zipCodeCoverage?: Array< string | null > | null,
-      schedulesSunday?: Array< string | null > | null,
-      schedulesMonday?: Array< string | null > | null,
-      schedulesTuesday?: Array< string | null > | null,
-      schedulesWednesday?: Array< string | null > | null,
-      schedulesThursday?: Array< string | null > | null,
-      schedulesFriday?: Array< string | null > | null,
-      schedulesSaturday?: Array< string | null > | null,
-      regionsConfig?: string | null,
-      regionSunday?: string | null,
-      regionMonday?: string | null,
-      regionTuesday?: string | null,
-      regionWednesday?: string | null,
-      regionThursday?: string | null,
-      regionFriday?: string | null,
-      regionSaturday?: string | null,
-      customerPagarmeID?: string | null,
-      companyID?: string | null,
-      companyHomeCare?: boolean | null,
-      companyCampaign?: boolean | null,
-      companyAdmin?: boolean | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    groups?:  {
-      __typename: "ModelGroupUserConnection",
-      nextToken?: string | null,
-    } | null,
-    logs?:  {
-      __typename: "ModelLogConnection",
-      nextToken?: string | null,
-    } | null,
-    addresses?:  {
-      __typename: "ModelAddressConnection",
-      nextToken?: string | null,
-    } | null,
-    payMethods?:  {
-      __typename: "ModelPayMethodConnection",
-      nextToken?: string | null,
-    } | null,
-    relationsLink?:  {
-      __typename: "ModelRelationLinkConnection",
-      nextToken?: string | null,
-    } | null,
-    carts?:  {
-      __typename: "ModelCartConnection",
-      nextToken?: string | null,
-    } | null,
-    ordersByCreatedAt?:  {
-      __typename: "ModelOrderConnection",
-      nextToken?: string | null,
-    } | null,
-    ordersByStatusCreatedAt?:  {
-      __typename: "ModelOrderConnection",
-      nextToken?: string | null,
-    } | null,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  id?: string | null,
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  sortDirection?: ModelSortDirection | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items:  Array< {
-      __typename: "User",
-      id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
   } | null,
 };
 
@@ -19211,56 +19360,59 @@ export type ListFoldersQuery = {
   } | null,
 };
 
-export type GetUserByEmailQueryVariables = {
-  email: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelUserFilterInput | null,
+export type ListAuthorizationListMembersQueryVariables = {
+  id?: string | null,
+  filter?: ModelAuthorizationListMemberFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
-export type GetUserByEmailQuery = {
-  getUserByEmail?:  {
-    __typename: "ModelUserConnection",
+export type ListAuthorizationListMembersQuery = {
+  listAuthorizationListMembers?:  {
+    __typename: "ModelAuthorizationListMemberConnection",
     items:  Array< {
-      __typename: "User",
+      __typename: "AuthorizationListMember",
       id: string,
+      authorizationListID: string,
       name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
+      key?: string | null,
+      cpf?: string | null,
+      birth?: string | null,
       search?: string | null,
-      createdAt?: string | null,
+      others?: string | null,
+      createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type GetUserByPhoneQueryVariables = {
-  phone: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelUserFilterInput | null,
+export type ListAuthorizationListMemberVaccinationsQueryVariables = {
+  id?: string | null,
+  filter?: ModelAuthorizationListMemberVaccinationFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
-export type GetUserByPhoneQuery = {
-  getUserByPhone?:  {
-    __typename: "ModelUserConnection",
+export type ListAuthorizationListMemberVaccinationsQuery = {
+  listAuthorizationListMemberVaccinations?:  {
+    __typename: "ModelAuthorizationListMemberVaccinationConnection",
     items:  Array< {
-      __typename: "User",
+      __typename: "AuthorizationListMemberVaccination",
       id: string,
-      name: string,
-      email?: string | null,
-      phone?: string | null,
-      status?: UserStatus | null,
-      active?: boolean | null,
-      avatar?: string | null,
-      search?: string | null,
-      createdAt?: string | null,
+      authorizationListID: string,
+      authorizationListMemberID: string,
+      profissionalID?: string | null,
+      coren?: string | null,
+      lote?: string | null,
+      dueDate?: string | null,
+      via?: string | null,
+      OS?: string | null,
+      applicationDate?: string | null,
+      applicationTime?: string | null,
+      createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -19658,6 +19810,187 @@ export type ListNotifyByUserCreatedAtQuery = {
       content?: string | null,
       link?: string | null,
       viewed?: boolean | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    email?: string | null,
+    phone?: string | null,
+    status?: UserStatus | null,
+    active?: boolean | null,
+    avatar?: string | null,
+    search?: string | null,
+    createdAt?: string | null,
+    profile?:  {
+      __typename: "Profile",
+      userID: string,
+      doc?: string | null,
+      docType?: DocTypes | null,
+      docProfessionType?: string | null,
+      docProfession?: string | null,
+      profession?: string | null,
+      specialties?: string | null,
+      subSpecialties?: string | null,
+      bio?: string | null,
+      gender?: GenderOptions | null,
+      birth?: string | null,
+      notes?: string | null,
+      urlUserName?: string | null,
+      urlEnable?: boolean | null,
+      allowViewEmail?: boolean | null,
+      allowViewPhone?: boolean | null,
+      allowCookiesPreference?: boolean | null,
+      allowCookiesStatistic?: boolean | null,
+      pix?: string | null,
+      zipCodeCoverage?: Array< string | null > | null,
+      schedulesSunday?: Array< string | null > | null,
+      schedulesMonday?: Array< string | null > | null,
+      schedulesTuesday?: Array< string | null > | null,
+      schedulesWednesday?: Array< string | null > | null,
+      schedulesThursday?: Array< string | null > | null,
+      schedulesFriday?: Array< string | null > | null,
+      schedulesSaturday?: Array< string | null > | null,
+      regionsConfig?: string | null,
+      regionSunday?: string | null,
+      regionMonday?: string | null,
+      regionTuesday?: string | null,
+      regionWednesday?: string | null,
+      regionThursday?: string | null,
+      regionFriday?: string | null,
+      regionSaturday?: string | null,
+      customerPagarmeID?: string | null,
+      companyID?: string | null,
+      companyHomeCare?: boolean | null,
+      companyCampaign?: boolean | null,
+      companyAdmin?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    groups?:  {
+      __typename: "ModelGroupUserConnection",
+      nextToken?: string | null,
+    } | null,
+    logs?:  {
+      __typename: "ModelLogConnection",
+      nextToken?: string | null,
+    } | null,
+    addresses?:  {
+      __typename: "ModelAddressConnection",
+      nextToken?: string | null,
+    } | null,
+    payMethods?:  {
+      __typename: "ModelPayMethodConnection",
+      nextToken?: string | null,
+    } | null,
+    relationsLink?:  {
+      __typename: "ModelRelationLinkConnection",
+      nextToken?: string | null,
+    } | null,
+    carts?:  {
+      __typename: "ModelCartConnection",
+      nextToken?: string | null,
+    } | null,
+    ordersByCreatedAt?:  {
+      __typename: "ModelOrderConnection",
+      nextToken?: string | null,
+    } | null,
+    ordersByStatusCreatedAt?:  {
+      __typename: "ModelOrderConnection",
+      nextToken?: string | null,
+    } | null,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  id?: string | null,
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserByEmailQueryVariables = {
+  email: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GetUserByEmailQuery = {
+  getUserByEmail?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserByPhoneQueryVariables = {
+  phone: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GetUserByPhoneQuery = {
+  getUserByPhone?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      email?: string | null,
+      phone?: string | null,
+      status?: UserStatus | null,
+      active?: boolean | null,
+      avatar?: string | null,
+      search?: string | null,
+      createdAt?: string | null,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
@@ -20327,6 +20660,33 @@ export type ListRelationsLinkQuery = {
   } | null,
 };
 
+export type RelationLinksByUserIDQueryVariables = {
+  userID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRelationLinkFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type RelationLinksByUserIDQuery = {
+  relationLinksByUserID?:  {
+    __typename: "ModelRelationLinkConnection",
+    items:  Array< {
+      __typename: "RelationLink",
+      id: string,
+      userID: string,
+      relationID: string,
+      type: string,
+      notify: number,
+      updatedAt?: string | null,
+      search?: string | null,
+      percentage?: number | null,
+      createdAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListRelationsLinkByUserTypeNotifyUpdatedAtQueryVariables = {
   userID: string,
   typeNotifyUpdatedAt?: ModelRelationLinkRelationsLinkByUserTypeNotifyUpdatedAtCompositeKeyConditionInput | null,
@@ -20338,6 +20698,33 @@ export type ListRelationsLinkByUserTypeNotifyUpdatedAtQueryVariables = {
 
 export type ListRelationsLinkByUserTypeNotifyUpdatedAtQuery = {
   listRelationsLinkByUserTypeNotifyUpdatedAt?:  {
+    __typename: "ModelRelationLinkConnection",
+    items:  Array< {
+      __typename: "RelationLink",
+      id: string,
+      userID: string,
+      relationID: string,
+      type: string,
+      notify: number,
+      updatedAt?: string | null,
+      search?: string | null,
+      percentage?: number | null,
+      createdAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type RelationLinksByRelationIDQueryVariables = {
+  relationID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelRelationLinkFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type RelationLinksByRelationIDQuery = {
+  relationLinksByRelationID?:  {
     __typename: "ModelRelationLinkConnection",
     items:  Array< {
       __typename: "RelationLink",
@@ -20383,6 +20770,34 @@ export type ListRelationsLinkByRelationUserQuery = {
   } | null,
 };
 
+export type MessagesByRelationIDQueryVariables = {
+  relationID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MessagesByRelationIDQuery = {
+  messagesByRelationID?:  {
+    __typename: "ModelMessageConnection",
+    items:  Array< {
+      __typename: "Message",
+      id: string,
+      relationID?: string | null,
+      userID: string,
+      type: MessagesTypes,
+      content?: string | null,
+      search?: string | null,
+      identityId?: string | null,
+      createdAt?: string | null,
+      status?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type ListMessagesByRelationCreatedAtQueryVariables = {
   relationID: string,
   createdAt?: ModelStringKeyConditionInput | null,
@@ -20394,6 +20809,34 @@ export type ListMessagesByRelationCreatedAtQueryVariables = {
 
 export type ListMessagesByRelationCreatedAtQuery = {
   listMessagesByRelationCreatedAt?:  {
+    __typename: "ModelMessageConnection",
+    items:  Array< {
+      __typename: "Message",
+      id: string,
+      relationID?: string | null,
+      userID: string,
+      type: MessagesTypes,
+      content?: string | null,
+      search?: string | null,
+      identityId?: string | null,
+      createdAt?: string | null,
+      status?: string | null,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type MessagesByUserIDQueryVariables = {
+  userID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMessageFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MessagesByUserIDQuery = {
+  messagesByUserID?:  {
     __typename: "ModelMessageConnection",
     items:  Array< {
       __typename: "Message",
@@ -24283,6 +24726,7 @@ export type ListProductsByClientCampaignQuery = {
 
 export type ListCompaniesByClientCampaignQueryVariables = {
   clientCampaignID: string,
+  companyID?: ModelIDKeyConditionInput | null,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelClientCampaignCompanyFilterInput | null,
   limit?: number | null,
@@ -24842,6 +25286,8 @@ export type ListOSsQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -24901,6 +25347,8 @@ export type ListOSsByClientQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -24961,6 +25409,8 @@ export type ListOSsByClientStartQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25021,6 +25471,8 @@ export type ListOSsByClientStatusQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25080,6 +25532,8 @@ export type ListOSsByClientCampaignQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25139,6 +25593,8 @@ export type ListOSsByClientCampaignUnitQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25199,6 +25655,8 @@ export type ListOSsByIdxStartQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25258,6 +25716,8 @@ export type ListOSsByNumberQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25318,6 +25778,8 @@ export type ListOSsByStartStatusQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
@@ -25378,6 +25840,8 @@ export type ListOSsByStatusNumberQuery = {
       idx: number,
       driverID?: string | null,
       professionals?: Array< string > | null,
+      professionalsAccepted?: Array< string | null > | null,
+      professionalsRefused?: Array< string | null > | null,
       collaborators?: Array< string > | null,
       companies?: Array< string > | null,
       number: number,
