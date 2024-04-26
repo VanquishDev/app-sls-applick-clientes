@@ -87,7 +87,8 @@ export default function DetailsTotalEligibles(props: any) {
           CPF_Responsável: item.cpfRelationship && item.cpfRelationship !== '0' ? item.cpfRelationship : '',
           Terceiro: item.isThird === '1' ? 'Sim' : 'Não',
           Empresa: item.thirdName ? item.thirdName : '',
-          Obs: item.notes ? item.notes : ''
+          Obs: item.notes ? item.notes : '',
+          Data_Cadastro: item.createdAt ? Moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss') : '',
         } as any
 
         t.push(input)
@@ -287,6 +288,10 @@ function Card(props: any) {
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
               <div>{item.thirdName}</div>
             </div>}
+            <div>
+              <div className="text-sm font-semibold text-tertiary-2">Data do cadastro</div>
+              <div>{Moment(item.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
+            </div>
           </div>
           {item.notes && <>
             <div className="mt-4 text-sm font-semibold text-tertiary-2">Observações</div>

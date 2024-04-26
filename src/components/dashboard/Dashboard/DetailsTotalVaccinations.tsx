@@ -54,7 +54,6 @@ export default function DetailsTotalVaccinations(props: any) {
       const t = [] as any
       items.map(async (item: any) => {
         if (item.status === 'CANCELED') { return }
-        console.log(item)
         total++
         if (item.clientEligible && item.clientEligible.isDependent === '1') totalDependents++
         if (item.clientEligible && item.clientEligible.isThird === '1') totalThirds++
@@ -82,6 +81,7 @@ export default function DetailsTotalVaccinations(props: any) {
             Dose: item.vaccinatio ? JSON.parse(item.vaccination).map((v: any) => v.productName).join(', ') : '',
             Unidade: item.os && item.os.clientCampaignUnit && item.os.clientCampaignUnit.name ? item.os.clientCampaignUnit.name : '',
             Obs: item.clientEligible.notes ? item.clientEligible.notes : '',
+            Data_Cadastro: item.clientEligible && item.clientEligible.createdAt ? Moment(item.clientEligible.createdAt).format('DD/MM/YYYY HH:mm:ss') : '',
           } as any
           t.push(input)
         } else {
@@ -347,6 +347,10 @@ function Card(props: any) {
             {(currentItem.clientEligible.isThird === '1' && currentItem.clientEligible.thirdName) && <div>
               <div className="text-sm font-semibold text-tertiary-2">Nome da empresa</div>
               <div>{currentItem.clientEligible.thirdName}</div>
+            </div>}
+            {currentItem.clientEligible && <div>
+              <div className="text-sm font-semibold text-tertiary-2">Data do cadastro</div>
+              <div>{Moment(currentItem.clientEligible.createdAt).format('DD/MM/YYYY HH:mm:ss')}</div>
             </div>}
           </div>
           <VaccinationCard vaccination={currentItem.vaccination} />

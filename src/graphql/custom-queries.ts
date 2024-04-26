@@ -4103,6 +4103,7 @@ export const listVaccinationsByClientCampaign =
         cpfRelationship
         isThird
         thirdName
+        createdAt
       }
       os {
         number
