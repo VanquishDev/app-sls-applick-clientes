@@ -75,7 +75,6 @@ const List: FC<Props> = ({
   useEffect(() => {
     let isMounted = true
     if (isMounted) {
-      console.log('****** List - Fetch Data ******')
       const fetchData = async () => {
         variables.nextToken = null
         const { items, nextToken } = await listItems(variables)
@@ -159,6 +158,11 @@ const List: FC<Props> = ({
             setItemsList(itemsFmt)
             setIsLoading(false)
           }
+
+          console.log('items.length', items.length)
+          if (itemsFmt.length < 20) {
+            fetchData2()
+          }
         } else {
           setIsLoading(false)
         }
@@ -180,6 +184,7 @@ const List: FC<Props> = ({
 
 
   const fetchData2 = async () => {
+    console.log('fetchData2')
     if (hasMore) {
       variables.nextToken = token ? token : null
       const { items, nextToken } = await listItems(variables)
