@@ -159,9 +159,8 @@ const List: FC<Props> = ({
             setIsLoading(false)
           }
 
-          console.log('items.length', items.length)
-          if (itemsFmt.length < 20) {
-            fetchData2()
+          if (filteredItems.length < 20 && nextToken) {
+            fetchData2(nextToken)
           }
         } else {
           setIsLoading(false)
@@ -183,87 +182,97 @@ const List: FC<Props> = ({
   }, [keys])
 
 
-  const fetchData2 = async () => {
-    console.log('fetchData2')
-    if (hasMore) {
-      variables.nextToken = token ? token : null
+  const fetchData2 = async (t?: string | null) => {
+    console.log('fetchData2', t)
+    if (hasMore || t) {
+      variables.nextToken = t ? t : token ? token : null
       const { items, nextToken } = await listItems(variables)
-      if (items) {
-        if (!nextToken) {
-          setHasMore(false)
-        } else {
-          setHasMore(true)
-          setToken(nextToken)
-        }
 
-        const filteredItems = [] as any
-
-        if (paramsItems && paramsItems.dependents) {
-          items.forEach((item: any) => {
-            if (item.clientEligible && item.clientEligible.isDependent === '1' && item.status !== 'CANCELED') {
-              filteredItems.push(item)
-            }
-          })
-        } else if (paramsItems && paramsItems.thirds) {
-          items.forEach((item: any) => {
-            if (item.clientEligible && item.clientEligible.isThird === '1' && item.status !== 'CANCELED') {
-              filteredItems.push(item)
-            }
-          })
-        } else if (paramsItems && paramsItems.colaborators) {
-          items.forEach((item: any) => {
-            if (item.status !== 'CANCELED' && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1' && item.clientEligible.isDependent !== '1'))) {
-              filteredItems.push(item)
-            }
-          })
-        } else if (paramsItems && paramsItems.colaborators2) {
-          items.forEach((item: any) => {
-            if (item.isThird !== '1' && item.isDependent !== '1') {
-              filteredItems.push(item)
-            }
-          })
-        } else if (paramsItems && paramsItems.unitsServed) {
-          items.forEach((item: any) => {
-            const { qtyVisits, qtyVisitsConfirmed } = item
-            if (qtyVisitsConfirmed >= qtyVisits) {
-              let allFinished = true
-              item.oss.items.map((item2: any) => {
-                if (item2.status !== OSStatus.COMPLETED) {
-                  allFinished = false
-                }
-              })
-              if (allFinished) { filteredItems.push(item) }
-            }
-          })
-        } else {
-          items.forEach((item: any) => {
-            filteredItems.push(item)
-          })
-        }
-
-        const itemsFmt =
-          sortParams && sortParams.length > 0
-            ? filteredItems.sort(generateSortFn(sortParams))
-            : filteredItems
-
-        if (breakItems && breakItems === 'CATEGORY') {
-          setItemsList(breakCategory(itemsList.concat(itemsFmt)))
-        } else if (breakItems && breakItems === 'MENU') {
-          setItemsList(breakMenu(itemsList.concat(itemsFmt)))
-        } else if (breakItems && breakItems === 'UPDATEDAT') {
-          setItemsList(breakUpdatedAt(itemsList.concat(itemsFmt)))
-        } else if (breakItems && breakItems === 'CREATEDAT') {
-          setItemsList(breakCreatedAt(itemsList.concat(itemsFmt)))
-        } else if (breakItems && breakItems === 'DATE') {
-          setItemsList(breakDate(itemsList.concat(itemsFmt)))
-        } else if (breakItems && breakItems === 'TYPE') {
-          setItemsList(breakType(itemsList.concat(itemsFmt)))
-        } else {
-          setItemsList((itemsList: any) => [...itemsList, ...itemsFmt])
-        }
+      if (!nextToken) {
+        setHasMore(false)
+      } else {
+        setHasMore(true)
+        setToken(nextToken)
       }
+
+      const filteredItems = [] as any
+
+      if (paramsItems && paramsItems.dependents) {
+        items.forEach((item: any) => {
+          if (item.clientEligible && item.clientEligible.isDependent === '1' && item.status !== 'CANCELED') {
+            filteredItems.push(item)
+          }
+        })
+      } else if (paramsItems && paramsItems.thirds) {
+        items.forEach((item: any) => {
+          if (item.clientEligible && item.clientEligible.isThird === '1' && item.status !== 'CANCELED') {
+            filteredItems.push(item)
+          }
+        })
+      } else if (paramsItems && paramsItems.colaborators) {
+        items.forEach((item: any) => {
+          if (item.status !== 'CANCELED' && (!item.clientEligible || (item.clientEligible && item.clientEligible.isThird !== '1' && item.clientEligible.isDependent !== '1'))) {
+            filteredItems.push(item)
+          }
+        })
+      } else if (paramsItems && paramsItems.colaborators2) {
+        items.forEach((item: any) => {
+          if (item.isThird !== '1' && item.isDependent !== '1') {
+            filteredItems.push(item)
+          }
+        })
+      } else if (paramsItems && paramsItems.unitsServed) {
+        items.forEach((item: any) => {
+          const { qtyVisits, qtyVisitsConfirmed } = item
+          if (qtyVisitsConfirmed >= qtyVisits) {
+            let allFinished = true
+            item.oss.items.map((item2: any) => {
+              if (item2.status !== OSStatus.COMPLETED) {
+                allFinished = false
+              }
+            })
+            if (allFinished) { filteredItems.push(item) }
+          }
+        })
+      } else {
+        items.forEach((item: any) => {
+          filteredItems.push(item)
+        })
+      }
+
+      const itemsFmt =
+        sortParams && sortParams.length > 0
+          ? filteredItems.sort(generateSortFn(sortParams))
+          : filteredItems
+
+      if (breakItems && breakItems === 'CATEGORY') {
+        setItemsList(breakCategory(itemsList.concat(itemsFmt)))
+      } else if (breakItems && breakItems === 'MENU') {
+        setItemsList(breakMenu(itemsList.concat(itemsFmt)))
+      } else if (breakItems && breakItems === 'UPDATEDAT') {
+        setItemsList(breakUpdatedAt(itemsList.concat(itemsFmt)))
+      } else if (breakItems && breakItems === 'CREATEDAT') {
+        setItemsList(breakCreatedAt(itemsList.concat(itemsFmt)))
+      } else if (breakItems && breakItems === 'DATE') {
+        setItemsList(breakDate(itemsList.concat(itemsFmt)))
+      } else if (breakItems && breakItems === 'TYPE') {
+        setItemsList(breakType(itemsList.concat(itemsFmt)))
+      } else {
+        setItemsList((itemsList: any) => [...itemsList, ...itemsFmt])
+      }
+
+      if (filteredItems.length < 20 && nextToken) {
+        fetchData2(nextToken)
+        return null
+      } else if (filteredItems.length === 0 && !nextToken) {
+        setHasMore(false)
+      }
+
+      setIsLoading(false)
     }
-    setIsLoading(false)
+    else {
+      setIsLoading(false)
+    }
   }
 
   const handleOnUpdatedItem = (itemUpd: any) => {

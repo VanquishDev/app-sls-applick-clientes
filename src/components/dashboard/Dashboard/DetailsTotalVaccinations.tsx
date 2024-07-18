@@ -19,6 +19,7 @@ Moment.locale('pt-br')
 
 import Header from './Header'
 import { useClientCampaignEligible } from 'hooks/useClientCampaignEligible'
+import { search } from 'unsplash-js/dist/internals'
 
 export default function DetailsTotalVaccinations(props: any) {
   const { clientCampaignID, userID, dependents, thirds, colaborators } = props;
@@ -86,9 +87,9 @@ export default function DetailsTotalVaccinations(props: any) {
           t.push(input)
         } else {
           const name = item.search
-
             .replace(/\d+/g, '')
             .replace(',', '')
+            .replace('null', '')
             .replace('  ', '')
             .replace('  ', '')
             .replace('  ', '')
@@ -98,8 +99,6 @@ export default function DetailsTotalVaccinations(props: any) {
 
           const parts = item.search.toLowerCase()
             .replace(name, '')
-            .replace(name, '')
-            .replace(name, '')
             .replace('  ', ' ')
             .replace('  ', ' ')
             .replace(',', '')
@@ -107,9 +106,11 @@ export default function DetailsTotalVaccinations(props: any) {
 
           const parts2 = parts.split(' ')
 
-          const cpf = parts2 && parts2[1] ? parts2[1].replace(/\D/g, "") : ''
+          const cpf = parts2 && parts2[0] ? parts2[0].replace(/\D/g, "") : ''
           const rg = parts2 && parts2[2] ? parts2[2].replace(/\D/g, "") : ''
           const key = parts2 && parts2[0] ? parts2[0].replace(/\D/g, "") : ''
+
+          console.log({ name, search: item.search })
 
           if ((cpf || key || rg) && name) {
             await createClientCampaignEligible({
